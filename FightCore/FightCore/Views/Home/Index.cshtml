@@ -56,6 +56,11 @@
 <div class="row">
     <div class="col-md-3">
         <h2>Application uses</h2>
+        <div id="message" class="success"></div>
+        <div> @* Testing extremely simplistic Typescript behavior *@
+          Compiler: <input id="compiler" value="TypeScript" onkeyup="document.getElementById('message').innerText = sayHello()" /><br />
+          Framework: <input id="framework" value="ASP.NET" onkeyup="document.getElementById('message').innerText = sayHello()" />
+        </div>
         <ul>
             <li>Sample pages using ASP.NET Core MVC</li>
             <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>

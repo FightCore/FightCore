@@ -1,0 +1,61 @@
+﻿// This file contains SASS/CSS that applies across much of the site (in contrast to specific pages)
+
+@import 'Pages/characters_list.scss';
+
+// Some basic random sass tests (remove once seriously modifying this file)
+@mixin alert {
+  border: 1px solid black;
+  padding: 5px;
+  color: #333333;
+}
+
+#message.success {
+  @include alert;
+  border-color: green;
+}
+
+#message.error {
+  @include alert;
+  color: red;
+  border-color: red;
+  font-weight: bold;
+}
+
+// Below is the default css with the site
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+  width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+  margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none;
+  }
+}
