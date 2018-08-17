@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="scripts\app.ts" />
+    <None Remove="Scripts\app.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="scripts\app.ts" />
+    <TypeScriptCompile Include="Scripts\app.ts" />
   </ItemGroup>
 
 </Project>
