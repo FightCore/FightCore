@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\1 Models\FightCore.Models\FightCore.Models.csproj" />
+    <ProjectReference Include="..\..\3 Repositories\FightCore.Repositories\FightCore.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
