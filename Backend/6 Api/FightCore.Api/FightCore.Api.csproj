@@ -9,7 +9,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="OpenIddict" Version="2.0.0-rc3-final" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc3-final" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc3-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\1 Models\FightCore.Models\FightCore.Models.csproj" />
+    <ProjectReference Include="..\..\2 Data\FightCore.Data\FightCore.Data.csproj" />
+    <ProjectReference Include="..\..\3 Repositories\FightCore.Repositories\FightCore.Repositories.csproj" />
+    <ProjectReference Include="..\..\4 Services\FightCore.Services\FightCore.Services.csproj" />
   </ItemGroup>
 
 </Project>
