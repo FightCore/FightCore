@@ -118,6 +118,8 @@ namespace FightCore.Api
                 });
 
             services.AddAutoMapper(option => option.AddProfile(new AutoMapperConfiguration()));
+            services.AddPatterns();
+            services.AddServicesAndRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
