@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using FightCore.Data;
 using FightCore.Models;
+using FightCore.Repositories;
+using FightCore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -73,6 +75,7 @@ namespace FightCore.Api
 
                     options.EnableRequestCaching();
 
+
                     options.AllowPasswordFlow();
                     options.AllowClientCredentialsFlow();
                     options.AllowRefreshTokenFlow();
@@ -114,6 +117,9 @@ namespace FightCore.Api
                         }
                     };
                 });
+
+            services.AddTransient<ICharacterRepository, CharacterRepository>();
+            services.AddTransient<ICharacterService, CharacterService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\1 Models\FightCore.Models\FightCore.Models.csproj" />
+    <ProjectReference Include="..\..\2 Data\FightCore.Data\FightCore.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using FightCore.Models;
+﻿using FightCore.Data;
+using FightCore.Models;
 using FightCore.Repositories.Patterns;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ namespace FightCore.Repositories
 	
 	public class UserRepository : Repository<ApplicationUser>, IUserRepository
 	{
-		public UserRepository(DbContext context) : base(context)
+		public UserRepository(ApplicationDbContext context) : base(context)
 		{
 			
 		}
