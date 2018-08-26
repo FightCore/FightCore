@@ -24,17 +24,17 @@ namespace FightCore.Services.Patterns
             _repository = repository;
         }
 
-        public Task<TEntity> FindByIdAsync(int id)
+        public virtual Task<TEntity> FindByIdAsync(int id)
         {
             return _repository.FindAsync(a => a.Id.Equals(id));
         }
 
-        public TEntity FindById(int id)
+        public virtual TEntity FindById(int id)
         {
             return _repository.Find(a => a.Id.Equals(id));
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public virtual async Task DeleteByIdAsync(int id)
         {
             var entity = await FindByIdAsync(id);
             if (entity == null)
@@ -43,7 +43,7 @@ namespace FightCore.Services.Patterns
             Delete(entity);
         }
 
-        public void DeleteById(int id)
+        public virtual void DeleteById(int id)
         {
             var entity = FindById(id);
             if (entity == null)
