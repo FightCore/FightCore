@@ -12,7 +12,7 @@ namespace FightCore.Repositories
 	
 	public class UserRepository : Repository<ApplicationUser>, IUserRepository
 	{
-		public UserRepository(ApplicationDbContext context) : base(context)
+		public UserRepository(DbContext context) : base(context)
 		{
 			
 		}

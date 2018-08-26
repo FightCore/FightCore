@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
+using AutoMapper;
+using FightCore.Api.Configurations;
 using FightCore.Data;
 using FightCore.Models;
 using FightCore.Repositories;
@@ -118,8 +120,9 @@ namespace FightCore.Api
                     };
                 });
 
-            services.AddTransient<ICharacterRepository, CharacterRepository>();
-            services.AddTransient<ICharacterService, CharacterService>();
+            services.AddAutoMapper(option => option.AddProfile(new AutoMapperConfiguration()));
+            services.AddPatterns();
+            services.AddServicesAndRepositories();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

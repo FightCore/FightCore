@@ -5,23 +5,17 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services
 {
-	public interface IUserService : IService<ApplicationUser>
+	public interface IUserService : IEntityService<ApplicationUser>
 	{
-		Task<ApplicationUser> FindByIdAsync(string id);
 	}
 
-	public class UserService : Service<ApplicationUser>, IUserService
+	public class UserService : EntityService<ApplicationUser>, IUserService
 	{
-		private readonly IUserRepository _repository;
+		private readonly IUserRepository _techniqueRepository;
 		
-		public UserService(IUserRepository repository) : base(repository)
+		public UserService(IUserRepository techniqueRepository) : base(techniqueRepository)
 		{
-			_repository = repository;
-		}
-
-		public Task<ApplicationUser> FindByIdAsync(string id)
-		{
-			return _repository.FindAsync(a => a.Id.Equals(id));
+			_techniqueRepository = techniqueRepository;
 		}
 	}
 }
