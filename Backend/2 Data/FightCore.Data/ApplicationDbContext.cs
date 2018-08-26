@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using FightCore.Models;
+using FightCore.Models.Characters;
+using FightCore.Models.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +13,12 @@ namespace FightCore.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
+        { 
         }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<Technique> Techniques { get; set; }
+        public DbSet<ControllerInput> ControllerInputs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

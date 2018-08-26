@@ -11,11 +11,11 @@ namespace FightCore.Services
 
 	public class UserService : EntityService<ApplicationUser>, IUserService
 	{
-		private readonly IUserRepository _repository;
+		private readonly IUserRepository _techniqueRepository;
 		
-		public UserService(IUserRepository repository) : base(repository)
+		public UserService(IUserRepository techniqueRepository) : base(techniqueRepository)
 		{
-			_repository = repository;
+			_techniqueRepository = techniqueRepository;
 		}
 	}
 }

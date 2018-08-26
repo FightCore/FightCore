@@ -8,6 +8,8 @@ using AutoMapper;
 using FightCore.Api.Configurations;
 using FightCore.Data;
 using FightCore.Models;
+using FightCore.Repositories;
+using FightCore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -74,6 +76,7 @@ namespace FightCore.Api
                         OpenIddictConstants.Scopes.Roles);
 
                     options.EnableRequestCaching();
+
 
                     options.AllowPasswordFlow();
                     options.AllowClientCredentialsFlow();

@@ -8,6 +8,8 @@ using FightCore.Repositories.Patterns;
 using FightCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using FightCore.Services.Characters;
+using FightCore.Repositories.Characters;
 
 namespace FightCore.Api.Configurations
 {
@@ -39,8 +41,12 @@ namespace FightCore.Api.Configurations
         public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
+            services.AddScoped<ITechniqueRepository, TechniqueRepository>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<ITechniqueService, TechniqueService>();
 
             return services;
         }
