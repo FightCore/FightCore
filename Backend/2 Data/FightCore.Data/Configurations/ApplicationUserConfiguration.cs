@@ -13,9 +13,8 @@ namespace FightCore.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            const string password = "Welcome1!";
             var email = "user@test.nl";
-            var user = new ApplicationUser()
+            var user = new ApplicationUser
             {
                 Id = 1,
                 UserName = email,

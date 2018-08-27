@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace FightCore.Api
 {
@@ -37,6 +38,30 @@ namespace FightCore.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info { Title = $"{nameof(FightCore)} API", Version = "v1" });
+                options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(FightCore)}.Api.xml");
+                options.DescribeAllEnumsAsStrings();
+                //o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new ApiKeyScheme()
+                //{
+                //	Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                //	Name = "Authorization",
+                //	In = "header",
+                //	Type = "apiKey"
+                //});
+                options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "password",
+                    TokenUrl = "/connect/token"
+                });
+                options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Bearer", new string[] { } }
+                });
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -144,7 +169,22 @@ namespace FightCore.Api
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FightCore API V1");
+                c.DocExpansion(DocExpansion.None);
+                c.RoutePrefix = "";
+                c.DisplayRequestDuration();
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
