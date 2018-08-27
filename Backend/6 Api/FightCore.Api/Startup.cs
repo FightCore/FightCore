@@ -39,7 +39,11 @@ namespace FightCore.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseOpenIddict();
+            });
+                
 
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -62,9 +66,11 @@ namespace FightCore.Api
                 .AddServer(options =>
                 {
                     options.UseMvc();
-                    options.EnableAuthorizationEndpoint("/connect/authorize")
-                        .EnableLogoutEndpoint("/connect/logout")
-                        .EnableIntrospectionEndpoint("/connect/introspect")
+                    options
+                        // These endpoints still need to be implemented
+                        //.EnableAuthorizationEndpoint("/connect/authorize")
+                        //.EnableLogoutEndpoint("/connect/logout")
+                        //.EnableIntrospectionEndpoint("/connect/introspect")
                         .EnableTokenEndpoint("/connect/token")
                         .EnableUserinfoEndpoint("/api/userinfo");
 
@@ -76,13 +82,14 @@ namespace FightCore.Api
                     options.EnableRequestCaching();
 
                     options.AllowPasswordFlow();
-                    options.AllowClientCredentialsFlow();
                     options.AllowRefreshTokenFlow();
 
+                    options.AcceptAnonymousClients();
+
                     options.DisableHttpsRequirement();
-                    options.AddEphemeralSigningKey();
 
                     options.UseJsonWebTokens();
+                    options.AddEphemeralSigningKey();
                 });
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -135,6 +142,7 @@ namespace FightCore.Api
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FightCore.Api.Resources;
+using FightCore.Models;
 
 namespace FightCore.Api.Configurations
 {
@@ -10,7 +12,9 @@ namespace FightCore.Api.Configurations
     {
         public AutoMapperConfiguration()
         {
-
+            CreateMap<UserResource, ApplicationUser>().ReverseMap();
+            CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
+            CreateMap<NewUserResource, ApplicationUser>();
         }
     }
 }
