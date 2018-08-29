@@ -18,6 +18,9 @@ namespace FightCore.Api.Configurations
     {
         public AutoMapperConfiguration()
         {
+            CreateMap<UserResource, ApplicationUser>().ReverseMap();
+            CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
+            CreateMap<NewUserResource, ApplicationUser>();
             CreateMap<Character, CharacterResource>();
             CreateMap<Character, DetailedCharacterResource>();
             CreateMap<Technique, TechniqueResource>();
