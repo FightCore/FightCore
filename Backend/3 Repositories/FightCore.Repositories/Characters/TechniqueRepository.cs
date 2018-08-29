@@ -33,7 +33,7 @@ namespace FightCore.Repositories.Characters
 
         public Task<Technique> GetTechniqueByIdAsync(int id)
         {
-            return Queryable.Include(x => x.ControllerInputs).Include(x => x.Media).Include(x => x.Game).FirstOrDefaultAsync(x=>x.Id == id);
+            return Queryable.Include(x => x.Inputs).Include(x => x.Media).Include(x => x.Game).FirstOrDefaultAsync(x=>x.Id == id);
         }
     }
 }

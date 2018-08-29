@@ -21,11 +21,14 @@ namespace FightCore.Api.Configurations
             CreateMap<Character, CharacterResource>();
             CreateMap<Character, DetailedCharacterResource>();
             CreateMap<Technique, TechniqueResource>();
+            CreateMap<Move, MoveResource>();
+            CreateMap<Combo, ComboResource>();
 
             CreateMap<Game, GameResource>();
 
             CreateMap<Media, MediaResource>();
             CreateMap<ControllerInput, ControllerInputResource>();
+            CreateMap<InputChain, InputChainResource>();
         }
     }
 }

@@ -4,14 +4,16 @@ using FightCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FightCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180826143901_AddedMovesAndCombos")]
+    partial class AddedMovesAndCombos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,6 +123,8 @@ namespace FightCore.Data.Migrations
 
                     b.Property<int?>("CharacterId");
 
+                    b.Property<int?>("ComboId");
+
                     b.Property<int?>("InputId");
 
                     b.Property<string>("Name");
@@ -128,6 +132,8 @@ namespace FightCore.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
+
+                    b.HasIndex("ComboId");
 
                     b.HasIndex("InputId");
 
@@ -180,46 +186,15 @@ namespace FightCore.Data.Migrations
 
                     b.Property<string>("KeyCode");
 
+                    b.Property<int?>("TechniqueId");
+
                     b.Property<string>("TextDescription");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ControllerInputs");
-                });
-
-            modelBuilder.Entity("FightCore.Models.Shared.InputChain", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ComboId");
-
-                    b.Property<int>("FirstFrame");
-
-                    b.Property<int?>("InputId");
-
-                    b.Property<int>("LastFrame");
-
-                    b.Property<int?>("MoveId");
-
-                    b.Property<int?>("TechniqueId");
-
-                    b.Property<int?>("TechniqueId1");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComboId");
-
-                    b.HasIndex("InputId");
-
-                    b.HasIndex("MoveId");
-
                     b.HasIndex("TechniqueId");
 
-                    b.HasIndex("TechniqueId1");
-
-                    b.ToTable("InputChain");
+                    b.ToTable("ControllerInputs");
                 });
 
             modelBuilder.Entity("FightCore.Models.Shared.Media", b =>
@@ -391,6 +366,10 @@ namespace FightCore.Data.Migrations
                         .WithMany("Moves")
                         .HasForeignKey("CharacterId");
 
+                    b.HasOne("FightCore.Models.Characters.Combo")
+                        .WithMany("Moves")
+                        .HasForeignKey("ComboId");
+
                     b.HasOne("FightCore.Models.Shared.ControllerInput", "Input")
                         .WithMany()
                         .HasForeignKey("InputId");
@@ -407,27 +386,11 @@ namespace FightCore.Data.Migrations
                         .HasForeignKey("GameId");
                 });
 
-            modelBuilder.Entity("FightCore.Models.Shared.InputChain", b =>
+            modelBuilder.Entity("FightCore.Models.Shared.ControllerInput", b =>
                 {
-                    b.HasOne("FightCore.Models.Characters.Combo")
-                        .WithMany("Inputs")
-                        .HasForeignKey("ComboId");
-
-                    b.HasOne("FightCore.Models.Shared.ControllerInput", "Input")
-                        .WithMany()
-                        .HasForeignKey("InputId");
-
-                    b.HasOne("FightCore.Models.Characters.Move", "Move")
-                        .WithMany()
-                        .HasForeignKey("MoveId");
-
-                    b.HasOne("FightCore.Models.Characters.Technique", "Technique")
-                        .WithMany()
-                        .HasForeignKey("TechniqueId");
-
                     b.HasOne("FightCore.Models.Characters.Technique")
-                        .WithMany("Inputs")
-                        .HasForeignKey("TechniqueId1");
+                        .WithMany("ControllerInputs")
+                        .HasForeignKey("TechniqueId");
                 });
 
             modelBuilder.Entity("FightCore.Models.Shared.Media", b =>

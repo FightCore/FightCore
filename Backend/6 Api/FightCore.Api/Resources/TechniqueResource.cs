@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FightCore.Api.Resources.Games;
 using FightCore.Api.Resources.Shared;
+using FightCore.Models.Shared;
 
 namespace FightCore.Api.Resources
 {
@@ -14,6 +15,6 @@ namespace FightCore.Api.Resources
         public string Description { get; set; }
         public GameResource Game { get; set; }
         public List<MediaResource> Media { get; set; }
-        public List<ControllerInputResource> ControllerInputs { get; set; }
+        public List<InputChainResource> Inputs { get; set; }
     }
 }
