@@ -1,3 +1,17 @@
-<p>
-  footer works!
-</p>
+<footer class="footer ">
+  <div class="container-fluid">
+      <nav class="pull-left">
+          <ul>
+              <li>
+                  <a href="#">
+                      FightCore
+                  </a>
+              </li>
+          </ul>
+      </nav>
+      <div class="copyright pull-right">
+          &copy;
+          {{ currentDate | date: 'yyyy' }}
+      </div>
+  </div>
+</footer>
