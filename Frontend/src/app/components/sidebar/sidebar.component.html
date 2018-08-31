@@ -1,0 +1,38 @@
+<div class="logo">
+  <a [routerLink]="['/home']" class="simple-text">
+      FightCore
+  </a>
+</div>
+<div class="sidebar-wrapper">
+<div *ngIf="isMobileMenu()">
+  <form class="navbar-form">
+    <span class="bmd-form-group">
+      <div class="input-group no-border">
+        <input type="text" value="" class="form-control" placeholder="Search...">
+        <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+          <i class="material-icons">search</i>
+          <div class="ripple-container"></div>
+        </button>
+      </div>
+    </span>
+  </form>
+  <ul class="nav navbar-nav nav-mobile-menu">
+      <li class="nav-item">
+          <a class="nav-link" href="#pablo">
+              <i class="material-icons">person</i>
+              <p>
+                  <span class="d-lg-none d-md-block">Account</span>
+              </p>
+          </a>
+      </li>
+  </ul>
+</div>
+  <ul class="nav">
+      <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+          <a class="nav-link" [routerLink]="[menuItem.path]">
+              <i class="material-icons">{{menuItem.icon}}</i>
+              <p>{{menuItem.title}}</p>
+          </a>
+      </li>
+  </ul>
+</div>
