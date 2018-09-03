@@ -1,4 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { Router } from '@angular/router';
 
 declare interface RouteInfo {
   path: string;
@@ -19,7 +21,7 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
   innerWidth: number;
 
-  constructor() { }
+  constructor(private authService: OAuthService,  private router: Router) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
@@ -35,4 +37,12 @@ export class SidebarComponent implements OnInit {
     return this.innerWidth <= 991;
   }
 
+  logOut() {
+    this.authService.logOut(true);
+    this.router.navigate(["/login"]);
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.hasValidAccessToken();
+  }
 }

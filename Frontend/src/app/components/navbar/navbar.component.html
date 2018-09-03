@@ -29,13 +29,13 @@
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">
-                        <a class="nav-link" (click)="logOut()">
-                            <i class="material-icons">lock</i>
-                            <p>
-                                <span class="d-lg-none d-md-block">sign out</span>
-                            </p>
-                        </a>
-                    </li>
+                    <a class="nav-link" (click)="logOut()">
+                        <i class="material-icons">lock</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">sign out</span>
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item" *ngIf="!isLoggedIn">
                     <a class="nav-link" [routerLink]="['/login']">
                         <i class="material-icons">vpn_key</i>
