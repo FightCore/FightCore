@@ -18,6 +18,7 @@ import {
     CommonModule,
     RouterModule.forChild(LayoutRoutes),
     FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatRippleModule,
     MatInputModule,

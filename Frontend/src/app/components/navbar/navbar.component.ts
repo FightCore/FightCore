@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Title } from '@angular/platform-browser';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-navbar',
@@ -11,13 +12,11 @@ import { Title } from '@angular/platform-browser';
 })
 export class NavbarComponent implements OnInit {
   private listTitles: any[];
-  location: Location;
-    mobile_menu_visible: any = 0;
+  private mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
 
-  constructor(location: Location,  private element: ElementRef, private router: Router, private titleService: Title) {
-    this.location = location;
+  constructor(private authService: OAuthService, private element: ElementRef, private router: Router, private titleService: Title) {
     this.sidebarVisible = false;
   }
 
@@ -27,12 +26,17 @@ export class NavbarComponent implements OnInit {
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     this.router.events.subscribe((event) => {
       this.sidebarClose();
-       var $layer: any = document.getElementsByClassName('close-layer')[0];
+       let $layer: any = document.getElementsByClassName('close-layer')[0];
        if ($layer) {
          $layer.remove();
          this.mobile_menu_visible = 0;
        }
    });
+  }
+
+  logOut() {
+    this.authService.logOut(true);
+    this.router.navigate(["/login"]);
   }
 
   sidebarOpen() {
@@ -55,7 +59,7 @@ export class NavbarComponent implements OnInit {
   sidebarToggle() {
       // const toggleButton = this.toggleButton;
       // const body = document.getElementsByTagName('body')[0];
-      var $toggle = document.getElementsByClassName('navbar-toggler')[0];
+      let $toggle = document.getElementsByClassName('navbar-toggler')[0];
 
       if (this.sidebarVisible === false) {
           this.sidebarOpen();
@@ -110,7 +114,11 @@ export class NavbarComponent implements OnInit {
       }
   };
 
-  getTitle(){
+  get title(): string {
     return this.titleService.getTitle();
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.hasValidAccessToken();
   }
 }
