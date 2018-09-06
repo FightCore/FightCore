@@ -22,6 +22,7 @@ namespace FightCore.Data.Configurations
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
                 EmailConfirmed = true,
+                //The hashed password is Welcome1!
                 PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==",
                 SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D",
                 ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495"
