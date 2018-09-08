@@ -4,15 +4,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { LayoutRoutes } from './layout.routing'
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../pages/home/home.component';
+import { CharactersComponent } from '../pages/characters/characters.component';
+import { LibraryComponent } from '../pages/library/library.component';
+import { PlayersComponent } from './../pages/players/players.component';
 import { LoginComponent } from '../login/login.component';
 
 import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,10 +26,13 @@ import {
     MatButtonModule,
     MatRippleModule,
     MatInputModule,
-    MatTooltipModule,
+    MatTooltipModule
   ],
   declarations: [
       HomeComponent,
+      CharactersComponent,
+      LibraryComponent,
+      PlayersComponent,
       LoginComponent
   ]
 })
