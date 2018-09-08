@@ -17,6 +17,7 @@ import {
   MatRippleModule,
   MatTooltipModule
 } from '@angular/material';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {
     MatButtonModule,
     MatRippleModule,
     MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ComponentsModule
   ],
   declarations: [
       HomeComponent,

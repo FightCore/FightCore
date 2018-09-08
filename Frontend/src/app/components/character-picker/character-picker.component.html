@@ -1,0 +1,9 @@
+<div style="padding:5px; width: 300px;">
+  <mat-form-field>
+      <mat-select placeholder="Select a Character">
+        <mat-option *ngFor="let character of characters" [value]="character">
+          {{character.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+</div>
