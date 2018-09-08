@@ -7,26 +7,38 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule } from '@angular/material';
+import { TabsComponent } from './tabs/tabs.component';
+import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
+import { TabContentsComponent } from './tabs/tab/tab-contents.component';
+import { TabDirective } from './tabs/tab/tab.directive';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    GameSwitcherComponent, // Choosing not to export for now
-    CharacterPickerComponent
+    GameSwitcherComponent, // No reason to export for now
+    CharacterPickerComponent,
+    TabsComponent,
+    TabExampleComponent,
+    TabContentsComponent,
+    TabDirective
   ],
+  entryComponents: [TabExampleComponent],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    CharacterPickerComponent
+    CharacterPickerComponent,
+    TabsComponent,
+    TabExampleComponent // for testing purposes
   ]
 })
 export class ComponentsModule { }
