@@ -1,0 +1,9 @@
+<div style="padding:5px;">
+  <mat-form-field>
+      <mat-select placeholder="Select a Game">
+        <mat-option *ngFor="let game of games" [value]="game">
+          {{game}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+</div>
