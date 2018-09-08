@@ -5,6 +5,7 @@ import { LoginComponent } from '../login/login.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { PlayersComponent } from './../pages/players/players.component';
 import { LibraryComponent } from '../pages/library/library.component';
+import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 export const LayoutRoutes: Routes = [
     { 
@@ -26,5 +27,10 @@ export const LayoutRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: '**',
+        component: NotFoundComponent
     }
+    
 ];

@@ -1,3 +1,4 @@
+import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -33,7 +34,8 @@ import {
       CharactersComponent,
       LibraryComponent,
       PlayersComponent,
-      LoginComponent
+      LoginComponent,
+      NotFoundComponent
   ]
 })
 
