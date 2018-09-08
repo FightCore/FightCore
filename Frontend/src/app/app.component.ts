@@ -17,7 +17,7 @@ export class AppComponent {
     redirectUri: `${environment.baseUrl}/home`,
     oidc: false,
     scope: 'openid profile roles offline_access',
-    showDebugInformation: environment.production,
+    showDebugInformation: !environment.production,
     requireHttps: environment.production
   }
 
