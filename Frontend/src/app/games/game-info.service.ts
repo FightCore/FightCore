@@ -9,20 +9,17 @@ export class GameInfoService {
     {
       id: 1,
       fullName: "Super Smash Bros. for Wii U",
-      shortName: "Smash 4",
-      nameKey: "s4"
+      shortName: "Smash 4"
     },
     {
       id: 2,
       fullName: "Super Smash Bros. Melee",
-      shortName: "Melee",
-      nameKey: "melee"
+      shortName: "Melee"
     },
     {
       id: 3,
       fullName: "Rivals of Aether",
-      shortName: "RoA",
-      nameKey: "roa"
+      shortName: "RoA"
     }
   ]
   private currentGameId: number = 1; // Default to Smash 4 for now
