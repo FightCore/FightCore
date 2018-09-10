@@ -1,3 +1,5 @@
+import { GameInfo } from './../../games/game-info.interface';
+import { GameInfoService } from './../../games/game-info.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,15 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-switcher.component.css']
 })
 export class GameSwitcherComponent implements OnInit {
-  games = [
-    "Smash 4",
-    "Melee",
-    "Rivals of Aether"
-  ];
+  games: GameInfo[];
+  selectedGame: number;
 
-  constructor() { }
+  constructor(private gameInfoService: GameInfoService) { }
 
   ngOnInit() {
+    // Get all games' basic info as well as currently selected game
+    this.games = this.gameInfoService.getGames();
+    this.selectedGame = this.gameInfoService.getCurrentGameId();
+  }
+
+  onGameChange() {
+    // Notify everyone that the current game has been changed
+    this.gameInfoService.setCurrentGame(this.selectedGame);
   }
 
 }
