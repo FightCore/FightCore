@@ -23,17 +23,24 @@ namespace FightCore.Repositories.Characters
 
         public Task<List<Character>> GetAllCharactersWithMediaAndGameAsync()
         {
-            return EntityFrameworkQueryableExtensions.Include<Character, List<Media>>(Queryable, x=>x.Media).Include(x=>x.Game).ToListAsync();
+            return Queryable.Include(x => x.Media).Include(x => x.Game).ToListAsync();
         }
 
         public Task<Character> GetDetailedCharacterByIdAsync(int characterId)
         {
-            return EntityFrameworkQueryableExtensions.Include<Character, Game>(Queryable, x => x.Game).Include(x => x.Media).Include(x=>x.Techniques).FirstOrDefaultAsync(x => x.Id == characterId);
+            return Queryable.Include(x => x.Game).Include(x => x.Media)
+                .Include(x => x.Techniques).ThenInclude(x=>x.Inputs).ThenInclude(x=>x.Technique)
+                .Include(x => x.Techniques).ThenInclude(x => x.Inputs).ThenInclude(x => x.Input)
+                .Include(x => x.Techniques).ThenInclude(x => x.Inputs).ThenInclude(x => x.Move)
+                .Include(x => x.Combos).ThenInclude(x=>x.Inputs).ThenInclude(x=>x.Technique)
+                .Include(x => x.Combos).ThenInclude(x => x.Inputs).ThenInclude(x => x.Move)
+                .Include(x => x.Combos).ThenInclude(x => x.Inputs).ThenInclude(x => x.Input)
+                .Include(x => x.Moves).ThenInclude(x => x.Media).FirstOrDefaultAsync(x => x.Id == characterId);
         }
 
         public Task<List<Character>> GetAllCharactersByGameAsync(int gameId)
         {
-            return EntityFrameworkQueryableExtensions.Include<Character, List<Media>>(Queryable, x => x.Media).Where(x => x.Game.Id == gameId).ToListAsync();
+            return Queryable.Include(x => x.Media).Where(x => x.Game.Id == gameId).ToListAsync();
         }
     }
 }

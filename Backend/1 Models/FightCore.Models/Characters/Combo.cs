@@ -5,13 +5,13 @@ using FightCore.Models.Shared;
 
 namespace FightCore.Models.Characters
 {
-    public class Technique : IEntity
+    public class Combo : IEntity
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public List<Character> WorksOn { get; set; }
         public List<InputChain> Inputs { get; set; }
-        public Game Game { get; set; }
-        public List<Media> Media { get; set; }
+        public double MinimumDamage { get; set;}
+        public double MaximumDamage { get; set; }
+        public Character Character { get; set; }
     }
 }

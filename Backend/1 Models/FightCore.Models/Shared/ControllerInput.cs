@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FightCore.Models.Shared
 {
-    public class ControllerInput
+    public class ControllerInput : IEntity
     {
         public int Id { get; set; }
         public string TextDescription { get; set; }

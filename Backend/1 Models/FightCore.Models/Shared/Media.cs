@@ -5,7 +5,7 @@ using FightCore.Models.Enum;
 
 namespace FightCore.Models.Shared
 {
-    public class Media
+    public class Media : IEntity
     {
         public int Id { get; set; }
         public string Url { get; set; }
