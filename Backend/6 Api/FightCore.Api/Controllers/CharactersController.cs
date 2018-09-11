@@ -92,6 +92,7 @@ namespace FightCore.Api.Controllers
             character.Game = game;
             await _characterService.InsertAsync(character);
             await _unitOfWork.SaveChangesAsync();
+            //TODO Need code review on how to get this working as I don't understand
             return CreatedAtAction(nameof(GetDetailedCharacterById), new {id = character.Id}, _mapper.Map<CharacterResource>(character));
         }
     }
