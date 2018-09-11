@@ -36,7 +36,7 @@ namespace FightCore.Api.Controllers
             var techniques = await _techniqueService.GetTechniquesAsync();
 
             if (!techniques.Any())
-                return BadRequest();
+                return NotFound();
 
             var resources = _mapper.Map<List<TechniqueResource>>(techniques);
 
@@ -53,7 +53,7 @@ namespace FightCore.Api.Controllers
             var technique = await _techniqueService.GetTechniqueByIdAsync(id);
 
             if (technique == null)
-                return BadRequest();
+                return NotFound();
 
             var resource = _mapper.Map<TechniqueResource>(technique);
 
@@ -70,7 +70,7 @@ namespace FightCore.Api.Controllers
             var techniques = await _techniqueService.GetTechniquesByGameAsync(gameId);
 
             if (!techniques.Any())
-                return BadRequest();
+                return NotFound();
 
             var resources = _mapper.Map<List<TechniqueResource>>(techniques);
 

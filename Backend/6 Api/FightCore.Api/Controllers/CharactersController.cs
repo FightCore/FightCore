@@ -41,7 +41,7 @@ namespace FightCore.Api.Controllers
 
             if (!characters.Any())
             {
-                return BadRequest();
+                return NotFound();
             }
 
             var resources = _mapper.Map<List<CharacterResource>>(characters);
@@ -60,7 +60,7 @@ namespace FightCore.Api.Controllers
             var characters = await _characterService.GetCharactersByGameAsync(gameId);
 
             if (!characters.Any())
-                return BadRequest();
+                return NotFound();
 
             var resources = _mapper.Map<List<CharacterResource>>(characters);
 
@@ -77,7 +77,7 @@ namespace FightCore.Api.Controllers
             var character = await _characterService.GetDetailedCharacterByIdAsync(id);
 
             if (character == null)
-                return BadRequest();
+                return NotFound();
 
             var resource = _mapper.Map<DetailedCharacterResource>(character);
 
