@@ -17,21 +17,21 @@ namespace FightCore.Services.Patterns
 
     public abstract class EntityService<TEntity> : Service<TEntity>, IEntityService<TEntity> where TEntity : class, IEntity
     {
-        private readonly IRepositoryAsync<TEntity> _techniqueRepository;
+        private readonly IRepositoryAsync<TEntity> _repository;
 
-        protected EntityService(IRepositoryAsync<TEntity> techniqueRepository) : base(techniqueRepository)
+        protected EntityService(IRepositoryAsync<TEntity> repository) : base(repository)
         {
-            _techniqueRepository = techniqueRepository;
+            _repository = repository;
         }
 
         public virtual Task<TEntity> FindByIdAsync(int id)
         {
-            return _techniqueRepository.FindAsync(a => a.Id.Equals(id));
+            return _repository.FindAsync(a => a.Id.Equals(id));
         }
 
         public virtual TEntity FindById(int id)
         {
-            return _techniqueRepository.Find(a => a.Id.Equals(id));
+            return _repository.Find(a => a.Id.Equals(id));
         }
 
         public virtual async Task DeleteByIdAsync(int id)

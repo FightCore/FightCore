@@ -26,6 +26,10 @@ namespace FightCore.Api.Configurations
 
             CreateMap<Media, MediaResource>();
             CreateMap<ControllerInput, ControllerInputResource>();
+
+            CreateMap<UserResource, ApplicationUser>().ReverseMap();
+            CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
+            CreateMap<NewUserResource, ApplicationUser>();
         }
     }
 }

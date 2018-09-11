@@ -1,5 +1,4 @@
-﻿using FightCore.Data;
-using FightCore.Models;
+﻿using FightCore.Models;
 using FightCore.Repositories.Patterns;
 using Microsoft.EntityFrameworkCore;
 
