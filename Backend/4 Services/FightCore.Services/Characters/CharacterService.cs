@@ -8,13 +8,13 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.Characters
 {
-    public interface ICharacterService : IService<Character>
+    public interface ICharacterService : IEntityService<Character>
     {
         Task<List<Character>> GetAllCharactersAsync();
         Task<Character> GetDetailedCharacterByIdAsync(int characterId);
         Task<List<Character>> GetCharactersByGameAsync(int gameId);
     }
-    public class CharacterService : Service<Character>, ICharacterService
+    public class CharacterService : EntityService<Character>, ICharacterService
     {
         private readonly ICharacterRepository _repository;
         public CharacterService(ICharacterRepository repository) : base((IRepositoryAsync<Character>) repository)
@@ -29,12 +29,13 @@ namespace FightCore.Services.Characters
 
         public Task<Character> GetDetailedCharacterByIdAsync(int characterId)
         {
-            return characterId <= 0 ? null : _repository.GetDetailedCharacterByIdAsync(characterId);
+            return _repository.GetDetailedCharacterByIdAsync(characterId);
         }
 
+        
         public Task<List<Character>> GetCharactersByGameAsync(int gameId)
         {
-            return gameId <= 0 ? null : _repository.GetAllCharactersByGameAsync(gameId);
+            return _repository.GetAllCharactersByGameAsync(gameId);
         }
     }
 }

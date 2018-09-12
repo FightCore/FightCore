@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FightCore.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TechniquesController : ControllerBase
     {
@@ -30,7 +30,7 @@ namespace FightCore.Api.Controllers
         /// Get all techniques known to FightCore
         /// </summary>
         /// <returns>An array of technique objects</returns>
-        [HttpGet("")]
+        [HttpGet]
         public async Task<IActionResult> GetAllTechniquesAsync()
         {
             var techniques = await _techniqueService.GetTechniquesAsync();
@@ -47,10 +47,10 @@ namespace FightCore.Api.Controllers
         /// </summary>
         /// <param name="id">The Id of the technique object you want.</param>
         /// <returns>A single technique object</returns>
-        [HttpGet("id/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTechniqueByIdAsync(int id)
         {
-            var technique = await _techniqueService.GetTechniqueByIdAsync(id);
+            var technique = await _techniqueService.FindByIdAsync(id);
 
             if (technique == null)
                 return NotFound();
@@ -62,12 +62,12 @@ namespace FightCore.Api.Controllers
         /// <summary>
         /// Get all technique objects for a game.
         /// </summary>
-        /// <param name="gameId">The id of the game you want the techniques from.</param>
+        /// <param name="gameid">The id of the game you want the techniques from.</param>
         /// <returns>An array of technique objects.</returns>
-        [HttpGet("game/{gameId}")]
-        public async Task<IActionResult> GetTechniquesByGameAsync(int gameId)
+        [HttpGet("game/{gameid}")]
+        public async Task<IActionResult> GetTechniquesByGameAsync(int gameid)
         {
-            var techniques = await _techniqueService.GetTechniquesByGameAsync(gameId);
+            var techniques = await _techniqueService.GetTechniquesByGameAsync(gameid);
 
             if (!techniques.Any())
                 return NotFound();

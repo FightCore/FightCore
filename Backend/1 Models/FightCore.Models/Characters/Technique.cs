@@ -5,7 +5,7 @@ using FightCore.Models.Shared;
 
 namespace FightCore.Models.Characters
 {
-    public class Technique
+    public class Technique : IEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

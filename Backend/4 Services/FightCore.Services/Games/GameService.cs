@@ -9,12 +9,11 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.Games
 {
-    public interface IGameService : IService<Game>
+    public interface IGameService : IEntityService<Game>
     {
         Task<List<Game>> GetAllGamesAsync();
-        Task<Game> GetGameByIdAsync(int id);
     }
-    public class GameService : Service<Game>, IGameService
+    public class GameService : EntityService<Game>, IGameService
     {
         private readonly IGameRepository _gameRepository;
         public GameService(IGameRepository gameRepository) : base(gameRepository)
@@ -27,9 +26,15 @@ namespace FightCore.Services.Games
             return _gameRepository.GetAllGamesAsync();
         }
 
-        public Task<Game> GetGameByIdAsync(int id)
+        public override Game FindById(int id)
+        {
+            return _gameRepository.GetGameById(id);
+        }
+
+        public override Task<Game> FindByIdAsync(int id)
         {
             return _gameRepository.GetGameByIdAsync(id);
         }
+
     }
 }

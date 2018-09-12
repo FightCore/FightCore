@@ -34,7 +34,7 @@ namespace FightCore.Api.Controllers
         /// Get the list of characters known in FightCore.
         /// </summary>
         /// <returns>An array of simple character objects.</returns>
-        [HttpGet("")]
+        [HttpGet]
         public async Task<IActionResult> GetAllCharacters()
         {
             var characters = await _characterService.GetAllCharactersAsync();
@@ -52,12 +52,12 @@ namespace FightCore.Api.Controllers
         /// <summary>
         /// Gets all characters based on what game they are from.
         /// </summary>
-        /// <param name="gameId">The game's id within FightCore. See Games endpoint</param>
+        /// <param name="gameid">The game's id within FightCore. See Games endpoint</param>
         /// <returns>A list of simple character objects.</returns>
-        [HttpGet("game/{gameId}")]
-        public async Task<IActionResult> GetAllCharactersForGame(int gameId)
+        [HttpGet("game/{gameid}")]
+        public async Task<IActionResult> GetAllCharactersForGame(int gameid)
         {
-            var characters = await _characterService.GetCharactersByGameAsync(gameId);
+            var characters = await _characterService.GetCharactersByGameAsync(gameid);
 
             if (!characters.Any())
                 return NotFound();
@@ -71,7 +71,7 @@ namespace FightCore.Api.Controllers
         /// </summary>
         /// <param name="id">The id of the character in question</param>
         /// <returns>A detailed character object</returns>
-        [HttpGet("id/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetDetailedCharacterById(int id)
         {
             var character = await _characterService.GetDetailedCharacterByIdAsync(id);
@@ -88,7 +88,7 @@ namespace FightCore.Api.Controllers
         public async Task<IActionResult> Create([FromBody] NewCharacterResource characterResource)
         {
             var character = _mapper.Map<Character>(characterResource);
-            var game = await _gameService.GetGameByIdAsync(characterResource.GameId);
+            var game = await _gameService.FindByIdAsync(characterResource.GameId);
             character.Game = game;
             await _characterService.InsertAsync(character);
             await _unitOfWork.SaveChangesAsync();

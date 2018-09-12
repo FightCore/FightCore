@@ -9,13 +9,12 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.Characters
 {
-    public interface ITechniqueService : IService<Technique>
+    public interface ITechniqueService : IEntityService<Technique>
     {
         Task<List<Technique>> GetTechniquesAsync();
         Task<List<Technique>> GetTechniquesByGameAsync(int gameId);
-        Task<Technique> GetTechniqueByIdAsync(int id);
     }
-    public class TechniqueService : Service<Technique>, ITechniqueService
+    public class TechniqueService : EntityService<Technique>, ITechniqueService
     {
         private readonly ITechniqueRepository _techniqueRepository;
         public TechniqueService(ITechniqueRepository techniqueRepository) : base(techniqueRepository)
@@ -30,12 +29,17 @@ namespace FightCore.Services.Characters
 
         public Task<List<Technique>> GetTechniquesByGameAsync(int gameId)
         {
-            return gameId <= 0 ? null : _techniqueRepository.GetTechniquesByGameAsync(gameId);
+            return _techniqueRepository.GetTechniquesByGameAsync(gameId);
         }
 
-        public Task<Technique> GetTechniqueByIdAsync(int id)
+        public override Technique FindById(int id)
         {
-            return id <= 0 ? null : _techniqueRepository.GetTechniqueByIdAsync(id);
+            return _techniqueRepository.GetTechniqueById(id);
+        }
+
+        public override Task<Technique> FindByIdAsync(int id)
+        {
+            return _techniqueRepository.GetTechniqueByIdAsync(id);
         }
     }
 }

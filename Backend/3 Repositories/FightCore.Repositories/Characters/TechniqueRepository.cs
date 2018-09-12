@@ -14,6 +14,7 @@ namespace FightCore.Repositories.Characters
         Task<List<Technique>> GetTechniquesAsync();
         Task<List<Technique>> GetTechniquesByGameAsync(int gameId);
         Task<Technique> GetTechniqueByIdAsync(int id);
+        Technique GetTechniqueById(int id);
     }
     public class TechniqueRepository : Repository<Technique>, ITechniqueRepository
     {
@@ -34,6 +35,10 @@ namespace FightCore.Repositories.Characters
         public Task<Technique> GetTechniqueByIdAsync(int id)
         {
             return Queryable.Include(x => x.Inputs).Include(x => x.Media).Include(x => x.Game).FirstOrDefaultAsync(x=>x.Id == id);
+        }
+        public Technique GetTechniqueById(int id)
+        {
+            return Queryable.Include(x => x.Inputs).Include(x => x.Media).Include(x => x.Game).FirstOrDefault(x => x.Id == id);
         }
     }
 }

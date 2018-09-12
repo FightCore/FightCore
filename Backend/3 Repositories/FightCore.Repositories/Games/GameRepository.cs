@@ -11,6 +11,7 @@ namespace FightCore.Repositories.Games
 {
     public interface IGameRepository : IRepositoryAsync<Game>
     {
+        Game GetGameById(int id);
         Task<Game> GetGameByIdAsync(int id);
         Task<List<Game>> GetAllGamesAsync(); 
     }
@@ -18,6 +19,11 @@ namespace FightCore.Repositories.Games
     {
         public GameRepository(DbContext context) : base(context)
         {
+        }
+
+        public Game GetGameById(int id)
+        {
+            return Queryable.Include(x => x.Media).FirstOrDefault(x => x.Id == id);
         }
 
         public Task<Game> GetGameByIdAsync(int id)
