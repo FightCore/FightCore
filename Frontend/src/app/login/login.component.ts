@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     this.errorMessage = null;
     this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.email.value, this.password.value)
       .then((tokenResponse => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/profile']);
       }))
       .catch(error => {
         this.errorMessage = error.message;

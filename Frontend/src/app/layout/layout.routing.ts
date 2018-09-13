@@ -7,6 +7,9 @@ import { PlayersComponent } from './../pages/players/players.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
+import { AuthGuard } from '../services/auth-guard.service';
+import { ProfileComponent } from '../profile/profile.component';
+
 export const LayoutRoutes: Routes = [
     { 
         path: 'home',
@@ -27,6 +30,11 @@ export const LayoutRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: '**',
