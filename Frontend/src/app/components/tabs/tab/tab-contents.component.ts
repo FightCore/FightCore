@@ -14,8 +14,6 @@ export class TabContentsComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
-    console.log(this.tab);
-    console.log(this.tabHost);
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.tab.component);
 
     let viewContainerRef = this.tabHost.viewContainerRef;
