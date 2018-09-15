@@ -1,7 +1,11 @@
 <div style="padding:5px; width: 300px;">
   <mat-form-field>
-      <mat-select placeholder="Select a Character">
-        <mat-option *ngFor="let character of characters" [value]="character">
+      <mat-select 
+      placeholder="Select a Character"
+      [(value)]="selectedCharacter"
+      (selectionChange)="onSelectionChange()"
+      >
+        <mat-option *ngFor="let character of characters" [value]="character.id">
           {{character.name}}
         </mat-option>
       </mat-select>

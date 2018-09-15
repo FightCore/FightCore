@@ -1,6 +1,6 @@
 <div class="main-content">
   <div class="container-fluid">
-    <character-picker></character-picker>
+    <character-picker (onCharacterChange)="charChangeHandler($event)"></character-picker>
     <app-tabs [tabs]="tabItems" [disableTabs]="tabsDisabled"></app-tabs>
   </div>
 </div>
