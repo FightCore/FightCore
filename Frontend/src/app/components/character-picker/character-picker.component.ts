@@ -1,4 +1,4 @@
-import { CharacterInterface } from '../../common/character';
+import { CharacterInterface } from '../../common/character.interface';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({

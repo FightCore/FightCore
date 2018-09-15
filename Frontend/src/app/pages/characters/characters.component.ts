@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { TabItem } from '../../components/tabs/tab/tab-item';
 import { TabExampleComponent } from '../../components/tabs/tab-example/tab-example.component';
 import { TabsInterface } from '../../components/tabs/tabs.interface';
-import { CharacterInterface } from '../../common/character';
+import { CharacterInterface } from '../../common/character.interface';
 
 @Component({
   selector: 'app-characters',
