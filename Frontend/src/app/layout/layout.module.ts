@@ -23,6 +23,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
+import { PostService } from '../services/post.service';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { ComponentsModule } from '../components/components.module';
   ],
   providers: [
     AuthGuard,
-    UserService
+    UserService,
+    PostService
   ]
 })
 

@@ -1,7 +1,19 @@
 <div class="main-content">
   <div class="container-fluid">
-    <button mat-fab color="primary" (click)="goToAddPost()">
-      <i class="material-icons">add</i>
-    </button>
+    <div>
+      <button mat-fab color="primary" (click)="goToAddPost()">
+        <i class="material-icons">add</i>
+      </button>
+    </div>
+    <div class="row">
+      <div class="col-md-6" *ngFor="let post of posts">
+        <div class="card"> 
+          <div class="card-header">
+            <h4 class="card-title">{{post.title}}</h4>
+          </div>
+          <div class="card-body">{{post.content}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
