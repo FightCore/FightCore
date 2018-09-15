@@ -1,3 +1,4 @@
+import { AddPostComponent } from './../pages/library/add-post/add-post.component';
 import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -39,6 +40,7 @@ import { ComponentsModule } from '../components/components.module';
       HomeComponent,
       CharactersComponent,
       LibraryComponent,
+      AddPostComponent,
       PlayersComponent,
       LoginComponent,
       NotFoundComponent,
