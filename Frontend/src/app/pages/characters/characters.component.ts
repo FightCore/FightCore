@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { TabItem } from '../../components/tabs/tab/tab-item';
 import { TabExampleComponent } from '../../components/tabs/tab-example/tab-example.component';
 import { TabsInterface } from '../../components/tabs/tabs.interface';
-import { CharacterInterface } from '../../common/character.interface';
+import { Character } from '../../models/Character';
 
 @Component({
   selector: 'app-characters',
@@ -53,7 +53,7 @@ export class CharactersComponent implements OnInit {
    * Handles updating the overall page when user changes the character selected
    * @param character Selected character
    */
-  charChangeHandler(character: CharacterInterface) {
+  charChangeHandler(character: Character) {
     // For now, simply disable additional tabs if None is selected and otherwise enable the tabs
     if(character.id === 0) { // 0 is always None
       this.tabsDisabled = true;

@@ -1,4 +1,4 @@
-import { CharacterInterface } from '../../common/character.interface';
+import { Character } from '../../models/Character';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -7,9 +7,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./character-picker.component.css']
 })
 export class CharacterPickerComponent implements OnInit {
-  @Output('onCharacterChange') onCharChange: EventEmitter<CharacterInterface> = new EventEmitter();
+  @Output('onCharacterChange') onCharChange: EventEmitter<Character> = new EventEmitter();
   
-  characters: CharacterInterface[] = [  // Mockup data of characters, should be retrieved from a service
+  characters: Character[] = [  // Mockup data of characters, should be retrieved from a service
     { id: 0, name: "None"},
     { id: 1, name: "Bayonetta"},
     { id: 2, name: "Bowser"},
