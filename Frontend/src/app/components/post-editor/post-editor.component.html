@@ -1,0 +1,47 @@
+<mat-horizontal-stepper #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>What is this post about?</ng-template>
+      <p>Help people find your content!</p>
+      <mat-form-field>
+        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Contents of the post?</ng-template>
+      <p>Fill out the content people will always see</p>
+      <mat-form-field>
+        <input matInput placeholder="Post Title" formControlName="titleCtrl" required>
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Post Body" formControlName="bodyCtrl" required></textarea>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Optional details</ng-template>
+    <p>Keep your content relevant in the long run</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Submit</ng-template>
+    Save for later, or submit straight away!
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="onResetClick()">Reset</button>
+      <button mat-button (click)="onSubmitClick()">Submit</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

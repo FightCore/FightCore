@@ -12,7 +12,8 @@ import { Post } from '../../models/Post';
 export class LibraryComponent implements OnInit {
   posts: Post[];
 
-  constructor(private titleService: Title, private router: Router, 
+  constructor(private titleService: Title, 
+    private router: Router, 
     private postService: PostService) { }
 
   ngOnInit() {

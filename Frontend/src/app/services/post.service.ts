@@ -28,6 +28,9 @@ export class PostService {
    }
 
    public addPost(post: Post) {
+    // Set the id to a unique value. This should be unique every time
+    post.id = this.posts[this.posts.length-1].id + 1;
+
     // Simple behavior before integrating with backend
      this.posts.push(post);
    }
