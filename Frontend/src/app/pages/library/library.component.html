@@ -11,7 +11,14 @@
           <div class="card-header">
             <h4 class="card-title">{{post.title}}</h4>
           </div>
-          <div class="card-body">{{post.content}}</div>
+          <div class="card-body">
+            <div *ngIf="post.videoUrl">
+              Video Url: {{post.videoUrl}}
+            </div>
+            <div *ngIf="post.textContent">
+              Text Content: {{post.textContent}}
+            </div>
+          </div>
         </div>
       </div>
     </div>

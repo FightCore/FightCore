@@ -13,12 +13,12 @@ export class PostService {
       {
         id: 1,
         title: "First Test Post",
-        content: "Test content here yay"
+        textContent: "Test content here yay"
       },
       {
         id: 2,
         title: "Second Test Post",
-        content: "More test content to write out, gosh dang it"
+        textContent: "More test content to write out, gosh dang it"
       }
     ];
    }
@@ -28,6 +28,8 @@ export class PostService {
    }
 
    public addPost(post: Post) {
+    // TODO: Verify this is a valid post (has all required fields together)
+
     // Set the id to a unique value. This should be unique every time
     post.id = this.posts[this.posts.length-1].id + 1;
 

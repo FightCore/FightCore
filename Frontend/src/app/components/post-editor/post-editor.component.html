@@ -11,15 +11,19 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
+  <mat-step [stepControl]="contentFormGroup">
+    <form [formGroup]="contentFormGroup">
       <ng-template matStepLabel>Contents of the post?</ng-template>
       <p>Fill out the content people will always see</p>
+      <p>Required to either have at least video url or text body</p>
       <mat-form-field>
         <input matInput placeholder="Post Title" formControlName="titleCtrl" required>
       </mat-form-field>
       <mat-form-field>
-        <textarea matInput placeholder="Post Body" formControlName="bodyCtrl" required></textarea>
+        <input matInput placeholder="Video Link" formControlName="videoCtrl">
+      </mat-form-field>
+      <mat-form-field>
+        <textarea matInput placeholder="Post Body" formControlName="bodyCtrl"></textarea>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
