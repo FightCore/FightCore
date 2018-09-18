@@ -14,20 +14,51 @@ export class PostEditorComponent implements OnInit {
   // TODO: Input to give feedback if submit fails or otherwise show failed messages
   @Output('onSubmit') onSubmitHandler: EventEmitter<Post> = new EventEmitter();
 
-
   @ViewChild('stepper') stepperComponent; 
   
-  sLinear = false;
-  firstFormGroup: FormGroup;
+  metaFormGroup: FormGroup;
   contentFormGroup: FormGroup;
-
   resetDialogRef: MatDialogRef<ConfirmDialogComponent>;
+
+  static readonly GameIndependentId = 5;
+  static readonly CombosCatId = 2;
+  
+  showGameSpecificFields = false; // Default false as must select a category first
+  showCombosFields = false;       
+
+  // Fields for character select
+  charSelectTitle: string;        // Title filled in once category is selected
+  isCharacterRequired = false;    // Controls asterisk next to character name
+
+  postCatgories = [
+    {
+      id: "1",
+      name: "General"
+    },
+    {
+      id: "2",
+      name: "Combos"
+    },
+    {
+      id: "3",
+      name: "Tech & Mechanics"
+    },
+    {
+      id: "4",
+      name: "Community"
+    },
+    {
+      id: "5",
+      name: "Game Independent"
+    },
+  ];
+  selectedPostCat: number;
 
   constructor(private formBuilder: FormBuilder,public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['']
+    this.metaFormGroup = this.formBuilder.group({
+      postCatCtrl: ['']
     });
     this.contentFormGroup = this.formBuilder.group({
       titleCtrl: ['', Validators.required],
@@ -37,6 +68,40 @@ export class PostEditorComponent implements OnInit {
   }
 
   
+  /**
+   * Handles when post category selection is changed
+   * Determines whether to show or hide additional fields
+   */
+  onPostCatSelection() {
+    // If doing a game-independent post, hide all game-specific controls
+    if(this.selectedPostCat == PostEditorComponent.GameIndependentId) {
+      this.showGameSpecificFields = false;
+      this.showCombosFields = false; // Technically unnecessary but more complete & robust
+    }
+    else {
+      this.showGameSpecificFields = true;
+
+      // Show combos fields only for combo posts
+      if(this.selectedPostCat == PostEditorComponent.CombosCatId) {
+        this.showCombosFields = true;
+
+        // Set up main character select as required
+        this.charSelectTitle = "Performed By Character(s)";
+        this.isCharacterRequired = true;
+      }
+      else {
+        this.showCombosFields = false;
+
+        // Character select is optional
+        this.charSelectTitle = "Any relevant character(s)?"
+        this.isCharacterRequired = false;
+      }
+    }
+
+    console.log("charSelectTitle: ", this.charSelectTitle);
+    console.log("isCharacterRequired", this.isCharacterRequired);
+  }
+
   /**
    * Opens a dialog to confirm reset, and if confirmed, resets all fields
    */
@@ -63,7 +128,6 @@ export class PostEditorComponent implements OnInit {
         }
       });
   }
-
   
   /**
    * Handles form validation and outputs post data if seems valid
@@ -87,7 +151,12 @@ export class PostEditorComponent implements OnInit {
     this.onSubmitHandler.emit(post);
   }
 
-  isContentFormValid(): boolean {
+  
+  /**
+   * Determines if the content-specific form group is valid
+   * @returns true if content form valid, false if invalid
+   */
+  private isContentFormValid(): boolean {
     // Basic validators check
     if(this.contentFormGroup.invalid) return false;
     

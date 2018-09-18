@@ -1,5 +1,5 @@
 import { Character } from '../../models/Character';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'character-picker',
@@ -7,7 +7,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./character-picker.component.css']
 })
 export class CharacterPickerComponent implements OnInit {
-  @Output('onCharacterChange') onCharChange: EventEmitter<Character> = new EventEmitter();
+  @Input("title") placeholderTitle = "Select a Character";
+  @Input('showAsRequired') isRequired = false; // By default, don't show as required (asterisk)
+  @Input('selectedCharacter') selectedCharacter: number = 0; // By default, initialize to None
+  @Output('selectedCharacterChange') selectedCharEmitter = new EventEmitter<Number>(); // For two way binding
+
+  @Output('onCharacterChange') onCharChange = new EventEmitter<Character>(); // For complex change handling
   
   characters: Character[] = [  // Mockup data of characters, should be retrieved from a service
     { id: 0, name: "None"},
@@ -17,8 +22,6 @@ export class CharacterPickerComponent implements OnInit {
     { id: 4, name: "Captain Falcon"},
     { id: 5, name: "Charizard"}
   ];
-
-  selectedCharacter: number = 0; // Initialize to None
 
   constructor() { }
 

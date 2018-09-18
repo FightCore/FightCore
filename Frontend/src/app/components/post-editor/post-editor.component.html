@@ -1,11 +1,29 @@
 <mat-horizontal-stepper #stepper>
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
+  <mat-step [stepControl]="metaFormGroup">
+    <form [formGroup]="metaFormGroup">
       <ng-template matStepLabel>What is this post about?</ng-template>
       <p>Help people find your content!</p>
       <mat-form-field>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        <mat-select matInput
+        formControlName="postCatCtrl" required
+        placeholder="Select a Category"
+        [(value)]="selectedPostCat"
+        (selectionChange)="onPostCatSelection()"
+        >
+          <mat-option *ngFor="let category of postCatgories" [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+      <div *ngIf="showGameSpecificFields;">
+        <character-picker
+        [title]="charSelectTitle"
+        [showAsRequired]="isCharacterRequired"
+        ></character-picker>
+        <div *ngIf="showCombosFields;">
+          <p>Combo specific fields:</p>
+        </div>
+      </div>
       <div>
         <button mat-button matStepperNext>Next</button>
       </div>
@@ -41,7 +59,8 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Submit</ng-template>
-    Save for later, or submit straight away!
+    <p>Todo: Summary details here</p>
+    <p>Save for later (uhh... maybe), or submit straight away!</p>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="onResetClick()">Reset</button>
