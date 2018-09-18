@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
@@ -21,6 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
+using StackExchange.Profiling;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace FightCore.Api
@@ -34,7 +36,10 @@ namespace FightCore.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -47,6 +52,7 @@ namespace FightCore.Api
                             .AllowCredentials()
                 );
             });
+            
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -160,18 +166,25 @@ namespace FightCore.Api
                     };
                 });
 
+            services.AddMiniProfilerSetup();
+
             services.AddAutoMapper(option => option.AddProfile(new AutoMapperConfiguration()));
             services.AddPatterns();
             services.AddServicesAndRepositories();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseMiniProfiler();
             }
             else
             {
@@ -189,8 +202,10 @@ namespace FightCore.Api
                 c.DocExpansion(DocExpansion.None);
                 c.RoutePrefix = "";
                 c.DisplayRequestDuration();
+                c.IndexStream = () => GetType().GetTypeInfo().Assembly
+                    .GetManifestResourceStream("FightCore.Api.Swagger.Index.html");
             });
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

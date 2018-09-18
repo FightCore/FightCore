@@ -10,6 +10,7 @@ using FightCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Profiling;
 
 namespace FightCore.Api.Controllers
 {
@@ -46,11 +47,19 @@ namespace FightCore.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var user = await _userService.FindByIdAsync(id);
+            var profiler = MiniProfiler.Current;
+            ApplicationUser user;
+            using (profiler.Step("Getting user from database"))
+            {
+                 user = await _userService.FindByIdAsync(id);
+            }
+            
             if (user == null)
                 return NotFound();
-
-            return Ok(_mapper.Map<UserResultResource>(user));
+            using (profiler.Step("Mapping and returning"))
+            {
+                return Ok(_mapper.Map<UserResultResource>(user));
+            }
         }
 
         /// <summary>
