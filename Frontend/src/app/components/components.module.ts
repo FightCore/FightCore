@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule, MatButtonToggleModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -26,6 +26,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
+    MatButtonToggleModule,
     FormsModule,
     ReactiveFormsModule,
   ],

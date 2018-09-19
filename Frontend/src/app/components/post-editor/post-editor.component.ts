@@ -18,6 +18,7 @@ export class PostEditorComponent implements OnInit {
   
   metaFormGroup: FormGroup;
   contentFormGroup: FormGroup;
+  additionalFormGroup: FormGroup;
   resetDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
   static readonly GameIndependentId = 5;
@@ -54,16 +55,94 @@ export class PostEditorComponent implements OnInit {
   ];
   selectedPostCat: number;
 
-  constructor(private formBuilder: FormBuilder,public dialog: MatDialog) { }
+  comboTypesS4 = [
+    {
+      id: "1",
+      name: "Juggle"
+    },
+    {
+      id: "2",
+      name: "Edgeguard"
+    },
+    {
+      id: "3",
+      name: "Ledgeguard"
+    },
+    {
+      id: "4",
+      name: "Trap"
+    },
+    {
+      id: "5",
+      name: "True Combo"
+    },
+    {
+      id: "6",
+      name: "Kill"
+    },
+    {
+      id: "7",
+      name: "0-to-Death"
+    }
+  ];
+  selectedComboType: number;
+
+  skillCategories = [
+    {
+      id: 1,
+      name: "N/A"
+    },
+    {
+      id: 2,
+      name: "Beginner"
+    },
+    {
+      id: 3,
+      name: "Intermediate"
+    },
+    {
+      id: 2,
+      name: "Advanced"
+    }
+  ];
+  selectedSkill: number = 1; // Initialize to N/A
+
+  patches = [
+    {
+      id: 0,
+      name: "None (Patch Independent)"
+    },
+    {
+      id: 1,
+      name: "Latest (1.1.7)"
+    },
+    {
+      id: 2,
+      name: "1.1.6"
+    },
+    {
+      id: 3,
+      name: "1.1.5"
+    }
+  ];
+  selectedPatch: number = 1; // Initialize to latest patch
+
+  constructor(private formBuilder: FormBuilder, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.metaFormGroup = this.formBuilder.group({
-      postCatCtrl: ['']
+      postCatCtrl: [''],
+      comboPercCtrl: [''],
+      comboTypeCtrl: ['']
     });
     this.contentFormGroup = this.formBuilder.group({
       titleCtrl: ['', Validators.required],
-      videoCtrl: [''],
+      linkCtrl: [''],
       bodyCtrl: ['']
+    });
+    this.additionalFormGroup = this.formBuilder.group({
+      patchCtrl: [''],
+      tagsCtrl: ['']
     });
   }
 
@@ -146,7 +225,7 @@ export class PostEditorComponent implements OnInit {
       id: -1,
       title: this.contentFormGroup.controls.titleCtrl.value,
       textContent: this.contentFormGroup.controls.bodyCtrl.value,
-      videoUrl: this.contentFormGroup.controls.videoCtrl.value
+      videoUrl: this.contentFormGroup.controls.linkCtrl.value
     };
     this.onSubmitHandler.emit(post);
   }
@@ -162,7 +241,7 @@ export class PostEditorComponent implements OnInit {
     
     // Post must contain either a video or text at least
     let controls = this.contentFormGroup.controls; // Shortcut
-    if(controls.bodyCtrl.value === '' && controls.videoCtrl.value === '') {
+    if(controls.bodyCtrl.value === '' && controls.linkCtrl.value === '') {
       return false;
     }
 
