@@ -18,6 +18,10 @@
             <div *ngIf="post.textContent">
               Text Content: {{post.textContent}}
             </div>
+            <div>
+              <p>Full post object's contents:</p>
+              <p>{{post | json}}</p>
+            </div>
           </div>
         </div>
       </div>

@@ -19,16 +19,15 @@
         <character-picker
           [title]="charSelectTitle"
           [showAsRequired]="isCharacterRequired"
+          (onCharacterChange)="onMainCharSelect($event)"
         ></character-picker>
         <div *ngIf="showCombosFields;">
           <p>Combo specific fields:</p>
           <character-picker
             [title]="'Target Character(s)'"
             [showAsRequired]="true"
+            (onCharacterChange)="onTargetCharSelect($event)"
           ></character-picker>
-          <mat-form-field>
-            <input matInput placeholder="Target %" formControlName="comboPercCtrl">
-          </mat-form-field>
           <mat-form-field>
             <mat-select matInput
               formControlName="comboTypeCtrl"
@@ -38,6 +37,23 @@
             >
               <mat-option *ngFor="let type of comboTypesS4" [value]="type.id">
                 {{type.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Target %" formControlName="comboPercCtrl" type="number">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Combo Damage % (Estimate)" formControlName="comboDmgCtrl" type="number">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select matInput
+              formControlName="comboStarterCtrl"
+              placeholder="Combo Starter Move"
+              [(value)]="selectedComboStarter"
+            >
+              <mat-option *ngFor="let move of moves" [value]="move.id">
+                {{move.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
