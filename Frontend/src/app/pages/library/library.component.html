@@ -7,23 +7,25 @@
     </div>
     <div class="row">
       <div class="col-md-6" *ngFor="let post of posts">
-        <div class="card"> 
-          <div class="card-header">
-            <h4 class="card-title">{{post.title}}</h4>
+        <a [routerLink]="getPostUrl(post)" routerLinkActive="active">
+          <div class="card"> 
+            <div class="card-header">
+              <h4 class="card-title">{{post.title}}</h4>
+            </div>
+            <div class="card-body">
+              <div *ngIf="post.videoUrl">
+                Video Url: {{post.videoUrl}}
+              </div>
+              <div *ngIf="post.textContent">
+                Text Content: {{post.textContent}}
+              </div>
+              <div>
+                <p>Full post object's contents:</p>
+                <p>{{post | json}}</p>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <div *ngIf="post.videoUrl">
-              Video Url: {{post.videoUrl}}
-            </div>
-            <div *ngIf="post.textContent">
-              Text Content: {{post.textContent}}
-            </div>
-            <div>
-              <p>Full post object's contents:</p>
-              <p>{{post | json}}</p>
-            </div>
-          </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>

@@ -28,4 +28,13 @@ export class LibraryComponent implements OnInit {
     this.router.navigate(['/library/add']);
   }
 
+  /**
+   * Wrapper for PostService.getPostUrl (don't believe can call static functions from template)
+   * @param post Post to create url for
+   * @returns post url for routerLink 
+   */
+  getPostUrl(post: Post):string {
+    return PostService.getPostUrl(post);
+  }
+
 }

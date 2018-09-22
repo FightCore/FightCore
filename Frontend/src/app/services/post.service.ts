@@ -13,6 +13,8 @@ export class PostService {
       { // Combo post mockup
 
         id: 1,
+        urlName: "first-test-post",
+
         // Meta fields
         categoryId: 2,
         characterIds: [2], 
@@ -37,6 +39,8 @@ export class PostService {
       { // General post mockup
 
         id: 2,
+        urlName: "second-test-post",
+
         // Meta fields
         categoryId: 1,
         characterIds: [3],
@@ -53,9 +57,11 @@ export class PostService {
       },
       { // Game-independent with video
 
-        id: 2,
+        id: 3,
+        urlName: "third-test-post",
+
         // Meta fields
-        categoryId: 1,
+        categoryId: 6,
         
         // Additional fields
         skillEstimateId: 1,
@@ -68,19 +74,68 @@ export class PostService {
         textContent: "Very important post, mucho importante"
       },
     ];
-   }
+  }
 
-   public getPosts(): Post[] {
-     return this.posts;
-   }
+  /**
+   * Gets a base Post object (TODO: Make Post a class at this point!)
+   * @returns url for routerLink representing this post 
+   */
+  public static getBasicPost(): Post {
+    return {
+      id: -1,
+      urlName: '',
+      categoryId: -1,
+      skillEstimateId: -1,
+      patchId: -1,
+      tags: [],
+      title: ""
+    };
+  }
 
-   public addPost(post: Post) {
-    // TODO: Verify this is a valid post (has all required fields together)
+  /**
+   * Gets direct post url
+   * @param post Post to create url for
+   * @returns url for routerLink representing this post 
+   */
+  public static getPostUrl(post: Post): string {
+    return '/library/' + post.id + '/' + post.urlName;
+  }
 
-    // Set the id to a unique value. This should be unique every time
-    post.id = this.posts[this.posts.length-1].id + 1;
+  public getPost(id: number): Post {
+    return this.posts.find((post: Post) => post.id == id); // Not sure why can't use ===
+  }
 
-    // Simple behavior before integrating with backend
-     this.posts.push(post);
-   }
+  public getPosts(): Post[] {
+    return this.posts;
+  }
+
+  public addPost(post: Post) {
+  // TODO: Verify this is a valid post (has all required fields together)
+  // Correction: The above TODO should be done elsewhere, not in addPost
+
+  // Note: Below two lines should be done on server
+  post.id = this.posts[this.posts.length-1].id + 1; // Set the id to a unique value
+  post.urlName = this.createUrlName(post.title);
+
+  // Simple behavior before integrating with backend
+    this.posts.push(post);
+  }
+  
+  /**
+  * Create the post name that will show up in the url
+  * Note: This should be done on the server. Here for mockup purposes
+  * @param title Represents post title to create url name off of
+  * @returns String that should go in the url
+  */
+  private createUrlName(title: string): string {
+  // First remove all characters except alphanumeric and space
+  title = title.replace(/[^\w\s]/gi, ''); // Technically allows spaces, tabs, etc
+  // Then replace spaces with tabs and make all lowercase
+  title = title.replace(/\s+/g, '-').toLowerCase();
+
+  // Also need to limit the length and make sure not starting or ending with dash
+  // But will leave that to backend
+
+    return title;
+  }
 }

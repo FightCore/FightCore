@@ -1,5 +1,6 @@
 export interface Post {
     id: number;
+    urlName: string;                // SEO purposes, part of url, based off of title
 
     // Meta fields
     categoryId: number;

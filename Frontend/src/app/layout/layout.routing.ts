@@ -1,3 +1,4 @@
+import { ViewPostComponent } from './../pages/library/view-post/view-post.component';
 import { Routes } from '@angular/router';
 
 import { HomeComponent } from '../pages/home/home.component';
@@ -27,6 +28,10 @@ export const LayoutRoutes: Routes = [
     { 
         path: 'library/add',
         component: AddPostComponent
+    },
+    { 
+        path: 'library/:id/:postName',
+        component: ViewPostComponent
     },
     { 
         path: 'players',

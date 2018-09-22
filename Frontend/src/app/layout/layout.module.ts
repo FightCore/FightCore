@@ -24,6 +24,7 @@ import {
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
 import { PostService } from '../services/post.service';
+import { ViewPostComponent } from '../pages/library/view-post/view-post.component';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { PostService } from '../services/post.service';
       CharactersComponent,
       LibraryComponent,
       AddPostComponent,
+      ViewPostComponent,
       PlayersComponent,
       LoginComponent,
       NotFoundComponent,
