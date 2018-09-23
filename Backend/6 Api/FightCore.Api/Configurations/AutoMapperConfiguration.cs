@@ -4,7 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FightCore.Api.Resources;
+using FightCore.Api.Resources.Characters;
+using FightCore.Api.Resources.Games;
+using FightCore.Api.Resources.Shared;
 using FightCore.Models;
+using FightCore.Models.Characters;
+using FightCore.Models.Shared;
+using FightCore.Repositories;
 
 namespace FightCore.Api.Configurations
 {
@@ -15,6 +21,21 @@ namespace FightCore.Api.Configurations
             CreateMap<UserResource, ApplicationUser>().ReverseMap();
             CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
             CreateMap<NewUserResource, ApplicationUser>();
+            CreateMap<Character, CharacterResource>();
+            CreateMap<Character, DetailedCharacterResource>();
+            CreateMap<Technique, TechniqueResource>();
+            CreateMap<Move, MoveResource>();
+            CreateMap<Combo, ComboResource>();
+
+            CreateMap<Game, GameResource>();
+
+            CreateMap<Media, MediaResource>();
+            CreateMap<ControllerInput, ControllerInputResource>();
+
+            CreateMap<UserResource, ApplicationUser>().ReverseMap();
+            CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
+            CreateMap<NewUserResource, ApplicationUser>();
+            CreateMap<InputChain, InputChainResource>();
         }
     }
 }
