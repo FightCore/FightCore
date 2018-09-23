@@ -27,6 +27,7 @@ namespace FightCore.Api.Controllers{
         /// <param name="player1">The id of the first player</param>
         /// <param name="player2">The id of the second player</param>
         /// <returns>TODO add the right resource</returns>
+        [HttpGet("{player1}/{player2}")]
         public Task<IActionResult> GetH2HStatistics(int player1, int player2){
             throw new NotImplementedException();
         }
