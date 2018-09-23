@@ -15,6 +15,7 @@ import { ProfileComponent } from '../profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
+import {NgbModule, NgbDatepickerModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {
   MatButtonModule,
@@ -36,7 +37,9 @@ import { ViewPostComponent } from '../pages/library/view-post/view-post.componen
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
-    ComponentsModule
+    ComponentsModule,
+    NgbDatepickerModule,
+    NgbModalModule
   ],
   declarations: [
       HomeComponent,

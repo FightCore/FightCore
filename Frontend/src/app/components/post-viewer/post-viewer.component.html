@@ -1,0 +1,6 @@
+<div *ngIf="displayPost; else invalidPost">
+  <p>Display post: {{ displayPost | json }}</p>
+</div>
+<ng-template #invalidPost>
+  <p>No valid post given to component.</p>
+</ng-template>

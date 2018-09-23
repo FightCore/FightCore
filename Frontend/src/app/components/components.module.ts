@@ -15,6 +15,7 @@ import { TabDirective } from './tabs/tab/tab.directive';
 import { PostEditorComponent } from './post-editor/post-editor.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { PostViewerComponent } from './post-viewer/post-viewer.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     TabContentsComponent,
     TabDirective,
     PostEditorComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    PostViewerComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -53,6 +55,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     SidebarComponent,
     CharacterPickerComponent,
     PostEditorComponent,
+    PostViewerComponent,
     TabsComponent,
     TabExampleComponent // for testing purposes
   ]

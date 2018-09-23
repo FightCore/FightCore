@@ -1,8 +1,9 @@
 import { PostService } from './../../services/post.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Post } from '../../models/Post';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-library',
@@ -11,10 +12,13 @@ import { Post } from '../../models/Post';
 })
 export class LibraryComponent implements OnInit {
   posts: Post[];
+  displayPost: Post;
+  @ViewChild('postContent') postContent: TemplateRef<any>;
 
   constructor(private titleService: Title, 
     private router: Router, 
-    private postService: PostService) { }
+    private postService: PostService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.titleService.setTitle("Library");
@@ -35,6 +39,11 @@ export class LibraryComponent implements OnInit {
    */
   getPostUrl(post: Post):string {
     return PostService.getPostUrl(post);
+  }
+
+  open(post: Post) {
+    this.displayPost = post; // TODO: Rewrite component to call a method to start getting data and such
+    this.modalService.open(this.postContent, {ariaLabelledBy: 'modal-basic-title'});
   }
 
 }

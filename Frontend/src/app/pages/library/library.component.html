@@ -7,7 +7,8 @@
     </div>
     <div class="row">
       <div class="col-md-6" *ngFor="let post of posts">
-        <a [routerLink]="getPostUrl(post)" routerLinkActive="active">
+        <!-- <a [routerLink]="getPostUrl(post)" routerLinkActive="active"> -->
+        <a (click)="open(post)" style="cursor:pointer;">
           <div class="card"> 
             <div class="card-header">
               <h4 class="card-title">{{post.title}}</h4>
@@ -30,3 +31,17 @@
     </div>
   </div>
 </div>
+<ng-template #postContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">View Post</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <post-viewer [displayPost]="displayPost"></post-viewer>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
