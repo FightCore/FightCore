@@ -275,11 +275,10 @@ export class PostEditorComponent implements OnInit {
 
     // Populate the post to create with necessary fields
     let post = PostService.getBasicPost();
-
     post.categoryId = this.selectedPostCat;
 
     post.title = this.contentFormGroup.controls.titleCtrl.value;
-    post.videoUrl = this.contentFormGroup.controls.linkCtrl.value;
+    post.featureUrl = this.contentFormGroup.controls.linkCtrl.value;
     post.textContent = this.contentFormGroup.controls.bodyCtrl.value; 
     
     post.skillEstimateId = this.selectedSkill;

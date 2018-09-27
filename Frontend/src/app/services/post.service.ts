@@ -13,8 +13,12 @@ export class PostService {
       { // Combo post mockup
 
         id: 1,
+        authorId: 1,
+        creationDate: new Date(),
+        views: 22,
+        rating: 0,
         urlName: "first-test-post",
-
+        
         // Meta fields
         categoryId: 2,
         characterIds: [2], 
@@ -33,12 +37,16 @@ export class PostService {
 
         // Content fields
         title: "First Test Post",
-        videoUrl: "",
+        featureUrl: "",
         textContent: "Test content here yay"
       },
       { // General post mockup
 
         id: 2,
+        authorId: 2,
+        creationDate: new Date('December 7, 1995 03:24:00'),
+        views: 404,
+        rating: 42,
         urlName: "second-test-post",
 
         // Meta fields
@@ -52,12 +60,16 @@ export class PostService {
 
         // Content fields        
         title: "Second Test Post",
-        videoUrl: "",
+        featureUrl: "",
         textContent: "More test content to write out, gosh dang it"
       },
       { // Game-independent with video
 
         id: 3,
+        authorId: 3,
+        creationDate: new Date('January 8, 2017 12:24:00'),
+        views: 22,
+        rating: -2,
         urlName: "third-test-post",
 
         // Meta fields
@@ -70,7 +82,7 @@ export class PostService {
 
         // Content fields        
         title: "Third Test Post, Much Importante",
-        videoUrl: "https://youtu.be/dQw4w9WgXcQ",
+        featureUrl: "https://youtu.be/dQw4w9WgXcQ",
         textContent: "Very important post, mucho importante"
       },
     ];
@@ -83,6 +95,10 @@ export class PostService {
   public static getBasicPost(): Post {
     return {
       id: -1,
+      authorId: -1,
+      creationDate: new Date(),
+      views: -1,
+      rating: -1,
       urlName: '',
       categoryId: -1,
       skillEstimateId: -1,
@@ -110,14 +126,17 @@ export class PostService {
   }
 
   public addPost(post: Post) {
-  // TODO: Verify this is a valid post (has all required fields together)
-  // Correction: The above TODO should be done elsewhere, not in addPost
+    // TODO: Verify this is a valid post (has all required fields together)
+    // Correction: The above TODO should be done elsewhere, not in addPost
 
-  // Note: Below two lines should be done on server
-  post.id = this.posts[this.posts.length-1].id + 1; // Set the id to a unique value
-  post.urlName = this.createUrlName(post.title);
+    // Note: Below few lines should be done on server
+    post.id = this.posts[this.posts.length-1].id + 1; // Set the id to a unique value
+    post.urlName = this.createUrlName(post.title);
+    post.creationDate = new Date();
+    post.views = 0;
+    post.rating = 0;
 
-  // Simple behavior before integrating with backend
+    // Simple behavior before integrating with backend
     this.posts.push(post);
   }
   

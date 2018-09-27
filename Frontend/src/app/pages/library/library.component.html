@@ -6,26 +6,9 @@
       </button>
     </div>
     <div class="row">
-      <div class="col-md-6" *ngFor="let post of posts">
-        <!-- <a [routerLink]="getPostUrl(post)" routerLinkActive="active"> -->
+      <div class="col-md-4" *ngFor="let post of posts">
         <a (click)="open(post)" style="cursor:pointer;">
-          <div class="card"> 
-            <div class="card-header">
-              <h4 class="card-title">{{post.title}}</h4>
-            </div>
-            <div class="card-body">
-              <div *ngIf="post.videoUrl">
-                Video Url: {{post.videoUrl}}
-              </div>
-              <div *ngIf="post.textContent">
-                Text Content: {{post.textContent}}
-              </div>
-              <div>
-                <p>Full post object's contents:</p>
-                <p>{{post | json}}</p>
-              </div>
-            </div>
-          </div>
+          <post-viewer [displayPost]="post" [simpleMode]="true"></post-viewer>
         </a>
       </div>
     </div>
@@ -33,7 +16,7 @@
 </div>
 <ng-template #postContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">View Post</h4>
+    <h4 class="modal-title" id="modal-basic-title" *ngIf="displayPost">{{ displayPost.title }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>

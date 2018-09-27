@@ -52,7 +52,11 @@ export class LibraryComponent implements OnInit {
     this.changeUrlForPost(post); // Not actually navigating to post but do this for the browser
 
     this.displayPost = post; // TODO: Rewrite component to call a method to start getting data and such
-    this.modalService.open(this.postContent, {ariaLabelledBy: 'modal-basic-title'})
+    this.modalService.open(this.postContent, 
+      {
+        size: 'lg',
+        windowClass: 'post-modal' 
+      })
       // Change the url back once the post is closed
       .result.then((result) => {
         // This side isn't currently used (no save or such action for delegate), but here just in case

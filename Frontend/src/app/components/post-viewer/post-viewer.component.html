@@ -1,5 +1,74 @@
 <div *ngIf="displayPost; else invalidPost">
-  <p>Display post: {{ displayPost | json }}</p>
+  <div *ngIf="simpleMode; else fullDetails">
+    <div class="card post-preview"> 
+      <div class="card-header">
+        <h4 class="card-title">{{displayPost.title}}</h4>
+      </div>
+      <div class="card-body">
+        <div *ngIf="displayPost.featureUrl">
+          Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
+        </div>
+        <div>
+          <i class="material-icons">category</i>
+          <span>{{getCategoryName()}}</span>
+        </div>
+        <div *ngIf="displayPost.characterIds">
+          <i class="material-icons">videogame_asset</i>
+          <span *ngFor="let charId of displayPost.characterIds">
+            {{getCharacterIcon(charId)}}
+          </span>
+        </div>
+        <div *ngIf="isCombo()">
+          At a glance combo info here
+        </div>
+        <div>
+          <i class="material-icons">unfold_more</i>
+          <span>{{displayPost.rating}}</span>
+        </div>
+        <div>
+          <i class="material-icons">visibility</i>
+          <span>{{displayPost.views}}</span>
+        </div>
+        <div>
+          <i class="material-icons">edit</i>
+          <span>{{getAuthorName()}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #fullDetails>
+    <div class="row post-container">
+      <div class="col-md-8">
+        <div class="card"> 
+          <div class="card-header">
+            <h4 class="card-title">(Unnecessary)</h4>
+          </div>
+          <div class="card-body">
+            <div *ngIf="displayPost.featureUrl">
+              <a [href]="displayPost.featureUrl">
+                {{displayPost.featureUrl}}
+              </a>
+            </div>
+            <div *ngIf="displayPost.textContent">
+              {{displayPost.textContent}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card"> 
+          <div class="card-header">
+            <h4 class="card-title">Extra Info</h4>
+          </div>
+          <div class="card-body">
+            <div>
+              <p>{{displayPost | json}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
 <ng-template #invalidPost>
   <p>No valid post given to component.</p>
