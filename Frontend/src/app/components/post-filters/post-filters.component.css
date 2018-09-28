@@ -1,0 +1,12 @@
+div.filter-container {
+    display: flex;
+    min-width: 500px;
+}
+
+div.filter-container .post-filter {
+    width: 25%;
+}
+
+div.filter-container .post-filter:not(:last-child) {
+    margin-right: 5px;
+}

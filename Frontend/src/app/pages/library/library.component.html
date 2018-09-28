@@ -1,9 +1,19 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div>
+    <div style="margin-bottom: 5px;">
       <button mat-stroked-button color="primary" (click)="goToAddPost()">
         Create Post
       </button>
+    </div>
+    <div class="row post-controls">
+      <div class="col-6">
+        <post-filters></post-filters>
+      </div>
+      <div class="col-6">
+        <div class="float-right">
+          <post-sort></post-sort>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-4" *ngFor="let post of posts">

@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule, MatButtonToggleModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule, MatButtonToggleModule, MatGridListModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -16,6 +16,8 @@ import { PostEditorComponent } from './post-editor/post-editor.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { PostViewerComponent } from './post-viewer/post-viewer.component';
+import { PostFiltersComponent } from './post-filters/post-filters.component';
+import { PostSortComponent } from './post-sort/post-sort.component';
 
 @NgModule({
   imports: [
@@ -28,6 +30,7 @@ import { PostViewerComponent } from './post-viewer/post-viewer.component';
     MatButtonModule,
     MatDialogModule,
     MatButtonToggleModule,
+    MatGridListModule,
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -43,7 +46,9 @@ import { PostViewerComponent } from './post-viewer/post-viewer.component';
     TabDirective,
     PostEditorComponent,
     ConfirmDialogComponent,
-    PostViewerComponent
+    PostViewerComponent,
+    PostFiltersComponent,
+    PostSortComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -56,6 +61,8 @@ import { PostViewerComponent } from './post-viewer/post-viewer.component';
     CharacterPickerComponent,
     PostEditorComponent,
     PostViewerComponent,
+    PostFiltersComponent,
+    PostSortComponent,
     TabsComponent,
     TabExampleComponent // for testing purposes
   ]
