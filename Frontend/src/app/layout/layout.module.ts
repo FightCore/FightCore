@@ -1,3 +1,7 @@
+import { MatchupsComponent } from './../pages/characters/matchups/matchups.component';
+import { MovesComponent } from './../pages/characters/moves/moves.component';
+import { BasicsComponent } from './../pages/characters/basics/basics.component';
+import { DashboardModule } from './../dashboard/dashboard.module';
 import { AddPostComponent } from './../pages/library/add-post/add-post.component';
 import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
@@ -26,6 +30,7 @@ import {
 import { ComponentsModule } from '../components/components.module';
 import { PostService } from '../services/post.service';
 import { ViewPostComponent } from '../pages/library/view-post/view-post.component';
+import { CombosTechComponent } from '../pages/characters/combos-tech/combos-tech.component';
 
 @NgModule({
   imports: [
@@ -39,7 +44,8 @@ import { ViewPostComponent } from '../pages/library/view-post/view-post.componen
     MatTooltipModule,
     ComponentsModule,
     NgbDatepickerModule,
-    NgbModalModule
+    NgbModalModule,
+    DashboardModule
   ],
   declarations: [
       HomeComponent,
@@ -51,7 +57,17 @@ import { ViewPostComponent } from '../pages/library/view-post/view-post.componen
       LoginComponent,
       NotFoundComponent,
       LoginComponent, 
-      ProfileComponent
+      ProfileComponent,
+      BasicsComponent,
+      MovesComponent,
+      CombosTechComponent,
+      MatchupsComponent
+  ],
+  entryComponents: [
+    BasicsComponent,
+    MovesComponent,
+    CombosTechComponent,
+    MatchupsComponent
   ],
   providers: [
     AuthGuard,

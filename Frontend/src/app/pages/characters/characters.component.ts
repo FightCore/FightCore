@@ -1,9 +1,14 @@
+import { CombosTechComponent } from './combos-tech/combos-tech.component';
+import { MovesComponent } from './moves/moves.component';
+import { BasicsComponent } from './basics/basics.component';
+import { DashGeneratorComponent } from './../../dashboard/dash-generator/dash-generator.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TabItem } from '../../components/tabs/tab/tab-item';
 import { TabExampleComponent } from '../../components/tabs/tab-example/tab-example.component';
 import { TabsInterface } from '../../components/tabs/tabs.interface';
 import { Character } from '../../models/Character';
+import { MatchupsComponent } from './matchups/matchups.component';
 
 @Component({
   selector: 'app-characters',
@@ -23,26 +28,26 @@ export class CharactersComponent implements OnInit {
     this.tabItems = [
       {
         title: "Dashboard",
-        tabItem: new TabItem(TabExampleComponent, {testData: "First tab data"})
+        tabItem: new TabItem(DashGeneratorComponent, {testData: "First tab data"})
       },
       {
         title: "Basics",
-        tabItem: new TabItem(TabExampleComponent, {testData: "Second tab data"}),
+        tabItem: new TabItem(BasicsComponent, {testData: "Second tab data"}),
         canDisable: true
       },
       {
         title: "Moves",
-        tabItem: new TabItem(TabExampleComponent, {testData: "Third tab data"}),
+        tabItem: new TabItem(MovesComponent, {testData: "Third tab data"}),
         canDisable: true
       },
       {
         title: "Combos & Tech",
-        tabItem: new TabItem(TabExampleComponent, {testData: "Fourth tab data"}),
+        tabItem: new TabItem(CombosTechComponent, {testData: "Fourth tab data"}),
         canDisable: true
       },
       {
         title: "Matchups",
-        tabItem: new TabItem(TabExampleComponent, {testData: "Fifth tab data"}),
+        tabItem: new TabItem(MatchupsComponent, {testData: "Fifth tab data"}),
         canDisable: true
       }
     ];
