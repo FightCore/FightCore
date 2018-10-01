@@ -24,7 +24,9 @@ export class LibraryComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle("Library");
-    this.posts = this.postService.getPosts();
+    this.postService.getPosts().subscribe((res: Post[])=> {
+      this.posts = res;
+    }); //TODO Add error handling
   }
   
   /**

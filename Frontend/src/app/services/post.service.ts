@@ -1,26 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { BaseService } from './base.service';
+import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class PostService extends BaseService {
   private posts: Post[];
 
-  constructor() {
+  constructor(http: HttpClient) {
+    super(http);
     // Initialize mockup posts
     this.posts = [
       { // Combo post mockup
 
         id: 1,
         authorId: 1,
-        creationDate: new Date(),
+        createdDate: new Date(),
         views: 22,
         rating: 0,
         urlName: "first-test-post",
         
         // Meta fields
-        categoryId: 2,
+        category: 2,
         characterIds: [2], 
 
         // Combo specific fields
@@ -31,59 +37,59 @@ export class PostService {
         comboStarterId: 2,
 
         // Additional fields
-        skillEstimateId: 1,
+        skillLevel: 1,
         patchId: 1,
         tags: ["First", "Test", "ACombo"],
 
         // Content fields
         title: "First Test Post",
-        featureUrl: "",
-        textContent: "Test content here yay"
+        featuredLink: "",
+        content: "Test content here yay"
       },
       { // General post mockup
 
         id: 2,
         authorId: 2,
-        creationDate: new Date('December 7, 1995 03:24:00'),
+        createdDate: new Date('December 7, 1995 03:24:00'),
         views: 404,
         rating: 42,
         urlName: "second-test-post",
 
         // Meta fields
-        categoryId: 1,
+        category: 1,
         characterIds: [3],
 
         // Additional fields
-        skillEstimateId: 1,
+        skillLevel: 1,
         patchId: 0,
         tags: ["Second", "Test", "Something"],
 
         // Content fields        
         title: "Second Test Post",
-        featureUrl: "",
-        textContent: "More test content to write out, gosh dang it"
+        featuredLink: "",
+        content: "More test content to write out, gosh dang it"
       },
       { // Game-independent with video
 
         id: 3,
         authorId: 3,
-        creationDate: new Date('January 8, 2017 12:24:00'),
+        createdDate: new Date('January 8, 2017 12:24:00'),
         views: 22,
         rating: -2,
         urlName: "third-test-post",
 
         // Meta fields
-        categoryId: 6,
+        category: 6,
         
         // Additional fields
-        skillEstimateId: 1,
+        skillLevel: 1,
         patchId: 0,
         tags: ["Third", "Test", "Important"],
 
         // Content fields        
         title: "Third Test Post, Much Importante",
-        featureUrl: "https://youtu.be/dQw4w9WgXcQ",
-        textContent: "Very important post, mucho importante"
+        featuredLink: "https://youtu.be/dQw4w9WgXcQ",
+        content: "Very important post, mucho importante"
       },
     ];
   }
@@ -96,12 +102,12 @@ export class PostService {
     return {
       id: -1,
       authorId: -1,
-      creationDate: new Date(),
+      createdDate: new Date(),
       views: -1,
       rating: -1,
       urlName: '',
-      categoryId: -1,
-      skillEstimateId: -1,
+      category: -1,
+      skillLevel: -1,
       patchId: -1,
       tags: [],
       title: ""
@@ -117,12 +123,13 @@ export class PostService {
     return '/library/' + post.id + '/' + post.urlName;
   }
 
-  public getPost(id: number): Post {
-    return this.posts.find((post: Post) => post.id == id); // Not sure why can't use ===
+  public getPost(id: number): Observable<Post> {
+    return this.http.get<Post>(`https://localhost:5001/library/${id}`, { headers: this.defaultHeaders }).pipe(catchError(this.handleError));
+    //return this.posts.find((post: Post) => post.id == id); // Not sure why can't use ===
   }
 
-  public getPosts(): Post[] {
-    return this.posts;
+  public getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(`https://localhost:5001/library`, { headers: this.defaultHeaders }).pipe(catchError(this.handleError));
   }
 
   public addPost(post: Post) {
@@ -132,7 +139,7 @@ export class PostService {
     // Note: Below few lines should be done on server
     post.id = this.posts[this.posts.length-1].id + 1; // Set the id to a unique value
     post.urlName = this.createUrlName(post.title);
-    post.creationDate = new Date();
+    post.createdDate = new Date();
     post.views = 0;
     post.rating = 0;
 

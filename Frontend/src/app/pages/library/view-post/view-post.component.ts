@@ -23,20 +23,22 @@ export class ViewPostComponent implements OnInit {
       this.post.id = params['id'];
 
       // Try getting the post with the given id
-      let post = this.postService.getPost(params['id']);
-      if(!post) {
-        this.onNavigateError();
-        return;
-      }
+      this.postService.getPost(params['id']).subscribe((res: Post) => {
+        this.post = res;
+      });
+      // if(!post) {
+      //   this.onNavigateError();
+      //   return;
+      // }
 
       // For SEO reasons, postName must match post
-      if(post.urlName !== params['postName']) {
-        this.onNavigateError();
-        return;
-      }
+      // if(post.urlName !== params['postName']) {
+      //   this.onNavigateError();
+      //   return;
+      // }
 
       // Finally, finish setting up as we know the post is definitely valid now
-      this.post = post;
+      //this.post = post;
     });
   }
 

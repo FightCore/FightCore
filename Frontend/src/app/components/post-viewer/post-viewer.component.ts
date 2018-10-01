@@ -18,10 +18,10 @@ export class PostViewerComponent implements OnInit {
 
   // TODO: Rewrite all the following to call into a more centralized location to get this info
   isCombo():boolean {
-    return this.displayPost.categoryId == PostEditorComponent.CombosCatId;
+    return this.displayPost.category == PostEditorComponent.CombosCatId;
   }
   getCategoryName(): string {
-    return this.displayPost.categoryId + " (cat name)";
+    return this.displayPost.category + " (cat name)";
   }
   getAuthorName(): string {
     return this.displayPost.authorId + " (name)";
