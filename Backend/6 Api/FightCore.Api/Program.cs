@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 namespace FightCore.Api
 {
@@ -15,26 +17,23 @@ namespace FightCore.Api
     {
         public static void Main(string[] args)
         {
-            NLogBuilder.ConfigureNLog("nlog.config");
-            try
-            {
-                CreateWebHostBuilder(args).Build().Run();
-            }
-            finally
-            {
-                NLog.LogManager.Shutdown();
-            }
-            
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://127.0.0.1:9200")))
+                .CreateLogger();
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-            .ConfigureLogging(logging =>
+                .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
                     logging.SetMinimumLevel(LogLevel.Trace);
                 })
-            .UseNLog();
+                .UseSerilog(logger);
+        }
     }
 }

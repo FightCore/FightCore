@@ -10,6 +10,7 @@ using FightCore.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StackExchange.Profiling;
 
 namespace FightCore.Api.Controllers
@@ -23,6 +24,7 @@ namespace FightCore.Api.Controllers
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
+        private readonly ILogger<UsersController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class.
@@ -31,12 +33,14 @@ namespace FightCore.Api.Controllers
         /// <param name="userService"></param>
         /// <param name="userManager"></param>
         /// <param name="mapper"></param>
-        public UsersController(IUnitOfWorkAsync unitOfWork, IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UsersController(IUnitOfWorkAsync unitOfWork, IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper,
+            ILogger<UsersController> logger)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
             _userManager = userManager;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -47,13 +51,14 @@ namespace FightCore.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            _logger.LogInformation("Getting user with id {0}", id);
             var profiler = MiniProfiler.Current;
             ApplicationUser user;
             using (profiler.Step("Getting user from database"))
             {
                  user = await _userService.FindByIdAsync(id);
             }
-            
+
             if (user == null)
                 return NotFound();
             using (profiler.Step("Mapping and returning"))
