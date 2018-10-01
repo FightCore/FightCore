@@ -42,6 +42,7 @@ namespace FightCore.Api.Controllers
 
             return Ok(resources);
         }
+
         /// <summary>
         /// Get a specific Technique by id
         /// </summary>
@@ -59,6 +60,7 @@ namespace FightCore.Api.Controllers
 
             return Ok(resource);
         }
+
         /// <summary>
         /// Get all technique objects for a game.
         /// </summary>

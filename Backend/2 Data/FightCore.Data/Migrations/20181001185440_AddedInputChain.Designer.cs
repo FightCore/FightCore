@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180829192222_AddedInputChains")]
-    partial class AddedInputChains
+    [Migration("20181001185440_AddedInputChain")]
+    partial class AddedInputChain
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,6 +71,10 @@ namespace FightCore.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" }
+                    );
                 });
 
             modelBuilder.Entity("FightCore.Models.Characters.Character", b =>
@@ -83,7 +87,7 @@ namespace FightCore.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("GameId");
+                    b.Property<int>("GameId");
 
                     b.Property<string>("Name");
 
@@ -91,7 +95,8 @@ namespace FightCore.Data.Migrations
 
                     b.HasIndex("ComboId");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("GameId")
+                        .IsUnique();
 
                     b.ToTable("Characters");
                 });
@@ -369,6 +374,142 @@ namespace FightCore.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictApplication", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClientId")
+                        .IsRequired();
+
+                    b.Property<string>("ClientSecret");
+
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("ConsentType");
+
+                    b.Property<string>("DisplayName");
+
+                    b.Property<string>("Permissions");
+
+                    b.Property<string>("PostLogoutRedirectUris");
+
+                    b.Property<string>("Properties");
+
+                    b.Property<string>("RedirectUris");
+
+                    b.Property<string>("Type")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique();
+
+                    b.ToTable("OpenIddictApplications");
+                });
+
+            modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictAuthorization", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationId");
+
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Properties");
+
+                    b.Property<string>("Scopes");
+
+                    b.Property<string>("Status")
+                        .IsRequired();
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
+
+                    b.Property<string>("Type")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.ToTable("OpenIddictAuthorizations");
+                });
+
+            modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictScope", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("DisplayName");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("Properties");
+
+                    b.Property<string>("Resources");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("OpenIddictScopes");
+                });
+
+            modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictToken", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationId");
+
+                    b.Property<string>("AuthorizationId");
+
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
+
+                    b.Property<DateTimeOffset?>("CreationDate");
+
+                    b.Property<DateTimeOffset?>("ExpirationDate");
+
+                    b.Property<string>("Payload");
+
+                    b.Property<string>("Properties");
+
+                    b.Property<string>("ReferenceId");
+
+                    b.Property<string>("Status");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
+
+                    b.Property<string>("Type")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.HasIndex("AuthorizationId");
+
+                    b.HasIndex("ReferenceId")
+                        .IsUnique()
+                        .HasFilter("[ReferenceId] IS NOT NULL");
+
+                    b.ToTable("OpenIddictTokens");
+                });
+
             modelBuilder.Entity("FightCore.Models.Characters.Character", b =>
                 {
                     b.HasOne("FightCore.Models.Characters.Combo")
@@ -376,8 +517,9 @@ namespace FightCore.Data.Migrations
                         .HasForeignKey("ComboId");
 
                     b.HasOne("FightCore.Models.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId");
+                        .WithOne()
+                        .HasForeignKey("FightCore.Models.Characters.Character", "GameId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FightCore.Models.Characters.Combo", b =>
@@ -494,6 +636,24 @@ namespace FightCore.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictAuthorization", b =>
+                {
+                    b.HasOne("OpenIddict.EntityFrameworkCore.Models.OpenIddictApplication", "Application")
+                        .WithMany("Authorizations")
+                        .HasForeignKey("ApplicationId");
+                });
+
+            modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictToken", b =>
+                {
+                    b.HasOne("OpenIddict.EntityFrameworkCore.Models.OpenIddictApplication", "Application")
+                        .WithMany("Tokens")
+                        .HasForeignKey("ApplicationId");
+
+                    b.HasOne("OpenIddict.EntityFrameworkCore.Models.OpenIddictAuthorization", "Authorization")
+                        .WithMany("Tokens")
+                        .HasForeignKey("AuthorizationId");
                 });
 #pragma warning restore 612, 618
         }

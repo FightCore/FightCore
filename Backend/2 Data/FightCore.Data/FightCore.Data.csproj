@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20180827170212_ChangedComboToBeProper.cs" />
+    <Compile Remove="Migrations\20180829192222_AddedInputChains.cs" />
+    <Compile Remove="Migrations\20181001184400_AddMarioAnd4Games.cs" />
   </ItemGroup>
 
   <ItemGroup>

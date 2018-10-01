@@ -9,6 +9,7 @@ using FightCore.Repositories.Patterns;
 using FightCore.Services;
 using FightCore.Services.Characters;
 using FightCore.Services.Games;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -84,7 +85,13 @@ namespace FightCore.Api.Controllers
             return Ok(resource);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="Character"/> class and saves it to the database.
+        /// </summary>
+        /// <param name="characterResource">The resources used to create a new character</param>
+        /// <returns>Where the new character can be found</returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] NewCharacterResource characterResource)
         {
             var character = _mapper.Map<Character>(characterResource);
@@ -92,7 +99,6 @@ namespace FightCore.Api.Controllers
             character.Game = game;
             await _characterService.InsertAsync(character);
             await _unitOfWork.SaveChangesAsync();
-            //TODO Need code review on how to get this working as I don't understand
             return CreatedAtAction(nameof(GetDetailedCharacterById), new {id = character.Id}, _mapper.Map<CharacterResource>(character));
         }
     }

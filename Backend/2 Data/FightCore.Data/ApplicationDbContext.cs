@@ -15,7 +15,7 @@ namespace FightCore.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
-        { 
+        {
         }
         public DbSet<Game> Games { get; set; }
         public DbSet<Character> Characters { get; set; }
@@ -33,11 +33,14 @@ namespace FightCore.Data
             builder.Entity<InputChain>().HasOne(x => x.Technique).WithMany();
             builder.Entity<InputChain>().HasOne(x => x.Input).WithMany();
             builder.Entity<InputChain>().HasOne(x => x.Move).WithMany();
+            builder.Entity<Character>().HasOne(x => x.Game).WithOne().HasForeignKey<Character>(x => x.GameId);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
-        }
+            builder.ApplyConfiguration(new GameConfiguration());
+            builder.ApplyConfiguration(new CharacterConfiguration());
+;        }
     }
 }
