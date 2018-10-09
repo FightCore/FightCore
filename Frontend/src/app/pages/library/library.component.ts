@@ -49,32 +49,7 @@ export class LibraryComponent implements OnInit {
    * @param post Represents post whose page to open, assumed to be valid
    */
   open(post: Post) {
-    this.changeUrlForPost(post); // Not actually navigating to post but do this for the browser
     this.postPopup.openPopup(post);
-  }
-
-  onPopupClose() {
-    this.changeUrlBack();
-  }
-
-  /**
-   * Changes browser url for the given post (no router navigation)
-   * @param post 
-   */
-  changeUrlForPost(post: Post) {
-    let url: string = PostService.getPostUrl(post);
-    this.location.go(url);
-  }
-
-  /**
-   * Changes the url back to what it was before viewing a post
-   */
-  changeUrlBack() {
-    // Create the previous location's url (currently only just the base library page with no params)
-    let url: string = this.router.createUrlTree(["/library"]).toString();
-
-    // Return the browser to that location
-    this.location.go(url);
   }
 
 }

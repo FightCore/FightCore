@@ -6,9 +6,10 @@ import { Post } from '../../../models/Post';
 @Component({
   selector: 'wiki-posts',
   templateUrl: './wiki-posts.component.html',
-  styleUrls: ['./wiki-posts.component.css']
+  styleUrls: ['./wiki-posts.component.scss']
 })
 export class WikiPostsComponent implements OnInit, WikiComponentInterface {
+  @Input('header') header: string;
   @Input('data') data: Post[];
 
   @ViewChild('postPopup') postPopup: PostPopupComponent;
