@@ -1,5 +1,4 @@
 import { CombosTechComponent } from './combos-tech/combos-tech.component';
-import { MovesComponent } from './moves/moves.component';
 import { BasicsComponent } from './basics/basics.component';
 import { DashGeneratorComponent } from './../../dashboard/dash-generator/dash-generator.component';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +8,8 @@ import { TabExampleComponent } from '../../components/tabs/tab-example/tab-examp
 import { TabsInterface } from '../../components/tabs/tabs.interface';
 import { Character } from '../../models/Character';
 import { MatchupsComponent } from './matchups/matchups.component';
+import { FrameDataComponent } from './frame-data/frame-data.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @Component({
   selector: 'app-characters',
@@ -27,8 +28,8 @@ export class CharactersComponent implements OnInit {
     // Initialize tabs
     this.tabItems = [
       {
-        title: "Dashboard",
-        tabItem: new TabItem(DashGeneratorComponent, {testData: "First tab data"})
+        title: "Overview",
+        tabItem: new TabItem(OverviewComponent, {testData: "First tab data"})
       },
       {
         title: "Basics",
@@ -36,8 +37,8 @@ export class CharactersComponent implements OnInit {
         canDisable: true
       },
       {
-        title: "Moves",
-        tabItem: new TabItem(MovesComponent, {testData: "Third tab data"}),
+        title: "Frame Data",
+        tabItem: new TabItem(FrameDataComponent, {testData: "Third tab data"}),
         canDisable: true
       },
       {

@@ -1,0 +1,12 @@
+<div *ngIf="data; else noPosts">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let post of data">
+      <a (click)="open(post)" style="cursor:pointer;">
+        <post-viewer [displayPost]="post" [simpleMode]="true"></post-viewer>
+      </a>
+    </div>
+  </div>
+</div>
+<ng-template #noPosts>
+  <p>No posts found.</p>
+</ng-template>

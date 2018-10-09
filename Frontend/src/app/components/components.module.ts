@@ -18,6 +18,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { PostViewerComponent } from './post-viewer/post-viewer.component';
 import { PostFiltersComponent } from './post-filters/post-filters.component';
 import { PostSortComponent } from './post-sort/post-sort.component';
+import { WikiPostsComponent } from './wiki/wiki-posts/wiki-posts.component';
+import { PostPopupComponent } from './post-popup/post-popup.component';
 
 @NgModule({
   imports: [
@@ -48,7 +50,9 @@ import { PostSortComponent } from './post-sort/post-sort.component';
     ConfirmDialogComponent,
     PostViewerComponent,
     PostFiltersComponent,
-    PostSortComponent
+    PostSortComponent,
+    WikiPostsComponent,
+    PostPopupComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -64,7 +68,9 @@ import { PostSortComponent } from './post-sort/post-sort.component';
     PostFiltersComponent,
     PostSortComponent,
     TabsComponent,
-    TabExampleComponent // for testing purposes
+    TabExampleComponent, // for testing purposes
+    WikiPostsComponent,
+    PostPopupComponent
   ]
 })
 export class ComponentsModule { }

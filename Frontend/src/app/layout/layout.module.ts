@@ -1,5 +1,4 @@
 import { MatchupsComponent } from './../pages/characters/matchups/matchups.component';
-import { MovesComponent } from './../pages/characters/moves/moves.component';
 import { BasicsComponent } from './../pages/characters/basics/basics.component';
 import { DashboardModule } from './../dashboard/dashboard.module';
 import { AddPostComponent } from './../pages/library/add-post/add-post.component';
@@ -31,6 +30,8 @@ import { ComponentsModule } from '../components/components.module';
 import { PostService } from '../services/post.service';
 import { ViewPostComponent } from '../pages/library/view-post/view-post.component';
 import { CombosTechComponent } from '../pages/characters/combos-tech/combos-tech.component';
+import { FrameDataComponent } from '../pages/characters/frame-data/frame-data.component';
+import { OverviewComponent } from '../pages/characters/overview/overview.component';
 
 @NgModule({
   imports: [
@@ -59,15 +60,17 @@ import { CombosTechComponent } from '../pages/characters/combos-tech/combos-tech
       LoginComponent, 
       ProfileComponent,
       BasicsComponent,
-      MovesComponent,
       CombosTechComponent,
-      MatchupsComponent
+      MatchupsComponent,
+      FrameDataComponent,
+      OverviewComponent
   ],
   entryComponents: [
     BasicsComponent,
-    MovesComponent,
     CombosTechComponent,
-    MatchupsComponent
+    MatchupsComponent,
+    FrameDataComponent,
+    OverviewComponent
   ],
   providers: [
     AuthGuard,
