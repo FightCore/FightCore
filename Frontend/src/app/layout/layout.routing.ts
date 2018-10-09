@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
 
 import { HomeComponent } from '../pages/home/home.component';
-import { LoginComponent } from '../login/login.component';
+import { LoginComponent } from '../pages/login/login.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { PlayersComponent } from './../pages/players/players.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
-import { ProfileComponent } from '../profile/profile.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
 
 export const LayoutRoutes: Routes = [
     { 

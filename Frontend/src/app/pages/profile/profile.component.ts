@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { UserService } from '../services/user.service';
-import { User } from '../models/User';
-import { AppError } from '../errors/app-error';
-import { NotFoundError } from '../errors/not-found-error';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/User';
+import { AppError } from '../../errors/app-error';
+import { NotFoundError } from '../../errors/not-found-error';
 
 @Component({
   selector: 'app-profile',

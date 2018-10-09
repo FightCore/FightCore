@@ -9,8 +9,8 @@ import { HomeComponent } from '../pages/home/home.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { PlayersComponent } from './../pages/players/players.component';
-import { LoginComponent } from '../login/login.component';
-import { ProfileComponent } from '../profile/profile.component';
+import { LoginComponent } from '../pages/login/login.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
