@@ -9,6 +9,7 @@ import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { ProfileComponent } from '../pages/profile/profile.component';
+import { SignupComponent } from '../pages/signup/signup.component';
 
 export const LayoutRoutes: Routes = [
     { 
@@ -30,6 +31,10 @@ export const LayoutRoutes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'signup',
+        component: SignupComponent
     },
     {
         path: 'profile',

@@ -1,0 +1,58 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <form [formGroup]="form" class="mx-auto text-center">
+      <h1 class="h3 mb-3 font-weight-normal">Create your account</h1>
+
+      <mat-form-field>
+        <input matInput required formControlName="usernameControl" 
+        placeholder="Username"
+        type="text"
+        autocomplete="username">
+        <mat-error *ngIf="usernameControl.errors.required">
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput required formControlName="emailControl" 
+        placeholder="Email"
+        type="email"
+        autocomplete="email"
+        >
+        <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput required formControlName="passControl" 
+        placeholder="Password"
+        type="password"
+        autocomplete="new-password">
+        <mat-error *ngIf="passControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput required formControlName="confirmPassControl"  
+        placeholder="Confirm Password"
+        type="password"
+        autocomplete="new-password">
+        <mat-error *ngIf="confirmPassControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <button type="submit" mat-raised-button
+      [disabled]="!form.valid"
+      [class.disabled]="!form.valid"
+      class="btn btn-primary btn-lg">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

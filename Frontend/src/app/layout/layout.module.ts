@@ -1,3 +1,4 @@
+import { SignupComponent } from './../pages/signup/signup.component';
 import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -43,7 +44,8 @@ import { ComponentsModule } from '../components/components.module';
       LoginComponent,
       NotFoundComponent,
       LoginComponent, 
-      ProfileComponent
+      ProfileComponent,
+      SignupComponent
   ],
   providers: [
     AuthGuard,

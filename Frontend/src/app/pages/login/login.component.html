@@ -18,7 +18,8 @@
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{errorMessage}}
         </div>
-        <button type="submit" class="btn btn-danger btn-lg btn-block" [disabled]="!form.valid"> Sign in</button>
+        <button type="submit" class="btn btn-danger btn-lg btn-block" [disabled]="!form.valid">Sign in</button>
+        <button [routerLink]="['/signup']" class="btn btn-danger btn-lg btn-block">Sign up</button>
       </form>
     </div>
   </div>
