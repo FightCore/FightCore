@@ -1,6 +1,6 @@
 <div class="main-content">
   <div class="container-fluid">
-    <form [formGroup]="form" class="mx-auto text-center">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mx-auto text-center">
       <h1 class="h3 mb-3 font-weight-normal">Create your account</h1>
 
       <mat-form-field>
@@ -8,7 +8,7 @@
         placeholder="Username"
         type="text"
         autocomplete="username">
-        <mat-error *ngIf="usernameControl.errors.required">
+        <mat-error *ngIf="usernameControl.hasError('email')">
           Username is <strong>required</strong>
         </mat-error>
       </mat-form-field>
@@ -39,20 +39,30 @@
 
       <mat-form-field>
         <input matInput required formControlName="confirmPassControl"  
+        [errorStateMatcher]="confirmErrorMatcher"
         placeholder="Confirm Password"
         type="password"
         autocomplete="new-password">
         <mat-error *ngIf="confirmPassControl.hasError('required')">
           Password is <strong>required</strong>
         </mat-error>
+        <mat-error *ngIf="confirmPassControl.valid && form.errors && form.errors.passwordsShouldMatch">
+          Passwords do not match.
+        </mat-error>
       </mat-form-field>
-
+      
       <button type="submit" mat-raised-button
-      [disabled]="!form.valid"
-      [class.disabled]="!form.valid"
+      [disabled]="!form.valid || isSubmitting"
+      [class.disabled]="!form.valid || isSubmitting"
       class="btn btn-primary btn-lg">
         Submit
       </button>
+      <div>
+        <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
+      </div>
+      <div *ngIf="onSubmitErrorMessage" class="alert alert-danger">
+        {{onSubmitErrorMessage}}
+      </div>
     </form>
   </div>
 </div>

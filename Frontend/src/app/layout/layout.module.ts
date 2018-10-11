@@ -20,7 +20,8 @@ import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
 
@@ -34,6 +35,7 @@ import { ComponentsModule } from '../components/components.module';
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
+    MatProgressBarModule,
     ComponentsModule
   ],
   declarations: [
