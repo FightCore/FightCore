@@ -1,4 +1,4 @@
-export interface IPostSubmission {
+export interface PostSubmission {
     id: number;
     author: {
         email: string,
