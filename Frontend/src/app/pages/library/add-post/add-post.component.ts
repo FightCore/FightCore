@@ -1,5 +1,5 @@
 import { OAuthService } from 'angular-oauth2-oidc';
-import { IPostSubmission } from './../../../models/PostSubmission';
+import { PostSubmission } from './../../../models/PostSubmission';
 import { PostService } from './../../../services/post.service';
 import { Post } from './../../../models/Post';
 import { Component, OnInit } from '@angular/core';
@@ -27,7 +27,7 @@ export class AddPostComponent implements OnInit {
   }
 
   onSubmitHandler(post: Post) {
-    let newPost: IPostSubmission = {
+    let newPost: PostSubmission = {
       id: 0,
       author: {
           email: "",
