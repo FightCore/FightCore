@@ -74,6 +74,7 @@ export class LibraryComponent implements OnInit {
    * @param post 
    */
   changeUrlForPost(post: Post) {
+    post.urlName = PostService.createUrlName(post.title); // TODO: Remove once backend implements this
     let url: string = PostService.getPostUrl(post);
     this.location.go(url);
   }
