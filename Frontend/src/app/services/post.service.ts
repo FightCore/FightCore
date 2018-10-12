@@ -1,4 +1,4 @@
-import { IPostSubmission } from './../models/PostSubmission';
+import { PostSubmission } from './../models/PostSubmission';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { HttpClient } from '@angular/common/http';
@@ -54,7 +54,7 @@ export class PostService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  public createPost(newPost:IPostSubmission): Observable<Post> {
+  public createPost(newPost:PostSubmission): Observable<Post> {
     return this.http.post<Post>(`${environment.baseUrl}/library`, newPost, {headers: this.defaultHeaders})
       .pipe(catchError(this.handleError));
   }
