@@ -1,3 +1,4 @@
+import { TabComponentInterface } from './../tabs/tab/tab-component.interface';
 import { PostEditorComponent } from './../post-editor/post-editor.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../../models/Post';
@@ -7,8 +8,8 @@ import { Post } from '../../models/Post';
   templateUrl: './post-viewer.component.html',
   styleUrls: ['./post-viewer.component.css']
 })
-export class PostViewerComponent implements OnInit {
-  @Input('displayPost') displayPost: Post;
+export class PostViewerComponent implements OnInit, TabComponentInterface {
+  @Input('data') data: Post;
   @Input('simpleMode') simpleMode: boolean = false;
   
   constructor() { }
@@ -18,13 +19,13 @@ export class PostViewerComponent implements OnInit {
 
   // TODO: Rewrite all the following to call into a more centralized location to get this info
   isCombo():boolean {
-    return this.displayPost.categoryId == PostEditorComponent.CombosCatId;
+    return this.data.categoryId == PostEditorComponent.CombosCatId;
   }
   getCategoryName(): string {
-    return this.displayPost.categoryId + " (cat name)";
+    return this.data.categoryId + " (cat name)";
   }
   getAuthorName(): string {
-    return this.displayPost.authorId + " (name)";
+    return this.data.authorId + " (name)";
   }
   getCharacterIcon(characterId: number): string {
     return characterId + " (icon)";

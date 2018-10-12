@@ -19,7 +19,7 @@
   <div class="scrolling-wrapper">
     <div class="section" *ngFor="let post of data">
       <a (click)="open(post)" style="cursor:pointer;">
-        <post-viewer [displayPost]="post" [simpleMode]="true"></post-viewer>
+        <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
       </a>
     </div>
   </div>

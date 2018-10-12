@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-md-4" *ngFor="let post of posts">
         <a (click)="open(post)" style="cursor:pointer;">
-          <post-viewer [displayPost]="post" [simpleMode]="true"></post-viewer>
+          <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
         </a>
       </div>
     </div>

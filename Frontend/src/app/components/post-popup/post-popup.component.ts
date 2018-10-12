@@ -1,9 +1,12 @@
+import { TabItem } from './../tabs/tab/tab-item';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Post } from '../../models/Post';
 import { Location } from '@angular/common';
 import { PostService } from 'src/app/services/post.service';
 import { Router } from '@angular/router';
+import { PopupComponent } from '../popup/popup.component';
+import { PostViewerComponent } from '../post-viewer/post-viewer.component';
 
 @Component({
   selector: 'post-popup',
@@ -11,9 +14,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./post-popup.component.css']
 })
 export class PostPopupComponent implements OnInit {
-  displayPost: Post;
-  @ViewChild('postContent') postContent: TemplateRef<any>;
+  @ViewChild('popup') popup: PopupComponent;
 
+  /**
+   * Stores the previous url used before displaying this post. Used to reset url after post is closed 
+   */
   previousUrl: string;
 
   constructor(private modalService: NgbModal,
@@ -24,25 +29,10 @@ export class PostPopupComponent implements OnInit {
   }
 
   public openPopup(post: Post) {
-    this.previousUrl = this.router.url;
-
     this.changeUrlForPost(post);
-    this.displayPost = post;
 
-    this.modalService.open(this.postContent, 
-      {
-        size: 'lg',
-        windowClass: 'post-modal' 
-      })
-      // Change the url back once the post is closed
-      .result.then((result) => {
-        // This side isn't currently used (no save or such action for delegate), but here just in case
-        this.changeUrlBack();
-      }, (reason) => {
-        // This side is for dismissing the view popup (eg, clicking background or X/cross in corner)
-        this.changeUrlBack();
-      }
-    );
+    let postViewer = new TabItem(PostViewerComponent, post);
+    this.popup.show(postViewer, post.title);
   }
 
   /**
@@ -50,12 +40,16 @@ export class PostPopupComponent implements OnInit {
    * @param post 
    */
   changeUrlForPost(post: Post) {
+    this.previousUrl = this.router.url; // Need to restore url after post closes
+
+    // Actually change the url for the post (SEO + user friendliness reasons)
     let url: string = PostService.getPostUrl(post);
     this.location.go(url);
   }
 
   /**
    * Changes the url back to what it was before viewing a post
+   * Called when popup is closed (see template)
    */
   changeUrlBack() {
     if(!this.previousUrl) {

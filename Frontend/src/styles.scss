@@ -1,0 +1,43 @@
+// All three of these imports just to get access to the Bootstrap mixins
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Overrides for modal popups (needs to be global if not directly overriding module)
+.base-popup .modal-dialog {
+    @include media-breakpoint-up(lg) { // "Desktop" devices (from Bootstrap)
+        max-width: 1200px;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    @include media-breakpoint-down(md) { // "Mobile" devices (from Bootstrap)
+        width: 100%;
+        max-width: 100%; // Overriding default which sets to 500px at time of writing
+        height: 100%;
+        margin: 0px;
+    }
+
+    .modal-content {
+        @include media-breakpoint-down(md) { // "Mobile" devices (from Bootstrap)
+            width: 100%;
+            height: 100%;
+        }
+
+        background-color: #eee;
+
+        .modal-header, .modal-footer {
+            border: none; // Want an appearance of a flat popup so card content and such popups out normally
+        };
+
+        .modal-body {
+            padding-top: 0px; // Header alone has enough padding below it
+
+            // For viewing posts specifically- Only two cards next to each other
+            // TODO: Make more specific for posts only! (eg, add the post class here)
+            .card {
+                margin-top: 0px;
+                // TODO: Cards have wayyy too much padding in them for posts
+            }
+        }
+    }
+}

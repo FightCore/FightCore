@@ -19,7 +19,6 @@ export class LibraryComponent implements OnInit {
 
   constructor(private titleService: Title, 
     private router: Router, 
-    private location: Location,
     private postService: PostService) { }
 
   ngOnInit() {

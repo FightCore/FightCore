@@ -20,6 +20,7 @@ import { PostFiltersComponent } from './post-filters/post-filters.component';
 import { PostSortComponent } from './post-sort/post-sort.component';
 import { WikiPostsComponent } from './wiki/wiki-posts/wiki-posts.component';
 import { PostPopupComponent } from './post-popup/post-popup.component';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   imports: [
@@ -53,11 +54,13 @@ import { PostPopupComponent } from './post-popup/post-popup.component';
     PostFiltersComponent,
     PostSortComponent,
     WikiPostsComponent,
-    PostPopupComponent
+    PostPopupComponent,
+    PopupComponent
   ],
   entryComponents: [
     TabExampleComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    PostViewerComponent
   ],
   exports: [
     FooterComponent,
@@ -71,7 +74,8 @@ import { PostPopupComponent } from './post-popup/post-popup.component';
     TabsComponent,
     TabExampleComponent, // for testing purposes
     WikiPostsComponent,
-    PostPopupComponent
+    PostPopupComponent,
+    PopupComponent
   ]
 })
 export class ComponentsModule { }

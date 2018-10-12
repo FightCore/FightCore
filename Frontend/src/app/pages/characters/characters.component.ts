@@ -4,7 +4,6 @@ import { DashGeneratorComponent } from './../../dashboard/dash-generator/dash-ge
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TabItem } from '../../components/tabs/tab/tab-item';
-import { TabExampleComponent } from '../../components/tabs/tab-example/tab-example.component';
 import { TabsInterface } from '../../components/tabs/tabs.interface';
 import { Character } from '../../models/Character';
 import { MatchupsComponent } from './matchups/matchups.component';
