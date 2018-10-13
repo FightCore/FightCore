@@ -1,10 +1,12 @@
 <div class="main-content">
   <div class="container-fluid">
     <div style="margin-bottom: 5px;">
-      <button mat-stroked-button color="primary" (click)="goToAddPost()">
+      <button mat-raised-button color="primary" (click)="goToAddPost()"
+      matTooltip="Add a post to the library" matTooltipPosition="above">
         Create Post
       </button>
     </div>
+
     <div class="row post-controls">
       <div class="col-6">
         <post-filters></post-filters>
@@ -15,6 +17,13 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <mat-paginator [length]="posts.length" [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+
     <div class="row">
       <div class="col-md-4" *ngFor="let post of posts">
         <a (click)="open(post)" style="cursor:pointer;">

@@ -5,17 +5,21 @@ import { Router } from '@angular/router';
 import { Post } from '../../models/Post';
 import { Location } from '@angular/common';
 import { PostPopupComponent } from '../../components/post-popup/post-popup.component';
+import { PageEvent } from '@angular/material';
 
 @Component({
   selector: 'app-library',
   templateUrl: './library.component.html',
-  styleUrls: ['./library.component.css']
+  styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
   posts: Post[];
   displayPost: Post;
   @ViewChild('postContent') postContent: TemplateRef<any>;
   @ViewChild('postPopup') postPopup: PostPopupComponent;
+
+  // Paginator
+  pageSize = 10; // Default page size
 
   constructor(private titleService: Title, 
     private router: Router, 
@@ -49,6 +53,10 @@ export class LibraryComponent implements OnInit {
    */
   open(post: Post) {
     this.postPopup.openPopup(post);
+  }
+
+  onPageChange(event: PageEvent) {
+    console.log("Page Change, event: ", event);
   }
 
 }

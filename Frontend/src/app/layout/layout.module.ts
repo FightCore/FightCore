@@ -24,7 +24,8 @@ import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatPaginatorModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
 import { PostService } from '../services/post.service';
@@ -43,6 +44,7 @@ import { OverviewComponent } from '../pages/characters/overview/overview.compone
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
+    MatPaginatorModule,
     ComponentsModule,
     NgbDatepickerModule,
     NgbModalModule,
