@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using FightCore.Api.Resources.Notifications;
+using System.Threading.Tasks;
 
 namespace FightCore.Api.Notifications
 {
@@ -10,9 +11,8 @@ namespace FightCore.Api.Notifications
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="payload"></param>
+        /// <param name="notification"></param>
         /// <returns></returns>
-        Task BroadcastMessage(string type, string payload);
+        Task BroadcastNotification(NotificationResultResource notification);
     }
 }

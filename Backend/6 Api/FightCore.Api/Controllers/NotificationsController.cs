@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using FightCore.Api.Notifications;
 using FightCore.Api.Resources.Notifications;
+using FightCore.Models;
+using FightCore.Repositories.Patterns;
+using FightCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+
 
 namespace FightCore.Api.SignalRTesting
 {
@@ -10,40 +17,51 @@ namespace FightCore.Api.SignalRTesting
     /// Temporary testing api for notifications
     /// This comment should NOT make it to merge phase
     /// </summary>
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     [ApiController]
     public class NotificationsController : ControllerBase
     {
         private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
+        private readonly INotificationService _notificationService;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWorkAsync _unitOfWork;
 
         /// <summary>
         /// Initialize
         /// </summary>
         /// <param name="hubContext"></param>
-        public NotificationsController(IHubContext<NotifyHub, ITypedHubClient> hubContext)
+        public NotificationsController(IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
+            _unitOfWork = unitOfWork;
+            _notificationService = notificationService;
+            _mapper = mapper;
             _hubContext = hubContext;
         }
 
         /// <summary>
-        /// Test notification
+        /// Gets the notification for the given id
         /// </summary>
-        /// <param name="msg">Message</param>
-        /// <returns>Returns something</returns>
-        [HttpPost]
-        public string BroadcastToAll([FromBody]Message msg)
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            string retMessage = string.Empty;
-            try
-            {
-                _hubContext.Clients.All.BroadcastMessage(msg.Type, msg.Payload);
-                retMessage = "Success";
-            }
-            catch (Exception e)
-            {
-                retMessage = e.ToString();
-            }
-            return retMessage;
+            var notif = await _notificationService.FindByIdAsync(id);
+            if (notif == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<NotificationResultResource>(notif));
+        }
+
+        [HttpGet]
+        //[Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            var notifs = await _notificationService.GetAllAsync();
+            if (notifs == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<IEnumerable<NotificationResultResource>>(notifs));
         }
 
         /// <summary>
@@ -52,20 +70,37 @@ namespace FightCore.Api.SignalRTesting
         /// <param name="msg">Message</param>
         /// <returns>Returns something</returns>
         [HttpPost]
-        public string PrivateMessage([FromBody]UserMessage msg)
+        public async Task<IActionResult> CreateNotification([FromBody]NotificationResource notifInput)
         {
-            string retMessage = string.Empty;
             try
             {
-                _hubContext.Clients.User(msg.UserId).BroadcastMessage(msg.Type, msg.Payload);
+                // TODO: Check if notification is appropriate
 
-                retMessage = "Success";
+                // Store the notification
+                var notifResult = _mapper.Map<Notification>(notifInput);
+                notifResult = await _notificationService.InsertAsync(notifResult);
+                await _unitOfWork.SaveChangesAsync();
+
+                // If succeeded in creating notification, broadcast it
+                if (notifResult.Id > 0)
+                {
+                    // Send out the notification
+                    var notifBroadcast = _mapper.Map<NotificationResultResource>(notifResult);
+                    await _hubContext.Clients.User(notifResult.UserId.ToString()).BroadcastNotification(notifBroadcast);
+
+                    return CreatedAtAction(nameof(this.Get), new { notifBroadcast.Id }, notifBroadcast);
+                }
+                // Otherwise this is a bad request
+                else
+                {
+                    return BadRequest("Could not create notification");
+                }
             }
             catch (Exception e)
             {
-                retMessage = e.ToString();
+                // TODO: Explicitly differentiate whether failed at Notification creation or at broadcasting notification
+                return BadRequest(e.ToString());
             }
-            return retMessage;
         }
     }
 }
