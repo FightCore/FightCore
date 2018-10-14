@@ -12,6 +12,7 @@ import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
 import { TabDirective } from './tabs/tab/tab.directive';
+import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { TabDirective } from './tabs/tab/tab.directive';
     TabsComponent,
     TabExampleComponent,
     TabContentsComponent,
-    TabDirective
+    TabDirective,
+    NotificationsViewerComponent
   ],
   entryComponents: [TabExampleComponent],
   exports: [
@@ -38,7 +40,8 @@ import { TabDirective } from './tabs/tab/tab.directive';
     SidebarComponent,
     CharacterPickerComponent,
     TabsComponent,
-    TabExampleComponent // for testing purposes
+    TabExampleComponent, // for testing purposes
+    NotificationsViewerComponent
   ]
 })
 export class ComponentsModule { }

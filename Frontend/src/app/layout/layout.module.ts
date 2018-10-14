@@ -24,6 +24,7 @@ import {
   MatProgressBarModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
+import { NotificationsComponent } from '../pages/notifications/notifications.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { ComponentsModule } from '../components/components.module';
       NotFoundComponent,
       LoginComponent, 
       ProfileComponent,
-      SignupComponent
+      SignupComponent,
+      NotificationsComponent
   ],
   providers: [
     AuthGuard,

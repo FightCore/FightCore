@@ -1,3 +1,4 @@
+import { NotificationsComponent } from './../pages/notifications/notifications.component';
 import { Routes } from '@angular/router';
 
 import { HomeComponent } from '../pages/home/home.component';
@@ -39,6 +40,11 @@ export const LayoutRoutes: Routes = [
     {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'notifications',
+        component: NotificationsComponent,
         canActivate: [AuthGuard]
     },
     {
