@@ -7,17 +7,17 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  errorMessage: string;
-  isLoading: boolean = false;
+  isSubmitting: boolean;
+  onSubmitErrorMessage: string;
 
   constructor(private titleService: Title, private authService: OAuthService, private router: Router, fb: FormBuilder) { 
     this.form = fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      usernameControl: ['', [Validators.required] ],
+      passControl: ['', [Validators.required] ]
     });
   }
 
@@ -29,24 +29,31 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.isLoading = true;
-    this.errorMessage = null;
-    this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.email.value, this.password.value)
+    // Safety check, form should always be valid at this point
+    if(this.form.invalid) return;
+
+    // Show that the form is now loading
+    this.isSubmitting = true;
+    this.form.disable();
+    this.onSubmitErrorMessage = ""; // Clear for new submit
+
+    this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value)
       .then((tokenResponse => {
+        console.log('Login response:', tokenResponse);
         this.router.navigate(['/profile']);
       }))
       .catch(error => {
-        this.errorMessage = error.message;
-        this.isLoading = false;
+        // Show that the form is now done loading
+        this.isSubmitting = false;
+        this.form.enable();
+
+        // TODO: Show some better error message
+        console.log("Error: ", error);
+        this.onSubmitErrorMessage = "Sorry, the submit failed for some reason!"
       });
   }
 
-  get email(): AbstractControl {
-    return this.form.get('email');
-  }
-
-  get password(): AbstractControl {
-    return this.form.get('password');
-  }
+  get usernameControl() { return this.form.get('usernameControl'); }
+  get passControl() { return this.form.get('passControl'); }
 
 }

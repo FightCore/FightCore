@@ -8,7 +8,7 @@
         placeholder="Username"
         type="text"
         autocomplete="username">
-        <mat-error *ngIf="usernameControl.hasError('email')">
+        <mat-error *ngIf="usernameControl.hasError('required')">
           Username is <strong>required</strong>
         </mat-error>
       </mat-form-field>

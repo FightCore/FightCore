@@ -22,8 +22,8 @@ export class NotificationsViewerComponent implements OnInit {
       .catch(err => console.log('Error while establishing connection: ', err));
 
     test.on('BroadcastMessage', (type: string, payload: string) => {
-      this.msgs.push({severity: type, summary: payload});
-    })
+      this.msgs.push({method: "BroadCastMessage", severity: type, summary: payload});
+    });
   }
 
 }

@@ -37,7 +37,7 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
     // Redirect if already logged in
     if (this.authService.hasValidAccessToken()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/profile']);
     }
 
     this.titleService.setTitle("Sign Up");
@@ -50,6 +50,7 @@ export class SignupComponent implements OnInit {
     // Show that the form is now loading
     this.isSubmitting = true;
     this.form.disable();
+    this.onSubmitErrorMessage = ""; // Clear for new submit
 
     // Submit the user's info
     let newUser: UserSubmission = {
@@ -61,13 +62,14 @@ export class SignupComponent implements OnInit {
     console.log("Submitting user: ", newUser);
     this.userService.createUser(newUser)
       .subscribe(
-        response => this.afterSubmit(true, null),
+        response => this.afterSubmit(true, response),
         error => this.afterSubmit(false, error)
       );
   }
 
-  afterSubmit(success: boolean, error: any) {
+  afterSubmit(success: boolean, message: any) {
     if(success) {
+      console.log("Successfully signed up", message)
       // TODO: Get the token in a single request/response
       this.router.navigate(['/login']);
     }
@@ -77,7 +79,7 @@ export class SignupComponent implements OnInit {
       this.form.enable();
 
       // TODO: Show some better error message
-      console.log("Error: ", error);
+      console.log("Error: ", message);
       this.onSubmitErrorMessage = "Sorry, the submit failed for some reason!"
     }
   }
