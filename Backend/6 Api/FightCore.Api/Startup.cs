@@ -48,6 +48,8 @@ namespace FightCore.Api
                 );
             });
 
+            services.AddSignalR();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSwaggerGen(options =>
@@ -189,6 +191,11 @@ namespace FightCore.Api
                 c.DocExpansion(DocExpansion.None);
                 c.RoutePrefix = "";
                 c.DisplayRequestDuration();
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<Resources.Notifications.NotifyHub>("/notify");
             });
 
             app.UseMvc(routes =>
