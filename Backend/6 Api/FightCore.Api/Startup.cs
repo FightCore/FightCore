@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
 using FightCore.Api.Configurations;
+using FightCore.Api.Notifications;
 using FightCore.Data;
 using FightCore.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,7 +51,7 @@ namespace FightCore.Api
             });
 
             services.AddSignalR();
-            services.AddSingleton<IUserIdProvider, Resources.Notifications.UserIdProvider>();
+            services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -197,7 +198,7 @@ namespace FightCore.Api
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<Resources.Notifications.NotifyHub>("/notify");
+                routes.MapHub<NotifyHub>("/notify");
             });
 
             app.UseMvc(routes =>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FightCore.Api.Resources.Notifications
+﻿namespace FightCore.Api.Resources.Notifications
 {
     /// <summary>
     /// Notification message for a specific user

@@ -1,4 +1,5 @@
 ﻿using System;
+using FightCore.Api.Notifications;
 using FightCore.Api.Resources.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -46,7 +47,7 @@ namespace FightCore.Api.SignalRTesting
         }
 
         /// <summary>
-        /// Test notification
+        /// Test notification to a specific user
         /// </summary>
         /// <param name="msg">Message</param>
         /// <returns>Returns something</returns>

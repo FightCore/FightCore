@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
-namespace FightCore.Api.Resources.Notifications
+namespace FightCore.Api.Notifications
 {
     /// <summary>
     /// 

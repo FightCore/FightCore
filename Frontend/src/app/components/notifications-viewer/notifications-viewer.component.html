@@ -1,4 +1,7 @@
 <div *ngIf="username; else noUser">
+  <div *ngIf="errorMsg" class="alert alert-danger">
+    {{ errorMsg }}
+  </div>
   <p>Notifications contents:</p>
   <ul>
     <li *ngFor="let msg of msgs">
@@ -11,6 +14,8 @@
     <mat-spinner></mat-spinner>
   </div>
   <ng-template #loadFail>
-    <p>No user info found</p>
+    <div class="alert alert-danger">
+      {{ errorMsg }}
+    </div>
   </ng-template>
 </ng-template>

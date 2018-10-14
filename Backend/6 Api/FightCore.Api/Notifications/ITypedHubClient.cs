@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FightCore.Api.Resources.Notifications
+namespace FightCore.Api.Notifications
 {
     /// <summary>
     /// 

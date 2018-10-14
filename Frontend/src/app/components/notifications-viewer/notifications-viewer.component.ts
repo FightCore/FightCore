@@ -10,6 +10,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 })
 export class NotificationsViewerComponent implements OnInit {
   msgs = [];
+  errorMsg: string;
   username: string;
   isLoading: boolean;
 
@@ -27,15 +28,15 @@ export class NotificationsViewerComponent implements OnInit {
           this.startNotifHub();
         }
         else {
-          console.log("Object return is missing username!");
-          this.username = "";
+          this.errorMsg = "Object return is missing username!"
+          console.log(this.errorMsg);
         }
       },
       reason => { 
         this.isLoading = false;
 
-        this.username = "";
-        console.log("Rejected: ", reason) 
+        this.errorMsg = "Getting username was rejected. Token invalid now? Try logging in again";
+        console.log(this.errorMsg, reason);
       }
     );
   }
@@ -54,7 +55,9 @@ export class NotificationsViewerComponent implements OnInit {
     // Start the connection at the end to avoid any possible missed messages
     test.start()
       .then(() => console.log('Connection started!'))
-      .catch(err => console.log('Error while establishing connection: ', err));
+      .catch(err => {
+        console.log('Error while establishing connection: ', err
+      )});
   }
 
 }
