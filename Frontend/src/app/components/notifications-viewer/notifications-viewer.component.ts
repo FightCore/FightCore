@@ -1,6 +1,7 @@
 import { environment } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'notifications-viewer',
@@ -9,21 +10,51 @@ import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 })
 export class NotificationsViewerComponent implements OnInit {
   msgs = [];
+  username: string;
+  isLoading: boolean;
 
-  constructor() { }
+  constructor(private authService: OAuthService) { }
 
   ngOnInit() {
+    this.isLoading = true;
+    this.authService.loadUserProfile().then(
+      obj => {
+        this.isLoading = false;
+
+        let returnObj = obj as any; // Can't access Object's properties directly, being extra careful here
+        if(returnObj.hasOwnProperty('username')) {
+          this.username = returnObj.username;
+          this.startNotifHub();
+        }
+        else {
+          console.log("Object return is missing username!");
+          this.username = "";
+        }
+      },
+      reason => { 
+        this.isLoading = false;
+
+        this.username = "";
+        console.log("Rejected: ", reason) 
+      }
+    );
+  }
+
+  startNotifHub() {
+    // Create an authorized connection
     let test = new HubConnectionBuilder()
-      .withUrl(`${environment.baseUrl}/notify`)
+      .withUrl(`${environment.baseUrl}/notify`, { accessTokenFactory: () => this.authService.getAccessToken() })
       .build();
     
+    // Simple test on backend's BroadcastMessage method
+    test.on('BroadcastMessage', (type: string, payload: string) => {
+      this.msgs.push({severity: type, summary: payload});
+    });
+
+    // Start the connection at the end to avoid any possible missed messages
     test.start()
       .then(() => console.log('Connection started!'))
       .catch(err => console.log('Error while establishing connection: ', err));
-
-    test.on('BroadcastMessage', (type: string, payload: string) => {
-      this.msgs.push({method: "BroadCastMessage", severity: type, summary: payload});
-    });
   }
 
 }

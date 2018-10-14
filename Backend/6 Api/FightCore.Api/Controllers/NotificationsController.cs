@@ -9,7 +9,7 @@ namespace FightCore.Api.SignalRTesting
     /// Temporary testing api for notifications
     /// This comment should NOT make it to merge phase
     /// </summary>
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
     public class NotificationsController : ControllerBase
     {
@@ -30,12 +30,34 @@ namespace FightCore.Api.SignalRTesting
         /// <param name="msg">Message</param>
         /// <returns>Returns something</returns>
         [HttpPost]
-        public string Post([FromBody]Message msg)
+        public string BroadcastToAll([FromBody]Message msg)
         {
             string retMessage = string.Empty;
             try
             {
                 _hubContext.Clients.All.BroadcastMessage(msg.Type, msg.Payload);
+                retMessage = "Success";
+            }
+            catch (Exception e)
+            {
+                retMessage = e.ToString();
+            }
+            return retMessage;
+        }
+
+        /// <summary>
+        /// Test notification
+        /// </summary>
+        /// <param name="msg">Message</param>
+        /// <returns>Returns something</returns>
+        [HttpPost]
+        public string PrivateMessage([FromBody]UserMessage msg)
+        {
+            string retMessage = string.Empty;
+            try
+            {
+                _hubContext.Clients.User(msg.UserId).BroadcastMessage(msg.Type, msg.Payload);
+
                 retMessage = "Success";
             }
             catch (Exception e)

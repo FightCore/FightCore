@@ -1,9 +1,7 @@
+import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/User';
-import { AppError } from '../../errors/app-error';
-import { NotFoundError } from '../../errors/not-found-error';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -11,19 +9,29 @@ import { NotFoundError } from '../../errors/not-found-error';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  username: string;
 
-  constructor(private titleService: Title, private userService: UserService) { }
+  constructor(private titleService: Title, private authService: OAuthService, private router: Router) { }
 
   ngOnInit() {
     this.titleService.setTitle("Profile");
-    
-    this.userService.getAll().subscribe((res: User[]) => {
-      console.log(res)
-    }, (error: AppError) => {
-      // This won't trow this error this is just an example
-      if (error instanceof NotFoundError)
-        console.log('test')
-    });
+
+    this.authService.loadUserProfile().then(
+      obj => {
+        let returnObj = obj as any; // Can't access Object's properties directly, being extra careful here
+        if(returnObj.hasOwnProperty('username')) {
+          this.username = returnObj.username;
+        }
+        else {
+          console.log("Object return is missing username!");
+          this.username = "[Failed to get username]";
+        }
+      },
+      reason => { 
+        this.username = "[Failed to get username]";
+        console.log("Rejected: ", reason) 
+      }
+    );
   }
 
 }

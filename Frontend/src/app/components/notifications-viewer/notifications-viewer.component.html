@@ -1,6 +1,16 @@
-<p>Notifications contents:</p>
-<ul>
-  <li *ngFor="let msg of msgs">
-    {{ msg | json }}
-  </li>
-</ul>
+<div *ngIf="username; else noUser">
+  <p>Notifications contents:</p>
+  <ul>
+    <li *ngFor="let msg of msgs">
+      {{ msg | json }}
+    </li>
+  </ul>
+</div>
+<ng-template #noUser>
+  <div *ngIf="isLoading; else loadFail">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #loadFail>
+    <p>No user info found</p>
+  </ng-template>
+</ng-template>

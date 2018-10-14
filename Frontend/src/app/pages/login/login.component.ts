@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value)
       .then((tokenResponse => {
-        console.log('Login response:', tokenResponse);
         this.router.navigate(['/profile']);
       }))
       .catch(error => {
