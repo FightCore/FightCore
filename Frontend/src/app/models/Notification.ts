@@ -1,8 +1,8 @@
 export interface Notification {
-    Id: number;
-    UserId: number;
-    Title: string;
-    Content: string;
-    RouteLink: string;
-    IsImportant: boolean;
+    id: number;
+    userId: number;
+    title: string;
+    content: string;
+    routeLink: string;
+    isImportant: boolean;
 }

@@ -25,6 +25,7 @@ import {
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
 import { NotificationsComponent } from '../pages/notifications/notifications.component';
+import { NotificationService } from '../services/notification.service';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { NotificationsComponent } from '../pages/notifications/notifications.com
   ],
   providers: [
     AuthGuard,
-    UserService
+    UserService,
+    NotificationService
   ]
 })
 

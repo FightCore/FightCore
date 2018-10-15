@@ -7,6 +7,8 @@ using FightCore.Api.Resources.Notifications;
 using FightCore.Models;
 using FightCore.Repositories.Patterns;
 using FightCore.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -25,82 +27,80 @@ namespace FightCore.Api.SignalRTesting
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         /// <summary>
         /// Initialize
         /// </summary>
         /// <param name="hubContext"></param>
-        public NotificationsController(IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext)
+        public NotificationsController(IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _notificationService = notificationService;
             _mapper = mapper;
             _hubContext = hubContext;
+            _userManager = userManager;
         }
 
         /// <summary>
-        /// Gets the notification for the given id
+        /// Gets notifications for current user, one page at a time. Page size is currently 20
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="pageNumber">Page number to get. 1 is first page</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{pageNumber}")]
+        [Authorize]
+        public async Task<IActionResult> Get(int pageNumber)
         {
-            var notif = await _notificationService.FindByIdAsync(id);
-            if (notif == null)
-                return NotFound();
+            NotificationsResource result;
 
-            return Ok(_mapper.Map<NotificationResultResource>(notif));
-        }
+            // Quick check on page number, must start at 1
+            if (pageNumber < 1)
+                return BadRequest("Page number must start at 1");
 
-        [HttpGet]
-        //[Authorize]
-        public async Task<IActionResult> GetAll()
-        {
-            var notifs = await _notificationService.GetAllAsync();
-            if (notifs == null)
-                return NotFound();
-
-            return Ok(_mapper.Map<IEnumerable<NotificationResultResource>>(notifs));
-        }
-
-        /// <summary>
-        /// Test notification to a specific user. This should not be released
-        /// </summary>
-        /// <param name="msg">Message</param>
-        /// <returns>Returns something</returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateNotification([FromBody]NotificationResource notifInput)
-        {
-            try
+            // Get current user's id
+            int userId;
+            string userIdAsString = _userManager.GetUserId(User);
+            if (userIdAsString == null || userIdAsString == "")
             {
-                // TODO: Check if notification is appropriate
-
-                // Store the notification
-                var notifResult = _mapper.Map<Notification>(notifInput);
-                notifResult = await _notificationService.InsertAsync(notifResult);
-                await _unitOfWork.SaveChangesAsync();
-
-                // If succeeded in creating notification, broadcast it
-                if (notifResult.Id > 0)
-                {
-                    // Send out the notification
-                    var notifBroadcast = _mapper.Map<NotificationResultResource>(notifResult);
-                    await _hubContext.Clients.User(notifResult.UserId.ToString()).BroadcastNotification(notifBroadcast);
-
-                    return CreatedAtAction(nameof(this.Get), new { notifBroadcast.Id }, notifBroadcast);
-                }
-                // Otherwise this is a bad request
-                else
-                {
-                    return BadRequest("Could not create notification");
-                }
+                return BadRequest("Couldn't find authenticated user's id");
             }
-            catch (Exception e)
+            if (!Int32.TryParse(userIdAsString, out userId))
             {
-                // TODO: Explicitly differentiate whether failed at Notification creation or at broadcasting notification
-                return BadRequest(e.ToString());
+                return BadRequest("Somehow failed to convert user's id to number");
             }
+
+            // Get count of notifications for user
+            int totalNotifs = _notificationService.GetNotificationCount(userId);
+            if (totalNotifs < 0)
+            {
+                return BadRequest("Couldn't get total number of notifications for user");
+            }
+            else if (totalNotifs == 0)
+            {
+                result = new NotificationsResource
+                {
+                    TotalNotifications = totalNotifs,
+                    CurrentPage = pageNumber,
+                    Notifications = new List<NotificationResultResource>()
+                };
+                return Ok(result);
+            }
+
+            // If pageNumber is outside range, bad request. No point in trying to grab notifications
+            if ((pageNumber - 1) * 20 > totalNotifs)
+            {
+                return BadRequest("Page number is outside range");
+            }
+
+            // Finally get current page of notifications and return it to the user
+            var notifications = _notificationService.GetNotificationsForUser(userId, pageNumber);
+            result = new NotificationsResource
+            {
+                TotalNotifications = totalNotifs,
+                CurrentPage = pageNumber,
+                Notifications = _mapper.Map<List<NotificationResultResource>>(notifications)
+            };
+            return Ok(result);
         }
     }
 }

@@ -2,8 +2,8 @@ import { environment } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Router } from '@angular/router';
 import { Notification } from 'src/app/models/Notification';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'notifications-viewer',
@@ -11,73 +11,95 @@ import { Notification } from 'src/app/models/Notification';
   styleUrls: ['./notifications-viewer.component.css']
 })
 export class NotificationsViewerComponent implements OnInit {
-  msgs: Notification[] = [];
-  errorMsg: string;
+  isLoadingNotifications: boolean;
+  isLoadingPushService: boolean;
+  
   username: string;
-  isLoading: boolean;
+  errorMsgs = [];
+  totalNotifs: number = -1;
+  
+  notifs: Notification[] = [];
 
-  constructor(private authService: OAuthService, private router: Router) { }
+  constructor(
+    private authService: OAuthService,
+    private notifService: NotificationService) { }
+
+  // TODO: Better handle possibility of getting push notif while getting current notifs
 
   ngOnInit() {
+    // Get first page of notifications
+    this.isLoadingNotifications = true;
+    this.notifService.getPage(1)
+      .subscribe(
+        response => {
+          this.isLoadingNotifications = false;
+          
+          this.notifs = this.notifs.concat(response.notifications);
+          this.totalNotifs = response.totalNotifications;
+        },
+        error => {
+          this.isLoadingNotifications = false;
+          this.errorMsgs.push("Failed to get current notifications");
+          console.log("Error getting current notifs: ", error);
+        }
+      )
+
     // Get the current username (not currently stored anywhere besides in token)
-    this.isLoading = true;
-    console.log("Starting connection process");
+    this.isLoadingPushService = true;
+    console.log('Starting connection process');
     this.authService.loadUserProfile().then(
       obj => {
-        this.isLoading = false;
-
         let returnObj = obj as any; // Can't access Object's properties directly, being extra careful here
         if(returnObj.hasOwnProperty('username')) {
           this.username = returnObj.username;
-          this.startNotifHub();
+          this.startPushNotifHub();
         }
         else {
-          this.errorMsg = "Object return is missing username!"
-          console.log(this.errorMsg);
+          this.errorMsgs.push('Object return is missing username!')
+          console.log('Object return is missing username!');
         }
       },
       reason => { 
-        this.isLoading = false;
+        this.isLoadingPushService = false;
 
-        this.errorMsg = "Getting username was rejected. Token invalid now? Try logging in again";
-        console.log(this.errorMsg, reason);
+        this.errorMsgs.push('Getting username was rejected. Token invalid now? Try logging in again');
+        console.log('Getting username was rejected', reason);
       }
     );
   }
 
-  startNotifHub() {
+  /**
+   * Sets up connection to get push notifications
+   */
+  private startPushNotifHub() {
     // Create an authorized connection
     let connection = new HubConnectionBuilder()
       .withUrl(`${environment.baseUrl}/notify`, { accessTokenFactory: () => this.authService.getAccessToken() })
-      // TODO: Decide if modifying or removing below. Chrome has some default errors always which makes it a pain...
-      // .configureLogging({
-      //   log: (logLevel, message) => {
-      //     if(logLevel <= LogLevel.Information) {
-      //       return; // Not worth the effort
-      //     }
-      //     else {
-      //       console.log("Connection logging:", logLevel, message);
-      //       if(logLevel >= LogLevel.Warning) { // Only display errors, not warnings
-      //         this.errorMsg = message;
-      //       }
-      //     }
-      //   }
-      // })
       .build();
 
     // Handle receiving notifications from server
     connection.on('BroadcastNotification',
     (notif: Notification) => {
-      this.msgs.push(notif);
+      this.handleNewNotification(notif);
     });
 
     // Start the connection at the end to avoid any possible missed messages
     connection.start()
       .then(() => console.log('Connection started!'))
       .catch(err => {
-        this.errorMsg = 'Error while establishing connection';
+        this.errorMsgs.push('Error while establishing connection')
         console.log('Error while establishing connection: ', err)
       });
+    this.isLoadingPushService = false;
+  }
+
+  /**
+   * Handles receiving a new notification
+   * @param notif New notification
+   */
+  private handleNewNotification(notif: Notification) {
+    console.log(notif);
+    this.notifs.push(notif);
   }
 
 }
