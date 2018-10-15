@@ -11,7 +11,7 @@ namespace FightCore.Models.Characters
         public string Name { get; set; }
         public string Description { get; set; }
         public List<Media> Media { get; set; }
-        public List<Technique> Techniques { get; set; }
+        public List<CharacterTechnique> Techniques { get; set; }
         public Game Game { get; set; }
         public int GameId { get; set; }
         public List<Move> Moves { get; set; }

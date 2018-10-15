@@ -29,9 +29,7 @@ namespace FightCore.Repositories.Characters
         public Task<Character> GetDetailedCharacterByIdAsync(int characterId)
         {
             return Queryable.Include(x => x.Game).Include(x => x.Media)
-                .Include(x => x.Techniques).ThenInclude(x => x.Inputs).ThenInclude(x => x.Technique)
-                .Include(x => x.Techniques).ThenInclude(x => x.Inputs).ThenInclude(x => x.Input)
-                .Include(x => x.Techniques).ThenInclude(x => x.Inputs).ThenInclude(x => x.Move)
+                //TODO Import techniques with the model
                 .Include(x => x.Combos).ThenInclude(x => x.Inputs).ThenInclude(x => x.Technique)
                 .Include(x => x.Combos).ThenInclude(x => x.Inputs).ThenInclude(x => x.Move)
                 .Include(x => x.Combos).ThenInclude(x => x.Inputs).ThenInclude(x => x.Input)
