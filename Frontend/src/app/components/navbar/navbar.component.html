@@ -29,10 +29,18 @@
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" (click)="logOut()">
-                        <i class="material-icons">lock</i>
+                    <a class="nav-link" [routerLink]="['/notifications']">
+                        <i class="material-icons">notifications_none</i>
                         <p>
-                            <span class="d-lg-none d-md-block">sign out</span>
+                            <span class="d-lg-none d-md-block">Notifications</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="isLoggedIn">
+                    <a class="nav-link" (click)="logOut()">
+                        <i class="material-icons">exit_to_app</i>
+                        <p>
+                            <span class="d-lg-none d-md-block">Sign out</span>
                         </p>
                     </a>
                 </li>

@@ -40,6 +40,6 @@ namespace FightCore.Models
         /// <summary>
         /// Determines if this notification is important or not
         /// </summary>
-        public Boolean IsImportant { get; set; }
+        public bool IsImportant { get; set; }
     }
 }

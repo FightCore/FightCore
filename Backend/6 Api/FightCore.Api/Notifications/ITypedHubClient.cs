@@ -9,9 +9,9 @@ namespace FightCore.Api.Notifications
     public interface ITypedHubClient
     {
         /// <summary>
-        /// 
+        /// Send a notification
         /// </summary>
-        /// <param name="notification"></param>
+        /// <param name="notification">Notification to send</param>
         /// <returns></returns>
         Task BroadcastNotification(NotificationResultResource notification);
     }

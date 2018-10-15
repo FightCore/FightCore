@@ -65,7 +65,7 @@ namespace FightCore.Api.SignalRTesting
         }
 
         /// <summary>
-        /// Test notification to a specific user
+        /// Test notification to a specific user. This should not be released
         /// </summary>
         /// <param name="msg">Message</param>
         /// <returns>Returns something</returns>

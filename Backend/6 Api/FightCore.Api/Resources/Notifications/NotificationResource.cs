@@ -32,7 +32,7 @@ namespace FightCore.Api.Resources.Notifications
         /// <summary>
         /// Determines if this notification is important or not
         /// </summary>
-        public Boolean IsImportant { get; set; }
+        public bool IsImportant { get; set; }
     }
 
     /// <summary>
