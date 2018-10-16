@@ -19,4 +19,16 @@ export class NotificationService extends BaseService {
       {headers: this.defaultHeaders} )
       .pipe(catchError(this.handleError));
   }
+
+  markAllRead() {
+    this.http.post(`${environment.baseUrl}/notifications`, "")
+      .pipe(catchError(this.handleError))
+      .subscribe();
+  }
+
+  markSingleRead(id: number) {
+    this.http.post(`${environment.baseUrl}/notifications/${id}`, "")
+      .pipe(catchError(this.handleError))
+      .subscribe();      
+  }
 }

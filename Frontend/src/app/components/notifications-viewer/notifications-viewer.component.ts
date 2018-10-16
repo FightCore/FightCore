@@ -1,48 +1,48 @@
+import { Router } from '@angular/router';
 import { environment } from './../../../environments/environment';
 import { Component, OnInit } from '@angular/core';
-import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Notification } from 'src/app/models/Notification';
 import { NotificationService } from 'src/app/services/notification.service';
+import { PageEvent } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'notifications-viewer',
   templateUrl: './notifications-viewer.component.html',
-  styleUrls: ['./notifications-viewer.component.css']
+  styleUrls: ['./notifications-viewer.component.scss']
 })
 export class NotificationsViewerComponent implements OnInit {
+  connection: HubConnection;
   isLoadingNotifications: boolean;
   isLoadingPushService: boolean;
-  
-  username: string;
   errorMsgs = [];
-  totalNotifs: number = -1;
+  username: string;
   
   notifs: Notification[] = [];
+  totalNotifs: number = 0;
+  currentPage = 1;
+
+  // These are set from server
+  static readonly BROADCAST_NAME = "BroadcastNotification";
+  readonly PAGE_SIZE = 20; // Can't make static as template can't read it
+
+  // Limits for toast notification (currently just guessimating good numbers)
+  static readonly TOAST_MAX_TITLE_LENGTH = 25;
+  static readonly TOAST_MAX_CONTENT_LENGTH = 100;
 
   constructor(
     private authService: OAuthService,
-    private notifService: NotificationService) { }
+    private router: Router,
+    private notifService: NotificationService,
+    private toastr: ToastrService) { }
 
   // TODO: Better handle possibility of getting push notif while getting current notifs
 
   ngOnInit() {
     // Get first page of notifications
-    this.isLoadingNotifications = true;
-    this.notifService.getPage(1)
-      .subscribe(
-        response => {
-          this.isLoadingNotifications = false;
-          
-          this.notifs = this.notifs.concat(response.notifications);
-          this.totalNotifs = response.totalNotifications;
-        },
-        error => {
-          this.isLoadingNotifications = false;
-          this.errorMsgs.push("Failed to get current notifications");
-          console.log("Error getting current notifs: ", error);
-        }
-      )
+    this.retrieveNotificationsPage(1);
 
     // Get the current username (not currently stored anywhere besides in token)
     this.isLoadingPushService = true;
@@ -68,23 +68,138 @@ export class NotificationsViewerComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    // Clean up the push notif connection. Otherwise, may end up keeping multiple handlers remaining over time
+    if(this.connection) {
+      this.connection.off(NotificationsViewerComponent.BROADCAST_NAME);
+      this.connection.stop();
+    }
+  }
+
+  onPageChange(pageEvent: PageEvent) {
+    // Server uses index of 1 for first page while paginator uses 0
+    this.retrieveNotificationsPage(pageEvent.pageIndex + 1);
+  }
+
+  /**
+   * Shows a toast notification to user
+   * @param notif Notification to display as a toast
+   */
+  showToastNotification(notif: Notification) {
+    // Trim title and content if appropriate
+    let title: string;
+    if(notif.title.length > NotificationsViewerComponent.TOAST_MAX_TITLE_LENGTH) {
+      title = notif.title.substring(0, NotificationsViewerComponent.TOAST_MAX_TITLE_LENGTH)
+              + '...';
+    }
+    else {
+      title = notif.title;
+    }
+    let content: string;
+    if(notif.content.length > NotificationsViewerComponent.TOAST_MAX_CONTENT_LENGTH) {
+      content = notif.content.substring(0, NotificationsViewerComponent.TOAST_MAX_CONTENT_LENGTH)
+              + '...';
+    }
+    else {
+      content = notif.content;
+    }
+
+    // Show the toast notification
+    let activeToast = this.toastr.info(content, title, {
+      positionClass: 'toast-bottom-right',
+      progressBar: true,
+      progressAnimation: 'increasing',
+      closeButton: true
+    });
+
+    // Handle if the user clicks on the notification
+    activeToast.onTap.subscribe(
+      () => { 
+        this.onNotifClick(notif);
+      },
+      error => console.log('Why the heck would there be an error here?', error)
+    );
+  }
+
+  /**
+   * Handles when a notification is clicked on
+   * @param notif Notification that was clicked
+   */
+  onNotifClick(notif: Notification) {
+    // If notification hasn't been marked as read yet, let the server know it's been done
+    if(!notif.readDate) {
+      this.markNotifAsRead(notif);
+    }
+
+    // Try to navigate to the content linked within the notification
+    this.router.navigate([notif.routeLink]); // TODO: At least SOME basic extra security!
+  }
+
+  /**
+   * Marks all notifications for user as unread
+   */
+  markAllRead() {
+    // Eagerly update all read dates for viewer on current page
+    this.notifs.forEach(notif => { 
+      if(!notif.readDate) {
+        notif.readDate = new Date();
+      }
+    });
+
+    // Tell server that all notifications are now read
+    this.notifService.markAllRead();
+  }
+
+  /**
+   * Marks a single notification as read
+   * @param notif Notification to mark as read
+   */
+  private markNotifAsRead(notif: Notification) {
+    notif.readDate = new Date(); // Eagerly expect this call to work
+    this.notifService.markSingleRead(notif.id);
+  }
+
+  private retrieveNotificationsPage(pageNumber) {
+    this.isLoadingNotifications = true;
+
+    this.currentPage = pageNumber; // Eager assumption
+    this.notifService.getPage(pageNumber)
+      .subscribe(
+        response => {
+          this.isLoadingNotifications = false;
+          
+          // Note: Assuming that even if there's a push notif before now, it will be accounted by server
+          //        This isn't a great assumption- can possibly get a notif assumed to be have been read but never seen
+          this.notifs = response.notifications;
+          this.totalNotifs = response.totalNotifications;
+          this.currentPage = response.currentPage; // For robustness
+        },
+        error => {
+          this.isLoadingNotifications = false;
+
+          this.errorMsgs.push('Failed to get current notifications');
+          console.log('Error getting current notifs: ', error);
+        }
+      )
+  }
+
   /**
    * Sets up connection to get push notifications
    */
   private startPushNotifHub() {
     // Create an authorized connection
-    let connection = new HubConnectionBuilder()
+    this.connection = new HubConnectionBuilder()
       .withUrl(`${environment.baseUrl}/notify`, { accessTokenFactory: () => this.authService.getAccessToken() })
       .build();
 
     // Handle receiving notifications from server
-    connection.on('BroadcastNotification',
+    this.connection.on(NotificationsViewerComponent.BROADCAST_NAME,
     (notif: Notification) => {
-      this.handleNewNotification(notif);
+      this.handlePushNotification(notif);
     });
 
     // Start the connection at the end to avoid any possible missed messages
-    connection.start()
+    this.connection.start()
       .then(() => console.log('Connection started!'))
       .catch(err => {
         this.errorMsgs.push('Error while establishing connection')
@@ -94,12 +209,26 @@ export class NotificationsViewerComponent implements OnInit {
   }
 
   /**
-   * Handles receiving a new notification
-   * @param notif New notification
+   * Handles receiving a new push notification
+   * @param notif New notification from push service
    */
-  private handleNewNotification(notif: Notification) {
-    console.log(notif);
-    this.notifs.push(notif);
-  }
+  private handlePushNotification(notif: Notification) {
+    // TODO: Handle if not on first page (show at very top separately?)
+    // If reached max page size, remove one to maintain a consistent display
+    if(this.totalNotifs >= 20) {
+      this.notifs.pop();
+    } 
 
+    // As assuming push notif isn't in our list yet, this should be newest notif thus far
+    this.notifs.unshift(notif);
+    // Update total notifications count
+    this.totalNotifs += 1;
+
+    // Only do push notifications for important notifs
+    if(notif.isImportant) {
+      // TODO: Do actual client-level push notifications (eg, browser or phone notifs)
+
+      this.showToastNotification(notif);
+    }
+  }
 }

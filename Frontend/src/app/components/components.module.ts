@@ -7,12 +7,13 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatProgressBarModule, MatPaginatorModule, MatToolbarModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
 import { TabDirective } from './tabs/tab/tab.directive';
 import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -20,7 +21,10 @@ import { NotificationsViewerComponent } from './notifications-viewer/notificatio
     RouterModule,
     MatSelectModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressBarModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     FooterComponent,

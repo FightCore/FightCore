@@ -58,7 +58,7 @@ namespace FightCore.Api.Controllers
         /// </summary>
         /// <returns>List of all users</returns>
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAllAsync();

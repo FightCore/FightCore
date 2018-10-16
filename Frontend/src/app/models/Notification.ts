@@ -5,4 +5,6 @@ export interface Notification {
     content: string;
     routeLink: string;
     isImportant: boolean;
+    createdDate: Date;
+    readDate?: Date;
 }

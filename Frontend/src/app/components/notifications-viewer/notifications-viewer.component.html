@@ -1,21 +1,40 @@
-<div *ngIf="isLoadingNotifications || isLoadingPushService">
-  <mat-spinner></mat-spinner>
+<div class="toolbar">
+  <mat-toolbar>
+    <button  mat-raised-button class="btn btn-primary" (click)="markAllRead()">
+      Mark All Read
+    </button>
+    <span class="fill-remaining-space"></span>
+    <mat-paginator [length]="totalNotifs" [pageSize]="PAGE_SIZE" [hidePageSize]="true" 
+    (page)="onPageChange($event)">
+    </mat-paginator>
+  </mat-toolbar>
+</div>
+<div *ngIf="isLoadingNotifications || isLoadingPushService; else notifInfo">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div *ngIf="errorMsgs">
   <div *ngFor="let err of errorMsgs" class="alert alert-danger">
     {{ err }}
   </div>
 </div>
-<div>
-  Quick stats:
-  <ul>
-    <li>Current user: {{ username }}</li>
-    <li>Total notifications for user: {{ totalNotifs }}</li>
-  </ul>
-</div>
-<p>Notifications contents:</p>
-<ul>
-  <li *ngFor="let notif of notifs">
-    {{ notif | json }}
-  </li>
-</ul>
+<ng-template #notifInfo>
+  <div class="notifContainer">
+    <a *ngFor="let notif of notifs" (click)="onNotifClick(notif)">
+      <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">
+              {{ notif.title }} 
+            </h4>
+            <div>
+              <span class="card-category">{{ notif.createdDate | date }}</span>
+              <i *ngIf="!notif.readDate" class="material-icons">fiber_new</i>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ notif.content }}
+            <p> {{ notif | json }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</ng-template>
