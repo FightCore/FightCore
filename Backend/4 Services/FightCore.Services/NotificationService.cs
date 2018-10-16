@@ -15,12 +15,18 @@ namespace FightCore.Services
         int GetNotificationCount(int userId);
 
         /// <summary>
-        /// Gets 
+        /// Gets notifications for user one page at a time (current PAGE_SIZE is 20)
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="pageNumber"></param>
+        /// <param name="userId">User to get notifications for</param>
+        /// <param name="pageNumber">Page of notifications to retrieve (starting at 1)</param>
         /// <returns></returns>
         IEnumerable<Notification> GetNotificationsForUser(int userId, int pageNumber);
+
+        /// <summary>
+        /// Marks all unread notifications for a user as read
+        /// </summary>
+        /// <param name="userId">User whose notifications should be now all read</param>
+        void MarkAllUnreadRead(int userId);
     }
 
     public class NotificationService : EntityService<Notification>, INotificationService
@@ -41,6 +47,11 @@ namespace FightCore.Services
         public IEnumerable<Notification> GetNotificationsForUser(int userId, int pageNumber)
         {
             return _repository.GetNotificationsForUser(userId, PAGE_SIZE, pageNumber);
+        }
+
+        public void MarkAllUnreadRead(int userId)
+        {
+            _repository.MarkAllUnreadRead(userId);
         }
     }
 }

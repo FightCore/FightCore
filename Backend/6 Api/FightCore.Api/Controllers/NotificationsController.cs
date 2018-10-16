@@ -102,5 +102,71 @@ namespace FightCore.Api.SignalRTesting
             };
             return Ok(result);
         }
+
+        /// <summary>
+        /// Marks all unread notifications for user as read
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> MarkAllUnreadRead()
+        {
+            // Get current user's id
+            int userId;
+            string userIdAsString = _userManager.GetUserId(User);
+            if (userIdAsString == null || userIdAsString == "")
+            {
+                return BadRequest("Couldn't find authenticated user's id");
+            }
+            if (!Int32.TryParse(userIdAsString, out userId))
+            {
+                return BadRequest("Somehow failed to convert user's id to number");
+            }
+
+            // Mark all of their notifications as read
+            _notificationService.MarkAllUnreadRead(userId);
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Marks a single notification as read
+        /// </summary>
+        /// <param name="notifId">Notification to mark as read</param>
+        /// <returns></returns>
+        [HttpPost("{notifId}")]
+        [Authorize]
+        public async Task<IActionResult> MarkRead(int notifId)
+        {
+            // Get intended notification
+            var notif = await _notificationService.FindByIdAsync(notifId);
+            // If invalid id...
+            if (notif.Id < 1) return BadRequest("Bad id");
+
+            // Get current user's id
+            int userId;
+            string userIdAsString = _userManager.GetUserId(User);
+            if (userIdAsString == null || userIdAsString == "")
+            {
+                return BadRequest("Couldn't find authenticated user's id");
+            }
+            if (!Int32.TryParse(userIdAsString, out userId))
+            {
+                return BadRequest("Somehow failed to convert user's id to number");
+            }
+            // If notif not for current user...
+            if (notif.UserId != userId) return Unauthorized();
+
+            // If already read, nothing more to do
+            if (notif.ReadDate != null) return BadRequest("Notification already read");
+
+            // Finally, mark the notification as read
+            notif.ReadDate = DateTime.Now;
+            _notificationService.Update(notif);
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

@@ -77,6 +77,7 @@ namespace FightCore.Api.Controllers
 
                 // Store the notification
                 var notifResult = _mapper.Map<Notification>(notifInput);
+                notifResult.CreatedDate = DateTime.Now;
                 notifResult = await _notificationService.InsertAsync(notifResult);
                 await _unitOfWork.SaveChangesAsync();
 

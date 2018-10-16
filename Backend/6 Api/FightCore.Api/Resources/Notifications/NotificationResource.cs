@@ -41,5 +41,14 @@ namespace FightCore.Api.Resources.Notifications
     public class NotificationResultResource : NotificationResource
     {
         public int Id { get; set; }
+
+        /// <summary>
+        /// When this notification was created
+        /// </summary>
+        public DateTime CreatedDate { get; set; }
+        /// <summary>
+        /// When this notification was actually read by end user
+        /// </summary>
+        public DateTime? ReadDate { get; set; }
     }
 }
