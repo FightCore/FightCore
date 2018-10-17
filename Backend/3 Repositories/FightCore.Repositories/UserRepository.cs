@@ -6,14 +6,14 @@ namespace FightCore.Repositories
 {
 	public interface IUserRepository : IRepositoryAsync<ApplicationUser>
 	{
-		
+
 	}
-	
+
 	public class UserRepository : Repository<ApplicationUser>, IUserRepository
 	{
 		public UserRepository(DbContext context) : base(context)
 		{
-			
+
 		}
 	}
 }

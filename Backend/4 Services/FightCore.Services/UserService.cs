@@ -12,7 +12,7 @@ namespace FightCore.Services
 	public class UserService : EntityService<ApplicationUser>, IUserService
 	{
 		private readonly IUserRepository _repository;
-		
+
 		public UserService(IUserRepository repository) : base(repository)
 		{
 			_repository = repository;
