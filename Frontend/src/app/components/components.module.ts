@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule, MatButtonToggleModule, MatGridListModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -18,6 +18,9 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { PostViewerComponent } from './post-viewer/post-viewer.component';
 import { PostFiltersComponent } from './post-filters/post-filters.component';
 import { PostSortComponent } from './post-sort/post-sort.component';
+import { WikiPostsComponent } from './wiki/wiki-posts/wiki-posts.component';
+import { PostPopupComponent } from './post-popup/post-popup.component';
+import { PopupComponent } from './popup/popup.component';
 
 @NgModule({
   imports: [
@@ -33,6 +36,7 @@ import { PostSortComponent } from './post-sort/post-sort.component';
     MatGridListModule,
     FormsModule,
     ReactiveFormsModule,
+    MatIconModule
   ],
   declarations: [
     FooterComponent,
@@ -48,11 +52,15 @@ import { PostSortComponent } from './post-sort/post-sort.component';
     ConfirmDialogComponent,
     PostViewerComponent,
     PostFiltersComponent,
-    PostSortComponent
+    PostSortComponent,
+    WikiPostsComponent,
+    PostPopupComponent,
+    PopupComponent
   ],
   entryComponents: [
     TabExampleComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    PostViewerComponent
   ],
   exports: [
     FooterComponent,
@@ -64,7 +72,10 @@ import { PostSortComponent } from './post-sort/post-sort.component';
     PostFiltersComponent,
     PostSortComponent,
     TabsComponent,
-    TabExampleComponent // for testing purposes
+    TabExampleComponent, // for testing purposes
+    WikiPostsComponent,
+    PostPopupComponent,
+    PopupComponent
   ]
 })
 export class ComponentsModule { }

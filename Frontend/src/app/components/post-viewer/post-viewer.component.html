@@ -1,20 +1,20 @@
-<div *ngIf="displayPost; else invalidPost">
+<div *ngIf="data; else invalidPost">
   <div *ngIf="simpleMode; else fullDetails">
     <div class="card post-preview"> 
       <div class="card-header">
-        <h4 class="card-title">{{displayPost.title}}</h4>
+        <h4 class="card-title">{{data.title}}</h4>
       </div>
       <div class="card-body">
-        <div *ngIf="displayPost.featureUrl">
+        <div *ngIf="data.featureUrl">
           Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
         </div>
         <div>
           <i class="material-icons">category</i>
           <span>{{getCategoryName()}}</span>
         </div>
-        <div *ngIf="displayPost.characterIds">
+        <div *ngIf="data.characterIds">
           <i class="material-icons">videogame_asset</i>
-          <span *ngFor="let charId of displayPost.characterIds">
+          <span *ngFor="let charId of data.characterIds">
             {{getCharacterIcon(charId)}}
           </span>
         </div>
@@ -23,11 +23,11 @@
         </div>
         <div>
           <i class="material-icons">unfold_more</i>
-          <span>{{displayPost.rating}}</span>
+          <span>{{data.rating}}</span>
         </div>
         <div>
           <i class="material-icons">visibility</i>
-          <span>{{displayPost.views}}</span>
+          <span>{{data.views}}</span>
         </div>
         <div>
           <i class="material-icons">edit</i>
@@ -41,16 +41,16 @@
       <div class="col-md-8">
         <div class="card"> 
           <div class="card-header">
-            <h4 class="card-title">(Unnecessary)</h4>
+            <h4 class="card-title">(Unused Atm)</h4>
           </div>
           <div class="card-body">
-            <div *ngIf="displayPost.featureUrl">
-              <a [href]="displayPost.featureUrl">
-                {{displayPost.featureUrl}}
+            <div *ngIf="data.featureUrl">
+              <a [href]="data.featureUrl">
+                {{data.featureUrl}}
               </a>
             </div>
-            <div *ngIf="displayPost.content">
-              {{displayPost.content}}
+            <div *ngIf="data.textContent">
+              {{data.textContent}}
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@
           </div>
           <div class="card-body">
             <div>
-              <p>{{displayPost | json}}</p>
+              <p>{{data | json}}</p>
             </div>
           </div>
         </div>

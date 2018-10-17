@@ -1,0 +1,30 @@
+<div *ngIf="data; else noPosts" class="wiki-container card">
+  <div *ngIf="header" class="card-header card-header-info">
+    <div class="row align-items-center">
+      <div class="col-6">
+        <h4>{{header}}</h4>
+      </div>
+      <div class="col-6">
+        <div class="float-right button-row">
+          <button mat-icon-button>
+            <mat-icon aria-label="Open something">visibility</mat-icon>
+          </button>
+          <button mat-icon-button color="primary">
+            <mat-icon aria-label="Open another something">edit</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scrolling-wrapper">
+    <div class="section" *ngFor="let post of data">
+      <a (click)="open(post)" style="cursor:pointer;">
+        <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+      </a>
+    </div>
+  </div>
+  <post-popup #postPopup></post-popup>
+</div>
+<ng-template #noPosts>
+  <p>No posts found.</p>
+</ng-template>
