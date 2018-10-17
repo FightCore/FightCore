@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace FightCore.Api.Notifications
 {
     /// <summary>
-    /// 
+    /// Defines SignalR client interaction methods
     /// </summary>
     public interface ITypedHubClient
     {
@@ -12,7 +12,7 @@ namespace FightCore.Api.Notifications
         /// Send a notification
         /// </summary>
         /// <param name="notification">Notification to send</param>
-        /// <returns></returns>
+        /// <returns>An awaitable Task</returns>
         Task BroadcastNotification(NotificationResultResource notification);
     }
 }

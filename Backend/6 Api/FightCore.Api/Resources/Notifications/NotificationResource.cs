@@ -19,6 +19,7 @@ namespace FightCore.Api.Resources.Notifications
         /// Title of the notification
         /// </summary>
         public string Title { get; set; }
+
         /// <summary>
         /// Content of the notification
         /// </summary>
@@ -29,6 +30,7 @@ namespace FightCore.Api.Resources.Notifications
         ///TODO: Remove from being directly set by a request
         /// </summary>
         public string RouteLink { get; set; }
+
         /// <summary>
         /// Determines if this notification is important or not
         /// </summary>
@@ -46,6 +48,7 @@ namespace FightCore.Api.Resources.Notifications
         /// When this notification was created
         /// </summary>
         public DateTime CreatedDate { get; set; }
+
         /// <summary>
         /// When this notification was actually read by end user
         /// </summary>

@@ -16,8 +16,7 @@ using Microsoft.AspNetCore.SignalR;
 namespace FightCore.Api.SignalRTesting
 {
     /// <summary>
-    /// Temporary testing api for notifications
-    /// This comment should NOT make it to merge phase
+    /// Handles notification interactions for a user
     /// </summary>
     [Route("[controller]")]
     [ApiController]
