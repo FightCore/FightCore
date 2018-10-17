@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Post } from '../../models/Post';
-import { Location } from '@angular/common';
 import { PostPopupComponent } from '../../components/post-popup/post-popup.component';
 import { PageEvent } from '@angular/material';
 
@@ -13,7 +12,7 @@ import { PageEvent } from '@angular/material';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
-  posts: Post[];
+  posts: Post[] = [];
   displayPost: Post;
   @ViewChild('postContent') postContent: TemplateRef<any>;
   @ViewChild('postPopup') postPopup: PostPopupComponent;

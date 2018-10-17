@@ -17,8 +17,15 @@ export class OverviewComponent implements OnInit, TabComponentInterface {
 
   ngOnInit() {
     // Hacky testing of wiki post list
-    this.postListData = this.postService.getPosts().slice(0,2); // Get first two posts just for testing
-
+    // this.postListData = this.postService.getPosts().slice(0,2); // Get first two posts just for testing
+    this.postService.getPosts().subscribe(
+      posts => {
+        this.postListData = posts;
+      },
+      error => {
+        // TODO: Error handling/display
+      }
+    );
   }
 
 }
