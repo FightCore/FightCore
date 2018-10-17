@@ -6,7 +6,7 @@ namespace FightCore.Models.Characters
     /// <summary>
     /// A class to use for putting combos into the database
     /// </summary>
-    public class Combo : IEntity
+    public class Combo : IMediaEntity
     {
         /// <inheritdoc cref="IEntity.Id"/>
         public int Id { get; set; }
@@ -96,5 +96,7 @@ namespace FightCore.Models.Characters
         public string DamageDescription { get; set; }
 
         #endregion Damage
+
+        public List<Media> Media { get; set; }
     }
 }

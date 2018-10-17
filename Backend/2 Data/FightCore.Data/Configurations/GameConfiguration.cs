@@ -35,7 +35,6 @@ namespace FightCore.Data.Configurations
         };
         public void Configure(EntityTypeBuilder<Game> builder)
         {
-
             builder.HasData(Smash4, Brawl, Melee, Smash64);
         }
     }

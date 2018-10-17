@@ -9,7 +9,7 @@ namespace FightCore.Models.Characters
     /// This is not a string of inputs that goes into a set combo (Example Street Fighter's hadouken move.
     /// Examples of techniques are waveshine, wavedash, edge cancel, etc.
     /// </summary>
-    public class Technique : IEntity
+    public class Technique : IMediaEntity
     {
         /// <summary>
         /// Gets or sets the Id that is the primary Id of this entity.

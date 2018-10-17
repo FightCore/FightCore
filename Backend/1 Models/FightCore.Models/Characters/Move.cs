@@ -5,7 +5,7 @@ using FightCore.Models.Shared;
 
 namespace FightCore.Models.Characters
 {
-    public class Move : IEntity
+    public class Move : IMediaEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

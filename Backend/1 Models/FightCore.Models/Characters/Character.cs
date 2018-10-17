@@ -6,7 +6,7 @@
     /// <summary>
     /// A class to store information about a character from a game.
     /// </summary>
-    public class Character : IEntity
+    public class Character : IMediaEntity
     {
         /// <inheritdoc cref="IEntity.Id"/>
         public int Id { get; set; }

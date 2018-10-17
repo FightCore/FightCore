@@ -25,17 +25,8 @@ namespace FightCore.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Character>().HasOne(x => x.Game).WithOne().HasForeignKey<Character>(x => x.GameId);
-            builder.Entity<Character>().HasMany(x => x.Techniques).WithOne(x => x.Character)
-                .HasForeignKey(x => x.CharacterId);
+            builder.Entity<IMediaEntity>().HasMany(x => x.Media);
 
-            builder.Entity<InputChain>().HasOne(x => x.Technique).WithMany();
-            builder.Entity<InputChain>().HasOne(x => x.Input).WithMany();
-            builder.Entity<InputChain>().HasOne(x => x.Move).WithMany();
-
-
-            builder.Entity<Technique>().HasMany(x => x.Characters).WithOne(x => x.Technique)
-                .HasForeignKey(x => x.TechniqueId);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);

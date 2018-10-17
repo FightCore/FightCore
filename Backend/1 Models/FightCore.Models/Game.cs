@@ -3,7 +3,7 @@ using FightCore.Models.Shared;
 
 namespace FightCore.Models
 {
-    public class Game : IEntity
+    public class Game : IMediaEntity
     {
         /// <inheritdoc cref="IEntity.Id"/>
         public int Id { get; set; }
