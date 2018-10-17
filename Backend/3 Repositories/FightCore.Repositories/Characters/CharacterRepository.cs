@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FightCore.Models;
 using FightCore.Models.Characters;
-using FightCore.Models.Shared;
 using FightCore.Repositories.Patterns;
 using Microsoft.EntityFrameworkCore;
 

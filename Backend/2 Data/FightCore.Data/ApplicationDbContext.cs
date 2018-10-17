@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using FightCore.Data.Configurations;
+﻿using FightCore.Data.Configurations;
 using FightCore.Models;
 using FightCore.Models.Characters;
 using FightCore.Models.Shared;
@@ -17,6 +13,7 @@ namespace FightCore.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+
         public DbSet<Game> Games { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<Technique> Techniques { get; set; }
@@ -28,12 +25,9 @@ namespace FightCore.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Character>().HasMany<Combo>(x => x.Combos).WithOne(x => x.Character);
             builder.Entity<Character>().HasOne(x => x.Game).WithOne().HasForeignKey<Character>(x => x.GameId);
             builder.Entity<Character>().HasMany(x => x.Techniques).WithOne(x => x.Character)
                 .HasForeignKey(x => x.CharacterId);
-
-            builder.Entity<Combo>().HasMany<Character>(x => x.WorksOn);
 
             builder.Entity<InputChain>().HasOne(x => x.Technique).WithMany();
             builder.Entity<InputChain>().HasOne(x => x.Input).WithMany();
