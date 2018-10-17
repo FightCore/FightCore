@@ -19,10 +19,10 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
 
   // TODO: Rewrite all the following to call into a more centralized location to get this info
   isCombo():boolean {
-    return this.data.categoryId == PostEditorComponent.CombosCatId;
+    return this.data.category == PostEditorComponent.CombosCatId;
   }
   getCategoryName(): string {
-    return this.data.categoryId + " (cat name)";
+    return this.data.category + " (cat name)";
   }
   getAuthorName(): string {
     return this.data.authorId + " (name)";

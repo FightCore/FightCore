@@ -1,13 +1,13 @@
 export interface Post {
     id: number;
     authorId: number;
-    creationDate: Date;
+    createdDate: Date;
     views: number;
-    rating: number;
-    urlName: string;                // SEO purposes, part of url, based off of title
+    rating?: number;
+    urlName?: string;                // SEO purposes, part of url, based off of title
 
     // Meta fields
-    categoryId: number;
+    category: number;
     characterIds?: number[];        // Required for all categories except Game-Independent
     // Combo specific fields
     targetCharacterIds?: number[];
@@ -17,12 +17,12 @@ export interface Post {
     comboStarterId?: number;
 
     // Additional fields
-    skillEstimateId: number;
+    skillLevel: number;
     patchId: number;
     tags: string[];
 
     // Content fields
     title: string;
-    featureUrl?: string;
-    textContent?: string;
+    featuredLink?: string;
+    content?: string;
 }
