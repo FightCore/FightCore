@@ -53,12 +53,15 @@ namespace FightCore.Api.Controllers
         /// <summary>
         /// Gets all characters based on what game they are from.
         /// </summary>
-        /// <param name="gameid">The game's id within FightCore. See Games endpoint</param>
-        /// <returns>A list of simple character objects.</returns>
-        [HttpGet("game/{gameid}")]
-        public async Task<IActionResult> GetAllCharactersForGame(int gameid)
+        /// <param name="gameId">The game's id within FightCore. See Games endpoint</param>
+        /// <returns>
+        /// 200 with an array of character objects if found
+        /// 404 when there aren't any characters found for that gameId.
+        /// </returns>
+        [HttpGet("game/{gameId}")]
+        public async Task<IActionResult> GetAllCharactersForGame(int gameId)
         {
-            var characters = await _characterService.GetCharactersByGameAsync(gameid);
+            var characters = await _characterService.GetCharactersByGameAsync(gameId);
 
             if (!characters.Any())
                 return NotFound();
@@ -71,7 +74,10 @@ namespace FightCore.Api.Controllers
         /// Gets the details about a specific character.
         /// </summary>
         /// <param name="id">The id of the character in question</param>
-        /// <returns>A detailed character object</returns>
+        /// <returns>
+        /// 200 with a detailed character object
+        /// 404 when the character with that Id is not found
+        /// </returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetailedCharacterById(int id)
         {

@@ -11,11 +11,13 @@ import { AppRoutingModule } from './app.routing';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { CharacterComponent } from './character/character.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutComponent
+    LayoutComponent,
+    CharacterComponent
   ],
   imports: [
     HttpClientModule,
