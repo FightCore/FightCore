@@ -2,6 +2,7 @@
 using FightCore.Repositories;
 using FightCore.Services.Patterns;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FightCore.Services
 {
@@ -12,15 +13,16 @@ namespace FightCore.Services
         /// </summary>
         /// <param name="userId">User to get notification count for</param>
         /// <returns>Number of notifications user has</returns>
-        int GetNotificationCount(int userId);
+        Task<int> GetNotificationCount(int userId);
 
         /// <summary>
-        /// Gets notifications for user one page at a time (current PAGE_SIZE is 20)
+        /// Gets notifications for user one page at a time
         /// </summary>
         /// <param name="userId">User to get notifications for</param>
+        /// <param name="pageSize">Number of notifications per page</param>
         /// <param name="pageNumber">Page of notifications to retrieve (starting at 1)</param>
         /// <returns></returns>
-        IEnumerable<Notification> GetNotificationsForUser(int userId, int pageNumber);
+        IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber);
 
         /// <summary>
         /// Marks all unread notifications for a user as read
@@ -31,7 +33,6 @@ namespace FightCore.Services
 
     public class NotificationService : EntityService<Notification>, INotificationService
     {
-        private static readonly int PAGE_SIZE = 20; // Number of notifications to get per request. Note number is also in NotificationsController
         private readonly INotificationRepository _repository;
 
         public NotificationService(INotificationRepository repository) : base(repository)
@@ -39,16 +40,19 @@ namespace FightCore.Services
             _repository = repository;
         }
 
-        public int GetNotificationCount(int userId)
+        /// <inheritdoc cref="INotificationService.GetNotificationCount"/>
+        public Task<int> GetNotificationCount(int userId)
         {
             return _repository.GetNotificationsCount(userId);
         }
 
-        public IEnumerable<Notification> GetNotificationsForUser(int userId, int pageNumber)
+        /// <inheritdoc cref="INotificationService.GetNotificationsForUser"/>
+        public IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber)
         {
-            return _repository.GetNotificationsForUser(userId, PAGE_SIZE, pageNumber);
+            return _repository.GetNotificationsForUser(userId, pageSize, pageNumber);
         }
 
+        /// <inheritdoc cref="INotificationService.MarkAllUnreadRead"/>
         public void MarkAllUnreadRead(int userId)
         {
             _repository.MarkAllUnreadRead(userId);

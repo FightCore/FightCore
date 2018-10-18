@@ -5,12 +5,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System;
+using System.Threading.Tasks;
 
 namespace FightCore.Repositories
 {
     public interface INotificationRepository : IRepositoryAsync<Notification>
     {
-        int GetNotificationsCount(int userId);
+        Task<int> GetNotificationsCount(int userId);
 
         IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber);
 
@@ -19,32 +20,31 @@ namespace FightCore.Repositories
 
     public class NotificationRepository : Repository<Notification>, INotificationRepository
     {
-        private readonly DbSet<Notification> _dbSet;
         public NotificationRepository(DbContext context) : base(context)
         {
-            _dbSet = context.Set<Notification>();
         }
 
-        public virtual int GetNotificationsCount(int userId)
+        public async Task<int> GetNotificationsCount(int userId)
         {
-            return _dbSet.Where(x => x.UserId == userId).Count();
+            return await Queryable.CountAsync(x => x.UserId == userId);
         }
 
-        public virtual IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber)
+        public IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber)
         {
-            return _dbSet
+            return Queryable
                 .Where(x => x.UserId == userId)
                 .OrderByDescending(x => x.CreatedDate)
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize);
         }
 
-        public virtual void MarkAllUnreadRead(int userId)
+        public async void MarkAllUnreadRead(int userId)
         {
-            _dbSet
+            var notifications = await Queryable
                 .Where(x => x.UserId == userId && x.ReadDate == null)
-                .ToList()
-                .ForEach(x => x.ReadDate = DateTime.Now);
+                .ToListAsync();
+
+            notifications.ForEach(x => x.ReadDate = DateTime.Now);
         }
     }
 }

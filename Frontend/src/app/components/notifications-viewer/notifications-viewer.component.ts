@@ -38,7 +38,7 @@ export class NotificationsViewerComponent implements OnInit {
     private notifService: NotificationService,
     private toastr: ToastrService) { }
 
-  // TODO: Better handle possibility of getting push notif while getting current notifs
+  // TODO Issue 28: Better handle possibility of getting push notif while getting current notifs
 
   ngOnInit() {
     // Get first page of notifications
@@ -213,7 +213,7 @@ export class NotificationsViewerComponent implements OnInit {
    * @param notif New notification from push service
    */
   private handlePushNotification(notif: Notification) {
-    // TODO: Handle if not on first page (show at very top separately?)
+    // TODO Issue 29: Handle if not on first page (show at very top separately?)
     // If reached max page size, remove one to maintain a consistent display
     if(this.totalNotifs >= 20) {
       this.notifs.pop();
@@ -226,7 +226,7 @@ export class NotificationsViewerComponent implements OnInit {
 
     // Only do push notifications for important notifs
     if(notif.isImportant) {
-      // TODO: Do actual client-level push notifications (eg, browser or phone notifs)
+      // TODO #30: Do actual client-level push notifications (eg, browser or phone notifs)
 
       this.showToastNotification(notif);
     }

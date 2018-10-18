@@ -18,8 +18,8 @@ export class ProfileComponent implements OnInit {
 
     this.authService.loadUserProfile().then(
       obj => {
-        let returnObj = obj as any; // Can't access Object's properties directly, being extra careful here
-        if(returnObj.hasOwnProperty('username')) {
+        let returnObj = obj as { username: string }; // Can't access Object's properties directly, being extra careful here
+        if(returnObj.username) {
           this.username = returnObj.username;
         }
         else {

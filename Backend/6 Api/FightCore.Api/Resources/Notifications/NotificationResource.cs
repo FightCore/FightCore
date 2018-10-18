@@ -1,56 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FightCore.Api.Resources.Notifications
 {
     /// <summary>
-    /// UI Resource of the <see cref="FightCore.Models.Notification"/> class
+    /// UI Resource of the <see cref="Models.Notification"/> class
     /// </summary>
     public class NotificationResource
     {
         /// <summary>
-        /// The user this notification is for
+        /// Gets or sets the user this notification is for
         /// </summary>
         public int UserId { get; set; }
 
         /// <summary>
-        /// Title of the notification
+        /// Gets or sets the title of the notification
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Content of the notification
+        /// Gets or sets the content of the notification
         /// </summary>
         public string Content { get; set; }
 
         /// <summary>
-        /// On-site relative link for where this notification should lead to
-        ///TODO: Remove from being directly set by a request
+        /// Gets or sets the on-site relative link for where this notification should lead to
         /// </summary>
         public string RouteLink { get; set; }
 
         /// <summary>
-        /// Determines if this notification is important or not
+        /// Gets or sets the flat that determines if this notification is important or not
         /// </summary>
         public bool IsImportant { get; set; }
     }
 
     /// <summary>
-    /// 
+    /// Describes the server response for a single notification
     /// </summary>
     public class NotificationResultResource : NotificationResource
     {
+        /// <summary>
+        /// Gets or sets the id of this notification
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// When this notification was created
+        /// Gets or sets when this notification was created
         /// </summary>
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
-        /// When this notification was actually read by end user
+        /// Gets or sets when this notification was actually read by the user
         /// </summary>
         public DateTime? ReadDate { get; set; }
     }

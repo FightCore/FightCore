@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-
+using Microsoft.Extensions.Configuration;
 
 namespace FightCore.Api.SignalRTesting
 {
@@ -22,6 +22,7 @@ namespace FightCore.Api.SignalRTesting
     [ApiController]
     public class NotificationsController : ControllerBase
     {
+        private IConfiguration _configuration;
         private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
@@ -32,8 +33,9 @@ namespace FightCore.Api.SignalRTesting
         /// Initialize
         /// </summary>
         /// <param name="hubContext"></param>
-        public NotificationsController(IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext, UserManager<ApplicationUser> userManager)
+        public NotificationsController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext, UserManager<ApplicationUser> userManager)
         {
+            _configuration = configuration;
             _unitOfWork = unitOfWork;
             _notificationService = notificationService;
             _mapper = mapper;
@@ -42,7 +44,7 @@ namespace FightCore.Api.SignalRTesting
         }
 
         /// <summary>
-        /// Gets notifications for current user, one page at a time. Page size is currently 20
+        /// Gets notifications for current user, one page at a time
         /// </summary>
         /// <param name="pageNumber">Page number to get. 1 is first page</param>
         /// <returns></returns>
@@ -58,23 +60,11 @@ namespace FightCore.Api.SignalRTesting
 
             // Get current user's id
             int userId;
-            string userIdAsString = _userManager.GetUserId(User);
-            if (userIdAsString == null || userIdAsString == "")
-            {
-                return BadRequest("Couldn't find authenticated user's id");
-            }
-            if (!Int32.TryParse(userIdAsString, out userId))
-            {
-                return BadRequest("Somehow failed to convert user's id to number");
-            }
+            Int32.TryParse(_userManager.GetUserId(User), out userId);
 
             // Get count of notifications for user
-            int totalNotifs = _notificationService.GetNotificationCount(userId);
-            if (totalNotifs < 0)
-            {
-                return BadRequest("Couldn't get total number of notifications for user");
-            }
-            else if (totalNotifs == 0)
+            int totalNotifs = await _notificationService.GetNotificationCount(userId);
+            if (totalNotifs == 0)
             {
                 result = new NotificationsResource
                 {
@@ -86,13 +76,15 @@ namespace FightCore.Api.SignalRTesting
             }
 
             // If pageNumber is outside range, bad request. No point in trying to grab notifications
-            if ((pageNumber - 1) * 20 > totalNotifs)
+            int pageSize;
+            Int32.TryParse(_configuration["NotificationsPageSize"], out pageSize);
+            if ((pageNumber - 1) * pageSize > totalNotifs)
             {
                 return BadRequest("Page number is outside range");
             }
 
             // Finally get current page of notifications and return it to the user
-            var notifications = _notificationService.GetNotificationsForUser(userId, pageNumber);
+            var notifications = _notificationService.GetNotificationsForUser(userId, pageSize, pageNumber);
             result = new NotificationsResource
             {
                 TotalNotifications = totalNotifs,
@@ -112,15 +104,7 @@ namespace FightCore.Api.SignalRTesting
         {
             // Get current user's id
             int userId;
-            string userIdAsString = _userManager.GetUserId(User);
-            if (userIdAsString == null || userIdAsString == "")
-            {
-                return BadRequest("Couldn't find authenticated user's id");
-            }
-            if (!Int32.TryParse(userIdAsString, out userId))
-            {
-                return BadRequest("Somehow failed to convert user's id to number");
-            }
+            Int32.TryParse(_userManager.GetUserId(User), out userId);
 
             // Mark all of their notifications as read
             _notificationService.MarkAllUnreadRead(userId);
@@ -138,22 +122,15 @@ namespace FightCore.Api.SignalRTesting
         [Authorize]
         public async Task<IActionResult> MarkRead(int notifId)
         {
+            // If invalid id...
+            if (notifId < 1) return BadRequest("Bad id");
+
             // Get intended notification
             var notif = await _notificationService.FindByIdAsync(notifId);
-            // If invalid id...
-            if (notif.Id < 1) return BadRequest("Bad id");
 
             // Get current user's id
             int userId;
-            string userIdAsString = _userManager.GetUserId(User);
-            if (userIdAsString == null || userIdAsString == "")
-            {
-                return BadRequest("Couldn't find authenticated user's id");
-            }
-            if (!Int32.TryParse(userIdAsString, out userId))
-            {
-                return BadRequest("Somehow failed to convert user's id to number");
-            }
+            Int32.TryParse(_userManager.GetUserId(User), out userId);
             // If notif not for current user...
             if (notif.UserId != userId) return Unauthorized();
 

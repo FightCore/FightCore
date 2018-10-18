@@ -1,13 +1,11 @@
 ﻿using FightCore.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FightCore.Data;
 using FightCore.Repositories.Patterns;
 using FightCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SignalR;
+using FightCore.Api.Notifications;
 
 namespace FightCore.Api.Configurations
 {
@@ -27,6 +25,8 @@ namespace FightCore.Api.Configurations
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUnitOfWorkAsync, UnitOfWork>();
+
+            services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
             return services;
         }

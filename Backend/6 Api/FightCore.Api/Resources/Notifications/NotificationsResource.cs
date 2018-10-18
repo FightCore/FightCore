@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FightCore.Api.Resources.Notifications
 {
+    /// <summary>
+    /// Details response for returning a group of notifications to client
+    /// </summary>
     public class NotificationsResource
     {
         /// <summary>
-        /// Total number of notifications the relevant user has
+        /// Gets or sets the total number of notifications the relevant user has
         /// </summary>
         public int TotalNotifications { get; set; }
 
         /// <summary>
-        /// Current page of notifications, 20 per page, 1 is first page
+        /// Gets or sets the current page index of notifications, 20 per page, 1 is first page
         /// </summary>
         public int CurrentPage { get; set; }
 
         /// <summary>
-        /// Retrieved notifications for this page
+        /// Gets or sets the retrieved notifications for this page
         /// </summary>
         public ICollection<NotificationResultResource> Notifications { get; set; }
     }
