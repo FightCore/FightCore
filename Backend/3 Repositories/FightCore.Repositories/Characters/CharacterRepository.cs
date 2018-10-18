@@ -12,6 +12,8 @@ namespace FightCore.Repositories.Characters
         Task<List<Character>> GetAllCharactersWithMediaAndGameAsync();
         Task<Character> GetDetailedCharacterByIdAsync(int characterId);
         Task<List<Character>> GetAllCharactersByGameAsync(int gameId);
+
+        Task<List<Character>> GetCharactersByNameAsync(string name);
     }
     public class CharacterRepository : Repository<Character>, ICharacterRepository
     {
@@ -33,6 +35,11 @@ namespace FightCore.Repositories.Characters
         public Task<List<Character>> GetAllCharactersByGameAsync(int gameId)
         {
             return Queryable.Include(x => x.Media).Where(x => x.Game.Id == gameId).ToListAsync();
+        }
+
+        public Task<List<Character>> GetCharactersByNameAsync(string name)
+        {
+            return Queryable.Where(x => x.Name.Contains(name)).ToListAsync();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace FightCore.Services.Characters
         Task<List<Character>> GetAllCharactersAsync();
         Task<Character> GetDetailedCharacterByIdAsync(int characterId);
         Task<List<Character>> GetCharactersByGameAsync(int gameId);
+
+        Task<List<Character>> GetCharactersByNameAsync(string name);
     }
     public class CharacterService : EntityService<Character>, ICharacterService
     {
@@ -32,10 +34,15 @@ namespace FightCore.Services.Characters
             return _repository.GetDetailedCharacterByIdAsync(characterId);
         }
 
-        
+
         public Task<List<Character>> GetCharactersByGameAsync(int gameId)
         {
             return _repository.GetAllCharactersByGameAsync(gameId);
+        }
+
+        public Task<List<Character>> GetCharactersByNameAsync(string name)
+        {
+            return _repository.GetCharactersByNameAsync(name);
         }
     }
 }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FightCore.Api.Resources.Characters;
 using FightCore.Models.Characters;
 using FightCore.Repositories.Patterns;
-using FightCore.Services;
 using FightCore.Services.Characters;
 using FightCore.Services.Games;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FightCore.Api.Controllers
@@ -23,6 +20,14 @@ namespace FightCore.Api.Controllers
         private readonly IGameService _gameService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
+
+        /// <summary>
+        /// Initializes an instance of the <see cref="CharactersController"/> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="characterService"></param>
+        /// <param name="gameService"></param>
+        /// <param name="mapper"></param>
         public CharactersController(IUnitOfWorkAsync unitOfWork, ICharacterService characterService, IGameService gameService, IMapper mapper)
         {
             _characterService = characterService;
@@ -70,6 +75,7 @@ namespace FightCore.Api.Controllers
 
             return Ok(resources);
         }
+
         /// <summary>
         /// Gets the details about a specific character.
         /// </summary>
@@ -89,6 +95,25 @@ namespace FightCore.Api.Controllers
             var resource = _mapper.Map<DetailedCharacterResource>(character);
 
             return Ok(resource);
+        }
+
+        /// <summary>
+        /// Gets a list of character objects by their name
+        /// </summary>
+        /// <param name="name">The name that we want to search for</param>
+        /// <returns>
+        /// 200 with a list of characters found with that name
+        /// 404 when no characters have been found.
+        /// </returns>
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> GetCharactersByName(string name)
+        {
+            var characters = await _characterService.GetCharactersByNameAsync(name);
+
+            if (!characters.Any())
+                return NotFound();
+
+            return Ok(characters);
         }
 
         /// <summary>
