@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181015174832_NewTechniqueModel")]
-    partial class NewTechniqueModel
+    [Migration("20181018205310_CharacterModels")]
+    partial class CharacterModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,8 +83,6 @@ namespace FightCore.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ComboId");
-
                     b.Property<string>("Description");
 
                     b.Property<int>("GameId");
@@ -93,10 +91,7 @@ namespace FightCore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ComboId");
-
-                    b.HasIndex("GameId")
-                        .IsUnique();
+                    b.HasIndex("GameId");
 
                     b.ToTable("Characters");
 
@@ -133,17 +128,86 @@ namespace FightCore.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CharacterId");
+                    b.Property<int?>("AuthorId");
 
-                    b.Property<double>("MaximumDamage");
+                    b.Property<string>("DamageDescription");
 
-                    b.Property<double>("MinimumDamage");
+                    b.Property<string>("Description");
+
+                    b.Property<string>("InputDescription");
+
+                    b.Property<string>("MixUpDescription");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PerformersDescription");
+
+                    b.Property<string>("ReceiversDescription");
+
+                    b.Property<string>("StagesDescription");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Combos");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboPerformers", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("ComboId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("Combos");
+                    b.HasIndex("ComboId");
+
+                    b.ToTable("ComboPerformers");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboReceiver", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("ComboId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("ComboId");
+
+                    b.ToTable("ComboReceiver");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.DamageMetric", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ComboId");
+
+                    b.Property<double>("EndDamage");
+
+                    b.Property<double>("StartDamage");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComboId");
+
+                    b.ToTable("DamageMetric");
                 });
 
             modelBuilder.Entity("FightCore.Models.Characters.Move", b =>
@@ -153,6 +217,8 @@ namespace FightCore.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CharacterId");
+
+                    b.Property<string>("Description");
 
                     b.Property<int?>("InputId");
 
@@ -282,6 +348,8 @@ namespace FightCore.Data.Migrations
 
                     b.Property<int?>("CharacterId");
 
+                    b.Property<int?>("ComboId");
+
                     b.Property<string>("Description");
 
                     b.Property<int?>("GameId");
@@ -301,6 +369,8 @@ namespace FightCore.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CharacterId");
+
+                    b.HasIndex("ComboId");
 
                     b.HasIndex("GameId");
 
@@ -557,13 +627,9 @@ namespace FightCore.Data.Migrations
 
             modelBuilder.Entity("FightCore.Models.Characters.Character", b =>
                 {
-                    b.HasOne("FightCore.Models.Characters.Combo")
-                        .WithMany("WorksOn")
-                        .HasForeignKey("ComboId");
-
                     b.HasOne("FightCore.Models.Game", "Game")
-                        .WithOne()
-                        .HasForeignKey("FightCore.Models.Characters.Character", "GameId")
+                        .WithMany()
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -582,9 +648,42 @@ namespace FightCore.Data.Migrations
 
             modelBuilder.Entity("FightCore.Models.Characters.Combo", b =>
                 {
+                    b.HasOne("FightCore.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboPerformers", b =>
+                {
                     b.HasOne("FightCore.Models.Characters.Character", "Character")
                         .WithMany("Combos")
-                        .HasForeignKey("CharacterId");
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FightCore.Models.Characters.Combo", "Combo")
+                        .WithMany("Performers")
+                        .HasForeignKey("ComboId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboReceiver", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FightCore.Models.Characters.Combo", "Combo")
+                        .WithMany("Receivers")
+                        .HasForeignKey("ComboId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.DamageMetric", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Combo")
+                        .WithMany("DamageMetrics")
+                        .HasForeignKey("ComboId");
                 });
 
             modelBuilder.Entity("FightCore.Models.Characters.Move", b =>
@@ -637,6 +736,10 @@ namespace FightCore.Data.Migrations
                     b.HasOne("FightCore.Models.Characters.Character")
                         .WithMany("Media")
                         .HasForeignKey("CharacterId");
+
+                    b.HasOne("FightCore.Models.Characters.Combo")
+                        .WithMany("Media")
+                        .HasForeignKey("ComboId");
 
                     b.HasOne("FightCore.Models.Game")
                         .WithMany("Media")

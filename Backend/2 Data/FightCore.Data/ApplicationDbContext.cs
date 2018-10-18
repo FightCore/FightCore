@@ -25,7 +25,6 @@ namespace FightCore.Data
         {
 
             base.OnModelCreating(builder);
-            builder.Entity<MediaEntity>().HasMany(x => x.Media);
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
@@ -34,6 +33,10 @@ namespace FightCore.Data
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new GameConfiguration());
             builder.ApplyConfiguration(new CharacterConfiguration());
+            builder.ApplyConfiguration(new TechniqueConfiguration());
+            builder.ApplyConfiguration(new ComboConfiguration());
+            builder.ApplyConfiguration(new InputChainConfiguration());
+            builder.ApplyConfiguration(new MoveConfiguration());
         }
     }
 }

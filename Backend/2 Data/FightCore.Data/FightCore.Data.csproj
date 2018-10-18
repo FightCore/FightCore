@@ -8,6 +8,10 @@
     <Compile Remove="Migrations\20180827170212_ChangedComboToBeProper.cs" />
     <Compile Remove="Migrations\20180829192222_AddedInputChains.cs" />
     <Compile Remove="Migrations\20181001184400_AddMarioAnd4Games.cs" />
+    <Compile Remove="Migrations\20181001185440_AddedInputChain.cs" />
+    <Compile Remove="Migrations\20181001185625_AddedGameAndCharacterSeed.cs" />
+    <Compile Remove="Migrations\20181015174832_NewTechniqueModel.cs" />
+    <Compile Remove="Migrations\20181017172629_ComboRework.cs" />
   </ItemGroup>
 
   <ItemGroup>
