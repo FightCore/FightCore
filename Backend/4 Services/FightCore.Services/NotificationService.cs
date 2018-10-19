@@ -13,7 +13,7 @@ namespace FightCore.Services
         /// </summary>
         /// <param name="userId">User to get notification count for</param>
         /// <returns>Number of notifications user has</returns>
-        Task<int> GetNotificationCount(int userId);
+        Task<int> GetNotificationsCountAsync(int userId);
 
         /// <summary>
         /// Gets notifications for user one page at a time
@@ -28,7 +28,7 @@ namespace FightCore.Services
         /// Marks all unread notifications for a user as read
         /// </summary>
         /// <param name="userId">User whose notifications should be now all read</param>
-        void MarkAllUnreadRead(int userId);
+        Task MarkAllUnreadReadAsync(int userId);
     }
 
     public class NotificationService : EntityService<Notification>, INotificationService
@@ -40,10 +40,10 @@ namespace FightCore.Services
             _repository = repository;
         }
 
-        /// <inheritdoc cref="INotificationService.GetNotificationCount"/>
-        public Task<int> GetNotificationCount(int userId)
+        /// <inheritdoc cref="INotificationService.GetNotificationsCountAsync"/>
+        public Task<int> GetNotificationsCountAsync(int userId)
         {
-            return _repository.GetNotificationsCount(userId);
+            return _repository.GetNotificationsCountAsync(userId);
         }
 
         /// <inheritdoc cref="INotificationService.GetNotificationsForUser"/>
@@ -52,10 +52,10 @@ namespace FightCore.Services
             return _repository.GetNotificationsForUser(userId, pageSize, pageNumber);
         }
 
-        /// <inheritdoc cref="INotificationService.MarkAllUnreadRead"/>
-        public void MarkAllUnreadRead(int userId)
+        /// <inheritdoc cref="INotificationService.MarkAllUnreadReadAsync"/>
+        public Task MarkAllUnreadReadAsync(int userId)
         {
-            _repository.MarkAllUnreadRead(userId);
+            return _repository.MarkAllUnreadReadAsync(userId);
         }
     }
 }

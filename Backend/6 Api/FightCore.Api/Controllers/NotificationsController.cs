@@ -63,7 +63,7 @@ namespace FightCore.Api.SignalRTesting
             Int32.TryParse(_userManager.GetUserId(User), out userId);
 
             // Get count of notifications for user
-            int totalNotifs = await _notificationService.GetNotificationCount(userId);
+            int totalNotifs = await _notificationService.GetNotificationsCountAsync(userId);
             if (totalNotifs == 0)
             {
                 result = new NotificationsResource
@@ -107,7 +107,7 @@ namespace FightCore.Api.SignalRTesting
             Int32.TryParse(_userManager.GetUserId(User), out userId);
 
             // Mark all of their notifications as read
-            _notificationService.MarkAllUnreadRead(userId);
+            await _notificationService.MarkAllUnreadReadAsync(userId);
             await _unitOfWork.SaveChangesAsync();
 
             return Ok();

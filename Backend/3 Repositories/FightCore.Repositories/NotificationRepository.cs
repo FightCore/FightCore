@@ -11,11 +11,11 @@ namespace FightCore.Repositories
 {
     public interface INotificationRepository : IRepositoryAsync<Notification>
     {
-        Task<int> GetNotificationsCount(int userId);
+        Task<int> GetNotificationsCountAsync(int userId);
 
         IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber);
 
-        void MarkAllUnreadRead(int userId);
+        Task MarkAllUnreadReadAsync(int userId);
     }
 
     public class NotificationRepository : Repository<Notification>, INotificationRepository
@@ -24,7 +24,7 @@ namespace FightCore.Repositories
         {
         }
 
-        public async Task<int> GetNotificationsCount(int userId)
+        public async Task<int> GetNotificationsCountAsync(int userId)
         {
             return await Queryable.CountAsync(x => x.UserId == userId);
         }
@@ -38,7 +38,7 @@ namespace FightCore.Repositories
                 .Take(pageSize);
         }
 
-        public async void MarkAllUnreadRead(int userId)
+        public async Task MarkAllUnreadReadAsync(int userId)
         {
             var notifications = await Queryable
                 .Where(x => x.UserId == userId && x.ReadDate == null)
