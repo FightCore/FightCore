@@ -18,7 +18,6 @@ export class ViewPostComponent implements OnInit {
   ngOnInit() {
     // Get params
     this.route.params.subscribe((params: Params) => {
-      console.log("Got params: ", params);
       this.post = PostService.getBasicPost();
       this.post.id = params['id'];
 

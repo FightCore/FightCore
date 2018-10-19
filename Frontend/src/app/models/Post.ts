@@ -1,7 +1,7 @@
 export interface Post {
     id: number;
     authorId: number;
-    createdDate: Date;
+    createdDate?: Date;
     views: number;
     rating?: number;
     urlName?: string;                // SEO purposes, part of url, based off of title
@@ -17,9 +17,9 @@ export interface Post {
     comboStarterId?: number;
 
     // Additional fields
-    skillLevel: number;
-    patchId: number;
-    tags: string[];
+    skillLevel?: number;
+    patchId?: number;
+    tags?: string[];
 
     // Content fields
     title: string;

@@ -43,6 +43,7 @@ export class PostPopupComponent implements OnInit {
     this.previousUrl = this.router.url; // Need to restore url after post closes
 
     // Actually change the url for the post (SEO + user friendliness reasons)
+    post.urlName = PostService.createUrlName(post.title); // TODO: Shouldn't be necessary!
     let url: string = PostService.getPostUrl(post);
     this.location.go(url);
   }

@@ -43,26 +43,25 @@ export class LibraryComponent implements OnInit {
     this.isLoading = true;
     this.errorMsgs = [];
 
-    this.postService.getPostsPage(this.pageSize, this.pageNumber, this.sortOption)
-      .subscribe(
-        postsPage => {
-          this.isLoading = false;
-          
-          // Store useful results
-          this.totalPosts = postsPage.total;
-          this.posts = postsPage.posts;
+    this.postService.getPostsPage(this.pageSize, this.pageNumber, this.sortOption).subscribe(
+      postsPage => {
+        this.isLoading = false;
+        
+        // Store useful results
+        this.totalPosts = postsPage.total;
+        this.posts = postsPage.posts;
 
-          // Set these in order to be robust
-          this.pageSize = postsPage.pageSize;
-          this.pageNumber = postsPage.pageNumber;       
-          // TODO: Pass back sort and filters as well?   
-        },
-        error => {
-          this.isLoading = false;
-          this.errorMsgs.push(error);
-          console.log("Error on post page", error);
-        }
-      );
+        // Set these in order to be robust
+        this.pageSize = postsPage.pageSize;
+        this.pageNumber = postsPage.pageNumber;       
+        // TODO: Pass back sort and filters as well?   
+      },
+      error => {
+        this.isLoading = false;
+        this.errorMsgs.push(error);
+        console.log("Error on post page", error);
+      }
+    );
   }
   
   /**

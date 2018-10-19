@@ -37,37 +37,42 @@
     </div>
   </div>
   <ng-template #fullDetails>
-    <div class="row post-container">
-      <div class="col-md-8">
-        <div class="card"> 
-          <div class="card-header">
-            <h4 class="card-title">(Unused Atm)</h4>
-          </div>
-          <div class="card-body">
-            <div *ngIf="data.featureUrl">
-              <a [href]="data.featureUrl">
-                {{data.featureUrl}}
-              </a>
-            </div>
-            <div *ngIf="data.content">
-              {{data.content}}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card"> 
-          <div class="card-header">
-            <h4 class="card-title">Extra Info</h4>
-          </div>
-          <div class="card-body">
-            <div>
-              <p>{{data | json}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div *ngIf="isLoading; else showDetails">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
+    <ng-template #showDetails>
+        <div class="row post-container">
+          <div class="col-md-8">
+            <div class="card"> 
+              <div class="card-header">
+                <h4 class="card-title">(Unused Atm)</h4>
+              </div>
+              <div class="card-body">
+                <div *ngIf="data.featureUrl">
+                  <a [href]="data.featureUrl">
+                    {{data.featureUrl}}
+                  </a>
+                </div>
+                <div *ngIf="data.content">
+                  {{data.content}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card"> 
+              <div class="card-header">
+                <h4 class="card-title">Extra Info</h4>
+              </div>
+              <div class="card-body">
+                <div>
+                  <p>{{data | json}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </ng-template>
   </ng-template>
 </div>
 <ng-template #invalidPost>
