@@ -14,27 +14,27 @@ import { PostsPage } from '../models/PostsPage';
 export class PostService extends BaseService {
   public static readonly PostCategories = [
     {
-      id: '1',
+      id: 0,
       name: 'General'
     },
     {
-      id: '2',
+      id: 1,
       name: 'Combos'
     },
     {
-      id: '3',
+      id: 2,
       name: 'Tech & Mechanics'
     },
     {
-      id: '4',
+      id: 3,
       name: 'Counterplay'
     },
     {
-      id: '5',
+      id: 4,
       name: 'Community'
     },
     {
-      id: '6',
+      id: 5,
       name: 'Game Independent'
     },
   ];
@@ -132,11 +132,12 @@ export class PostService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
-  public getPostsPage(pageSize: number, pageNumber: number, sortId: number): Observable<PostsPage> {
+  public getPostsPage(pageSize: number, pageNumber: number, sortId: number, category: number): Observable<PostsPage> {
     let params = new HttpParams()
       .set('pageSize', pageSize.toString())
       .set('pageNumber', pageNumber.toString())
-      .set('sortOption', sortId.toString());
+      .set('sortOption', sortId.toString())
+      .set('categoryFilter', category.toString());
     
     return this.http.get<PostsPage>(
       `${environment.baseUrl}/library/GetPostsAsync`,

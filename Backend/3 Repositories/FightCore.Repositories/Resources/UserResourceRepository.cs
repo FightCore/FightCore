@@ -12,9 +12,9 @@ namespace FightCore.Repositories.Resources
 {
     public interface IUserResourceRepository : IRepositoryAsync<UserResource>
     {
-        Task<int> GetPostCountAsync();
+        Task<int> GetPostCountAsync(ResourceCategory? category);
 
-        IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption);
+        IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
     }
     public class UserResourceRepository : Repository<UserResource>, IUserResourceRepository
     {
@@ -22,12 +22,19 @@ namespace FightCore.Repositories.Resources
         {
         }
         
-        public async Task<int> GetPostCountAsync()
+        public async Task<int> GetPostCountAsync(ResourceCategory? category)
         {
-            return await Queryable.CountAsync();
+            if(category != null)
+            {
+                return await Queryable.CountAsync(x => x.Category == category);
+            }
+            else
+            {
+                return await Queryable.CountAsync();
+            }
         }
 
-        public IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption)
+        public IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
         {
             IOrderedQueryable<UserResource> sorted;
             switch (sortOption)
@@ -43,9 +50,21 @@ namespace FightCore.Repositories.Resources
                     break;
             }
 
-            return sorted
-                .Skip(pageSize * (pageNumber - 1))
-                .Take(pageSize);
+            if (category == null)
+            {
+                return sorted
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize);
+            }
+            else
+            {
+                return sorted
+                    .Where(x => x.Category == category)
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize);
+            }
+
+            
         }
 
     }

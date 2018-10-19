@@ -26,7 +26,8 @@ export class LibraryComponent implements OnInit {
   pageNumber = 1;
   pageSize = 10; // Default page size
   totalPosts = 0;
-  sortOption = 0; // TODO
+  sortOption = 0;
+  selectedCategory = -1;
 
   constructor(private titleService: Title, 
     private router: Router, 
@@ -43,7 +44,7 @@ export class LibraryComponent implements OnInit {
     this.isLoading = true;
     this.errorMsgs = [];
 
-    this.postService.getPostsPage(this.pageSize, this.pageNumber, this.sortOption).subscribe(
+    this.postService.getPostsPage(this.pageSize, this.pageNumber, this.sortOption, this.selectedCategory).subscribe(
       postsPage => {
         this.isLoading = false;
         
@@ -103,7 +104,9 @@ export class LibraryComponent implements OnInit {
   }
 
   onFiltersChange(filters: PostFiltersStatus) {
-    console.log("Post filters changed", filters);
+    this.selectedCategory = filters.categoryId;
+    
+    this.loadPosts();
   }
 
 }

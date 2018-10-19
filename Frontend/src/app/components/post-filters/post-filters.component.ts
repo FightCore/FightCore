@@ -12,7 +12,7 @@ export interface PostFiltersStatus {
   styleUrls: ['./post-filters.component.css']
 })
 export class PostFiltersComponent implements OnInit {
-  @Input('initialCatSort') selectedPostCat: number;
+  @Input('initialCatSort') selectedPostCat: number = -1;
   @Output('selectionChange') selectionChange = new EventEmitter<PostFiltersStatus>();
 
   postCatgories = PostService.PostCategories;
@@ -20,6 +20,11 @@ export class PostFiltersComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // Add None option to normal selections
+    this.postCatgories.unshift({
+      id: -1,
+      name: 'None'
+    });
   }
 
   onSelectChange() {

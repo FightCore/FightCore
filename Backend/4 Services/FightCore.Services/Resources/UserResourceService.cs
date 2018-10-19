@@ -12,10 +12,11 @@ namespace FightCore.Services.Resources
     public interface IUserResourceService : IEntityService<UserResource>
     {
         /// <summary>
-        /// Gets the total posts matching given optional filters (to be done)
+        /// Gets the total posts matching given optional filters
         /// </summary>
+        /// <param name="category">Optionally filter on this post category</param>
         /// <returns>Total posts count</returns>
-        Task<int> GetPostCountAsync();
+        Task<int> GetPostCountAsync(ResourceCategory? category);
 
         /// <summary>
         /// Gets a page of posts
@@ -23,8 +24,9 @@ namespace FightCore.Services.Resources
         /// <param name="pageSize">Size per page of posts</param>
         /// <param name="pageNumber">Page index</param>
         /// <param name="sortOption">How results should be ordered</param>
+        /// <param name="category">Optionally filter on this post category</param>
         /// <returns>Posts for given page</returns>
-        IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption);
+        IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
     }
     public class UserResourceService : EntityService<UserResource>, IUserResourceService
     {
@@ -36,15 +38,15 @@ namespace FightCore.Services.Resources
         }
 
         /// <inheritdoc cref="IUserResourceService.GetPostCountAsync"/>
-        public Task<int> GetPostCountAsync()
+        public Task<int> GetPostCountAsync(ResourceCategory? category)
         {
-            return _repository.GetPostCountAsync();
+            return _repository.GetPostCountAsync(category);
         }
 
         /// <inheritdoc cref="IUserResourceService.GetPosts"/>
-        public IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption)
+        public IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
         {
-            return _repository.GetPosts(pageSize, pageNumber, sortOption);
+            return _repository.GetPosts(pageSize, pageNumber, sortOption, category);
         }
     }
 }
