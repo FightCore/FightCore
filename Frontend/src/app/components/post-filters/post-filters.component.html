@@ -1,6 +1,16 @@
 <div class="filter-container">
   <div class="post-filter">
-    <character-picker></character-picker>
+    <mat-form-field>
+      <mat-select matInput
+        placeholder="Category"
+        [(value)]="selectedPostCat"
+        (selectionChange)="onSelectChange()"
+      >
+        <mat-option *ngFor="let category of postCatgories" [value]="category.id">
+          {{category.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="post-filter">
     <character-picker></character-picker>

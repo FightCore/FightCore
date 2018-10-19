@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Post } from '../../models/Post';
 import { PostPopupComponent } from '../../components/post-popup/post-popup.component';
 import { PageEvent } from '@angular/material';
+import { PostFiltersStatus } from 'src/app/components/post-filters/post-filters.component';
+import { PostPreview } from 'src/app/models/PostPreview';
 
 @Component({
   selector: 'app-library',
@@ -12,13 +14,19 @@ import { PageEvent } from '@angular/material';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
-  posts: Post[] = [];
-  displayPost: Post;
+  posts: PostPreview[] = [];
+  displayPost: PostPreview;
   @ViewChild('postContent') postContent: TemplateRef<any>;
   @ViewChild('postPopup') postPopup: PostPopupComponent;
 
+  isLoading: boolean;
+  errorMsgs = [];
+
   // Paginator
+  pageNumber = 1;
   pageSize = 10; // Default page size
+  totalPosts = 0;
+  sortOption = 0; // TODO
 
   constructor(private titleService: Title, 
     private router: Router, 
@@ -26,9 +34,35 @@ export class LibraryComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle("Library");
-    this.postService.getPosts().subscribe((res: Post[])=> {
-      this.posts = res;
-    }); //TODO Add error handling
+    
+    this.loadPosts();
+  }
+
+  loadPosts() {
+    // Show loading indicator and clear any extra error messages
+    this.isLoading = true;
+    this.errorMsgs = [];
+
+    this.postService.getPostsPage(this.pageSize, this.pageNumber, this.sortOption)
+      .subscribe(
+        postsPage => {
+          this.isLoading = false;
+          
+          // Store useful results
+          this.totalPosts = postsPage.total;
+          this.posts = postsPage.posts;
+
+          // Set these in order to be robust
+          this.pageSize = postsPage.pageSize;
+          this.pageNumber = postsPage.pageNumber;       
+          // TODO: Pass back sort and filters as well?   
+        },
+        error => {
+          this.isLoading = false;
+          this.errorMsgs.push(error);
+          console.log("Error on post page", error);
+        }
+      );
   }
   
   /**
@@ -57,7 +91,20 @@ export class LibraryComponent implements OnInit {
   }
 
   onPageChange(event: PageEvent) {
-    console.log("Page Change, event: ", event);
+    this.pageSize = event.pageSize;
+    this.pageNumber = event.pageIndex + 1;
+
+    this.loadPosts();
+  }
+
+  onSortChange(sortId: number) {
+    this.sortOption = sortId;
+
+    this.loadPosts();
+  }
+
+  onFiltersChange(filters: PostFiltersStatus) {
+    console.log("Post filters changed", filters);
   }
 
 }

@@ -1,4 +1,4 @@
-import { PostService } from './../../services/post.service';
+import { PostService } from 'src/app/services/post.service';
 import { Character } from './../../models/Character';
 import { Post } from './../../models/Post';
 import { DialogData } from './../confirm-dialog/dialog-data.interface';
@@ -37,32 +37,7 @@ export class PostEditorComponent implements OnInit {
   // TODO: Allow multiple character select
   // TODO: Allow an 'All' option for Target Character(s)
 
-  postCatgories = [
-    {
-      id: '1',
-      name: 'General'
-    },
-    {
-      id: '2',
-      name: 'Combos'
-    },
-    {
-      id: '3',
-      name: 'Tech & Mechanics'
-    },
-    {
-      id: '4',
-      name: 'Counterplay'
-    },
-    {
-      id: '5',
-      name: 'Community'
-    },
-    {
-      id: '6',
-      name: 'Game Independent'
-    },
-  ];
+  postCatgories = PostService.PostCategories;
   selectedPostCat: number;
 
   comboTypesS4 = [
@@ -97,24 +72,7 @@ export class PostEditorComponent implements OnInit {
   ];
   selectedComboType: number[];
 
-  skillCategories = [
-    {
-      id: 1,
-      name: 'N/A'
-    },
-    {
-      id: 2,
-      name: 'Beginner'
-    },
-    {
-      id: 3,
-      name: 'Intermediate'
-    },
-    {
-      id: 2,
-      name: 'Advanced'
-    }
-  ];
+  skillCategories = PostService.PostSkillCategories;
   selectedSkill: number = 1; // Initialize to N/A
 
   patches = [

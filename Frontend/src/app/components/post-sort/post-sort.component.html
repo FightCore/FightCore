@@ -2,6 +2,7 @@
   <mat-select 
   placeholder="Sorting"
   [(value)]="selectedSort"
+  (selectionChange)="onSelectionChange()"
   >
     <mat-option *ngFor="let option of sortOptions" [value]="option.id">
       {{option.name}}

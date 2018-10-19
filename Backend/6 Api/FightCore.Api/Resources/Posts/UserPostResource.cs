@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FightCore.Models;
+using System;
 
-namespace FightCore.Api.Resources
+namespace FightCore.Api.Posts.Resources
 {
     /// <summary>
-    /// UI Resource of the <see cref="FightCore.Models.Resources.UserResource"/> class. Not named UserResourceResource for easier naming
+    /// UI Resource of the <see cref="Models.Resources.UserResource"/> class. Not named UserResourceResource for easier naming
     /// </summary>
     public class UserPostResource
     {
@@ -14,7 +12,7 @@ namespace FightCore.Api.Resources
         /// <summary>
         /// The user who has written this resource
         /// </summary>
-        public UserResource Author { get; set; }
+        public ApplicationUser Author { get; set; }
         public int AuthorId { get; set; }
         /// <summary>
         /// The content of the resource

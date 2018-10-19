@@ -18,14 +18,16 @@ import { ProfileComponent } from '../profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
-import {NgbModule, NgbDatepickerModule, NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
   MatTooltipModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSelectModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
 import { PostService } from '../services/post.service';
@@ -45,6 +47,8 @@ import { OverviewComponent } from '../pages/characters/overview/overview.compone
     MatInputModule,
     MatTooltipModule,
     MatPaginatorModule,
+    MatSelectModule,
+    MatProgressBarModule,
     ComponentsModule,
     NgbDatepickerModule,
     NgbModalModule,

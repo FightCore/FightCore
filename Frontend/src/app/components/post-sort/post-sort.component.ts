@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'post-sort',
@@ -6,26 +7,18 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./post-sort.component.css']
 })
 export class PostSortComponent implements OnInit {
-  @Input('selectedSort') selectedSort: number = 1; // Defaults to Popular
+  @Input('initialSort') selectedSort: number = 0; // Defaults to Popular
+  @Output('selectionChange') selectionChange = new EventEmitter<number>();
 
-  sortOptions = [
-    {
-      id: 1,
-      name: "Popular"
-    },
-    {
-      id: 2,
-      name: "Latest"
-    },
-    {
-      id: 3,
-      name: "Rating"
-    }
-  ];
+  sortOptions = PostService.PostSortOptions;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSelectionChange() {
+    this.selectionChange.emit(this.selectedSort);
   }
 
 }

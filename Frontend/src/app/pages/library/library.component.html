@@ -9,28 +9,38 @@
 
     <div class="row post-controls">
       <div class="col-6">
-        <post-filters></post-filters>
+        <post-filters (selectionChange)="onFiltersChange($event)"></post-filters>
       </div>
       <div class="col-6">
         <div class="float-right">
-          <post-sort></post-sort>
+          <post-sort (selectionChange)="onSortChange($event)"></post-sort>
         </div>
       </div>
     </div>
 
     <div>
-      <mat-paginator [length]="posts.length" [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)">
+      <mat-paginator [length]="totalPosts" [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 50]" (page)="onPageChange($event)">
       </mat-paginator>
     </div>
 
-    <div class="row">
-      <div class="col-md-4" *ngFor="let post of posts">
-        <a (click)="open(post)" style="cursor:pointer;">
-          <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
-        </a>
+    <div *ngIf="isLoading; else viewPosts">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="errorMsgs">
+      <div *ngFor="let err of errorMsgs" class="alert alert-danger">
+        {{ err }}
       </div>
     </div>
+    <ng-template #viewPosts>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let post of posts">
+          <a (click)="open(post)" style="cursor:pointer;">
+            <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+          </a>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>
 <post-popup #postPopup></post-popup>
