@@ -6,6 +6,7 @@ import { ConfirmDialogComponent } from './../confirm-dialog/confirm-dialog.compo
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { PostInfo } from 'src/app/resources/post-info';
 
 @Component({
   selector: 'post-editor',
@@ -37,7 +38,7 @@ export class PostEditorComponent implements OnInit {
   // TODO: Allow multiple character select
   // TODO: Allow an 'All' option for Target Character(s)
 
-  postCatgories = PostService.PostCategories;
+  postCatgories = PostInfo.PostCategories;
   selectedPostCat: number;
 
   comboTypesS4 = [
@@ -72,7 +73,7 @@ export class PostEditorComponent implements OnInit {
   ];
   selectedComboType: number[];
 
-  skillCategories = PostService.PostSkillCategories;
+  skillCategories = PostInfo.PostSkillCategories;
   selectedSkill: number = 1; // Initialize to N/A
 
   patches = [

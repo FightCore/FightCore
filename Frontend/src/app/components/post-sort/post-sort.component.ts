@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { PostService } from 'src/app/services/post.service';
+import { PostInfo } from 'src/app/resources/post-info';
 
 @Component({
   selector: 'post-sort',
@@ -10,7 +10,7 @@ export class PostSortComponent implements OnInit {
   @Input('initialSort') selectedSort: number = 0; // Defaults to Popular
   @Output('selectionChange') selectionChange = new EventEmitter<number>();
 
-  sortOptions = PostService.PostSortOptions;
+  sortOptions = PostInfo.PostSortOptions;
 
   constructor() { }
 

@@ -12,65 +12,6 @@ import { PostsPage } from '../models/PostsPage';
   providedIn: 'root'
 })
 export class PostService extends BaseService {
-  public static readonly PostCategories = [
-    {
-      id: 0,
-      name: 'General'
-    },
-    {
-      id: 1,
-      name: 'Combos'
-    },
-    {
-      id: 2,
-      name: 'Tech & Mechanics'
-    },
-    {
-      id: 3,
-      name: 'Counterplay'
-    },
-    {
-      id: 4,
-      name: 'Community'
-    },
-    {
-      id: 5,
-      name: 'Game Independent'
-    },
-  ];
-  public static readonly PostSortOptions = [
-    {
-      id: 0,
-      name: "Popular"
-    },
-    {
-      id: 1,
-      name: "Latest"
-    },
-    {
-      id: 2,
-      name: "Rating"
-    }
-  ];
-  public static readonly PostSkillCategories = [
-    {
-      id: 1,
-      name: 'N/A'
-    },
-    {
-      id: 2,
-      name: 'Beginner'
-    },
-    {
-      id: 3,
-      name: 'Intermediate'
-    },
-    {
-      id: 2,
-      name: 'Advanced'
-    }
-  ];
-
   constructor(http: HttpClient) {
     super(http);
   }
