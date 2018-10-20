@@ -7,7 +7,7 @@ import { Post } from '../../models/Post';
 @Component({
   selector: 'post-viewer',
   templateUrl: './post-viewer.component.html',
-  styleUrls: ['./post-viewer.component.css']
+  styleUrls: ['./post-viewer.component.scss']
 })
 export class PostViewerComponent implements OnInit, TabComponentInterface {
   @Input('data') data: Post;

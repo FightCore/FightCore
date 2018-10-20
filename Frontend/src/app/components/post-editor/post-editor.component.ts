@@ -7,6 +7,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { PostInfo } from 'src/app/resources/post-info';
+import { EditorComponent } from '../editor/editor.component';
 
 @Component({
   selector: 'post-editor',
@@ -17,7 +18,8 @@ export class PostEditorComponent implements OnInit {
   // TODO: Input to give feedback if submit fails or otherwise show failed messages
   @Output('onSubmit') onSubmitHandler: EventEmitter<Post> = new EventEmitter();
 
-  @ViewChild('stepper') stepperComponent; 
+  @ViewChild('stepper') stepperComponent;
+  @ViewChild('bodyEditor') bodyEditor: EditorComponent;
   
   metaFormGroup: FormGroup;
   contentFormGroup: FormGroup;
@@ -130,8 +132,7 @@ export class PostEditorComponent implements OnInit {
     });
     this.contentFormGroup = this.formBuilder.group({
       titleCtrl: ['', Validators.required],
-      linkCtrl: [''],
-      bodyCtrl: ['']
+      linkCtrl: ['']
     });
     this.additionalFormGroup = this.formBuilder.group({
       patchCtrl: [''],
@@ -238,7 +239,7 @@ export class PostEditorComponent implements OnInit {
 
     post.title = this.contentFormGroup.controls.titleCtrl.value;
     post.featuredLink = this.contentFormGroup.controls.linkCtrl.value;
-    post.content = this.contentFormGroup.controls.bodyCtrl.value; 
+    post.content = this.bodyEditor.getContents();
     
     post.skillLevel = this.selectedSkill;
     post.patchId = this.selectedPatch;
@@ -270,7 +271,7 @@ export class PostEditorComponent implements OnInit {
     
     // Post must contain either a video or text at least
     let controls = this.contentFormGroup.controls; // Shortcut
-    if(controls.bodyCtrl.value === '' && controls.linkCtrl.value === '') {
+    if(this.bodyEditor.isEmpty() && controls.linkCtrl.value === '') {
       return false;
     }
 

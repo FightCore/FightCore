@@ -21,6 +21,7 @@ import { PostSortComponent } from './post-sort/post-sort.component';
 import { WikiPostsComponent } from './wiki/wiki-posts/wiki-posts.component';
 import { PostPopupComponent } from './post-popup/post-popup.component';
 import { PopupComponent } from './popup/popup.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { PopupComponent } from './popup/popup.component';
     PostSortComponent,
     WikiPostsComponent,
     PostPopupComponent,
-    PopupComponent
+    PopupComponent,
+    EditorComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -76,7 +78,8 @@ import { PopupComponent } from './popup/popup.component';
     TabExampleComponent, // for testing purposes
     WikiPostsComponent,
     PostPopupComponent,
-    PopupComponent
+    PopupComponent,
+    EditorComponent // TODO: Not sure if this should be external
   ]
 })
 export class ComponentsModule { }

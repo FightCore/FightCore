@@ -104,15 +104,19 @@
       <ng-template matStepLabel>Contents of the post?</ng-template>
       <p>Fill out the content people will always see</p>
       <p>Required to either have at least video url or text body</p>
+
       <mat-form-field>
         <input matInput placeholder="Post Title" formControlName="titleCtrl" required>
       </mat-form-field>
       <mat-form-field>
         <input matInput placeholder="Featured Link" formControlName="linkCtrl">
       </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Post Body" formControlName="bodyCtrl"></textarea>
-      </mat-form-field>
+
+      <div>
+        <mat-label>Post Body</mat-label>
+        <app-editor #bodyEditor></app-editor>
+      </div>
+      
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>

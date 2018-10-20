@@ -53,8 +53,7 @@
                     {{data.featureUrl}}
                   </a>
                 </div>
-                <div *ngIf="data.content">
-                  {{data.content}}
+                <div *ngIf="data.content" [innerHtml]="data.content">
                 </div>
               </div>
             </div>

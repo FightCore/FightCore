@@ -24,7 +24,9 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/assets/scss/material-dashboard.scss"
+              "src/assets/scss/material-dashboard.scss",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": []
           },
