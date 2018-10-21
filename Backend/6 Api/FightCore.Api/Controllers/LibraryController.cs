@@ -19,32 +19,32 @@ using Microsoft.Extensions.Configuration;
 namespace FightCore.Api.Controllers
 {
     /// <summary>
-    /// The controller for the <see cref="FightCore.Models.Resources.UserResource"/> class
+    /// The controller for the <see cref="FightCore.Models.Resources.Post"/> class
     /// </summary>
     [Route("[controller]/[action]")]
     [ApiController]
     public class LibraryController : ControllerBase
     {
         private IConfiguration _configuration;
-        private readonly IUserResourceService _userResourceService;
+        private readonly IPostService _postService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
-        public LibraryController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, IUserResourceService userResourceService, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public LibraryController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, IPostService userResourceService, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _configuration = configuration;
             _unitOfWork = unitOfWork;
-            _userResourceService = userResourceService;
+            _postService = userResourceService;
             _userManager = userManager;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUserResourcesAsync()
+        public async Task<IActionResult> GetAllPostsAsync()
         {
-            var resources = await _userResourceService.GetAllAsync();
+            var resources = await _postService.GetAllAsync();
 
-            var resourcesMapped = _mapper.Map<List<UserPostResource>>(resources);
+            var resourcesMapped = _mapper.Map<List<PostResource>>(resources);
 
             return Ok(resourcesMapped);
         }
@@ -95,7 +95,7 @@ namespace FightCore.Api.Controllers
             }
 
             // Get total count of results
-            int totalPosts = await _userResourceService.GetPostCountAsync(category);
+            int totalPosts = await _postService.GetPostCountAsync(category);
             // If no results, can wrap things up here
             if(totalPosts < 1)
             {
@@ -117,7 +117,7 @@ namespace FightCore.Api.Controllers
             }
 
             // Otherwise, finally get the sorted and optionally filtered page of posts
-            var posts = _userResourceService.GetPosts(pageSize, pageNumber, (SortCategory)sortOption, category);
+            var posts = _postService.GetPosts(pageSize, pageNumber, (SortCategory)sortOption, category);
             result = new PostsResultResource
             {
                 PageSize = pageSize,
@@ -129,14 +129,14 @@ namespace FightCore.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserResourceByIdAsync(int id)
+        public async Task<IActionResult> GetPostsByIdAsync(int id)
         {
-            var resource = await _userResourceService.FindByIdAsync(id);
+            var resource = await _postService.FindByIdAsync(id);
 
             if (resource == null)
                 return NotFound();
 
-            var resourceMapped = _mapper.Map<UserPostResource>(resource);
+            var resourceMapped = _mapper.Map<PostResource>(resource);
 
             return Ok(resourceMapped);
         }
@@ -148,9 +148,9 @@ namespace FightCore.Api.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserPostResource userPost)
+        public async Task<IActionResult> Create([FromBody] PostResource userPost)
         {
-            var resource = _mapper.Map<Models.Resources.UserResource>(userPost);
+            var resource = _mapper.Map<Models.Resources.Post>(userPost);
 
             var userId = _userManager.GetUserId(User);
 
@@ -158,10 +158,11 @@ namespace FightCore.Api.Controllers
             if (resource.AuthorId != Convert.ToInt32(userId))
                 return BadRequest();
 
-            await _userResourceService.InsertAsync(resource);
+            resource.CreatedDate = DateTime.Now;
+            await _postService.InsertAsync(resource);
             await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUserResourceByIdAsync), new { Id = resource.Id }, _mapper.Map<UserPostResource>(resource));
+            return CreatedAtAction(nameof(GetPostsByIdAsync), new { Id = resource.Id }, _mapper.Map<PostResource>(resource));
         }
     }
 }

@@ -4,9 +4,9 @@ using System;
 namespace FightCore.Api.Posts.Resources
 {
     /// <summary>
-    /// UI Resource of the <see cref="Models.Resources.UserResource"/> class. Not named UserResourceResource for easier naming
+    /// UI Resource of the <see cref="Models.Resources.Post"/> class. Not named UserResourceResource for easier naming
     /// </summary>
-    public class UserPostResource
+    public class PostResource
     {
         public int Id { get; set; }
         /// <summary>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FightCore.Models.Resources
 {
-    public class UserResource : IEntity
+    public class Post : IEntity
     {
         public int Id { get; set; }
         /// <summary>

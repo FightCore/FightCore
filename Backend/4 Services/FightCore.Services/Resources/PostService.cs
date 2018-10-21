@@ -9,7 +9,7 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.Resources
 {
-    public interface IUserResourceService : IEntityService<UserResource>
+    public interface IPostService : IEntityService<Post>
     {
         /// <summary>
         /// Gets the total posts matching given optional filters
@@ -26,25 +26,25 @@ namespace FightCore.Services.Resources
         /// <param name="sortOption">How results should be ordered</param>
         /// <param name="category">Optionally filter on this post category</param>
         /// <returns>Posts for given page</returns>
-        IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
+        IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
     }
-    public class UserResourceService : EntityService<UserResource>, IUserResourceService
+    public class PostService : EntityService<Post>, IPostService
     {
-        private readonly IUserResourceRepository _repository;
+        private readonly IPostRepository _repository;
 
-        public UserResourceService(IUserResourceRepository repository) : base(repository)
+        public PostService(IPostRepository repository) : base(repository)
         {
             _repository = repository;
         }
 
-        /// <inheritdoc cref="IUserResourceService.GetPostCountAsync"/>
+        /// <inheritdoc cref="IPostService.GetPostCountAsync"/>
         public Task<int> GetPostCountAsync(ResourceCategory? category)
         {
             return _repository.GetPostCountAsync(category);
         }
 
-        /// <inheritdoc cref="IUserResourceService.GetPosts"/>
-        public IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
+        /// <inheritdoc cref="IPostService.GetPosts"/>
+        public IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
         {
             return _repository.GetPosts(pageSize, pageNumber, sortOption, category);
         }

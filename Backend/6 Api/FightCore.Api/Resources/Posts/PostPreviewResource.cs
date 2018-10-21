@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace FightCore.Api.Resources.Posts
 {
     /// <summary>
-    /// Simplified UI resource of the <see cref="FightCore.Models.Resources.UserResource"/> class
+    /// Simplified UI resource of the <see cref="FightCore.Models.Resources.Post"/> class
     /// </summary>
     public class PostPreviewResource
     {

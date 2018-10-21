@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FightCore.Repositories.Resources
 {
-    public interface IUserResourceRepository : IRepositoryAsync<UserResource>
+    public interface IPostRepository : IRepositoryAsync<Post>
     {
         Task<int> GetPostCountAsync(ResourceCategory? category);
 
-        IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
+        IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
     }
-    public class UserResourceRepository : Repository<UserResource>, IUserResourceRepository
+    public class PostRepository : Repository<Post>, IPostRepository
     {
-        public UserResourceRepository(DbContext context) : base(context)
+        public PostRepository(DbContext context) : base(context)
         {
         }
         
@@ -34,9 +34,9 @@ namespace FightCore.Repositories.Resources
             }
         }
 
-        public IEnumerable<UserResource> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
+        public IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
         {
-            IOrderedQueryable<UserResource> sorted;
+            IOrderedQueryable<Post> sorted;
             switch (sortOption)
             {
                 case SortCategory.Popular:

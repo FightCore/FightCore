@@ -17,9 +17,9 @@ namespace FightCore.Api.Configurations
             CreateMap<UserResource, ApplicationUser>().ReverseMap();
             CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
             CreateMap<NewUserResource, ApplicationUser>();
-            CreateMap<UserPostResource, Models.Resources.UserResource>();
+            CreateMap<PostResource, Models.Resources.Post>();
 
-            CreateMap<PostPreviewResource, Models.Resources.UserResource>();
+            CreateMap<PostPreviewResource, Models.Resources.Post>();
         }
     }
 }

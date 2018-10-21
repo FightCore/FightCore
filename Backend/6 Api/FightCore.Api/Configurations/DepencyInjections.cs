@@ -41,9 +41,9 @@ namespace FightCore.Api.Configurations
         public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserResourceRepository, UserResourceRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
 
-            services.AddScoped<IUserResourceService, UserResourceService>();
+            services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
 
             return services;

@@ -22,10 +22,10 @@ namespace FightCore.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-            builder.Entity<UserResource>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
+            builder.Entity<Post>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
         }
 
-        public DbSet<UserResource> Resources { get; set; }
+        public DbSet<Post> Posts { get; set; }
     }
 }
