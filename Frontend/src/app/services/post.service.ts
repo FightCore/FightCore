@@ -64,12 +64,7 @@ export class PostService extends BaseService {
   }
 
   public getPost(id: number): Observable<Post> {
-    return this.http.get<Post>(`${environment.baseUrl}/library/GetUserResourceByIdAsync/${id}`, { headers: this.defaultHeaders })
-      .pipe(catchError(this.handleError));
-  }
-
-  public getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${environment.baseUrl}/library/GetAllUserResourcesAsync`, { headers: this.defaultHeaders })
+    return this.http.get<Post>(`${environment.baseUrl}/library/GetPostByIdAsync/${id}`, { headers: this.defaultHeaders })
       .pipe(catchError(this.handleError));
   }
 

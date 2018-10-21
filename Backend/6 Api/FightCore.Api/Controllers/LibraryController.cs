@@ -129,7 +129,7 @@ namespace FightCore.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPostsByIdAsync(int id)
+        public async Task<IActionResult> GetPostByIdAsync(int id)
         {
             var resource = await _postService.FindByIdAsync(id);
 
@@ -162,7 +162,7 @@ namespace FightCore.Api.Controllers
             await _postService.InsertAsync(resource);
             await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPostsByIdAsync), new { Id = resource.Id }, _mapper.Map<PostResource>(resource));
+            return CreatedAtAction(nameof(GetPostByIdAsync), new { Id = resource.Id }, _mapper.Map<PostResource>(resource));
         }
     }
 }
