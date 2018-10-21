@@ -44,10 +44,13 @@ namespace FightCore.Api.SignalRTesting
         }
 
         /// <summary>
-        /// Gets notifications for current user, one page at a time
+        /// Gets notifications for current user, one page at a time, 20 notifications per page
         /// </summary>
         /// <param name="pageNumber">Page number to get. 1 is first page</param>
-        /// <returns></returns>
+        /// <returns>
+        /// 200 with a page of notifications
+        /// 400 if page number is out of range (less than 1 or greater than total number of pages)
+        /// </returns>
         [HttpGet("{pageNumber}")]
         [Authorize]
         public async Task<IActionResult> Get(int pageNumber)
@@ -56,14 +59,16 @@ namespace FightCore.Api.SignalRTesting
 
             // Quick check on page number, must start at 1
             if (pageNumber < 1)
+            {
                 return BadRequest("Page number must start at 1");
+            }
 
             // Get current user's id
             int userId;
             Int32.TryParse(_userManager.GetUserId(User), out userId);
 
             // Get count of notifications for user
-            int totalNotifs = await _notificationService.GetNotificationsCountAsync(userId);
+            var totalNotifs = await _notificationService.GetNotificationsCountAsync(userId);
             if (totalNotifs == 0)
             {
                 result = new NotificationsResource
@@ -97,7 +102,7 @@ namespace FightCore.Api.SignalRTesting
         /// <summary>
         /// Marks all unread notifications for user as read
         /// </summary>
-        /// <returns></returns>
+        /// <returns>200 if all notifications marked as read</returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> MarkAllUnreadRead()
@@ -117,13 +122,20 @@ namespace FightCore.Api.SignalRTesting
         /// Marks a single notification as read
         /// </summary>
         /// <param name="notifId">Notification to mark as read</param>
-        /// <returns></returns>
+        /// <returns>
+        /// 200 if notification successfully marked as read
+        /// 400 if can't find notification by id or if notification already marked as read
+        /// 405 if noitification is not for current user
+        /// </returns>
         [HttpPost("{notifId}")]
         [Authorize]
         public async Task<IActionResult> MarkRead(int notifId)
         {
             // If invalid id...
-            if (notifId < 1) return BadRequest("Bad id");
+            if (notifId < 1)
+            {
+                return BadRequest("Bad id");
+            }
 
             // Get intended notification
             var notif = await _notificationService.FindByIdAsync(notifId);

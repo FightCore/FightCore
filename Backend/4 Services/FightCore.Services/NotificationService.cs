@@ -21,7 +21,7 @@ namespace FightCore.Services
         /// <param name="userId">User to get notifications for</param>
         /// <param name="pageSize">Number of notifications per page</param>
         /// <param name="pageNumber">Page of notifications to retrieve (starting at 1)</param>
-        /// <returns></returns>
+        /// <returns>Collection of notifications for the given requested page</returns>
         IEnumerable<Notification> GetNotificationsForUser(int userId, int pageSize, int pageNumber);
 
         /// <summary>
