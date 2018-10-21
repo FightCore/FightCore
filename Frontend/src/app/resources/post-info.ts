@@ -1,5 +1,4 @@
 import { SimpleInfo } from "./simple-info.interface";
-import { ResourceBase } from "./resource-base";
 
 export abstract class PostInfo {
     public static readonly PostCategories: SimpleInfo[] = [
@@ -21,12 +20,4 @@ export abstract class PostInfo {
         { id: 3, name: 'Intermediate' },
         { id: 2, name: 'Advanced' }
     ];
-
-    /**
-     * Gets post categories with an initial none option (id of -1)
-     * @returns Post categories with initial none option
-     */
-    public static getCategoriesWithNone(): SimpleInfo[] {
-        return ResourceBase.createNoneArray(this.PostCategories);
-    }
 }

@@ -1,16 +1,22 @@
 <div class="filter-container">
-  <div class="post-filter">
-    <mat-form-field>
-      <mat-select matInput
-        placeholder="Category"
-        [(value)]="selectedPostCat"
-        (selectionChange)="onSelectChange()"
-      >
-        <mat-option *ngFor="let category of postCatgories" [value]="category.id">
-          {{category.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="d-flex flex-row align-items-center post-filter">
+    <div>
+      <mat-form-field>
+        <mat-select matInput #catSelect
+          placeholder="Category"
+          [(value)]="selectedPostCat"
+          (selectionChange)="onSelectChange()">
+          <mat-option *ngFor="let category of postCatgories" [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div style="width: 40px;">
+      <button mat-button *ngIf="selectedPostCat > -1" matSuffix mat-icon-button aria-label="Clear" (click)="onClearCatSelect()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
   <div class="post-filter">
     <character-picker></character-picker>

@@ -1,5 +1,4 @@
 import { SimpleInfo } from "./simple-info.interface";
-import { ResourceBase } from "./resource-base";
 
 export abstract class CharacterInfo {
     public static getCharacters(gameId: number): SimpleInfo[] {
@@ -8,12 +7,8 @@ export abstract class CharacterInfo {
             case 1: // Smash 4
                 return this.S4;
             default:
-                return ResourceBase.NoneArray;
+                return [];
         }
-    }
-
-    public static getCharactersWithNone(gameId: number): SimpleInfo[] {
-        return ResourceBase.createNoneArray(this.getCharacters(gameId));        
     }
 
     private static readonly S4: SimpleInfo[] = [
