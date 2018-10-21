@@ -1,8 +1,8 @@
 import { PostService } from './../../services/post.service';
 import { TabComponentInterface } from './../tabs/tab/tab-component.interface';
-import { PostEditorComponent } from './../post-editor/post-editor.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../../models/Post';
+import { PostInfo } from 'src/app/resources/post-info';
 
 @Component({
   selector: 'post-viewer',
@@ -36,7 +36,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
 
   // TODO: Rewrite all the following to call into a more centralized location to get this info
   isCombo():boolean {
-    return this.data.category == PostEditorComponent.CombosCatId;
+    return this.data.category == PostInfo.CombosCatId;
   }
   getCategoryName(): string {
     return this.data.category + " (cat name)";

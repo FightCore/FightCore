@@ -25,19 +25,15 @@ export class PostEditorComponent implements OnInit {
   contentFormGroup: FormGroup;
   additionalFormGroup: FormGroup;
   resetDialogRef: MatDialogRef<ConfirmDialogComponent>;
-
-  static readonly GameIndependentId = 5;
-  static readonly CombosCatId = 2;
   
   showGameSpecificFields = false; // Default false as must select a category first
-  showCombosFields = false;       
+  showCombosFields = false;
 
   // Fields for character select
   charSelectTitle: string;        // Title filled in once category is selected
   isCharacterRequired = false;    // Controls asterisk next to character name
-  mainCharSelect: number;
-  targetCharSelect: number;
-  // TODO: Allow multiple character select
+  mainCharSelect: number[];
+  targetCharSelect: number[];
   // TODO: Allow an 'All' option for Target Character(s)
 
   postCatgories = PostInfo.PostCategories;
@@ -148,7 +144,7 @@ export class PostEditorComponent implements OnInit {
   onPostCatSelection() {
     // If doing a game-independent post, hide all game-specific controls
     // TODO: Figure out why can't use ===, where's the type difference coming from and how to avoid ==?
-    if(this.selectedPostCat == PostEditorComponent.GameIndependentId) {
+    if(this.selectedPostCat == PostInfo.GameIndependentId) {
       this.showGameSpecificFields = false;
       this.showCombosFields = false; // Technically unnecessary but more complete & robust
     }
@@ -156,7 +152,7 @@ export class PostEditorComponent implements OnInit {
       this.showGameSpecificFields = true;
 
       // Show combos fields only for combo posts
-      if(this.selectedPostCat == PostEditorComponent.CombosCatId) {
+      if(this.selectedPostCat == PostInfo.CombosCatId) {
         this.showCombosFields = true;
 
         // Set up main character select as required
@@ -171,9 +167,6 @@ export class PostEditorComponent implements OnInit {
         this.isCharacterRequired = false;
       }
     }
-
-    console.log('charSelectTitle: ', this.charSelectTitle);
-    console.log('isCharacterRequired', this.isCharacterRequired);
   }
 
   /**
@@ -181,8 +174,9 @@ export class PostEditorComponent implements OnInit {
    * TODO: Handle multiple character selection
    * @param character Selected character
    */
-  onMainCharSelect(character: Character) {
-    this.mainCharSelect = character.id;
+  onMainCharSelect(characters: Character[]) {
+    this.mainCharSelect = [];
+    characters.forEach(char => this.mainCharSelect.push(char.id));
   }
 
   /**
@@ -190,8 +184,9 @@ export class PostEditorComponent implements OnInit {
    * TODO: Handle multiple character selection
    * @param character Selected character
    */
-  onTargetCharSelect(character: Character) {
-    this.targetCharSelect = character.id;
+  onTargetCharSelect(characters: Character[]) {
+    this.targetCharSelect = [];
+    characters.forEach(char => this.targetCharSelect.push(char.id));
   }
 
   /**
@@ -247,10 +242,10 @@ export class PostEditorComponent implements OnInit {
 
     // If showing other game fields, use their data as well
     if(this.showGameSpecificFields) {
-      post.characterIds = [this.mainCharSelect];
+      post.characterIds = this.mainCharSelect;
 
       if(this.showCombosFields) {
-        post.targetCharacterIds = [this.targetCharSelect];
+        post.targetCharacterIds = this.targetCharSelect;
         post.comboTypeIds = this.selectedComboType;
         post.targetPercent = this.metaFormGroup.controls.comboPercCtrl.value;
         post.comboDmg = this.metaFormGroup.controls.comboDmgCtrl.value;

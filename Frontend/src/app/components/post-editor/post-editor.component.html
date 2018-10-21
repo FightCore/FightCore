@@ -17,16 +17,18 @@
       </mat-form-field>
       <div *ngIf="showGameSpecificFields;">
         <character-picker
-          [title]="charSelectTitle"
+          [placeholder]="charSelectTitle"
           [showAsRequired]="isCharacterRequired"
-          (onCharacterChange)="onMainCharSelect($event)"
+          multiple="true"
+          (onMultiCharChange)="onMainCharSelect($event)"
         ></character-picker>
         <div *ngIf="showCombosFields;">
           <p>Combo specific fields:</p>
           <character-picker
-            [title]="'Target Character(s)'"
+            [placeholder]="'Target Character(s)'"
             [showAsRequired]="true"
-            (onCharacterChange)="onTargetCharSelect($event)"
+            multiple="true"
+            (onMultiCharChange)="onTargetCharSelect($event)"
           ></character-picker>
           <mat-form-field>
             <mat-select matInput

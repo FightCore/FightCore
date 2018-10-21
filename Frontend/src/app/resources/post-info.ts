@@ -1,6 +1,8 @@
 import { SimpleInfo } from "./simple-info.interface";
 
 export abstract class PostInfo {
+    public static readonly CombosCatId = 1;
+    public static readonly GameIndependentId = 5;
     public static readonly PostCategories: SimpleInfo[] = [
         { id: 0, name: 'General' },
         { id: 1, name: 'Combos' },

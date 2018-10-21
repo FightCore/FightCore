@@ -41,3 +41,8 @@
         }
     }
 }
+
+// For character-picker component, can't target checkbox in there (scoping issues?)
+.searchbar .mat-pseudo-checkbox {
+    display: none;
+}
