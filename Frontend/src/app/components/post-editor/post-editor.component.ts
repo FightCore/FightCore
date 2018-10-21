@@ -4,10 +4,31 @@ import { Post } from './../../models/Post';
 import { DialogData } from './../confirm-dialog/dialog-data.interface';
 import { ConfirmDialogComponent } from './../confirm-dialog/confirm-dialog.component';
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { PostInfo } from 'src/app/resources/post-info';
 import { EditorComponent } from '../editor/editor.component';
+
+// Validates urls
+export function urlValidator(): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    // Simply try to create a url object and let that handle any complexity
+    try {
+      new URL(control.value);
+      return null;
+    } catch (error) {
+      return { 'badUrl': true };
+    }
+  };
+}
+
+// Not exporting as outside world doesn't need this (yet)
+enum VideoType {
+  None,
+  Youtube,
+  TwitchClip,
+  TwitterVid
+}
 
 @Component({
   selector: 'post-editor',
@@ -25,7 +46,10 @@ export class PostEditorComponent implements OnInit {
   contentFormGroup: FormGroup;
   additionalFormGroup: FormGroup;
   resetDialogRef: MatDialogRef<ConfirmDialogComponent>;
-  
+
+  showLinkPreview = false; // Whether to show or hide the link preview component (which isn't perfect, component can be changed in the future)
+  showYTEmbed = false;
+
   showGameSpecificFields = false; // Default false as must select a category first
   showCombosFields = false;
 
@@ -128,11 +152,10 @@ export class PostEditorComponent implements OnInit {
     });
     this.contentFormGroup = this.formBuilder.group({
       titleCtrl: ['', Validators.required],
-      linkCtrl: ['']
+      linkCtrl: ['', urlValidator()]
     });
     this.additionalFormGroup = this.formBuilder.group({
-      patchCtrl: [''],
-      tagsCtrl: [''] // TODO: Needs to only allow up to 5 tags, and allow no spaces or special chars per tag
+      patchCtrl: ['']
     });
   }
 
@@ -189,6 +212,43 @@ export class PostEditorComponent implements OnInit {
     characters.forEach(char => this.targetCharSelect.push(char.id));
   }
 
+  onFeaturedLinkChange() {
+    // If url doesn't match pattern or is blank, nothing to do
+    if(this.contentFormGroup.controls.linkCtrl.invalid || !this.contentFormGroup.controls.linkCtrl.value) {
+      this.showLinkPreview = false;
+      this.showYTEmbed = false;
+      return;
+    }
+
+    let url: URL;
+    try {
+      url = new URL(this.contentFormGroup.controls.linkCtrl.value);
+    } catch (error) {
+      // This area realistically shouldn't ever be hit due to validator BUT just in case
+      console.log('Error: Link is valid but does not work as a URL object')
+      this.showLinkPreview = false;
+      this.showYTEmbed = false;
+      return;
+    }
+
+    let ytVidId = this.getYoutubeVideoId(this.contentFormGroup.controls.linkCtrl.value);
+    // TODO If url matches supported video type, show video icon and preview embed
+    if(ytVidId) {
+      console.log("Got youtube id!", ytVidId);
+      this.showLinkPreview = false; // Hide other preview
+      this.showYTEmbed = true;
+      
+    }
+    
+    else {
+      // Otherwise, show a link preview
+
+      // Show that loading preview
+      this.showLinkPreview = true;
+      this.showYTEmbed = false;
+    }
+  }
+
   /**
    * Opens a dialog to confirm reset, and if confirmed, resets all fields
    */
@@ -238,7 +298,6 @@ export class PostEditorComponent implements OnInit {
     
     post.skillLevel = this.selectedSkill;
     post.patchId = this.selectedPatch;
-    post.tags = [this.additionalFormGroup.controls.tagsCtrl.value];
 
     // If showing other game fields, use their data as well
     if(this.showGameSpecificFields) {
@@ -272,5 +331,19 @@ export class PostEditorComponent implements OnInit {
 
     // Otherwise, this form is valid
     return true;
+  }
+
+  private getYoutubeVideoId(url: string): string {
+    // From comment in https://stackoverflow.com/a/8260383/3735890
+    let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/
+    let match = url.match(regExp);
+    return (match && match[1]) ? match[1] : '';
+  }
+
+  private isSupportedVideo(url: string): string {
+    // If youtube vid, return YOUTUBE
+    // If 
+    
+    return '';
   }
 }

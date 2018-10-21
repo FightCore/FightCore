@@ -31,7 +31,6 @@ export class PostService extends BaseService {
       category: -1,
       skillLevel: -1,
       patchId: -1,
-      tags: [],
       title: ""
     };
   }

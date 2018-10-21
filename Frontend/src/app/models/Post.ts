@@ -19,7 +19,6 @@ export interface Post {
     // Additional fields
     skillLevel?: number;
     patchId?: number;
-    tags?: string[];
 
     // Content fields
     title: string;
