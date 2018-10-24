@@ -1,3 +1,4 @@
+import { SignupComponent } from './../pages/signup/signup.component';
 import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -9,8 +10,8 @@ import { HomeComponent } from '../pages/home/home.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { PlayersComponent } from './../pages/players/players.component';
-import { LoginComponent } from '../login/login.component';
-import { ProfileComponent } from '../profile/profile.component';
+import { LoginComponent } from '../pages/login/login.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
@@ -19,9 +20,12 @@ import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
+import { NotificationsComponent } from '../pages/notifications/notifications.component';
+import { NotificationService } from '../services/notification.service';
 
 @NgModule({
   imports: [
@@ -33,6 +37,7 @@ import { ComponentsModule } from '../components/components.module';
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
+    MatProgressBarModule,
     ComponentsModule
   ],
   declarations: [
@@ -43,11 +48,14 @@ import { ComponentsModule } from '../components/components.module';
       LoginComponent,
       NotFoundComponent,
       LoginComponent, 
-      ProfileComponent
+      ProfileComponent,
+      SignupComponent,
+      NotificationsComponent
   ],
   providers: [
     AuthGuard,
-    UserService
+    UserService,
+    NotificationService
   ]
 })
 

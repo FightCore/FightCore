@@ -28,7 +28,22 @@ namespace FightCore.Data.Configurations
                 ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495"
             };
 
-            builder.HasData(user);
+            var email2 = "test2@test.com";
+            var user2 = new ApplicationUser
+            {
+                Id = 2,
+                UserName = "test2",
+                NormalizedUserName = "TEST2",
+                Email = email2,
+                NormalizedEmail = email2.ToUpper(),
+                EmailConfirmed = true,
+                //The hashed password is Welcome1!
+                PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==",
+                SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D",
+                ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495"
+            };
+
+            builder.HasData(user, user2);
         }
     }
 }

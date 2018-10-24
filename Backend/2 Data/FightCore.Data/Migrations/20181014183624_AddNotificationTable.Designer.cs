@@ -4,14 +4,16 @@ using FightCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FightCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181014183624_AddNotificationTable")]
+    partial class AddNotificationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,8 +73,7 @@ namespace FightCore.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" },
-                        new { Id = 2, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "test2@test.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "TEST2@TEST.COM", NormalizedUserName = "TEST2", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "test2" }
+                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" }
                     );
                 });
 

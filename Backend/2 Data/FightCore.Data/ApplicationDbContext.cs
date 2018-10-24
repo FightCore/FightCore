@@ -23,6 +23,9 @@ namespace FightCore.Data
             // Add your customizations after calling base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new NotificationConfiguration());
         }
+
+        public DbSet<Notification> Notifications { get; set; }
     }
 }
