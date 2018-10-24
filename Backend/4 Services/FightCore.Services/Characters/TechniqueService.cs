@@ -12,7 +12,10 @@ namespace FightCore.Services.Characters
     public interface ITechniqueService : IEntityService<Technique>
     {
         Task<List<Technique>> GetTechniquesAsync();
+
         Task<List<Technique>> GetTechniquesByGameAsync(int gameId);
+
+        Task<List<Technique>> GetTechniqueContainingNameAsync(string name);
     }
     public class TechniqueService : EntityService<Technique>, ITechniqueService
     {
@@ -25,6 +28,11 @@ namespace FightCore.Services.Characters
         public Task<List<Technique>> GetTechniquesAsync()
         {
             return _techniqueRepository.GetTechniquesAsync();
+        }
+
+        public Task<List<Technique>> GetTechniqueContainingNameAsync(string name)
+        {
+            return _techniqueRepository.GetTechniqueContainingNameAsync(name);
         }
 
         public Task<List<Technique>> GetTechniquesByGameAsync(int gameId)
