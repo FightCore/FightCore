@@ -18,12 +18,28 @@ namespace FightCore.Api.Configurations
     {
         public AutoMapperConfiguration()
         {
+            #region Users
+
             CreateMap<UserResource, ApplicationUser>().ReverseMap();
             CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
             CreateMap<NewUserResource, ApplicationUser>();
+
+            #endregion Users
+
+            #region Character
+
             CreateMap<Character, CharacterResource>();
             CreateMap<Character, DetailedCharacterResource>();
+
+            #endregion Character
+
+            #region Technique
+
             CreateMap<Technique, TechniqueResource>();
+            CreateMap<Technique, DetailedTechniqueResource>();
+
+            #endregion
+
             CreateMap<Move, MoveResource>();
             CreateMap<Combo, ComboResource>();
 
@@ -32,9 +48,7 @@ namespace FightCore.Api.Configurations
             CreateMap<Media, MediaResource>();
             CreateMap<ControllerInput, ControllerInputResource>();
 
-            CreateMap<UserResource, ApplicationUser>().ReverseMap();
-            CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
-            CreateMap<NewUserResource, ApplicationUser>();
+
             CreateMap<InputChain, InputChainResource>();
         }
     }
