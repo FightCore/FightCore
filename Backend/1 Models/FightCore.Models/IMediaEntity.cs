@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using FightCore.Models.Shared;
 
 namespace FightCore.Models
 {
-    using FightCore.Models.Shared;
-
+    /// <summary>
+    /// An interface used to easy add media to entities.
+    /// </summary>
     public interface IMediaEntity : IEntity
     {
+        /// <summary>
+        /// Gets or sets a list of media objects for the entity
+        /// </summary>
         List<Media> Media { get; set; }
     }
 }

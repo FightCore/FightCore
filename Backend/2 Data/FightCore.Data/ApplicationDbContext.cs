@@ -15,10 +15,15 @@ namespace FightCore.Data
         }
 
         public DbSet<Game> Games { get; set; }
+
         public DbSet<Character> Characters { get; set; }
+
         public DbSet<Technique> Techniques { get; set; }
+
         public DbSet<ControllerInput> ControllerInputs { get; set; }
+
         public DbSet<Combo> Combos { get; set; }
+
         public DbSet<Move> Moves { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,13 +35,27 @@ namespace FightCore.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            #region Users
+
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
-            builder.ApplyConfiguration(new GameConfiguration());
+
+            #endregion
+
+            #region Character
+
             builder.ApplyConfiguration(new CharacterConfiguration());
             builder.ApplyConfiguration(new TechniqueConfiguration());
             builder.ApplyConfiguration(new ComboConfiguration());
-            builder.ApplyConfiguration(new InputChainConfiguration());
             builder.ApplyConfiguration(new MoveConfiguration());
+
+            #endregion
+
+            #region Shared
+
+            builder.ApplyConfiguration(new GameConfiguration());
+            builder.ApplyConfiguration(new InputChainConfiguration());
+
+            #endregion
         }
     }
 }

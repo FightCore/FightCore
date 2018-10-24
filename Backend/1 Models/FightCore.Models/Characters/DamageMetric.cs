@@ -9,13 +9,18 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the damage the subject starts at
+        /// Gets or sets the minimum damage the subject can start at
         /// </summary>
-        public double StartDamage { get; set; }
+        public double StartDamageMin { get; set; }
 
         /// <summary>
-        /// Gets or sets the damage the subject will end at
+        /// Gets or sets the maximum damage the subject can have to start
         /// </summary>
-        public double EndDamage { get; set; }
+        public double StartDamageMax { get; set; }
+
+        /// <summary>
+        /// Gets or sets the amount of damage that will be done
+        /// </summary>
+        public double DamageDealt { get; set; }
     }
 }
