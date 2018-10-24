@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FightCore.Models.Characters;
+using FightCore.Repositories.Helper.Queryable;
 using FightCore.Repositories.Patterns;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,27 +30,27 @@ namespace FightCore.Repositories.Characters
 
         public Task<List<Technique>> GetTechniquesAsync()
         {
-            return Queryable.Include(x => x.Media).Include(x => x.Game).ToListAsync();
+            return Queryable.IncludeBasic().ToListAsync();
         }
 
         public Task<List<Technique>> GetTechniquesByGameAsync(int gameId)
         {
-            return Queryable.Include(x => x.Media).Include(x => x.Game).Where(x=>x.Game.Id == gameId).ToListAsync();
+            return Queryable.IncludeBasic().Where(x=>x.Game.Id == gameId).ToListAsync();
         }
 
         public Task<List<Technique>> GetTechniqueContainingNameAsync(string name)
         {
-            return Queryable.Where(x => x.Name.Contains(name)).ToListAsync();
+            return Queryable.IncludeBasic().Where(x => x.Name.Contains(name)).ToListAsync();
         }
 
         public Task<Technique> GetTechniqueByIdAsync(int id)
         {
-            return Queryable.Include(x => x.Inputs).Include(x => x.Media).Include(x => x.Game).FirstOrDefaultAsync(x=>x.Id == id);
+            return Queryable.IncludeExpanded().FirstOrDefaultAsync(x=>x.Id == id);
         }
 
         public Technique GetTechniqueById(int id)
         {
-            return Queryable.Include(x => x.Inputs).Include(x => x.Media).Include(x => x.Game).FirstOrDefault(x => x.Id == id);
+            return Queryable.IncludeExpanded().FirstOrDefault(x => x.Id == id);
         }
     }
 }
