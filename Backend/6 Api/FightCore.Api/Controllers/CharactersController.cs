@@ -87,7 +87,7 @@ namespace FightCore.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDetailedCharacterById(int id)
         {
-            var character = await _characterService.GetDetailedCharacterByIdAsync(id);
+            var character = await _characterService.FindByIdAsync(id);
 
             if (character == null)
                 return NotFound();
