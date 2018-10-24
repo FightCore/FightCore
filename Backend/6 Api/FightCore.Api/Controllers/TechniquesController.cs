@@ -7,7 +7,6 @@ using FightCore.Api.Resources;
 using FightCore.Models.Characters;
 using FightCore.Repositories.Patterns;
 using FightCore.Services.Characters;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +44,9 @@ namespace FightCore.Api.Controllers
             var techniques = await _techniqueService.GetTechniquesAsync();
 
             if (!techniques.Any())
+            {
                 return NotFound();
+            }
 
             var resources = _mapper.Map<List<TechniqueResource>>(techniques);
 
@@ -66,9 +67,11 @@ namespace FightCore.Api.Controllers
             var technique = await _techniqueService.FindByIdAsync(id);
 
             if (technique == null)
+            {
                 return NotFound();
+            }
 
-            var resource = _mapper.Map<TechniqueResource>(technique);
+            var resource = _mapper.Map<DetailedTechniqueResource>(technique);
 
             return Ok(resource);
         }
@@ -76,15 +79,15 @@ namespace FightCore.Api.Controllers
         /// <summary>
         /// Get all technique objects for a game.
         /// </summary>
-        /// <param name="gameid">The id of the game you want the techniques from.</param>
+        /// <param name="gameId">The id of the game you want the techniques from.</param>
         /// <returns>
         /// 200: An array of technique objects.
         /// 404: Object has not been found.
         /// </returns>
-        [HttpGet("game/{gameid}")]
-        public async Task<IActionResult> GetTechniquesByGameAsync(int gameid)
+        [HttpGet("game/{gameId}")]
+        public async Task<IActionResult> GetTechniquesByGameAsync(int gameId)
         {
-            var techniques = await _techniqueService.GetTechniquesByGameAsync(gameid);
+            var techniques = await _techniqueService.GetTechniquesByGameAsync(gameId);
 
             if (!techniques.Any())
                 return NotFound();
