@@ -20,7 +20,7 @@ namespace FightCore.Api.Resources.Characters
         /// <summary>
         /// Gets or sets a collection of combos that a character can perform
         /// </summary>
-        public List<ComboResource> Combos { get; set; }
+        public List<DetailedComboResource> Combos { get; set; }
 
     }
 }

@@ -13,9 +13,8 @@ namespace FightCore.Api.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private GameService _gameService;
-
-        private IMapper _mapper;
+        private readonly GameService _gameService;
+        private readonly IMapper _mapper;
 
         public GamesController(GameService gameService, IMapper mapper)
         {

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using AutoMapper;
+
 using FightCore.Api.Resources.Characters;
+using FightCore.Repositories.Patterns;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,6 +18,15 @@ namespace FightCore.Api.Controllers
     [ApiController]
     public class CombosController : ControllerBase
     {
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+        private readonly IMapper _mapper;
+
+        public CombosController(IUnitOfWorkAsync unitOfWorkAsync, IMapper mapper)
+        {
+            _unitOfWorkAsync = unitOfWorkAsync;
+            _mapper = mapper;
+        }
+
         /// <summary>
         /// Gets all of the combo objects known to FightCore
         /// </summary>
@@ -92,14 +104,14 @@ namespace FightCore.Api.Controllers
         /// Creates a new combo based on the given parameter.
         /// User needs to be logged in to do so.
         /// </summary>
-        /// <param name="combo">The combo article wanting to be published</param>
+        /// <param name="detailedCombo">The combo article wanting to be published</param>
         /// <returns>
         /// 203: Combo has been created and is at this location.
         /// 400: Combo object is wrong.
         /// </returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ComboResource combo)
+        public async Task<IActionResult> Create([FromBody] DetailedComboResource detailedCombo)
         {
             return Ok();
         }

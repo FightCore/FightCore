@@ -41,7 +41,10 @@ namespace FightCore.Api.Configurations
             #endregion
 
             CreateMap<Move, MoveResource>();
+
             CreateMap<Combo, ComboResource>();
+            CreateMap<Combo, DetailedComboResource>();
+            CreateMap<DamageMetric, DamageMetricResource>();
 
             CreateMap<Game, GameResource>();
 
@@ -50,6 +53,9 @@ namespace FightCore.Api.Configurations
 
 
             CreateMap<InputChain, InputChainResource>();
+
+            CreateMap<ComboReceiver, Character>().ConvertUsing(x => x.Character);
+            CreateMap<ComboPerformers, Character>().ConvertUsing(x => x.Character);
         }
     }
 }

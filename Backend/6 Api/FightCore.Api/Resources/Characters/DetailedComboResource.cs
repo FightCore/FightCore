@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FightCore.Api.Resources.Shared;
 using FightCore.Models.Shared;
 
-namespace FightCore.Models.Characters
+namespace FightCore.Api.Resources.Characters
 {
-    /// <summary>
-    /// A class to use for putting combos into the database
-    /// </summary>
-    public class Combo : IMediaEntity
+    public class ComboResource
     {
-        /// <inheritdoc cref="IEntity.Id"/>
         public int Id { get; set; }
-
-        #region BasicInformation
 
         /// <summary>
         /// Gets or sets the name of the combo object.
@@ -26,20 +24,23 @@ namespace FightCore.Models.Characters
         /// <summary>
         /// Gets or sets the author who has written down this combo
         /// </summary>
-        public ApplicationUser Author { get; set; }
+        public UserResource Author { get; set; }
 
         /// <summary>
         /// Gets or sets the difficulty of the combo
         /// </summary>
         public int Difficulty { get; set; }
-        #endregion
+    }
+
+    public class DetailedComboResource : ComboResource
+    {
 
         #region Characters
 
         /// <summary>
         /// Gets or sets a list of characters that can perform this combo.
         /// </summary>
-        public List<ComboPerformers> Performers { get; set; }
+        public List<CharacterResource> Performers { get; set; }
 
         /// <summary>
         /// Gets or sets a description of which character can perform this combo given by the user.
@@ -49,12 +50,13 @@ namespace FightCore.Models.Characters
         /// <summary>
         /// Gets or sets a list of characters that this combo works on.
         /// </summary>
-        public List<ComboReceiver> Receivers { get; set; }
+        public List<CharacterResource> Receivers { get; set; }
 
         /// <summary>
         /// Gets or sets a description of which character can receive this combo given by the user.
         /// </summary>
         public string ReceiversDescription { get; set; }
+
         #endregion Characters
 
         #region Stages
@@ -92,7 +94,7 @@ namespace FightCore.Models.Characters
         /// A damage metrics is a list of all possible options with start and end percentages.
         /// This can be filled in by the user for combos that depend on starting damage.
         /// </summary>
-        public List<DamageMetric> DamageMetrics { get; set; }
+        public List<DamageMetricResource> DamageMetrics { get; set; }
 
         /// <summary>
         /// Gets or sets the damage that can be done with this combo described by the user.
@@ -100,7 +102,5 @@ namespace FightCore.Models.Characters
         public string DamageDescription { get; set; }
 
         #endregion Damage
-
-        public List<Media> Media { get; set; }
     }
 }
