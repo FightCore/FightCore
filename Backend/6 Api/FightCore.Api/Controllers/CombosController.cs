@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 
 using FightCore.Api.Resources.Characters;
+using FightCore.Models.Characters;
 using FightCore.Repositories.Patterns;
+using FightCore.Services.Characters;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,11 +20,13 @@ namespace FightCore.Api.Controllers
     [ApiController]
     public class CombosController : ControllerBase
     {
+        private readonly IComboService _comboService;
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly IMapper _mapper;
 
-        public CombosController(IUnitOfWorkAsync unitOfWorkAsync, IMapper mapper)
+        public CombosController(IComboService comboService, IUnitOfWorkAsync unitOfWorkAsync, IMapper mapper)
         {
+            _comboService = comboService;
             _unitOfWorkAsync = unitOfWorkAsync;
             _mapper = mapper;
         }
@@ -36,7 +40,10 @@ namespace FightCore.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCombosAsync()
         {
-            return Ok();
+            var combos = await _comboService.GetAllCombosAsync();
+            var mappedCombos = _mapper.Map<List<ComboResource>>(combos);
+
+            return Ok(mappedCombos);
         }
 
         /// <summary>
@@ -51,7 +58,21 @@ namespace FightCore.Api.Controllers
         [HttpGet("game/{gameId}")]
         public async Task<IActionResult> GetCombosByGameAsync(int gameId)
         {
-            return Ok();
+            if (gameId < 1)
+            {
+                return BadRequest(nameof(gameId));
+            }
+
+            var combos = await _comboService.GetCombosByGameIdAsync(gameId);
+
+            if (!combos.Any())
+            {
+                return NotFound();
+            }
+
+            var mappedCombos = _mapper.Map<List<ComboResource>>(combos);
+
+            return Ok(mappedCombos);
         }
 
         /// <summary>
@@ -66,7 +87,21 @@ namespace FightCore.Api.Controllers
         [HttpGet("character/{characterId}")]
         public async Task<IActionResult> GetCombosByCharacterAsync(int characterId)
         {
-            return Ok();
+            if (characterId < 1)
+            {
+                return BadRequest(nameof(characterId));
+            }
+
+            var combos = await _comboService.GetCombosByCharacterId(characterId);
+
+            if (!combos.Any())
+            {
+                return NotFound();
+            }
+
+            var mappedCombos = _mapper.Map<List<ComboResource>>(combos);
+
+            return Ok(mappedCombos);
         }
 
         /// <summary>
@@ -81,7 +116,21 @@ namespace FightCore.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetComboByIdAsync(int id)
         {
-            return Ok();
+            if (id < 1)
+            {
+                return BadRequest(nameof(id));
+            }
+
+            var combo = await _comboService.FindByIdAsync(id);
+
+            if (combo == null)
+            {
+                return NotFound();
+            }
+
+            var mappedCombo = _mapper.Map<DetailedCharacterResource>(combo);
+
+            return Ok(mappedCombo);
         }
 
         /// <summary>
@@ -97,7 +146,21 @@ namespace FightCore.Api.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> GetComboByNameAsync(string name)
         {
-            return Ok();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest(nameof(name));
+            }
+
+            var combos = await _comboService.GetCombosByNameAsync(name);
+
+            if (!combos.Any())
+            {
+                return NotFound();
+            }
+
+            var mappedCombos = _mapper.Map<List<ComboResource>>(combos);
+
+            return Ok(mappedCombos);
         }
 
         /// <summary>
@@ -113,7 +176,10 @@ namespace FightCore.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] DetailedComboResource detailedCombo)
         {
-            return Ok();
+            var combo = _mapper.Map<Combo>(detailedCombo);
+            await _comboService.InsertAsync(combo);
+            await _unitOfWorkAsync.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetComboByIdAsync), new { id = combo.Id }, _mapper.Map<ComboResource>(combo));
         }
     }
 }
