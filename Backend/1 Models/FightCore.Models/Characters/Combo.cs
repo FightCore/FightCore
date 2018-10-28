@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using FightCore.Models.Shared;
 
-namespace FightCore.Models.Characters
-{
+namespace FightCore.Models.Characters {
     /// <summary>
     /// A class to use for putting combos into the database
     /// </summary>
-    public class Combo : IMediaEntity
-    {
+    public class Combo : IMediaEntity {
         /// <inheritdoc cref="IEntity.Id"/>
         public int Id { get; set; }
 
@@ -32,6 +30,12 @@ namespace FightCore.Models.Characters
         /// Gets or sets the difficulty of the combo
         /// </summary>
         public int Difficulty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Game that this combo can be done in.
+        /// </summary>
+        public Game Game { get; set; }
+
         #endregion
 
         #region Characters
