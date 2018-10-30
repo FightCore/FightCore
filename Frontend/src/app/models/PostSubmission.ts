@@ -1,17 +1,6 @@
 export interface PostSubmission {
-    id: number;
-    author: {
-        email: string,
-        userName: string
-    };
-    authorId: number;
+    category: number;
+    title: string;
     content: string;
     featuredLink: string;
-    title: string;
-    createdDate: string;
-    lastEdit: string;
-    skillLevel: number;
-    views: number;
-    category: number;
-    patchId: number;
 }

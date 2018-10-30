@@ -21,7 +21,7 @@ namespace FightCore.Api.Controllers
     /// <summary>
     /// The controller for the <see cref="FightCore.Models.Resources.Post"/> class
     /// </summary>
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     [ApiController]
     public class LibraryController : ControllerBase
     {
@@ -37,16 +37,6 @@ namespace FightCore.Api.Controllers
             _postService = userResourceService;
             _userManager = userManager;
             _mapper = mapper;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllPostsAsync()
-        {
-            var resources = await _postService.GetAllAsync();
-
-            var resourcesMapped = _mapper.Map<List<PostResource>>(resources);
-
-            return Ok(resourcesMapped);
         }
 
         /// <summary>
@@ -136,7 +126,7 @@ namespace FightCore.Api.Controllers
             if (resource == null)
                 return NotFound();
 
-            var resourceMapped = _mapper.Map<PostResource>(resource);
+            var resourceMapped = _mapper.Map<PostResultResource>(resource);
 
             return Ok(resourceMapped);
         }
@@ -144,25 +134,26 @@ namespace FightCore.Api.Controllers
         /// <summary>
         /// Creates a resource based on the provided data
         /// </summary>
-        /// <param name="userPost"></param>
+        /// <param name="postInput">Post to create</param>
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PostResource userPost)
+        public async Task<IActionResult> Create([FromBody] PostResource postInput)
         {
-            var resource = _mapper.Map<Models.Resources.Post>(userPost);
+            // TODO: Clean up title, content, and link as necessary
 
-            var userId = _userManager.GetUserId(User);
+            // Create the post and initialize basic necessary properties
+            var post = _mapper.Map<Models.Resources.Post>(postInput);
+            int userId;
+            Int32.TryParse(_userManager.GetUserId(User), out userId);
+            post.AuthorId = userId;
+            post.CreatedDate = DateTime.Now;
 
-            //Our user ids are ints so can safely convert this over
-            if (resource.AuthorId != Convert.ToInt32(userId))
-                return BadRequest();
-
-            resource.CreatedDate = DateTime.Now;
-            await _postService.InsertAsync(resource);
+            // Add post to database
+            await _postService.InsertAsync(post);
             await _unitOfWork.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPostByIdAsync), new { Id = resource.Id }, _mapper.Map<PostResource>(resource));
+            return CreatedAtAction(nameof(GetPostByIdAsync), new { Id = post.Id }, _mapper.Map<PostResultResource>(post));
         }
     }
 }

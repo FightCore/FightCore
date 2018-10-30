@@ -30,21 +30,10 @@ export class AddPostComponent implements OnInit {
 
   onSubmitHandler(post: Post) {
     let newPost: PostSubmission = {
-      id: 0,
-      author: {
-          email: "",
-          userName: ""
-      },
-      authorId: 1,
-      content: post.content,
-      featuredLink: post.featuredLink,
-      title: post.title,
-      createdDate: "2018-10-12T01:35:54.927Z",
-      lastEdit: "2018-10-12T01:35:54.927Z",
-      skillLevel: post.skillLevel,
-      views: 0,
       category: post.category,
-      patchId: post.patchId
+      title: post.title,
+      content: post.content,
+      featuredLink: post.featuredLink
     }
     console.log("Submitting new post: ", newPost);
 

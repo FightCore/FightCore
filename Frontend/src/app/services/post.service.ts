@@ -63,7 +63,7 @@ export class PostService extends BaseService {
   }
 
   public getPost(id: number): Observable<Post> {
-    return this.http.get<Post>(`${environment.baseUrl}/library/GetPostByIdAsync/${id}`, { headers: this.defaultHeaders })
+    return this.http.get<Post>(`${environment.baseUrl}/library/${id}`, { headers: this.defaultHeaders })
       .pipe(catchError(this.handleError));
   }
 
@@ -75,13 +75,13 @@ export class PostService extends BaseService {
       .set('categoryFilter', category.toString());
     
     return this.http.get<PostsPage>(
-      `${environment.baseUrl}/library/GetPostsAsync`,
+      `${environment.baseUrl}/library`,
       { headers: this.defaultHeaders, params: params })
       .pipe(catchError(this.handleError));
   }
 
-  public createPost(newPost:PostSubmission): Observable<Post> {
-    return this.http.post<Post>(`${environment.baseUrl}/library/Create`, newPost, {headers: this.defaultHeaders})
+  public createPost(newPost : PostSubmission): Observable<Post> {
+    return this.http.post<Post>(`${environment.baseUrl}/library`, newPost, {headers: this.defaultHeaders})
       .pipe(catchError(this.handleError));
   }
 }

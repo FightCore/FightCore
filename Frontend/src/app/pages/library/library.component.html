@@ -29,7 +29,7 @@
     </div>
     <div *ngIf="errorMsgs">
       <div *ngFor="let err of errorMsgs" class="alert alert-danger">
-        {{ err }}
+        {{ err | json }}
       </div>
     </div>
     <ng-template #viewPosts>
