@@ -112,8 +112,6 @@
 
       <mat-form-field>
         <input matInput matLinkPreview type="url" placeholder="Featured Link" formControlName="linkCtrl" (blur)="onFeaturedLinkChange()">
-
-        <mat-link-preview-container *ngIf="showLinkPreview" color="primary"></mat-link-preview-container>
         
         <mat-error *ngIf="contentFormGroup.controls.linkCtrl.hasError('badUrl')">
           Link url format is invalid. Did you miss a https:// or http://?

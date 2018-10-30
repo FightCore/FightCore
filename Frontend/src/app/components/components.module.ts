@@ -1,4 +1,3 @@
-import { MatLinkPreviewModule } from '@angular-material-extensions/link-preview';
 import { CharacterPickerComponent } from './character-picker/character-picker.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -40,8 +39,7 @@ import { EditorComponent } from './editor/editor.component';
     MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule,
-    MatLinkPreviewModule.forRoot()
+    MatIconModule
   ],
   declarations: [
     FooterComponent,
