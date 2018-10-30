@@ -133,11 +133,17 @@
   <mat-step>
     <ng-template matStepLabel>Submit</ng-template>
     <p>Todo: Summary details here</p>
-    <p>Save for later (uhh... maybe), or submit straight away!</p>
+    <p>Save for later (at some point), or submit straight away!</p>
     <div>
       <button mat-button matStepperPrevious>Back</button>
       <button mat-button (click)="onResetClick()">Reset</button>
       <button mat-button (click)="onSubmitClick()">Submit</button>
+    </div>
+    <div>
+      <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="onSubmitErrorMessage" class="alert alert-danger">
+      {{ onSubmitErrorMessage | json }}
     </div>
   </mat-step>
 </mat-horizontal-stepper>

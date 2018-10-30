@@ -2,9 +2,10 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { PostSubmission } from './../../../models/PostSubmission';
 import { PostService } from './../../../services/post.service';
 import { Post } from './../../../models/Post';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { PostEditorComponent } from 'src/app/components/post-editor/post-editor.component';
 
 @Component({
   selector: 'app-add-post',
@@ -12,7 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-post.component.css']
 })
 export class AddPostComponent implements OnInit {
-
+  @ViewChild('postEditor') editor: PostEditorComponent;
+  
   constructor(private titleService: Title,
     private router: Router,
     private postService: PostService,
@@ -50,8 +52,13 @@ export class AddPostComponent implements OnInit {
     .subscribe(
       newPost => { 
         this.router.navigate(['/library']);
+
+        // Just in case, let the post editor know things are done
+        this.editor.onPostSubmit("");
       },
-      error => console.log("Failed creating new post, error: ", error) // TODO: Show an error message to user
+      error =>  { 
+        this.editor.onPostSubmit(error);
+      }
     );
   }
 

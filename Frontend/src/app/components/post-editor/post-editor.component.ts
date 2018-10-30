@@ -12,6 +12,11 @@ import { EditorComponent } from '../editor/editor.component';
 // Validates urls
 export function urlValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
+    // No value is technically valid
+    if(!control.value) {
+      return null;
+    }
+
     // Simply try to create a url object and let that handle any complexity
     try {
       new URL(control.value);
@@ -20,14 +25,6 @@ export function urlValidator(): ValidatorFn {
       return { 'badUrl': true };
     }
   };
-}
-
-// Not exporting as outside world doesn't need this (yet)
-enum VideoType {
-  None,
-  Youtube,
-  TwitchClip,
-  TwitterVid
 }
 
 @Component({
@@ -52,6 +49,9 @@ export class PostEditorComponent implements OnInit {
 
   showGameSpecificFields = false; // Default false as must select a category first
   showCombosFields = false;
+
+  isSubmitting = false;  // Show loading bar on Submit page
+  onSubmitErrorMessage = "";
 
   // Fields for character select
   charSelectTitle: string;        // Title filled in once category is selected
@@ -280,13 +280,18 @@ export class PostEditorComponent implements OnInit {
    * Handles form validation and outputs post data if seems valid
    */
   onSubmitClick() {
-    // TODO: Actually do full validation on all form data first before continuing here
-    if(!this.isContentFormValid()) {
-      // TODO: Show errors to user on screen in appropriate areas
-
-      console.log('Form is invalid so cancelling submit...');
+    if(this.isSubmitting) {      
       return;
     }
+
+    // TODO: Actually do full validation on all form data first before continuing here
+    if(!this.isContentFormValid()) {
+      this.onSubmitErrorMessage = "Form is invalid";
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.onSubmitErrorMessage = "";
 
     // Populate the post to create with necessary fields
     let post = PostService.getBasicPost();
@@ -313,6 +318,15 @@ export class PostEditorComponent implements OnInit {
     }
 
     this.onSubmitHandler.emit(post);
+  }
+
+  /**
+   * Updates UI after a submission is done
+   * @param errorMsg Error message, if any, on this submit attempt
+   */
+  public onPostSubmit(errorMsg: string) {
+    this.isSubmitting = false;
+    this.onSubmitErrorMessage = errorMsg;
   }
   
   /**
