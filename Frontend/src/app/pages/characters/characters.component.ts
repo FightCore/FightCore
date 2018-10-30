@@ -58,9 +58,9 @@ export class CharactersComponent implements OnInit {
    * Handles updating the overall page when user changes the character selected
    * @param character Selected character
    */
-  charChangeHandler(character: Character) {
+  charChangeHandler(character?: Character) {
     // For now, simply disable additional tabs if None is selected and otherwise enable the tabs
-    if(character.id === 0) { // 0 is always None
+    if(!character) {
       this.tabsDisabled = true;
     }
     else {

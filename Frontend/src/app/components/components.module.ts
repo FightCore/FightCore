@@ -24,7 +24,7 @@ import { PopupComponent } from './popup/popup.component';
 import { EditorComponent } from './editor/editor.component';
 import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
 
 @NgModule({
@@ -48,7 +48,8 @@ import { NotificationService } from '../services/notification.service';
     MatPaginatorModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
-    NgbModalModule // Yes this is necessary for popups even if not directly used anywhere
+    NgbModalModule, // Yes this is necessary for popups even if not directly used anywhere
+    NgbTooltipModule
   ],
   declarations: [
     FooterComponent,
