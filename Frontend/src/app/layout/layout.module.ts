@@ -19,7 +19,7 @@ import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
-import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   MatButtonModule,
@@ -54,7 +54,6 @@ import { NotificationService } from '../services/notification.service';
     MatProgressBarModule,
     ComponentsModule,
     NgbDatepickerModule,
-    NgbModalModule,
     DashboardModule,
     MatProgressBarModule,
     ComponentsModule

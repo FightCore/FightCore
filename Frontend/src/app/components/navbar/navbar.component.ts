@@ -1,6 +1,5 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Title } from '@angular/platform-browser';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -8,9 +7,11 @@ import { OAuthService } from 'angular-oauth2-oidc';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @Output('onNavSelection') onNavSelection = new EventEmitter(); // Outputs when a nav option is selected (currently only notifications)
+
   private listTitles: any[];
   private mobile_menu_visible: any = 0;
   private toggleButton: any;
@@ -113,6 +114,10 @@ export class NavbarComponent implements OnInit {
 
       }
   };
+
+  onNotifClick() {
+    this.onNavSelection.emit();
+  }
 
   get title(): string {
     return this.titleService.getTitle();

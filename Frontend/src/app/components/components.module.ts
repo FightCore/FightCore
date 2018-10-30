@@ -24,6 +24,8 @@ import { PopupComponent } from './popup/popup.component';
 import { EditorComponent } from './editor/editor.component';
 import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
 import { ToastrModule } from 'ngx-toastr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../services/notification.service';
 
 @NgModule({
   imports: [
@@ -45,7 +47,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatProgressBarModule,
     MatPaginatorModule,
     MatToolbarModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgbModalModule // Yes this is necessary for popups even if not directly used anywhere
   ],
   declarations: [
     FooterComponent,
@@ -71,7 +74,8 @@ import { ToastrModule } from 'ngx-toastr';
   entryComponents: [
     TabExampleComponent,
     ConfirmDialogComponent,
-    PostViewerComponent
+    PostViewerComponent,
+    NotificationsViewerComponent
   ],
   exports: [
     FooterComponent,
@@ -89,6 +93,9 @@ import { ToastrModule } from 'ngx-toastr';
     PopupComponent,
     EditorComponent, // TODO: Not sure if this should be external
     NotificationsViewerComponent
+  ],
+  providers: [
+    NotificationService
   ]
 })
 export class ComponentsModule { }
