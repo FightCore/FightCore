@@ -72,15 +72,22 @@ namespace FightCore.Api.Controllers
         /// Adds a user from a given resource
         /// </summary>
         /// <param name="userResource">The resource with the data of the new user</param>
-        /// <returns></returns>
+        /// <returns>
+        /// Will return a 201 with the Id of the user when the user has been created.
+        /// Will return a 409 if there are issues with the register.
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] NewUserResource userResource)
         {
             var user = _mapper.Map<ApplicationUser>(userResource);
-            await _userManager.CreateAsync(user, userResource.Password);
-            await _unitOfWork.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, userResource.Password);
 
-            return CreatedAtAction(nameof(Get), new { Id = user.Id }, _mapper.Map<UserResultResource>(user));
+            if (result.Succeeded)
+            {
+                return this.CreatedAtAction(nameof(this.Get), new { user.Id }, _mapper.Map<UserResultResource>(user));
+            }
+
+            return this.Conflict(result.Errors);
         }
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using FightCore.Api.Posts.Resources;
 using FightCore.Api.Resources;
 using FightCore.Api.Resources.Posts;
+using FightCore.Api.Resources.Notifications;
 using FightCore.Models;
 
 namespace FightCore.Api.Configurations
@@ -17,9 +18,12 @@ namespace FightCore.Api.Configurations
             CreateMap<UserResource, ApplicationUser>().ReverseMap();
             CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
             CreateMap<NewUserResource, ApplicationUser>();
-            CreateMap<PostResource, Models.Resources.Post>();
 
+            CreateMap<PostResource, Models.Resources.Post>();
             CreateMap<PostPreviewResource, Models.Resources.Post>();
+
+            CreateMap<NotificationResource, Notification>().ReverseMap();
+            CreateMap<NotificationResultResource, Notification>().ReverseMap();
         }
     }
 }

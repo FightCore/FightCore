@@ -24,8 +24,10 @@ namespace FightCore.Data
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<Post>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
+            builder.ApplyConfiguration(new NotificationConfiguration());
         }
 
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

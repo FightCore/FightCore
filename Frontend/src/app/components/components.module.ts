@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialog, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -22,6 +22,8 @@ import { WikiPostsComponent } from './wiki/wiki-posts/wiki-posts.component';
 import { PostPopupComponent } from './post-popup/post-popup.component';
 import { PopupComponent } from './popup/popup.component';
 import { EditorComponent } from './editor/editor.component';
+import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -39,7 +41,11 @@ import { EditorComponent } from './editor/editor.component';
     MatProgressSpinnerModule,
     FormsModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     FooterComponent,
@@ -59,7 +65,8 @@ import { EditorComponent } from './editor/editor.component';
     WikiPostsComponent,
     PostPopupComponent,
     PopupComponent,
-    EditorComponent
+    EditorComponent,
+    NotificationsViewerComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -80,7 +87,8 @@ import { EditorComponent } from './editor/editor.component';
     WikiPostsComponent,
     PostPopupComponent,
     PopupComponent,
-    EditorComponent // TODO: Not sure if this should be external
+    EditorComponent, // TODO: Not sure if this should be external
+    NotificationsViewerComponent
   ]
 })
 export class ComponentsModule { }

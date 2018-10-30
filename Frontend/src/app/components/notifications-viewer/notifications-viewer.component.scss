@@ -1,0 +1,24 @@
+div.toolbar .mat-toolbar {
+    padding: 0px;
+    background: transparent;
+
+    .fill-remaining-space {
+        flex: 1 1 auto;
+    }
+}
+
+div.notifContainer {
+    a {
+        cursor: pointer;
+    }
+
+    .card {
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+        .card-header, .card-body {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    }
+}

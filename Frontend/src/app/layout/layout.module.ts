@@ -2,6 +2,7 @@ import { MatchupsComponent } from './../pages/characters/matchups/matchups.compo
 import { BasicsComponent } from './../pages/characters/basics/basics.component';
 import { DashboardModule } from './../dashboard/dashboard.module';
 import { AddPostComponent } from './../pages/library/add-post/add-post.component';
+import { SignupComponent } from './../pages/signup/signup.component';
 import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -13,8 +14,8 @@ import { HomeComponent } from '../pages/home/home.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { PlayersComponent } from './../pages/players/players.component';
-import { LoginComponent } from '../login/login.component';
-import { ProfileComponent } from '../profile/profile.component';
+import { LoginComponent } from '../pages/login/login.component';
+import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
@@ -35,6 +36,8 @@ import { ViewPostComponent } from '../pages/library/view-post/view-post.componen
 import { CombosTechComponent } from '../pages/characters/combos-tech/combos-tech.component';
 import { FrameDataComponent } from '../pages/characters/frame-data/frame-data.component';
 import { OverviewComponent } from '../pages/characters/overview/overview.component';
+import { NotificationsComponent } from '../pages/notifications/notifications.component';
+import { NotificationService } from '../services/notification.service';
 
 @NgModule({
   imports: [
@@ -52,7 +55,9 @@ import { OverviewComponent } from '../pages/characters/overview/overview.compone
     ComponentsModule,
     NgbDatepickerModule,
     NgbModalModule,
-    DashboardModule
+    DashboardModule,
+    MatProgressBarModule,
+    ComponentsModule
   ],
   declarations: [
       HomeComponent,
@@ -69,7 +74,9 @@ import { OverviewComponent } from '../pages/characters/overview/overview.compone
       CombosTechComponent,
       MatchupsComponent,
       FrameDataComponent,
-      OverviewComponent
+      OverviewComponent,
+      SignupComponent,
+      NotificationsComponent
   ],
   entryComponents: [
     BasicsComponent,
@@ -81,7 +88,8 @@ import { OverviewComponent } from '../pages/characters/overview/overview.compone
   providers: [
     AuthGuard,
     UserService,
-    PostService
+    PostService,
+    NotificationService
   ]
 })
 
