@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using FightCore.Api.Posts.Resources;
-using FightCore.Api.Resources;
 using FightCore.Api.Resources.Posts;
 using FightCore.Models;
 using FightCore.Models.Resources;
 using FightCore.Repositories.Patterns;
 using FightCore.Services.Resources;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -140,7 +138,24 @@ namespace FightCore.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PostResource postInput)
         {
-            // TODO: Clean up title, content, and link as necessary
+            // Clean up title, content, and link as necessary (currently just basic HTMl sanitization to prevent XSS)
+            // TODO: Additional checking necessary for SQL injection? Not sure how safe EF inheritly is
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedAttributes.Add("class");
+            postInput.Title = sanitizer.Sanitize(postInput.Title);
+            postInput.Content = sanitizer.Sanitize(postInput.Content);
+            postInput.FeaturedLink = sanitizer.Sanitize(postInput.FeaturedLink);
+
+            // Verify inputs are still valid
+            // TODO: Varify category appropriately separately
+            if(postInput.Title == "")
+            {
+                return BadRequest("Title cannot be blank");
+            }
+            if(postInput.Content == "" && postInput.FeaturedLink == "")
+            {
+                return BadRequest("Both Content and FeaturedLink cannot be blank");
+            }
 
             // Create the post and initialize basic necessary properties
             var post = _mapper.Map<Models.Resources.Post>(postInput);
