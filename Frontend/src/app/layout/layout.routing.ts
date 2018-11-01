@@ -1,4 +1,3 @@
-import { ViewPostComponent } from './../pages/library/view-post/view-post.component';
 import { NotificationsComponent } from './../pages/notifications/notifications.component';
 import { Routes } from '@angular/router';
 
@@ -7,7 +6,6 @@ import { LoginComponent } from '../pages/login/login.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { PlayersComponent } from './../pages/players/players.component';
 import { LibraryComponent } from '../pages/library/library.component';
-import { AddPostComponent } from './../pages/library/add-post/add-post.component';
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
@@ -26,14 +24,6 @@ export const LayoutRoutes: Routes = [
     { 
         path: 'library',
         component: LibraryComponent
-    },
-    { 
-        path: 'library/add',
-        component: AddPostComponent
-    },
-    { 
-        path: 'library/:id/:postName',
-        component: ViewPostComponent
     },
     { 
         path: 'players',

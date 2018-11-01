@@ -23,10 +23,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
+              "src/styles.css",
               "src/assets/scss/material-dashboard.scss",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill/dist/quill.snow.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
@@ -76,7 +74,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": [],
             "assets": [

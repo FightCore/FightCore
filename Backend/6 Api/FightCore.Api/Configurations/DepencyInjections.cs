@@ -1,9 +1,7 @@
 ﻿using FightCore.Repositories;
 using FightCore.Data;
 using FightCore.Repositories.Patterns;
-using FightCore.Repositories.Resources;
 using FightCore.Services;
-using FightCore.Services.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SignalR;
@@ -41,10 +39,8 @@ namespace FightCore.Api.Configurations
         public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
 
-            services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<INotificationService, NotificationService>();
 

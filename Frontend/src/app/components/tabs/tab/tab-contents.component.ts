@@ -3,8 +3,6 @@ import { TabItem } from './tab-item';
 import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { TabDirective } from './tab.directive';
 
-// TODO: Rewrite this entire folder to be less about tabs and more just about a modular section
-
 @Component({
   selector: 'tab-contents',
   template: '<ng-template tab-host></ng-template>',
@@ -16,6 +14,8 @@ export class TabContentsComponent implements OnInit {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   ngOnInit() {
+    console.log(this.tab);
+    console.log(this.tabHost);
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.tab.component);
 
     let viewContainerRef = this.tabHost.viewContainerRef;
