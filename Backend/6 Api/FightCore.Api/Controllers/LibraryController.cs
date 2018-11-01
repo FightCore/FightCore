@@ -44,7 +44,10 @@ namespace FightCore.Api.Controllers
         /// <param name="pageNumber">Page index to retrieve, 1 is first page</param>
         /// <param name="sortOption">Sort option represented by <see cref="Models.Resources.SortCategory"/></param>
         /// <param name="categoryFilter">Optionally filter by post category. Set to -1 for not using this filter or set to appropriate value from <see cref="Models.Resources.ResourceCategory"/></param>
-        /// <returns></returns>
+        /// <returns>
+        /// 200 with a page of posts
+        /// 400 if any inputs are invalid
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> GetPostsAsync(int pageSize, int pageNumber, int sortOption, int categoryFilter)
         {
@@ -116,6 +119,11 @@ namespace FightCore.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets a single post's full info via id
+        /// </summary>
+        /// <param name="id">Post's id to retrieve</param>
+        /// <returns>200 with post's full info</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostByIdAsync(int id)
         {
@@ -130,16 +138,18 @@ namespace FightCore.Api.Controllers
         }
 
         /// <summary>
-        /// Creates a resource based on the provided data
+        /// Creates a post based on the provided data
         /// </summary>
         /// <param name="postInput">Post to create</param>
-        /// <returns></returns>
+        /// <returns>
+        /// 200 with full post's info
+        /// 400 if inputs aren't valid
+        /// </returns>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PostResource postInput)
         {
             // Clean up title, content, and link as necessary (currently just basic HTMl sanitization to prevent XSS)
-            // TODO: Additional checking necessary for SQL injection? Not sure how safe EF inheritly is
             var sanitizer = new HtmlSanitizer();
             sanitizer.AllowedAttributes.Add("class");
             postInput.Title = sanitizer.Sanitize(postInput.Title);
@@ -148,11 +158,11 @@ namespace FightCore.Api.Controllers
 
             // Verify inputs are still valid
             // TODO: Varify category appropriately separately
-            if(postInput.Title == "")
+            if(String.IsNullOrWhiteSpace(postInput.Title))
             {
                 return BadRequest("Title cannot be blank");
             }
-            if(postInput.Content == "" && postInput.FeaturedLink == "")
+            if(String.IsNullOrWhiteSpace(postInput.Content) && String.IsNullOrWhiteSpace(postInput.FeaturedLink))
             {
                 return BadRequest("Both Content and FeaturedLink cannot be blank");
             }

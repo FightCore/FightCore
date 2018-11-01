@@ -4,7 +4,7 @@ using System;
 namespace FightCore.Api.Posts.Resources
 {
     /// <summary>
-    /// UI Resource of the <see cref="Models.Resources.Post"/> class
+    /// Represents basic post info, requirements for creating a new post
     /// </summary>
     public class PostResource
     {
