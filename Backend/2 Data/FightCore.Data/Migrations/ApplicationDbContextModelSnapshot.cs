@@ -76,8 +76,41 @@ namespace FightCore.Data.Migrations
                     );
                 });
 
+            modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuthorId");
+
+                    b.Property<int>("Category");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("FeaturedLink");
+
+                    b.Property<DateTime>("LastEdit");
+
+                    b.Property<int>("PatchId");
+
+                    b.Property<int>("SkillLevel");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Views");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Posts");
+            });
+
             modelBuilder.Entity("FightCore.Models.Notification", b =>
-                {
+            {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -104,7 +137,7 @@ namespace FightCore.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
-                });
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
@@ -348,6 +381,14 @@ namespace FightCore.Data.Migrations
                         .HasFilter("[ReferenceId] IS NOT NULL");
 
                     b.ToTable("OpenIddictTokens");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FightCore.Models.Notification", b =>

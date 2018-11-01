@@ -1,19 +1,22 @@
 import { Router } from '@angular/router';
 import { environment } from './../../../environments/environment';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Notification } from 'src/app/models/Notification';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { TabComponentInterface } from '../tabs/tab/tab-component.interface';
 
 @Component({
   selector: 'notifications-viewer',
   templateUrl: './notifications-viewer.component.html',
   styleUrls: ['./notifications-viewer.component.scss']
 })
-export class NotificationsViewerComponent implements OnInit {
+export class NotificationsViewerComponent implements OnInit, TabComponentInterface {
+  @Input('data') data; // Unused for the moment
+
   connection: HubConnection;
   isLoadingNotifications: boolean;
   isLoadingPushService: boolean;

@@ -1,0 +1,11 @@
+<mat-form-field>
+  <mat-select 
+  placeholder="Sorting"
+  [(value)]="selectedSort"
+  (selectionChange)="onSelectionChange()"
+  >
+    <mat-option *ngFor="let option of sortOptions" [value]="option.id">
+      {{option.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

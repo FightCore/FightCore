@@ -1,3 +1,7 @@
+import { MatchupsComponent } from './../pages/characters/matchups/matchups.component';
+import { BasicsComponent } from './../pages/characters/basics/basics.component';
+import { DashboardModule } from './../dashboard/dashboard.module';
+import { AddPostComponent } from './../pages/library/add-post/add-post.component';
 import { SignupComponent } from './../pages/signup/signup.component';
 import { NotFoundComponent } from './../pages/not-found/not-found.component';
 import { NgModule } from '@angular/core';
@@ -15,15 +19,23 @@ import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
+import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   MatButtonModule,
   MatInputModule,
   MatRippleModule,
   MatTooltipModule,
+  MatPaginatorModule,
+  MatSelectModule,
   MatProgressBarModule
 } from '@angular/material';
 import { ComponentsModule } from '../components/components.module';
+import { PostService } from '../services/post.service';
+import { ViewPostComponent } from '../pages/library/view-post/view-post.component';
+import { CombosTechComponent } from '../pages/characters/combos-tech/combos-tech.component';
+import { FrameDataComponent } from '../pages/characters/frame-data/frame-data.component';
+import { OverviewComponent } from '../pages/characters/overview/overview.component';
 import { NotificationsComponent } from '../pages/notifications/notifications.component';
 import { NotificationService } from '../services/notification.service';
 
@@ -37,6 +49,12 @@ import { NotificationService } from '../services/notification.service';
     MatRippleModule,
     MatInputModule,
     MatTooltipModule,
+    MatPaginatorModule,
+    MatSelectModule,
+    MatProgressBarModule,
+    ComponentsModule,
+    NgbDatepickerModule,
+    DashboardModule,
     MatProgressBarModule,
     ComponentsModule
   ],
@@ -44,17 +62,32 @@ import { NotificationService } from '../services/notification.service';
       HomeComponent,
       CharactersComponent,
       LibraryComponent,
+      AddPostComponent,
+      ViewPostComponent,
       PlayersComponent,
       LoginComponent,
       NotFoundComponent,
       LoginComponent, 
       ProfileComponent,
+      BasicsComponent,
+      CombosTechComponent,
+      MatchupsComponent,
+      FrameDataComponent,
+      OverviewComponent,
       SignupComponent,
       NotificationsComponent
+  ],
+  entryComponents: [
+    BasicsComponent,
+    CombosTechComponent,
+    MatchupsComponent,
+    FrameDataComponent,
+    OverviewComponent
   ],
   providers: [
     AuthGuard,
     UserService,
+    PostService,
     NotificationService
   ]
 })

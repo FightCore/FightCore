@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Location, PopStateEvent } from '@angular/common';
-import { filter } from 'rxjs/operators';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { NavbarComponent } from '../components/navbar/navbar.component';
+import { TabItem } from './../components/tabs/tab/tab-item';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NotificationsViewerComponent } from '../components/notifications-viewer/notifications-viewer.component';
+import { PopupComponent } from '../components/popup/popup.component';
 
 @Component({
   selector: 'app-layout',
@@ -11,10 +9,20 @@ import { NavbarComponent } from '../components/navbar/navbar.component';
   styleUrls: ['./layout.component.css']
 })
 export class LayoutComponent implements OnInit {
+  @ViewChild('appPopup') popup: PopupComponent;
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngOnInit() {
       
+  }
+
+  onNotifClick() {
+    console.log("Layout component says onNotificationsClick");
+
+    // TODO: Make the notification viewer component active in the background somehow
+      // Want to be listening for push notifications without needing this open. Likely need to separate push service from UI and embed here
+    let notifPopup = new TabItem(NotificationsViewerComponent, "");
+    this.popup.show(notifPopup, "Notifications");
   }
 }
