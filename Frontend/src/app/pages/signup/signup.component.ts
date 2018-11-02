@@ -59,7 +59,6 @@ export class SignupComponent implements OnInit {
       password: this.form.get('passControl').value
     }
 
-    console.log("Submitting user: ", newUser);
     this.userService.createUser(newUser)
       .subscribe(
         response => this.afterSubmit(true, response),
@@ -69,7 +68,6 @@ export class SignupComponent implements OnInit {
 
   afterSubmit(success: boolean, message: any) {
     if(success) {
-      console.log("Successfully signed up", message)
       // TODO: Get the token in a single request/response
       this.router.navigate(['/login']);
     }
