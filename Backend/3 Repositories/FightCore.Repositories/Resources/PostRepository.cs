@@ -22,15 +22,15 @@ namespace FightCore.Repositories.Resources
         {
         }
         
-        public async Task<int> GetPostCountAsync(ResourceCategory? category)
+        public Task<int> GetPostCountAsync(ResourceCategory? category)
         {
             if(category != null)
             {
-                return await Queryable.CountAsync(x => x.Category == category);
+                return Queryable.CountAsync(x => x.Category == category);
             }
             else
             {
-                return await Queryable.CountAsync();
+                return Queryable.CountAsync();
             }
         }
 
