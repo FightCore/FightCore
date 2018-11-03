@@ -6,6 +6,13 @@
   </div>
 
   <div *ngIf="isYTLink()">
+    <iframe 
+      [src]="safeYTUrl"
+      type="text/html" 
+      width="640" 
+      height="360"
+      frameborder="0">
+    </iframe>
     <a [href]="displayLink" target="_blank" rel="noopener noreferrer">
       YT Video?
     </a>
@@ -18,8 +25,14 @@
   </div>
 
   <div *ngIf="isTwitchClipLink()">
-    <a [href]="displayLink" target="_blank" rel="noopener noreferrer">
-      TwitchClip
-    </a>
+    <iframe
+      [src]="safeTwitchUrl"
+      height="300"
+      width="400"
+      frameborder="0"
+      scrolling="false"
+      allowfullscreen="true"
+      autoplay="false">
+    </iframe>
   </div>
 </div>

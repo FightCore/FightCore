@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export enum LinkType {
   Youtube,
@@ -18,7 +19,15 @@ export class LinkEmbedComponent implements OnInit {
   
   displayLink: string; // For general display
 
-  constructor() { }
+  readonly youtubeUrl = 'https://www.youtube.com/embed/';
+  readonly youtubeUrlParams = '?autoplayer=0';
+  safeYTUrl: SafeResourceUrl;
+
+  readonly twitchClipUrl = 'https://clips.twitch.tv/embed?clip=';
+  readonly twitchClipParams = '&autoplay=false'
+  safeTwitchUrl: SafeResourceUrl;
+
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
   }
@@ -29,7 +38,7 @@ export class LinkEmbedComponent implements OnInit {
    */
   public show(url: URL) {
     // Display depending on link type
-    if(url.hostname.includes('youtube.com')) {
+    if(url.hostname === 'youtu.be' || url.hostname.includes('youtube.com')) {
       this.showYT(url);
     }
     else if(url.hostname.includes('twitter.com')) {
@@ -53,9 +62,24 @@ export class LinkEmbedComponent implements OnInit {
   }
 
   private showYT(url: URL) {
-    this.linkType = LinkType.Youtube;
+    // Get video id, extract method depends on link type
+    let videoId: string;
+    if(url.hostname === 'youtu.be') {
+      // Video id in path name, eg 'https://youtu.be/JMTlKJzoYS4'
+      videoId = LinkEmbedComponent.getIdFromPath(url.pathname);
+    }
+    else { // Assuming should be youtube.com link
+      // Video id is in query param, eg 'https://www.youtube.com/watch?v=JMTlKJzoYS4'
+      videoId = LinkEmbedComponent.getIdFromPath(url.searchParams.get('v'), false, true);
+    }
+    console.log("YT video id:", videoId);
+    if(!videoId) {
+      this.showGeneral(url);
+      return;
+    }
 
-
+    this.safeYTUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.youtubeUrl + videoId + this.youtubeUrlParams);
+    this.linkType = LinkType.Youtube
   }
 
   private showTwitter(url: URL) {
@@ -66,20 +90,13 @@ export class LinkEmbedComponent implements OnInit {
 
   private showTwitchClip(url: URL) {
     // Try to get the clip name
-    let fullPath = url.pathname.split('/');
-    if(fullPath.length !== 2) { // Expecting only /ClipName 
-      this.showGeneral(url);
-      return;
-    }
-    console.log("Twitch path split:", fullPath);
-    let clipName = fullPath[1];
+    let clipName = LinkEmbedComponent.getIdFromPath(url.pathname, true);
     if(!clipName) {
       this.showGeneral(url);
       return;
     }
 
-
-    this.displayLink = url.href;
+    this.safeTwitchUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.twitchClipUrl + clipName + this.twitchClipParams);
     this.linkType = LinkType.TwitchClip;
   }
 
@@ -88,6 +105,38 @@ export class LinkEmbedComponent implements OnInit {
 
     // For now, just display the link generally
     this.displayLink = url.href;
+  }
+
+  /**
+   * Extracts an id from the pathname or query param, or returns '' if none found. TODO: Redo naming and documentation
+   * @param input
+   * @param lettersOnly 
+   * @param notFromPath
+   * @returns Id from path (whatever's after the first / after removing any invalid characters), returns an empty string if couldn't find it
+   */
+  private static getIdFromPath(input: string, lettersOnly: boolean = false, notFromPath: boolean = false): string {
+    let intermediate: string, id: string;
+
+    if(!notFromPath) { // Need to extarct from path
+      let splitPath = input.split('/');
+      if(splitPath.length < 2) { // Expecting at least /Id
+        return '';
+      }
+      intermediate = splitPath[1];
+    }
+    else { // No intermediate work necessary
+      intermediate = input;
+    }
+
+    if(lettersOnly) {
+      id = intermediate.replace(/[^a-zA-Z]+/g, '');
+    }
+    else {
+      id = intermediate.replace(/[^\w-]+/g, ''); // Alphanumeric + underscore + dash (\w is a special case that does alphanumeric + underscore)
+    }
+
+    return id ? id : '';
+
   }
 
   // For clarity with template usage (currently believe it can't access the enum)
