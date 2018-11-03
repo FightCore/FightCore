@@ -15,11 +15,45 @@ export class EditorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    var toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+    
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [ 'link', 'image', 'video', 'formula' ],          // add's image support
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'align': [] }],
+    
+      ['clean']                                         // remove formatting button
+    ];
     let options = {
       placeholder: 'Change the world one post at a time...',
-      theme: 'snow'
+      theme: 'snow',
+      modules: {
+        toolbar: {
+          container: toolbarOptions,
+          handlers: {
+            'image': () => { this.imageHandler(); } // Anonymous function in case called in different context
+          }
+        }
+      }
     };
     this.editor = new Quill(this.container.nativeElement, options);
+  }
+
+  /**
+   * Handles when the image button is clicked within the editor
+   */
+  imageHandler() {
+    // Only allow embedding image urls for now
+    var range = this.editor.getSelection();
+    var value = prompt('What is the image URL?'); // Not great UI but works well for now without overdeveloping this
+    this.editor.insertEmbed(range.index, 'image', value, 'user');
   }
 
   /**
