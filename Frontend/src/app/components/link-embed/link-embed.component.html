@@ -1,0 +1,25 @@
+<div *ngIf="showEmbed">
+  <div *ngIf="isGeneralLink();">
+    <a [href]="displayLink" target="_blank" rel="noopener noreferrer">
+      {{ displayLink }}
+    </a>
+  </div>
+
+  <div *ngIf="isYTLink()">
+    <a [href]="displayLink" target="_blank" rel="noopener noreferrer">
+      YT Video?
+    </a>
+  </div>
+
+  <div *ngIf="isTwitterLink()">
+    <a [href]="displayLink" target="_blank" rel="noopener noreferrer">
+      Twitter?
+    </a>
+  </div>
+
+  <div *ngIf="isTwitchClipLink()">
+    <a [href]="displayLink" target="_blank" rel="noopener noreferrer">
+      TwitchClip
+    </a>
+  </div>
+</div>

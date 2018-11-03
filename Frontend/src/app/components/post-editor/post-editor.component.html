@@ -67,7 +67,7 @@
     </form>
   </mat-step>
 
-  <mat-step [stepControl]="additionalFormGroup">
+  <!-- <mat-step [stepControl]="additionalFormGroup">
     <form [formGroup]="additionalFormGroup">
       <ng-template matStepLabel>Optional details</ng-template>
       <p>Keep your content relevant in the long run | {{selectedPatch}}</p>
@@ -98,7 +98,7 @@
         <button mat-button matStepperNext>Next</button>
       </div>
    </form>
-  </mat-step>
+  </mat-step> -->
 
   <mat-step [stepControl]="contentFormGroup">
     <form [formGroup]="contentFormGroup">
@@ -116,6 +116,7 @@
         <mat-error *ngIf="contentFormGroup.controls.linkCtrl.hasError('badUrl')">
           Link url format is invalid. Did you miss a https:// or http://?
         </mat-error>
+        <link-embed #linkPreview></link-embed>
       </mat-form-field>
 
       <div>

@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { PostInfo } from 'src/app/resources/post-info';
 import { EditorComponent } from '../editor/editor.component';
+import { LinkEmbedComponent } from '../link-embed/link-embed.component';
 
 // Validates urls
 export function urlValidator(): ValidatorFn {
@@ -38,14 +39,12 @@ export class PostEditorComponent implements OnInit {
 
   @ViewChild('stepper') stepperComponent;
   @ViewChild('bodyEditor') bodyEditor: EditorComponent;
+  @ViewChild('linkPreview') linkPreview: LinkEmbedComponent;
   
   metaFormGroup: FormGroup;
   contentFormGroup: FormGroup;
   additionalFormGroup: FormGroup;
   resetDialogRef: MatDialogRef<ConfirmDialogComponent>;
-
-  showLinkPreview = false; // Whether to show or hide the link preview component (which isn't perfect, component can be changed in the future)
-  showYTEmbed = false;
 
   showGameSpecificFields = false; // Default false as must select a category first
   showCombosFields = false;
@@ -64,34 +63,13 @@ export class PostEditorComponent implements OnInit {
   selectedPostCat: number;
 
   comboTypesS4 = [
-    {
-      id: '1',
-      name: 'Juggle'
-    },
-    {
-      id: '2',
-      name: 'Edgeguard'
-    },
-    {
-      id: '3',
-      name: 'Ledgeguard'
-    },
-    {
-      id: '4',
-      name: 'Trap'
-    },
-    {
-      id: '5',
-      name: 'True Combo'
-    },
-    {
-      id: '6',
-      name: 'Kill'
-    },
-    {
-      id: '7',
-      name: '0-to-Death'
-    }
+    { id: '1', name: 'Juggle' },
+    { id: '2', name: 'Edgeguard' },
+    { id: '3', name: 'Ledgeguard' },
+    { id: '4', name: 'Trap' },
+    { id: '5', name: 'True Combo' },
+    { id: '6', name: 'Kill' },
+    { id: '7', name: '0-to-Death' }
   ];
   selectedComboType: number[];
 
@@ -99,43 +77,19 @@ export class PostEditorComponent implements OnInit {
   selectedSkill: number = 1; // Initialize to N/A
 
   patches = [
-    {
-      id: 0,
-      name: 'None (Patch Independent)'
-    },
-    {
-      id: 1,
-      name: 'Latest (1.1.7)'
-    },
-    {
-      id: 2,
-      name: '1.1.6'
-    },
-    {
-      id: 3,
-      name: '1.1.5'
-    }
+    { id: 0, name: 'None (Patch Independent)' },
+    { id: 1, name: 'Latest (1.1.7)' },
+    { id: 2, name: '1.1.6' },
+    { id: 3, name: '1.1.5' }
   ];
   selectedPatch: number = 1; // Initialize to latest patch // TODO: Figure out why not initializing to this
 
   // TODO: Handle certain special move variations, like KO punch vs normal neutral b?
   moves = [
-    {
-      id: '1',
-      name: 'Jab'
-    },
-    {
-      id: '2',
-      name: 'Dash Attack'
-    },
-    {
-      id: '3',
-      name: 'Ftilt'
-    },
-    {
-      id: '4',
-      name: 'Utilt'
-    }
+    { id: '1', name: 'Jab' },
+    { id: '2', name: 'Dash Attack' },
+    { id: '3', name: 'Ftilt' },
+    { id: '4', name: 'Utilt' }
   ];
   selectedComboStarter: number;
 
@@ -154,9 +108,9 @@ export class PostEditorComponent implements OnInit {
       titleCtrl: ['', Validators.required],
       linkCtrl: ['', urlValidator()]
     });
-    this.additionalFormGroup = this.formBuilder.group({
-      patchCtrl: ['']
-    });
+    // this.additionalFormGroup = this.formBuilder.group({
+    //   patchCtrl: ['']
+    // });
   }
 
   
@@ -215,38 +169,12 @@ export class PostEditorComponent implements OnInit {
   onFeaturedLinkChange() {
     // If url doesn't match pattern or is blank, nothing to do
     if(this.contentFormGroup.controls.linkCtrl.invalid || !this.contentFormGroup.controls.linkCtrl.value) {
-      this.showLinkPreview = false;
-      this.showYTEmbed = false;
+      this.linkPreview.hide();
       return;
     }
 
-    let url: URL;
-    try {
-      url = new URL(this.contentFormGroup.controls.linkCtrl.value);
-    } catch (error) {
-      // This area realistically shouldn't ever be hit due to validator BUT just in case
-      console.log('Error: Link is valid but does not work as a URL object')
-      this.showLinkPreview = false;
-      this.showYTEmbed = false;
-      return;
-    }
-
-    let ytVidId = this.getYoutubeVideoId(this.contentFormGroup.controls.linkCtrl.value);
-    // TODO If url matches supported video type, show video icon and preview embed
-    if(ytVidId) {
-      console.log("Got youtube id!", ytVidId);
-      this.showLinkPreview = false; // Hide other preview
-      this.showYTEmbed = true;
-      
-    }
-    
-    else {
-      // Otherwise, show a link preview
-
-      // Show that loading preview
-      this.showLinkPreview = true;
-      this.showYTEmbed = false;
-    }
+    let url = new URL(this.contentFormGroup.controls.linkCtrl.value); // Should be a valid URL by this point
+    this.linkPreview.show(url);
   }
 
   /**
@@ -286,12 +214,12 @@ export class PostEditorComponent implements OnInit {
 
     // TODO: Actually do full validation on all form data first before continuing here
     if(!this.isContentFormValid()) {
-      this.onSubmitErrorMessage = "Form is invalid";
+      this.onSubmitErrorMessage = 'Form is invalid';
       return;
     }
 
     this.isSubmitting = true;
-    this.onSubmitErrorMessage = "";
+    this.onSubmitErrorMessage = '';
 
     // Populate the post to create with necessary fields
     let post = PostService.getBasicPost();
@@ -345,19 +273,5 @@ export class PostEditorComponent implements OnInit {
 
     // Otherwise, this form is valid
     return true;
-  }
-
-  private getYoutubeVideoId(url: string): string {
-    // From comment in https://stackoverflow.com/a/8260383/3735890
-    let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/
-    let match = url.match(regExp);
-    return (match && match[1]) ? match[1] : '';
-  }
-
-  private isSupportedVideo(url: string): string {
-    // If youtube vid, return YOUTUBE
-    // If 
-    
-    return '';
   }
 }

@@ -26,6 +26,7 @@ import { NotificationsViewerComponent } from './notifications-viewer/notificatio
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
+import { LinkEmbedComponent } from './link-embed/link-embed.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { NotificationService } from '../services/notification.service';
     PostPopupComponent,
     PopupComponent,
     EditorComponent,
-    NotificationsViewerComponent
+    NotificationsViewerComponent,
+    LinkEmbedComponent
   ],
   entryComponents: [
     TabExampleComponent,
