@@ -27,6 +27,8 @@ export class LinkEmbedComponent implements OnInit {
   readonly twitchClipParams = '&autoplay=false'
   safeTwitchUrl: SafeResourceUrl;
 
+  tweetId: string = '';
+
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -83,9 +85,20 @@ export class LinkEmbedComponent implements OnInit {
   }
 
   private showTwitter(url: URL) {
+    let splitPath = url.pathname.split('/');
+    if(splitPath.length < 4) { // Expecting at least /username/status/<id>
+      this.showGeneral(url);
+      return;
+    }
+    let intermediate = splitPath[3].replace(/[^[0-9]*$]+/g, ''); // Numbers only
+    if(!intermediate) {
+      this.showGeneral(url);
+      return;
+    }
+
+    console.log("Tweet id:", intermediate);
+    this.tweetId = intermediate;
     this.linkType = LinkType.Twitter;
-
-
   }
 
   private showTwitchClip(url: URL) {
