@@ -103,7 +103,7 @@ namespace FightCore.Api
                     options.UseMvc();
                     options
                         // These endpoints still need to be implemented
-                        //.EnableAuthorizationEndpoint("/connect/authorize")
+                        .EnableAuthorizationEndpoint("/connect/authorize")
                         //.EnableLogoutEndpoint("/connect/logout")
                         //.EnableIntrospectionEndpoint("/connect/introspect")
                         .EnableTokenEndpoint("/connect/token")
@@ -118,6 +118,7 @@ namespace FightCore.Api
 
                     options.AllowPasswordFlow();
                     options.AllowRefreshTokenFlow();
+                    options.AllowImplicitFlow();
 
                     options.AcceptAnonymousClients();
 
