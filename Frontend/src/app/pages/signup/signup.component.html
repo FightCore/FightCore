@@ -4,20 +4,26 @@
       <h3 class="h3 mb-3 font-weight-normal">Create your account</h3>
 
       <mat-form-field>
-        <input matInput required formControlName="usernameControl" 
-        placeholder="Username"
-        type="text"
-        autocomplete="username">
+        <input
+          matInput 
+          required 
+          formControlName="usernameControl" 
+          placeholder="Username"
+          type="text"
+          autocomplete="username">
         <mat-error *ngIf="usernameControl.hasError('required')">
           Username is <strong>required</strong>
         </mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput required formControlName="emailControl" 
-        placeholder="Email"
-        type="email"
-        autocomplete="email"
+        <input 
+          matInput
+          required
+          formControlName="emailControl" 
+          placeholder="Email"
+          type="email"
+          autocomplete="email"
         >
         <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
           Please enter a valid email address
@@ -28,40 +34,65 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput required formControlName="passControl" 
-        placeholder="Password"
-        type="password"
-        autocomplete="new-password">
-        <mat-error *ngIf="passControl.hasError('required')">
+        <input 
+          matInput 
+          required 
+          formControlName="passControl"
+          placeholder="Password"
+          type="password"
+          autocomplete="new-password">
+        <mat-error *ngIf="passControl.hasError('required'); else passOtherErrors">
           Password is <strong>required</strong>
         </mat-error>
+        <ng-template #passOtherErrors>
+          <mat-error *ngIf="passControl.hasError('minlength')">
+            Password must be at least {{ passMinLength }} characters long
+          </mat-error>
+          <mat-error *ngIf="!passControl.hasError('minlength') && passControl.hasError('hasNoDigit')">
+            Password must contain at least one number
+          </mat-error>
+          <mat-error *ngIf="!passControl.hasError('minlength') && !passControl.hasError('hasNoDigit') && passControl.hasError('hasNoUppercase')">
+            Password must contain at least one uppercase letter
+          </mat-error>
+          <mat-error *ngIf="!passControl.hasError('minlength') && !passControl.hasError('hasNoDigit') && !passControl.hasError('hasNoUppercase') && passControl.hasError('hasNoNonAlphanumeric')">
+            Password must contain at least one non-alphanumeric character (eg, any special character).
+          </mat-error>
+        </ng-template>
+
+        <mat-hint>Password must be at least 6 characters, have at least one non-alphanumeric character, have at least one number, and have at least one upper case letter.</mat-hint>
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput required formControlName="confirmPassControl"  
-        [errorStateMatcher]="confirmErrorMatcher"
-        placeholder="Confirm Password"
-        type="password"
-        autocomplete="new-password">
-        <mat-error *ngIf="confirmPassControl.hasError('required')">
-          Password is <strong>required</strong>
+        <input 
+          matInput
+          required
+          formControlName="confirmPassControl"  
+          [errorStateMatcher]="confirmErrorMatcher"
+          placeholder="Confirm Password"
+          type="password"
+          autocomplete="new-password">
+        <mat-error *ngIf="confirmPassControl.touched && confirmPassControl.hasError('required')">
+          Confirming password is <strong>required</strong>
         </mat-error>
         <mat-error *ngIf="confirmPassControl.valid && form.errors && form.errors.passwordsShouldMatch">
           Passwords do not match.
         </mat-error>
       </mat-form-field>
       
-      <button type="submit" mat-raised-button
-      [disabled]="!form.valid || isSubmitting"
-      [class.disabled]="!form.valid || isSubmitting"
-      class="btn btn-primary btn-lg">
+      <button 
+        type="submit"
+        mat-raised-button
+        [disabled]="!form.valid || isSubmitting"
+        [class.disabled]="!form.valid || isSubmitting"
+        class="btn btn-primary btn-lg">
         Submit
       </button>
+      
       <div>
         <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
       </div>
-      <div *ngIf="onSubmitErrorMessage" class="alert alert-danger">
-        {{onSubmitErrorMessage}}
+      <div *ngFor="let errorMsg of onSubmitErrorMessages" class="alert alert-danger">
+        {{ errorMsg }}
       </div>
     </form>
   </div>
