@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import Quill from 'quill';
 
 // NOTE: Quill doesn't currently support tables at all
@@ -9,6 +9,9 @@ import Quill from 'quill';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
+  @Input('simpleMode') useSimpleMode: boolean;
+  @Input('placeholder') placeholder: string = 'What can you do to help the community?';
+
   @ViewChild('editorContainer') container: ElementRef;
   editor: Quill; // No good TS definition for Quill afaik
 
@@ -31,12 +34,16 @@ export class EditorComponent implements OnInit {
     
       ['clean']                                         // remove formatting button
     ];
+    var simpleToolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike']
+    ];
+
     let options = {
-      placeholder: 'Change the world one post at a time...',
+      placeholder: this.placeholder,
       theme: 'snow',
       modules: {
         toolbar: {
-          container: toolbarOptions,
+          container: this.useSimpleMode ? simpleToolbarOptions : toolbarOptions,
           handlers: {
             'image': () => { this.imageHandler(); } // Anonymous function in case called in different context
           }

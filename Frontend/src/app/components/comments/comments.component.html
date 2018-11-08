@@ -1,0 +1,32 @@
+<div class="card m-0">
+  <div class="card-header py-2">
+    <h4 class="m-0">Share your thoughts</h4>
+  </div>
+  <div class="card-body pt-0 pb-2">
+    <app-editor simpleMode="true" placeholder="Let them thoughts flow and please keep 'em esports"></app-editor>
+    <button mat-stroked-button ngbTooltip="Not yet implemented" placement="top-left">Comment</button>
+  </div>
+</div>
+
+<div class="d-flex mt-4">
+  <div class="mr-auto">
+    <mat-form-field>
+      <mat-select 
+      placeholder="Sorting"
+      [(value)]="selectedSort"
+      (selectionChange)="onSelectionChange()"
+      >
+        <mat-option *ngFor="let option of sortOptions" [value]="option.id">
+          {{option.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div>
+    <mat-paginator [length]="1" [pageSize]="10" [hidePageSize]="true" (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</div>
+
+<app-comment></app-comment>

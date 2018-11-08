@@ -1,37 +1,3 @@
-div.card {
-    margin-bottom: 5px;
-
-    div.card-header {
-        padding-bottom: 5px;
-        
-        div.ratingTool {
-            width: 40px; // Need set width so header spacing doesn't keep moving based off of rating
-            margin-left: -15px;
-
-            cursor: pointer;
-            &:hover {
-                background: gainsboro; // Testing code, simulating interactivity
-            }
-
-            div { // Couldn't figure out how else to center the entire rating tool so centering each child
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-        
-        div.info img {
-            height: 1.5em; // TODO: Center image with rest of text without making entire row taller at all
-        }
-    }
-
-    div.card-body {
-        hr.shortDivider {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-    }
-}
-
 .post-preview .material-icons {
     padding-right: 5px;
 }

@@ -27,6 +27,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
 import { LinkEmbedComponent } from './link-embed/link-embed.component';
+import { CommentsComponent } from './comments/comments.component';
+import { CommentComponent } from './comments/comment/comment.component';
 
 @NgModule({
   imports: [
@@ -72,7 +74,9 @@ import { LinkEmbedComponent } from './link-embed/link-embed.component';
     PopupComponent,
     EditorComponent,
     NotificationsViewerComponent,
-    LinkEmbedComponent
+    LinkEmbedComponent,
+    CommentsComponent,
+    CommentComponent
   ],
   entryComponents: [
     TabExampleComponent,

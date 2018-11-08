@@ -43,7 +43,7 @@
     </div>
 
     <ng-template #showDetails>
-      <div class="card mt-0">
+      <div class="post card">
         <div class="card-header d-flex">
           <div class="ratingTool flex-column text-center" ngbTooltip="Not yet implemented" placement="top-left">
             <i class="material-icons">thumb_up</i>
@@ -51,7 +51,7 @@
           </div>
           
           <div>
-            <div class="info text-secondary text-center">
+            <div class="info text-secondary">
               General <img src="assets/games/s4/characters/stock/stock_90_pikachu_01.png"> &middot; 
               By {{ getAuthorName() }} &middot; {{ data.createdDate | date }}
             </div>
@@ -59,10 +59,9 @@
           </div>
         </div>
         
-        <div class="card-body pt-0 pb-0">
+        <div class="card-body">
           <div *ngIf="data.featuredLink">
             <link-embed #linkEmbed></link-embed>
-
             <hr class="shortDivider">
           </div>
 
@@ -71,10 +70,12 @@
         </div>
       </div>
 
-      <p>Comments down here</p>
+      <hr>
+      <app-comments></app-comments>
     </ng-template>
   </ng-template>
 </div>
+
 <ng-template #invalidPost>
   <p>No valid post given to component.</p>
 </ng-template>
