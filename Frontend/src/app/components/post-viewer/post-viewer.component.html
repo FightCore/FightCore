@@ -1,6 +1,39 @@
 <div *ngIf="data; else invalidPost">
   <div *ngIf="simpleMode; else fullDetails">
-    <div class="card post-preview"> 
+
+    <div class="post card">
+      <div class="card-header d-flex pb-0">        
+        <div>
+          <div class="info text-secondary">
+            {{ getCategoryName() }} <img src="assets/games/s4/characters/stock/stock_90_pikachu_01.png"> &middot; 
+            By {{ getAuthorName() }} &middot; {{ data.createdDate | date: "MMM d" }}
+          </div>
+          <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <div>Preview of content?</div>
+
+        <div class="row justify-content-center">
+          <div class="col">
+            <div class="ratingTool d-flex justify-content-center text-secondary" ngbTooltip="Not yet implemented" placement="top">
+              <i class="material-icons">thumb_up</i>
+              <div>22</div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="ratingTool d-flex justify-content-center text-secondary" ngbTooltip="Not yet implemented" placement="top">
+              <i class="material-icons">chat_bubble_outline</i>
+              <div>1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="card post-preview"> 
       <div class="card-header">
         <h4 class="card-title">{{data.title}}</h4>
       </div>
@@ -34,7 +67,8 @@
           <span>{{getAuthorName()}}</span>
         </div>
       </div>
-    </div>
+    </div> -->
+
   </div>
   
   <ng-template #fullDetails>
@@ -45,14 +79,14 @@
     <ng-template #showDetails>
       <div class="post card">
         <div class="card-header d-flex">
-          <div class="ratingTool flex-column text-center" ngbTooltip="Not yet implemented" placement="top-left">
+          <div class="ratingTool flex-column text-center text-secondary" ngbTooltip="Not yet implemented" placement="top-left">
             <i class="material-icons">thumb_up</i>
-            <div class="text-secondary">22</div>
+            <div>22</div>
           </div>
           
           <div>
             <div class="info text-secondary">
-              General <img src="assets/games/s4/characters/stock/stock_90_pikachu_01.png"> &middot; 
+              {{ getCategoryName() }} <img src="assets/games/s4/characters/stock/stock_90_pikachu_01.png"> &middot; 
               By {{ getAuthorName() }} &middot; {{ data.createdDate | date }}
             </div>
             <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
@@ -69,7 +103,7 @@
           </div>
         </div>
       </div>
-
+      <div>{{ data | json }} </div>
       <hr>
       <app-comments></app-comments>
     </ng-template>

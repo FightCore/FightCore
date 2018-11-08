@@ -52,6 +52,13 @@ div.card.post {
     margin-top: 0px;
     margin-bottom: 5px;
 
+    div.ratingTool {
+        cursor: pointer;
+        &:hover {
+            background: gainsboro; // Testing code, simulating interactivity
+        }
+    }
+
     div.card-header {
         padding-bottom: 5px;
         
@@ -59,11 +66,6 @@ div.card.post {
             width: 40px; // Need set width so header spacing doesn't keep moving based off of rating
             margin-left: -15px;
             margin-right: 5px;
-
-            cursor: pointer;
-            &:hover {
-                background: gainsboro; // Testing code, simulating interactivity
-            }
 
             div { // Couldn't figure out how else to center the entire rating tool so centering each child
                 margin-left: auto;
@@ -83,6 +85,10 @@ div.card.post {
         hr.shortDivider {
             margin-top: 4px;
             margin-bottom: 4px;
+        }
+
+        div.ratingTool div {
+            padding-left: 5px; // For horizontal rating elements, add a bit of space between number and icon
         }
     }
 }

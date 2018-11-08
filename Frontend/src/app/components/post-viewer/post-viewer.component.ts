@@ -70,10 +70,10 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     return this.data.category == PostInfo.CombosCatId;
   }
   getCategoryName(): string {
-    return this.data.category + " (cat name)";
+    return PostInfo.PostCategories[this.data.category].name;
   }
   getAuthorName(): string {
-    return "FakeName" + this.data.authorId;
+    return "AuthorId" + this.data.authorId;
   }
   getCharacterIcon(characterId: number): string {
     return characterId + " (icon)";

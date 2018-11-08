@@ -32,15 +32,18 @@
         {{ err | json }}
       </div>
     </div>
+
     <ng-template #viewPosts>
       <div *ngIf="totalPosts == 0">No posts found</div>
-      <div class="row">
-        <div class="col-md-4" *ngFor="let post of posts">
+
+      <div class="d-flex flex-wrap">
+        <div class="post-container" *ngFor="let post of posts">
           <a (click)="open(post)" style="cursor:pointer;">
             <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
           </a>
         </div>
       </div>
+
     </ng-template>
   </div>
 </div>
