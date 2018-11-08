@@ -32,7 +32,7 @@ export class PostPopupComponent implements OnInit {
     this.changeUrlForPost(post);
 
     let postViewer = new TabItem(PostViewerComponent, post);
-    this.popup.show(postViewer, post.title);
+    this.popup.show(postViewer, "");
   }
 
   /**

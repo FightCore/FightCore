@@ -22,6 +22,7 @@ export class ViewPostComponent implements OnInit {
       this.post.id = params['id'];
 
       // Try getting the post with the given id
+      // TODO: Remove all this, post-viwer is already going to get all this info. Create a way to get info from the post-viewer itself
       this.postService.getPost(params['id']).subscribe((res: Post) => {
         res.urlName = PostService.createUrlName(res.title); // TODO: Remove this line once server actually does this
         //For SEO reasons, postName must match post
