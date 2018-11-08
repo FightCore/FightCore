@@ -45,16 +45,17 @@
     <ng-template #showDetails>
       <div class="card">
         <div class="card-header d-flex">
-          <div class="ratingTool flex-column text-center">
+          <div class="ratingTool flex-column text-center" ngbTooltip="Not yet implemented">
             <i class="material-icons">thumb_up</i>
-            <div class="text-secondary">##</div>
+            <div class="text-secondary">22</div>
           </div>
           
           <div>
-            <div class="text-secondary">
-              General &middot; By {{ getAuthorName() }} &middot; {{ data.createdDate | date }} &middot; <i class="material-icons">face</i>
+            <div class="info text-secondary text-center">
+              General <img src="assets/games/s4/characters/stock/stock_90_pikachu_01.png"> &middot; 
+              By {{ getAuthorName() }} &middot; {{ data.createdDate | date }}
             </div>
-            <h4>{{data.title}}</h4>
+            <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
           </div>
         </div>
         
