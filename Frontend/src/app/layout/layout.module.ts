@@ -1,3 +1,4 @@
+import { AboutUsComponent } from './../pages/home/about-us/about-us.component';
 import { MatchupsComponent } from './../pages/characters/matchups/matchups.component';
 import { BasicsComponent } from './../pages/characters/basics/basics.component';
 import { DashboardModule } from './../dashboard/dashboard.module';
@@ -38,6 +39,7 @@ import { FrameDataComponent } from '../pages/characters/frame-data/frame-data.co
 import { OverviewComponent } from '../pages/characters/overview/overview.component';
 import { NotificationsComponent } from '../pages/notifications/notifications.component';
 import { NotificationService } from '../services/notification.service';
+import { SiteNewsComponent } from '../pages/home/site-news/site-news.component';
 
 @NgModule({
   imports: [
@@ -75,14 +77,18 @@ import { NotificationService } from '../services/notification.service';
       FrameDataComponent,
       OverviewComponent,
       SignupComponent,
-      NotificationsComponent
+      NotificationsComponent,
+      SiteNewsComponent,
+      AboutUsComponent
   ],
   entryComponents: [
     BasicsComponent,
     CombosTechComponent,
     MatchupsComponent,
     FrameDataComponent,
-    OverviewComponent
+    OverviewComponent,
+    SiteNewsComponent,
+    AboutUsComponent
   ],
   providers: [
     AuthGuard,
