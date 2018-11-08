@@ -1,7 +1,8 @@
 export interface Post {
     id: number;
     authorId: number;
-    createdDate?: Date;
+    createdDate: Date;
+    lastEdit?: Date;
     views: number;
     rating?: number;
     urlName?: string;                // SEO purposes, part of url, based off of title

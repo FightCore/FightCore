@@ -74,7 +74,6 @@ export class LinkEmbedComponent implements OnInit {
       // Video id is in query param, eg 'https://www.youtube.com/watch?v=JMTlKJzoYS4'
       videoId = LinkEmbedComponent.getIdFromPath(url.searchParams.get('v'), false, true);
     }
-    console.log("YT video id:", videoId);
     if(!videoId) {
       this.showGeneral(url);
       return;
@@ -165,4 +164,9 @@ export class LinkEmbedComponent implements OnInit {
   isGeneralLink(): boolean {
     return this.linkType === LinkType.General;
   }
+
+  /**
+   * Get whether the embed is currently showing or not
+   */
+  public get isShowing() { return this.showEmbed; }
 }

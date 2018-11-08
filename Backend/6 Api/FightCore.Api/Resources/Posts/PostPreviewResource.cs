@@ -14,6 +14,8 @@ namespace FightCore.Api.Resources.Posts
 
         public int AuthorId { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
         public string Title { get; set; }
 
         public int Views { get; set; }
