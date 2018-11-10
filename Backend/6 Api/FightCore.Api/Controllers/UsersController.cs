@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using FightCore.Api.Resources;
@@ -17,7 +18,6 @@ namespace FightCore.Api.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -48,7 +48,19 @@ namespace FightCore.Api.Controllers
         {
             var user = await _userService.FindByIdAsync(id);
             if (user == null)
+            {
                 return NotFound();
+            }
+
+            return Ok(_mapper.Map<UserResource>(user));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetCurrentUserDetails()
+        {
+            var currentId = _userManager.GetUserId(ClaimsPrincipal.Current);
+            var user = await _userService.FindByIdAsync(Convert.ToInt32(currentId));
 
             return Ok(_mapper.Map<UserResultResource>(user));
         }
@@ -57,7 +69,7 @@ namespace FightCore.Api.Controllers
         /// Gets all users
         /// </summary>
         /// <returns>List of all users</returns>
-        [HttpGet]
+        [HttpGet("all")]
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
@@ -65,7 +77,7 @@ namespace FightCore.Api.Controllers
             if (users == null || !users.Any())
                 return NotFound();
 
-            return Ok(_mapper.Map<IEnumerable<UserResultResource>>(users));
+            return Ok(_mapper.Map<IEnumerable<UserResource>>(users));
         }
 
         /// <summary>
@@ -84,7 +96,7 @@ namespace FightCore.Api.Controllers
 
             if (result.Succeeded)
             {
-                return this.CreatedAtAction(nameof(this.Get), new { user.Id }, _mapper.Map<UserResultResource>(user));
+                return this.CreatedAtAction(nameof(this.Get), new { user.Id }, _mapper.Map<UserResource>(user));
             }
 
             return this.Conflict(result.Errors);

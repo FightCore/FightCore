@@ -7,15 +7,16 @@ namespace FightCore.Api.Resources
 {
     public class UserResource
     {
-        public string Email { get; set; }
-
+        public int Id { get; set; }
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// Only to be used to display the logged in user's details
+    /// </summary>
     public class UserResultResource : UserResource
     {
-        public int Id { get; set; }
-
+        public string Email { get; set; }
     }
 
     public class NewUserResource : UserResource
