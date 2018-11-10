@@ -1,6 +1,9 @@
+import { User } from "./User";
+
 export interface Post {
     id: number;
     authorId: number;
+    author: User;
     createdDate: Date;
     lastEdit?: Date;
     views: number;

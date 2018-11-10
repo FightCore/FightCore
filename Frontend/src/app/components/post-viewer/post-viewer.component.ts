@@ -73,10 +73,10 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     return PostInfo.PostCategories[this.data.category].name;
   }
   getAuthorName(): string {
-    return "AuthorId" + this.data.authorId;
+    return this.data.author.userName;
   }
-  getCharacterIcon(characterId: number): string {
-    return characterId + " (icon)";
+  getCharacterIcon(): string {
+    return 'assets/example_stock.png';
   }
 
 }

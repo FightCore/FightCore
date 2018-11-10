@@ -52,16 +52,16 @@ namespace FightCore.Repositories.Resources
                     break;
             }
 
-            sorted.Include(x => x.Author);
+            var sorteWithAuthor = sorted.Include(x => x.Author);
             if (category == null)
             {
-                return sorted
+                return sorteWithAuthor
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize);
             }
             else
             {
-                return sorted
+                return sorteWithAuthor
                     .Where(x => x.Category == category)
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize);

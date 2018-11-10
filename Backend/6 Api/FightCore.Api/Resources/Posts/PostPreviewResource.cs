@@ -14,6 +14,11 @@ namespace FightCore.Api.Resources.Posts
 
         public int AuthorId { get; set; }
 
+        /// <summary>
+        /// The user who has written this resource
+        /// </summary>
+        public UserResource Author { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public string Title { get; set; }
