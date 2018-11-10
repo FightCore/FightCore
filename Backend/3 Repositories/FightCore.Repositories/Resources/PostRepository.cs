@@ -15,13 +15,15 @@ namespace FightCore.Repositories.Resources
         Task<int> GetPostCountAsync(ResourceCategory? category);
 
         IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
+
+        Task<Post> GetPostByIdAsync(int id);
     }
     public class PostRepository : Repository<Post>, IPostRepository
     {
         public PostRepository(DbContext context) : base(context)
         {
         }
-        
+
         public Task<int> GetPostCountAsync(ResourceCategory? category)
         {
             if(category != null)
@@ -50,6 +52,7 @@ namespace FightCore.Repositories.Resources
                     break;
             }
 
+            sorted.Include(x => x.Author);
             if (category == null)
             {
                 return sorted
@@ -64,8 +67,12 @@ namespace FightCore.Repositories.Resources
                     .Take(pageSize);
             }
 
-            
+
         }
 
+        public Task<Post> GetPostByIdAsync(int id)
+        {
+            return Queryable.Include(x => x.Author).FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

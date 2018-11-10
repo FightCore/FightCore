@@ -37,6 +37,12 @@ namespace FightCore.Services.Resources
             _repository = repository;
         }
 
+        /// <inheritdoc cref="IEntityService{TEntity}.FindByIdAsync"/>
+        public override Task<Post> FindByIdAsync(int id)
+        {
+            return _repository.GetPostByIdAsync(id);
+        }
+
         /// <inheritdoc cref="IPostService.GetPostCountAsync"/>
         public Task<int> GetPostCountAsync(ResourceCategory? category)
         {

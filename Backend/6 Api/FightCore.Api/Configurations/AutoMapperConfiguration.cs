@@ -20,7 +20,7 @@ namespace FightCore.Api.Configurations
             CreateMap<NewUserResource, ApplicationUser>();
 
             CreateMap<PostResource, Models.Resources.Post>();
-            CreateMap<PostResultResource, Models.Resources.Post>().ReverseMap(); // Not sure why ReverseMap was originally used for users
+            CreateMap<PostResultResource, Models.Resources.Post>().ReverseMap();
             CreateMap<PostPreviewResource, Models.Resources.Post>();
 
             CreateMap<NotificationResource, Notification>().ReverseMap();

@@ -1,6 +1,8 @@
 ﻿using FightCore.Models;
 using System;
 
+using FightCore.Api.Resources;
+
 namespace FightCore.Api.Posts.Resources
 {
     /// <summary>
@@ -32,7 +34,7 @@ namespace FightCore.Api.Posts.Resources
         /// <summary>
         /// The user who has written this resource
         /// </summary>
-        public ApplicationUser Author { get; set; }
+        public UserResource Author { get; set; }
         public int AuthorId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastEdit { get; set; }
