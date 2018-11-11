@@ -11,8 +11,7 @@ namespace FightCore.Api.Resources.Posts
     public class PostPreviewResource
     {
         public int Id { get; set; }
-
-        public int AuthorId { get; set; }
+        public UserResource Author { get; set; }
 
         public string Title { get; set; }
 
