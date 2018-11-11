@@ -71,7 +71,8 @@ namespace FightCore.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" }
+                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" },
+                        new { Id = 2, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "test2@test.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "TEST2@TEST.COM", NormalizedUserName = "TEST2", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "test2" }
                     );
                 });
 
@@ -378,6 +379,69 @@ namespace FightCore.Data.Migrations
 
                     b.ToTable("Media");
                 });
+
+            modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuthorId");
+
+                    b.Property<int>("Category");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("FeaturedLink");
+
+                    b.Property<DateTime>("LastEdit");
+
+                    b.Property<int>("PatchId");
+
+                    b.Property<int>("SkillLevel");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("Views");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Posts");
+            });
+
+            modelBuilder.Entity("FightCore.Models.Notification", b =>
+            {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<bool>("IsImportant");
+
+                    b.Property<DateTime?>("ReadDate");
+
+                    b.Property<string>("RouteLink")
+                        .IsRequired();
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+            });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
@@ -750,6 +814,22 @@ namespace FightCore.Data.Migrations
                     b.HasOne("FightCore.Models.Characters.Technique")
                         .WithMany("Media")
                         .HasForeignKey("TechniqueId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Notification", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

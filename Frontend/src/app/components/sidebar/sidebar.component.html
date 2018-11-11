@@ -8,7 +8,7 @@
         <form class="navbar-form">
             <span class="bmd-form-group">
                 <div class="input-group no-border">
-                    <input type="text" value="" class="form-control" placeholder="Search...">
+                    <input type="text" value="" class="form-control" placeholder="Not active yet...">
                     <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
                         <i class="material-icons">search</i>
                         <div class="ripple-container"></div>
@@ -26,8 +26,16 @@
                 </a>
             </li>
             <li class="nav-item" *ngIf="isLoggedIn">
+                <a class="nav-link" [routerLink]="['/notifications']">
+                    <i class="material-icons">notifications_none</i>
+                    <p>
+                        <span class="d-lg-none d-md-block">Notifications</span>
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item" *ngIf="isLoggedIn">
                 <a class="nav-link" (click)="logOut()">
-                    <i class="material-icons">lock</i>
+                    <i class="material-icons">exit_to_app</i>
                     <p>
                         <span class="d-lg-none d-md-block">sign out</span>
                     </p>
@@ -44,6 +52,7 @@
         </ul>
     </div>
     <ul class="nav">
+        <game-switcher></game-switcher>
         <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
             <a class="nav-link" [routerLink]="[menuItem.path]">
                 <i class="material-icons">{{menuItem.icon}}</i>

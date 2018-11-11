@@ -1,0 +1,47 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div style="margin-bottom: 5px;">
+      <button mat-raised-button color="primary" (click)="goToAddPost()"
+      matTooltip="Add a post to the library" matTooltipPosition="above">
+        Create Post
+      </button>
+    </div>
+
+    <div class="row post-controls">
+      <div class="col-6">
+        <post-filters (selectionChange)="onFiltersChange($event)"></post-filters>
+      </div>
+      <div class="col-6">
+        <div class="float-right">
+          <post-sort (selectionChange)="onSortChange($event)"></post-sort>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <mat-paginator [length]="totalPosts" [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 50]" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+
+    <div *ngIf="isLoading; else viewPosts">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="errorMsgs">
+      <div *ngFor="let err of errorMsgs" class="alert alert-danger">
+        {{ err | json }}
+      </div>
+    </div>
+    <ng-template #viewPosts>
+      <div *ngIf="totalPosts == 0">No posts found</div>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let post of posts">
+          <a (click)="open(post)" style="cursor:pointer;">
+            <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+          </a>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<post-popup #postPopup></post-popup>

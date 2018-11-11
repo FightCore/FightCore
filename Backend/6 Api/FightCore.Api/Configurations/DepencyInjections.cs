@@ -1,13 +1,13 @@
 ﻿using FightCore.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FightCore.Data;
 using FightCore.Repositories.Patterns;
+using FightCore.Repositories.Resources;
 using FightCore.Services;
+using FightCore.Services.Resources;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SignalR;
+using FightCore.Api.Notifications;
 using FightCore.Services.Characters;
 using FightCore.Repositories.Characters;
 using FightCore.Repositories.Games;
@@ -32,6 +32,8 @@ namespace FightCore.Api.Configurations
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUnitOfWorkAsync, UnitOfWork>();
 
+            services.AddSingleton<IUserIdProvider, UserIdProvider>();
+
             return services;
         }
 
@@ -46,8 +48,12 @@ namespace FightCore.Api.Configurations
             services.AddScoped<ICharacterRepository, CharacterRepository>();
             services.AddScoped<ITechniqueRepository, TechniqueRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
 
+            services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<ITechniqueService, TechniqueService>();
             services.AddScoped<IGameService, GameService>();

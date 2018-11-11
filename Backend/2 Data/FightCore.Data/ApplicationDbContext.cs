@@ -1,5 +1,6 @@
 ﻿using FightCore.Data.Configurations;
 using FightCore.Models;
+using FightCore.Models.Resources;
 using FightCore.Models.Characters;
 using FightCore.Models.Shared;
 using Microsoft.AspNetCore.Identity;
@@ -34,12 +35,8 @@ namespace FightCore.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-
-            #region Users
-
+            builder.Entity<Post>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
-
-            #endregion
 
             #region Character
 
@@ -57,5 +54,8 @@ namespace FightCore.Data
 
             #endregion
         }
+
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

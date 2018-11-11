@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FightCore.Api.Posts.Resources;
 using FightCore.Api.Resources;
+using FightCore.Api.Resources.Posts;
+using FightCore.Api.Resources.Notifications;
 using FightCore.Api.Resources.Characters;
 using FightCore.Api.Resources.Games;
 using FightCore.Api.Resources.Shared;
@@ -56,6 +59,13 @@ namespace FightCore.Api.Configurations
 
             CreateMap<ComboReceiver, Character>().ConvertUsing(x => x.Character);
             CreateMap<ComboPerformers, Character>().ConvertUsing(x => x.Character);
+
+            CreateMap<PostResource, Models.Resources.Post>();
+            CreateMap<PostResultResource, Models.Resources.Post>().ReverseMap(); // Not sure why ReverseMap was originally used for users
+            CreateMap<PostPreviewResource, Models.Resources.Post>();
+
+            CreateMap<NotificationResource, Notification>().ReverseMap();
+            CreateMap<NotificationResultResource, Notification>().ReverseMap();
         }
     }
 }

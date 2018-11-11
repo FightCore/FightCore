@@ -12,6 +12,7 @@
     <Compile Remove="Migrations\20181001185625_AddedGameAndCharacterSeed.cs" />
     <Compile Remove="Migrations\20181015174832_NewTechniqueModel.cs" />
     <Compile Remove="Migrations\20181017172629_ComboRework.cs" />
+    <Compile Remove="Migrations\20181001195854_AddedUserResources.cs" />
   </ItemGroup>
 
   <ItemGroup>
