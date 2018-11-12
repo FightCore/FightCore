@@ -12,8 +12,7 @@ namespace FightCore.Models.PlayerStatistics
     {
         public Player Player { get; set; }
         public Character Character { get; set; }
-        public List<SetGame> Games { get; set; }
-        public decimal WinPercentage { get; set; }
+        public WinLossRecord WinLossRecord { get; set; }
         public decimal CharacterUsage { get; set; }
 
     }

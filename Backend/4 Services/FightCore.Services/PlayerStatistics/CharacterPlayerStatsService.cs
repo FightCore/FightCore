@@ -13,26 +13,24 @@ namespace FightCore.Services.PlayerStatistics
             CharacterPlayerStats stats = new CharacterPlayerStats();
             stats.Player = player;
             stats.Character = character;
-            stats.Games = new List<SetGame>();
-            foreach (Set set in player.Sets)
+            List<SetGame> setGames = new List<SetGame>();
+
+            //Enumerate through player sets to retrieve set games
+            IEnumerator<Set> setEnum = player.Sets.GetEnumerator();
+            while (setEnum.MoveNext())
             {
-                stats.Games.AddRange(set.Games);
+                Set set = (Set)setEnum.Current;
+                setGames.AddRange(set.Games);
             }
-            // Total games won with character by player divivded by total games played with character by player = win percentage
-            stats.WinPercentage =
-                (decimal)stats.Games.Count(x =>
-                x.Winner == player.Id &&
-                ((x.Character1 == character && x.Set.Player1Id == player.Id)
-                || (x.Character2 == character && x.Set.Player2Id == player.Id)))
-                / (decimal)stats.Games.Count(x =>
-                (x.Character1 == character && x.Set.Player1Id == player.Id)
-                || (x.Character2 == character && x.Set.Player2Id == player.Id));
+
+            stats.WinLossRecord = WinLossRecordService.GetWinLossRecordByCharacter(player, character);
+
             // Total games played with character by player divivded by total games played by player = character usage
             stats.CharacterUsage =
-                (decimal)stats.Games.Count(x =>
+                (decimal)setGames.Count(x =>
                 (x.Character1 == character && x.Set.Player1Id == player.Id)
                 || (x.Character2 == character && x.Set.Player2Id == player.Id))
-                / (decimal)stats.Games.Count();
+                / (decimal)setGames.Count();
 
             return stats;
         }
