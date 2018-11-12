@@ -73,7 +73,7 @@ namespace FightCore.Api
                     {
                         options.AddPolicy(
                             "AllowSpecificOrigins",
-                            builder => builder.WithOrigins("https://www.fightcore.org").AllowAnyMethod().AllowAnyHeader()
+                            builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader()
                                 .AllowCredentials());
                     });
 
@@ -88,7 +88,7 @@ namespace FightCore.Api
                             {
                                 corsOptions.AddPolicy(
                                         "AllowSpecificOrigins",
-                                        builder => builder.WithOrigins("https://www.fightcore.org").AllowAnyMethod()
+                                        builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod()
                                             .AllowAnyHeader().AllowCredentials());
                             });
 
@@ -148,13 +148,6 @@ namespace FightCore.Api
                             $@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(FightCore)}.Api.xml");
                         options.DescribeAllEnumsAsStrings();
 
-                        // o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new ApiKeyScheme()
-                        // {
-                        // 	Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                        // 	Name = "Authorization",
-                        // 	In = "header",
-                        // 	Type = "apiKey"
-                        // });
                         options.AddSecurityDefinition(
                             JwtBearerDefaults.AuthenticationScheme,
                             new OAuth2Scheme { Type = "oauth2", Flow = "password", TokenUrl = "/connect/token" });
@@ -188,12 +181,12 @@ namespace FightCore.Api
                         options.Authority = Configuration.GetSection("Jwt:Authority").Value;
                         options.Audience = "resource_server";
                         options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                                                                {
-                                                                    NameClaimType =
-                                                                        OpenIdConnectConstants.Claims.Subject,
-                                                                    RoleClaimType = OpenIdConnectConstants.Claims.Role
-                                                                };
+                        options.TokenValidationParameters =
+                            new TokenValidationParameters
+                            {
+                                NameClaimType = OpenIdConnectConstants.Claims.Subject,
+                                RoleClaimType = OpenIdConnectConstants.Claims.Role
+                            };
                         options.Events = new JwtBearerEvents
                                              {
                                                  OnMessageReceived = context =>

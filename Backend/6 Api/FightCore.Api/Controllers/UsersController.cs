@@ -81,6 +81,20 @@ namespace FightCore.Api.Controllers
         }
 
         /// <summary>
+        /// Updates the user to the given changes.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Update([FromBody] UserMetaDataResource metaData)
+        {
+            var currentId = _userManager.GetUserId(ClaimsPrincipal.Current);
+            var user = await _userService.FindByIdAsync(Convert.ToInt32(currentId));
+
+            return null;
+        }
+
+        /// <summary>
         /// Adds a user from a given resource
         /// </summary>
         /// <param name="userResource">The resource with the data of the new user</param>
