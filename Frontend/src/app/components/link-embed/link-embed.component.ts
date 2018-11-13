@@ -95,7 +95,6 @@ export class LinkEmbedComponent implements OnInit {
       return;
     }
 
-    console.log("Tweet id:", intermediate);
     this.tweetId = intermediate;
     this.linkType = LinkType.Twitter;
   }
@@ -147,7 +146,7 @@ export class LinkEmbedComponent implements OnInit {
       id = intermediate.replace(/[^\w-]+/g, ''); // Alphanumeric + underscore + dash (\w is a special case that does alphanumeric + underscore)
     }
 
-    return id ? id : '';
+    return id;
 
   }
 
