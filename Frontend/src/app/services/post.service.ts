@@ -24,6 +24,7 @@ export class PostService extends BaseService {
     return {
       id: -1,
       authorId: -1,
+      author: null,
       createdDate: new Date(),
       views: -1,
       rating: -1,
@@ -31,7 +32,7 @@ export class PostService extends BaseService {
       category: -1,
       skillLevel: -1,
       patchId: -1,
-      title: ""
+      title: ''
     };
   }
 
