@@ -65,6 +65,30 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     }
   }
 
+  // TODO: Rewrite following to call into a more centralized location
+  viewAuthor() {
+    console.log("Viewing author info");
+  }
+  viewHistory() {
+    console.log("Viewing history info");
+  }
+  onRepost() {
+    console.log("Doing a repost");
+  }
+  onEdit() {
+    console.log("Doing an edit");
+  }
+  onAdd() {
+    console.log("Adding to user list");
+  }
+  onShare() {
+    console.log("Sharing post however user wants");
+  }
+  onReport() {
+    console.log("Reporting post");
+  }
+
+
   // TODO: Rewrite all the following to call into a more centralized location to get this info
   isCombo():boolean {
     return this.data.category == PostInfo.CombosCatId;

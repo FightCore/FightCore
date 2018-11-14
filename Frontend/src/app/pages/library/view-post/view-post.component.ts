@@ -44,7 +44,6 @@ export class ViewPostComponent implements OnInit {
   onNavigateError() {
     // For now, just go to 404 page (via navigating to any invalid page)
     // TODO: Either create a new 404 page or pass in specific helpful info to the 404 page
-    console.log("onNavigateError");
     this.router.navigate(['/post-not-found'], { skipLocationChange: true });
   }
 

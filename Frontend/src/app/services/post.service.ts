@@ -65,6 +65,10 @@ export class PostService extends BaseService {
   }
 
   public getPost(id: number): Observable<Post> {
+    if(environment.envName === 'noback') {
+      return FakePostService.getPost(id);
+    }
+    
     return this.http.get<Post>(`${environment.baseUrl}/library/${id}`, { headers: this.defaultHeaders })
       .pipe(catchError(this.handleError));
   }

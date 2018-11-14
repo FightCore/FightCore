@@ -49,7 +49,8 @@
           <div>
             <div class="info text-secondary">
               {{ getCategoryName() }} <img [src]="getCharacterIcon()"> &middot; 
-              By {{ getAuthorName() }} &middot; {{ data.createdDate | date }}
+              By <a class="showPointer" (click)="viewAuthor()">{{ getAuthorName() }}</a> &middot; 
+              <a class="showPointer" (click)="viewHistory()">{{ data.createdDate | date }}</a>
             </div>
             <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
           </div>
@@ -63,6 +64,36 @@
 
           <div *ngIf="data.content" [innerHtml]="data.content">
           </div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-start flex-wrap text-secondary">
+          <button mat-button (click)="onRepost()" ngbTooltip="Make sure your followers see this delightful post" placement="top-left">
+              <i class="material-icons">cached</i>
+              Repost
+          </button>
+          <button mat-button (click)="onEdit()" class="mr-auto" ngbTooltip="Edit this versatile post" placement="top">
+              <i class="material-icons">edit</i>
+              Edit
+          </button>
+
+          <button mat-button (click)="onAdd()" ngbTooltip="Add to your resourceful list" placement="top">
+              <i class="material-icons">add</i>
+              Add
+          </button>
+          <button mat-button (click)="onShare()" ngbTooltip="Share this delightful post" placement="top">
+              <i class="material-icons">share</i>
+              Share
+          </button>
+
+          <button mat-icon-button [matMenuTriggerFor]="menu" ngbTooltip="View more ambitious options" placement="top-right">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="onReport()" ngbTooltip="Report this unfortunate post" placement="top">
+                <mat-icon>report</mat-icon>
+                <span>Report</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
 
