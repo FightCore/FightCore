@@ -1,7 +1,7 @@
 export const environment = {
   envName: "prod",
   production: true,
-  tokenEndpoint: "https://localhost:44399/connect/token",
-  userInfoEndpoint: "https://localhost:44399/connect/userinfo",
-  baseUrl: "https://localhost:44399" //Change this to the sites real url
+  tokenEndpoint: "https://api.fightcore.org/connect/token",
+  userInfoEndpoint: "https://api.fightcore.org/connect/userinfo",
+  baseUrl: "https://api.fightcore.org"
 };

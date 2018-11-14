@@ -1,3 +1,4 @@
+import { AppError } from './../../errors/app-error';
 import { UserSubmission } from './../../models/UserSubmission';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit } from '@angular/core';
@@ -18,7 +19,9 @@ export class SignupComponent implements OnInit {
   form: FormGroup;
   confirmErrorMatcher = new PasswordErrorStateMatcher();
   isSubmitting: boolean;
-  onSubmitErrorMessage: string;
+  onSubmitErrorMessages: string[];
+
+  readonly passMinLength = 6; // So only need to change in one place
 
   constructor(private titleService: Title,
     fb: FormBuilder,
@@ -28,7 +31,7 @@ export class SignupComponent implements OnInit {
     this.form = fb.group({
       usernameControl: ['', [Validators.required] ],
       emailControl: ['', [Validators.required, Validators.email] ],
-      passControl: ['', [Validators.required] ],
+      passControl: ['', [Validators.required, Validators.minLength(this.passMinLength), PasswordValidators.hasUppercase, PasswordValidators.hasDigit, PasswordValidators.hasNonAlphanumeric] ],
       confirmPassControl: ['', [Validators.required] ]
     }, {
       validator: PasswordValidators.passwordsShouldMatch
@@ -56,7 +59,7 @@ export class SignupComponent implements OnInit {
     // Show that the form is now loading
     this.isSubmitting = true;
     this.form.disable();
-    this.onSubmitErrorMessage = ""; // Clear for new submit
+    this.onSubmitErrorMessages = []; // Clear for new submit
 
     // Submit the user's info
     let newUser: UserSubmission = {
@@ -74,7 +77,6 @@ export class SignupComponent implements OnInit {
 
   afterSubmit(success: boolean, message: any) {
     if(success) {
-      console.log("Successfully signed up", message)
       // TODO: Get the token in a single request/response
       this.router.navigate(['/login']);
     }
@@ -83,9 +85,19 @@ export class SignupComponent implements OnInit {
       this.isSubmitting = false;
       this.form.enable();
 
-      // TODO: Show some better error message
-      console.log("Error: ", message);
-      this.onSubmitErrorMessage = "Sorry, the submit failed for some reason!"
+      // Show specific error messages if possible
+      if(message instanceof AppError && message.originalError) {
+        // Display each error message's description
+        message.originalError.error.forEach(element => {
+          this.onSubmitErrorMessages.push(element.description);
+        });
+      }
+      // Otherwise, this is an unexpected error
+      else {
+        this.onSubmitErrorMessages.push("Sorry, the submit failed for some unexpected reason");
+        
+        console.log("Sign up error: ", message); // TODO: Log message in some better/more accessible way
+      }
     }
   }
 
