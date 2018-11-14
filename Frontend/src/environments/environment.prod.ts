@@ -1,4 +1,5 @@
 export const environment = {
+  envName: "prod",
   production: true,
   tokenEndpoint: "https://localhost:44399/connect/token",
   userInfoEndpoint: "https://localhost:44399/connect/userinfo",

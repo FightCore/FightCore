@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  envName: "dev",
   production: false,
   tokenEndpoint: "https://localhost:44399/connect/token",
   userInfoEndpoint: "https://localhost:44399/connect/userinfo",

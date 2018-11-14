@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -16,7 +17,12 @@ export class HomeComponent implements OnInit {
   constructor(private titleService: Title) { }
 
   ngOnInit() {
-    this.titleService.setTitle('Home');
+    if(environment.envName === 'noback') {
+      this.titleService.setTitle('Home (No Backend Mode)');
+    }
+    else {
+      this.titleService.setTitle('Home');
+    }
 
     // Initialize tabs
     this.tabItems = [

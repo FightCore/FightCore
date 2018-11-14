@@ -48,6 +48,31 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "noback": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.noback.ts"
+                }
+              ]
+            },
+            "nobackProd": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.nobackProd.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -59,6 +84,12 @@
           "configurations": {
             "production": {
               "browserTarget": "FightCore:build:production"
+            },
+            "noback": {
+              "browserTarget": "FightCore:build:noback"
+            },
+            "nobackProd": {
+              "browserTarget": "FightCore:build:nobackProd"
             }
           }
         },
