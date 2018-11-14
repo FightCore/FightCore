@@ -29,7 +29,8 @@ export const LayoutRoutes: Routes = [
     },
     { 
         path: 'library/add',
-        component: AddPostComponent
+        component: AddPostComponent,
+        canActivate: [AuthGuard]
     },
     { 
         path: 'library/:id/:postName',

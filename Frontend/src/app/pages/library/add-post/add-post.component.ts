@@ -21,10 +21,6 @@ export class AddPostComponent implements OnInit {
     private authService: OAuthService) { }
 
   ngOnInit() {
-    if(!this.authService.hasValidAccessToken()) {
-      this.router.navigate(['/login']);
-    }
-
     this.titleService.setTitle("Add Post");
   }
 
@@ -35,7 +31,6 @@ export class AddPostComponent implements OnInit {
       content: post.content,
       featuredLink: post.featuredLink
     }
-    console.log("Submitting new post: ", newPost);
 
     this.postService.createPost(newPost)
     .subscribe(

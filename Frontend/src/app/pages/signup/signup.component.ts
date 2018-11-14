@@ -7,6 +7,7 @@ import { PasswordValidators } from 'src/app/shared/password.validators';
 import { PasswordErrorStateMatcher } from 'src/app/shared/password.errorstatematcher';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -40,7 +41,12 @@ export class SignupComponent implements OnInit {
       this.router.navigate(['/profile']);
     }
 
-    this.titleService.setTitle("Sign Up");
+    if(environment.envName === 'noback') {
+      this.titleService.setTitle('Sign Up (Not Functional in No Backend Mode)');
+    }
+    else {
+      this.titleService.setTitle('Sign Up');
+    }
   }
 
   onSubmit() {
@@ -59,7 +65,6 @@ export class SignupComponent implements OnInit {
       password: this.form.get('passControl').value
     }
 
-    console.log("Submitting user: ", newUser);
     this.userService.createUser(newUser)
       .subscribe(
         response => this.afterSubmit(true, response),

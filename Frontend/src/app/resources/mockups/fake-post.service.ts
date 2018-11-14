@@ -1,0 +1,58 @@
+import { PostService } from 'src/app/services/post.service';
+import { PostsPage } from './../../models/PostsPage';
+import { Post } from './../../models/Post';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { PostSubmission } from 'src/app/models/PostSubmission';
+import { FakeUserService } from './fake-user.service';
+
+export abstract class FakePostService {
+    private static postList: Post[] = [
+        {
+            id: 1,
+            authorId: 1,
+            author: FakeUserService.getUser(1),
+            createdDate: new Date(2018, 11, 12),
+            lastEdit: new Date(2018, 11, 13),
+            views: 0,
+            rating: 1,
+            urlName: '',
+            category: 1,
+            title: 'Fake Post A',
+            content: 'Some test content, yay!'
+        }
+    ];
+
+    public static getPost(id: number): Observable<Post> {
+        return of(FakePostService.postList[id-1]).pipe(delay(500));
+    }
+
+    public static getPostsPage(): Observable<PostsPage> {
+        let testPage: PostsPage = {
+            pageSize: FakePostService.postList.length,
+            pageNumber: 1,
+            total: FakePostService.postList.length,
+            posts: FakePostService.postList
+        } 
+        return of(testPage).pipe(delay(500));
+    }
+
+    public static createPost(newPost: PostSubmission): Observable<Post> {
+        let post: Post = {
+            id: FakePostService.postList.length + 1,
+            authorId: FakePostService.postList[0].authorId,
+            author:  FakePostService.postList[0].author,
+            createdDate: new Date(),
+            lastEdit: new Date(),
+            views: 0,
+            rating: 0,
+            urlName: newPost.featuredLink,
+            category: newPost.category,
+            title: newPost.title,
+            content: newPost.content
+        };
+        FakePostService.postList.push(post);
+
+        return of(post).pipe(delay(500));
+    }
+}

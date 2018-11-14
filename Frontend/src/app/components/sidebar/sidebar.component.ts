@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 
 declare interface RouteInfo {
   path: string;
@@ -41,11 +43,20 @@ export class SidebarComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logOut(true);
+    if(environment.envName === 'noback') {
+      return FakeAuthService.logOut();
+    }
+    else {
+      this.authService.logOut(true);
+    }
+    
     this.router.navigate(["/login"]);
   }
 
   get isLoggedIn(): boolean {
+    if(environment.envName === 'noback') {
+      return FakeAuthService.hasValidAccessToken();
+    }
     return this.authService.hasValidAccessToken();
   }
 }

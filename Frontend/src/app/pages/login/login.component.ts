@@ -1,8 +1,10 @@
+import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
+import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.hasValidAccessToken()) {
+    let isLoggedIn: boolean = environment.envName === 'noback' ? 
+      FakeAuthService.hasValidAccessToken() : 
+      this.authService.hasValidAccessToken();
+    if (isLoggedIn) {
       this.router.navigate(['/home']);
     }
     this.titleService.setTitle("Login");
@@ -37,8 +42,15 @@ export class LoginComponent implements OnInit {
     this.form.disable();
     this.onSubmitErrorMessage = ""; // Clear for new submit
 
-    this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value)
+    let authPromise: Promise<object> = environment.envName === 'noback' ? 
+      FakeAuthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value) : 
+      this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value);
+
+    authPromise
       .then((tokenResponse => {
+        this.isSubmitting = false;
+        // TODO: Show some confirmation message and state should be navigating to another page
+
         this.router.navigate(['/profile']);
       }))
       .catch(error => {

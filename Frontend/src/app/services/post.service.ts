@@ -1,12 +1,13 @@
+import { environment } from './../../environments/environment';
 import { PostSubmission } from './../models/PostSubmission';
 import { Injectable } from '@angular/core';
 import { Post } from '../models/Post';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { BaseService } from './base.service';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { PostsPage } from '../models/PostsPage';
+import { FakePostService } from '../resources/mockups/fake-post.service';
 
 @Injectable({
   providedIn: 'root'
@@ -69,6 +70,10 @@ export class PostService extends BaseService {
   }
 
   public getPostsPage(pageSize: number, pageNumber: number, sortId: number, category: number): Observable<PostsPage> {
+    if(environment.envName === 'noback') {
+      return FakePostService.getPostsPage();
+    }
+    
     let params = new HttpParams()
       .set('pageSize', pageSize.toString())
       .set('pageNumber', pageNumber.toString())
@@ -82,6 +87,10 @@ export class PostService extends BaseService {
   }
 
   public createPost(newPost : PostSubmission): Observable<Post> {
+    if(environment.envName === 'noback') {
+      return FakePostService.createPost(newPost);
+    }
+
     return this.http.post<Post>(`${environment.baseUrl}/library`, newPost, {headers: this.defaultHeaders})
       .pipe(catchError(this.handleError));
   }

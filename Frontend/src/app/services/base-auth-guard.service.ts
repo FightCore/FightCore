@@ -1,5 +1,7 @@
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { environment } from 'src/environments/environment';
+import { FakeAuthService } from '../resources/mockups/fake-auth.service';
 
 export abstract class BaseAuthGuard implements CanActivate {
 
@@ -7,7 +9,11 @@ export abstract class BaseAuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-		if (this.authService.hasValidAccessToken() && this.isAuthorized) {
+		let hasValidAccessToken: boolean = environment.envName === 'noback' ? 
+      FakeAuthService.hasValidAccessToken() : 
+			this.authService.hasValidAccessToken();
+		
+		if (hasValidAccessToken && this.isAuthorized) {
 			return true;
 		}
 

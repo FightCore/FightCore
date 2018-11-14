@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Title } from '@angular/platform-browser';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { environment } from 'src/environments/environment';
+import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -36,7 +38,13 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    this.authService.logOut(true);
+    if(environment.envName === 'noback') {
+        return FakeAuthService.logOut();
+    }
+    else {
+        this.authService.logOut(true);
+    }
+    
     this.router.navigate(["/login"]);
   }
 
@@ -124,6 +132,9 @@ export class NavbarComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
+    if(environment.envName === 'noback') {
+        return FakeAuthService.hasValidAccessToken();
+    }
     return this.authService.hasValidAccessToken();
   }
 }
