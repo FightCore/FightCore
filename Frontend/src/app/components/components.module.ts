@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule, MatMenuModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule, MatMenuModule, MatTooltipModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -24,7 +24,7 @@ import { PopupComponent } from './popup/popup.component';
 import { EditorComponent } from './editor/editor.component';
 import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
 import { ToastrModule } from 'ngx-toastr';
-import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
 import { LinkEmbedComponent } from './link-embed/link-embed.component';
 import { CommentsComponent } from './comments/comments.component';
@@ -45,6 +45,7 @@ import { CommentComponent } from './comments/comment/comment.component';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatMenuModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
@@ -52,8 +53,7 @@ import { CommentComponent } from './comments/comment/comment.component';
     MatPaginatorModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
-    NgbModalModule, // Yes this is necessary for popups even if not directly used anywhere
-    NgbTooltipModule
+    NgbModalModule // Yes this is necessary for popups even if not directly used anywhere
   ],
   declarations: [
     FooterComponent,

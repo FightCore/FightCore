@@ -6,7 +6,8 @@
         <div>
           <div class="info text-secondary">
             {{ getCategoryName() }} <img [src]="getCharacterIcon()"> &middot; 
-            By {{ getAuthorName() }} &middot; {{ data.createdDate | date: "MMM d" }}
+            By <a class="showPointer" (click)="viewAuthor()"  matTooltip="View the author's info">{{ getAuthorName() }}</a> &middot; 
+            <a class="showPointer" (click)="viewHistory()"  matTooltip="View this post's edit history">{{ data.createdDate | date }}</a>
           </div>
           <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
         </div>
@@ -15,14 +16,14 @@
       <div class="card-body">
         <div class="row justify-content-center">
           <div class="col">
-            <div class="ratingTool d-flex justify-content-center text-secondary" ngbTooltip="Not yet implemented" placement="top">
+            <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
               <i class="material-icons">thumb_up</i>
               <div>22</div>
             </div>
           </div>
 
           <div class="col">
-            <div class="ratingTool d-flex justify-content-center text-secondary" ngbTooltip="Not yet implemented" placement="top">
+            <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
               <i class="material-icons">chat_bubble_outline</i>
               <div>1</div>
             </div>
@@ -41,7 +42,7 @@
     <ng-template #showDetails>
       <div class="post card">
         <div class="card-header d-flex">
-          <div class="ratingTool flex-column text-center text-secondary" ngbTooltip="Not yet implemented" placement="top-left">
+          <div class="ratingTool flex-column text-center text-secondary" matTooltip="Not yet implemented">
             <i class="material-icons">thumb_up</i>
             <div>22</div>
           </div>
@@ -49,8 +50,8 @@
           <div>
             <div class="info text-secondary">
               {{ getCategoryName() }} <img [src]="getCharacterIcon()"> &middot; 
-              By <a class="showPointer" (click)="viewAuthor()">{{ getAuthorName() }}</a> &middot; 
-              <a class="showPointer" (click)="viewHistory()">{{ data.createdDate | date }}</a>
+              By <a class="showPointer" (click)="viewAuthor()"  matTooltip="View the author's info">{{ getAuthorName() }}</a> &middot; 
+              <a class="showPointer" (click)="viewHistory()"  matTooltip="View this post's edit history">{{ data.createdDate | date }}</a>
             </div>
             <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
           </div>
@@ -67,29 +68,29 @@
         </div>
 
         <div class="card-footer d-flex justify-content-start flex-wrap text-secondary">
-          <button mat-button (click)="onRepost()" ngbTooltip="Make sure your followers see this delightful post" placement="top-left">
+          <button mat-button (click)="onRepost()" matTooltip="Make sure your followers see this delightful post">
               <i class="material-icons">cached</i>
               Repost
           </button>
-          <button mat-button (click)="onEdit()" class="mr-auto" ngbTooltip="Edit this versatile post" placement="top">
+          <button mat-button (click)="onEdit()" class="mr-auto" matTooltip="Edit this versatile post">
               <i class="material-icons">edit</i>
               Edit
           </button>
 
-          <button mat-button (click)="onAdd()" ngbTooltip="Add to your resourceful list" placement="top">
+          <button mat-button (click)="onAdd()" matTooltip="Add to your resourceful list">
               <i class="material-icons">add</i>
               Add
           </button>
-          <button mat-button (click)="onShare()" ngbTooltip="Share this delightful post" placement="top">
+          <button mat-button (click)="onShare()" matTooltip="Share this delightful post">
               <i class="material-icons">share</i>
               Share
           </button>
 
-          <button mat-icon-button [matMenuTriggerFor]="menu" ngbTooltip="View more ambitious options" placement="top-right">
+          <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="View more ambitious options">
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onReport()" ngbTooltip="Report this unfortunate post" placement="top">
+            <button mat-menu-item (click)="onReport()" matTooltip="Report this unfortunate post">
                 <mat-icon>report</mat-icon>
                 <span>Report</span>
             </button>

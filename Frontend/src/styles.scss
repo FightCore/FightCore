@@ -11,6 +11,10 @@ div.info a.showPointer { // Simple class to display pointer as links don't show 
     }
 }
 
+body div.cdk-overlay-container {
+    z-index: 2000; // Overlay elements like tooltips or select tools need to be on top of popups and sidebars 
+}
+
 // Overrides for modal popups (needs to be global if not directly overriding module)
 .base-popup .modal-dialog {
     @include media-breakpoint-up(lg) { // "Desktop" devices (from Bootstrap)

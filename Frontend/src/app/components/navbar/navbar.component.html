@@ -21,7 +21,7 @@
             </form>
             <ul class="navbar-nav">
                 <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" [routerLink]="['/profile']" placement="bottom" ngbTooltip="View profile">
+                    <a class="nav-link" [routerLink]="['/profile']" placement="bottom" matTooltip="View profile">
                         <i class="material-icons">person</i>
                         <p>
                             <span class="d-lg-none d-md-block">Account</span>
@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" (click)="onNotifClick()" placement="bottom" ngbTooltip="View notifications">
+                    <a class="nav-link" (click)="onNotifClick()" placement="bottom" matTooltip="View notifications">
                         <i class="material-icons">notifications_none</i>
                         <p>
                             <span class="d-lg-none d-md-block">Notifications</span>
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link" (click)="logOut()" placement="bottom-right" ngbTooltip="Sign out">
+                    <a class="nav-link" (click)="logOut()" placement="bottom-right" matTooltip="Sign out">
                         <i class="material-icons">exit_to_app</i>
                         <p>
                             <span class="d-lg-none d-md-block">Sign out</span>
@@ -45,7 +45,7 @@
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="!isLoggedIn">
-                    <a class="nav-link" [routerLink]="['/login']" placement="bottom-right" ngbTooltip="Sign in">
+                    <a class="nav-link" [routerLink]="['/login']" placement="bottom-right" matTooltip="Sign in">
                         <i class="material-icons">vpn_key</i>
                         <p>
                             <span class="d-lg-none d-md-block">Sign in</span>
