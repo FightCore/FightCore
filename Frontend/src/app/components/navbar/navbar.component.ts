@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from 'src/environments/environment';
 import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
+import { NavAction } from '../shared/nav-actions.enum';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,7 @@ import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  @Output('onNavSelection') onNavSelection = new EventEmitter(); // Outputs when a nav option is selected (currently only notifications)
+  @Output('onNavSelection') onNavSelection = new EventEmitter<NavAction>(); // Outputs when a nav option is selected (currently only notifications)
 
   private listTitles: any[];
   private mobile_menu_visible: any = 0;
@@ -124,7 +125,11 @@ export class NavbarComponent implements OnInit {
   };
 
   onNotifClick() {
-    this.onNavSelection.emit();
+    this.onNavSelection.emit(NavAction.Notifications);
+  }
+
+  onLoginClick() {
+    this.onNavSelection.emit(NavAction.Login);
   }
 
   get title(): string {

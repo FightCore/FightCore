@@ -4,11 +4,11 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { PasswordValidators } from 'src/app/shared/password.validators';
-import { PasswordErrorStateMatcher } from 'src/app/shared/password.errorstatematcher';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
+import { PasswordErrorStateMatcher } from 'src/app/components/shared/password.errorstatematcher';
+import { PasswordValidators } from 'src/app/components/shared/password.validators';
 
 @Component({
   selector: 'app-signup',

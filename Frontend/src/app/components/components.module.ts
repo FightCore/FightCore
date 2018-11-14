@@ -29,6 +29,7 @@ import { NotificationService } from '../services/notification.service';
 import { LinkEmbedComponent } from './link-embed/link-embed.component';
 import { CommentsComponent } from './comments/comments.component';
 import { CommentComponent } from './comments/comment/comment.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -77,13 +78,15 @@ import { CommentComponent } from './comments/comment/comment.component';
     NotificationsViewerComponent,
     LinkEmbedComponent,
     CommentsComponent,
-    CommentComponent
+    CommentComponent,
+    LoginComponent
   ],
   entryComponents: [
     TabExampleComponent,
     ConfirmDialogComponent,
     PostViewerComponent,
-    NotificationsViewerComponent
+    NotificationsViewerComponent,
+    LoginComponent
   ],
   exports: [
     FooterComponent,
@@ -100,7 +103,8 @@ import { CommentComponent } from './comments/comment/comment.component';
     PostPopupComponent,
     PopupComponent,
     EditorComponent, // TODO: Not sure if this should be external
-    NotificationsViewerComponent
+    NotificationsViewerComponent,
+    LoginComponent
   ],
   providers: [
     NotificationService

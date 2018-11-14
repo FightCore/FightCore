@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   isSubmitting: boolean;
   onSubmitErrorMessage: string;
-
-  constructor(private titleService: Title, private authService: OAuthService, private router: Router, fb: FormBuilder) { 
+  
+  constructor(private authService: OAuthService, private router: Router, fb: FormBuilder) { 
     this.form = fb.group({
       usernameControl: ['', [Validators.required] ],
       passControl: ['', [Validators.required] ]
@@ -24,13 +24,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    let isLoggedIn: boolean = environment.envName === 'noback' ? 
-      FakeAuthService.hasValidAccessToken() : 
-      this.authService.hasValidAccessToken();
-    if (isLoggedIn) {
-      this.router.navigate(['/home']);
-    }
-    this.titleService.setTitle("Login");
   }
 
   login() {

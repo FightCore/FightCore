@@ -3,7 +3,7 @@ import { NotificationsComponent } from './../pages/notifications/notifications.c
 import { Routes } from '@angular/router';
 
 import { HomeComponent } from '../pages/home/home.component';
-import { LoginComponent } from '../pages/login/login.component';
+import { LoginPageComponent } from '../pages/login/login-page.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { PlayersComponent } from './../pages/players/players.component';
 import { LibraryComponent } from '../pages/library/library.component';
@@ -42,7 +42,7 @@ export const LayoutRoutes: Routes = [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginPageComponent
     },
     {
         path: 'signup',

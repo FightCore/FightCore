@@ -15,7 +15,7 @@ import { HomeComponent } from '../pages/home/home.component';
 import { CharactersComponent } from '../pages/characters/characters.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { PlayersComponent } from './../pages/players/players.component';
-import { LoginComponent } from '../pages/login/login.component';
+import { LoginPageComponent } from '../pages/login/login-page.component';
 import { ProfileComponent } from '../pages/profile/profile.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
@@ -67,9 +67,8 @@ import { SiteNewsComponent } from '../pages/home/site-news/site-news.component';
       AddPostComponent,
       ViewPostComponent,
       PlayersComponent,
-      LoginComponent,
+      LoginPageComponent,
       NotFoundComponent,
-      LoginComponent, 
       ProfileComponent,
       BasicsComponent,
       CombosTechComponent,
