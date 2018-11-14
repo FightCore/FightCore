@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --configuration=noBackProd"
+    "postinstall": "ng build --configuration=nobackProd"
   },
   "engines": {
     "node": "~10.13.0",
