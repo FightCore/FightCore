@@ -30,6 +30,11 @@ import { LinkEmbedComponent } from './link-embed/link-embed.component';
 import { CommentsComponent } from './comments/comments.component';
 import { CommentComponent } from './comments/comment/comment.component';
 import { LoginComponent } from './login/login.component';
+import { WikiInfoComponent } from './wiki/wiki-info/wiki-info.component';
+import { WikiReviewComponent } from './wiki/wiki-info/wiki-review/wiki-review.component';
+import { WikiEditComponent } from './wiki/wiki-info/wiki-edit/wiki-edit.component';
+import { WikiHistoryComponent } from './wiki/wiki-info/wiki-history/wiki-history.component';
+import { WikiPermsComponent } from './wiki/wiki-info/wiki-perms/wiki-perms.component';
 
 @NgModule({
   imports: [
@@ -79,14 +84,23 @@ import { LoginComponent } from './login/login.component';
     LinkEmbedComponent,
     CommentsComponent,
     CommentComponent,
-    LoginComponent
+    LoginComponent,
+    WikiInfoComponent,
+    WikiReviewComponent,
+    WikiEditComponent,
+    WikiHistoryComponent,
+    WikiPermsComponent
   ],
   entryComponents: [
     TabExampleComponent,
     ConfirmDialogComponent,
     PostViewerComponent,
     NotificationsViewerComponent,
-    LoginComponent
+    LoginComponent,
+    WikiReviewComponent,
+    WikiEditComponent,
+    WikiHistoryComponent,
+    WikiPermsComponent
   ],
   exports: [
     FooterComponent,
