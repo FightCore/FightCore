@@ -1,5 +1,5 @@
-<div *ngIf="data; else noPosts" class="wiki-container card">
-  <div *ngIf="header" class="card-header card-header-info">
+<div class="wiki-container card">
+  <div class="card-header card-header-info">
     <div class="row align-items-center">
       <div class="col-6">
         <h4>{{header}}</h4>
@@ -16,15 +16,24 @@
       </div>
     </div>
   </div>
-  <div class="scrolling-wrapper">
-    <div class="section" *ngFor="let post of data">
-      <a (click)="open(post)" style="cursor:pointer;">
-        <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
-      </a>
-    </div>
+
+  <div *ngIf="isLoading; else showPosts">
+    <p class="ml-2">Posts are now loading...</p>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
+
+  <ng-template #showPosts>
+    <div *ngIf="postList; else noPosts" class="scrolling-wrapper">
+      <div class="section" *ngFor="let post of postList">
+        <a (click)="open(post)" style="cursor:pointer;">
+          <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+        </a>
+      </div>
+    </div>
+
+    <ng-template #noPosts>
+      <p class="ml-2">No posts found.</p>
+    </ng-template>
+  </ng-template>
   <post-popup #postPopup></post-popup>
 </div>
-<ng-template #noPosts>
-  <p>No posts found.</p>
-</ng-template>
