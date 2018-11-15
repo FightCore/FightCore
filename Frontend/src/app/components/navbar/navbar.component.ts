@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     if(environment.envName === 'noback') {
-        return FakeAuthService.logOut();
+        FakeAuthService.logOut();
     }
     else {
         this.authService.logOut(true);

@@ -41,9 +41,13 @@ export class PopupComponent implements OnInit {
       .result.then((result) => {
         this.onClose.emit();
       }, (reason) => {
-        this.onClose.emit();
+        this.onClose.emit(); // This part is also called during a coded dismiss like in onChildDone
       }
     );
+  }
+
+  onChildDone() {
+    this.modalService.dismissAll();
   }
 
 }

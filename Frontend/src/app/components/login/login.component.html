@@ -34,7 +34,7 @@
       <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
     </div>
     <div>
-      <button  mat-raised-button [routerLink]="['/signup']" class="btn btn-primary btn-lg">
+      <button  mat-raised-button (click)="goSignUp()" class="btn btn-primary btn-lg">
         Sign up
       </button>
     </div>

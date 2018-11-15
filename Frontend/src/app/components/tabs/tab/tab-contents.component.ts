@@ -1,6 +1,7 @@
+import { Observable } from 'rxjs';
 import { TabComponentInterface } from './tab-component.interface';
 import { TabItem } from './tab-item';
-import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver, EventEmitter, Output } from '@angular/core';
 import { TabDirective } from './tab.directive';
 
 // TODO: Rewrite this entire folder to be less about tabs and more just about a modular section
@@ -11,6 +12,8 @@ import { TabDirective } from './tab.directive';
 })
 export class TabContentsComponent implements OnInit {
   @Input('tab') tab: TabItem;
+  @Output('done') done = new EventEmitter(); // Generic pass-through output emitter
+
   @ViewChild(TabDirective) tabHost: TabDirective;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
@@ -23,6 +26,14 @@ export class TabContentsComponent implements OnInit {
 
     let componentRef = viewContainerRef.createComponent(componentFactory);
     (<TabComponentInterface>componentRef.instance).data = this.tab.data;
+
+    // Handle generic output emitter
+    // TODO: Move this to a popup-specific implementation and make it better defined
+    if(componentRef.instance.done && componentRef.instance.done instanceof EventEmitter) {
+      componentRef.instance.done.subscribe(data => {
+        this.done.emit(data); // Simply pass through the event
+      })
+    }
   }
 
 }

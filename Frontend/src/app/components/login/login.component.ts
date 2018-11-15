@@ -1,10 +1,9 @@
 import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 import { environment } from 'src/environments/environment';
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +11,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @Input('isPopup') isPopupMode: boolean;
+  @Output('done') done = new EventEmitter(); // For closing self in popup as necessary
+
   form: FormGroup;
   isSubmitting: boolean;
   onSubmitErrorMessage: string;
   
-  constructor(private authService: OAuthService, private router: Router, fb: FormBuilder) { 
+  constructor(private authService: OAuthService,, private router: Router, fb: FormBuilder) { 
     this.form = fb.group({
       usernameControl: ['', [Validators.required] ],
       passControl: ['', [Validators.required] ]
@@ -44,7 +46,12 @@ export class LoginComponent implements OnInit {
         this.isSubmitting = false;
         // TODO: Show some confirmation message and state should be navigating to another page
 
-        this.router.navigate(['/profile']);
+        if(this.isPopupMode) {
+          this.done.emit(); // Make sure popup doesn't stay open
+        }
+        else {
+          this.router.navigate(['/profile']);
+        }
       }))
       .catch(error => {
         // Show that the form is now done loading
@@ -55,6 +62,17 @@ export class LoginComponent implements OnInit {
         console.log("Error: ", error);
         this.onSubmitErrorMessage = "Sorry, the submit failed for some reason!"
       });
+  }
+
+  goSignUp() {
+    if(this.isPopupMode) {
+      // TODO: Open sign up in current popup
+      this.done.emit(); // Make sure popup doesn't stay open
+      this.router.navigate(['/signup']);      
+    }
+    else {
+      this.router.navigate(['/signup']);
+    }
   }
 
   get usernameControl() { return this.form.get('usernameControl'); }
