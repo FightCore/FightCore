@@ -34,6 +34,8 @@ export class TabContentsComponent implements OnInit {
         this.done.emit(data); // Simply pass through the event
       })
     }
+    // TODO: Move this to a popup-specific implementation, separate tab from popup?
+    componentRef.instance.isPopupMode = true;
   }
 
 }

@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   isSubmitting: boolean;
   onSubmitErrorMessage: string;
   
-  constructor(private authService: OAuthService,, private router: Router, fb: FormBuilder) { 
+  constructor(private authService: OAuthService, private router: Router, fb: FormBuilder) { 
     this.form = fb.group({
       usernameControl: ['', [Validators.required] ],
       passControl: ['', [Validators.required] ]
