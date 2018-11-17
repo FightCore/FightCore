@@ -1,0 +1,87 @@
+<div class="suggestion-preview card">
+  <div class="card-header d-flex pb-0">
+    <div>
+      <div class="info text-secondary">
+        <span>
+          <span *ngIf="data.isAccepted" class="text-success">
+            <span class="inline-icon"><mat-icon>check</mat-icon></span>
+            Accepted
+          </span>
+          <span *ngIf="data.isDenied" class="text-danger">
+            <span class="inline-icon"><mat-icon>clear</mat-icon></span>
+            Denied
+          </span>
+          <span *ngIf="data.isDirectEdit">
+            <span class="inline-icon"><mat-icon>input</mat-icon></span>
+            Direct Edit
+          </span>
+          <span *ngIf="!isNotPendingSuggestion()">
+            <span class="inline-icon"><mat-icon>rate_review</mat-icon></span>
+            Pending Review
+          </span>
+           &middot; 
+        </span>
+
+        By <a class="showPointer" matTooltip="View the author's info">{{data.author}}</a> &middot; 
+        <a class="showPointer" matTooltip="View this post's edit history">{{data.createdDate | date}}</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card-body">
+    <div>
+      <span class="font-weight-bold">Description </span>
+      {{data.description}}
+    </div>
+
+    <div class="info">
+      <span class="font-weight-bold">Changes </span>
+
+      <a *ngIf="data.changes.added > 0" class="showPointer">
+        <span class="text-success" matTooltip="Number of posts added to this list">
+          <span class="inline-icon"><mat-icon>add</mat-icon></span>
+          {{data.changes.added}} post
+        </span>
+      </a>
+
+      <span *ngIf="data.changes.added > 0 && (data.changes.removed > 0 || data.changes.reordered > 0)"> &middot; </span>
+
+      <a *ngIf="data.changes.removed > 0" class="showPointer">
+        <span class="text-danger" matTooltip="Number of posts removed from this list">
+          <span class="inline-icon"><mat-icon>clear</mat-icon></span>
+          {{data.changes.removed}} post
+        </span>
+      </a>
+      
+      <span *ngIf="(data.changes.added > 0 || data.changes.removed > 0) && data.changes.reordered > 0"> &middot; </span>
+
+      <a *ngIf="data.changes.reordered > 0" class="showPointer">
+        <span class="text-secondary" matTooltip="Number of posts reordered in this list">
+          <span class="inline-icon"><mat-icon>reorder</mat-icon></span>
+          {{data.changes.reordered}} post
+        </span>
+      </a>
+    </div>
+
+    <div *ngIf="isNotPendingSuggestion() && !data.isDirectEdit" class="info">
+      Reviewed by <a class="showPointer" matTooltip="View the reviewer's info">{{data.reviewer}}</a>
+       &middot; {{data.reviewDate | date}}
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
+          <i class="material-icons">thumb_up</i>
+          <div>{{data.rating}}</div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
+          <i class="material-icons">chat_bubble_outline</i>
+          <div>{{data.commentCount}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

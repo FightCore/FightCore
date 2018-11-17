@@ -35,8 +35,8 @@ import { WikiReviewComponent } from './wiki/wiki-info/wiki-review/wiki-review.co
 import { WikiEditComponent } from './wiki/wiki-info/wiki-edit/wiki-edit.component';
 import { WikiHistoryComponent } from './wiki/wiki-info/wiki-history/wiki-history.component';
 import { WikiPermsComponent } from './wiki/wiki-info/wiki-perms/wiki-perms.component';
-import { SuggestionComponent } from './wiki/suggestion/suggestion.component';
 import { PostEditViewerComponent } from './post-edit-viewer/post-edit-viewer.component';
+import { EditPreviewComponent } from './wiki/edit-preview/edit-preview.component';
 
 @NgModule({
   imports: [
@@ -92,7 +92,7 @@ import { PostEditViewerComponent } from './post-edit-viewer/post-edit-viewer.com
     WikiEditComponent,
     WikiHistoryComponent,
     WikiPermsComponent,
-    SuggestionComponent,
+    EditPreviewComponent,
     PostEditViewerComponent
   ],
   entryComponents: [

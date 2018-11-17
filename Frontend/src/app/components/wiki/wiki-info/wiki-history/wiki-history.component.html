@@ -1,3 +1,25 @@
-<p>
-  wiki-history works!
-</p>
+<div>View all changes and past suggestions</div>
+
+<div class="d-flex mt-4">
+  <div class="mr-auto">
+  <mat-form-field>
+      <mat-select 
+      placeholder="Sorting"
+      [(value)]="selectedSort"
+      >
+        <mat-option *ngFor="let option of sortOptions" [value]="option.id">
+          {{option.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div>
+    <mat-paginator [length]="1" [pageSize]="10" [hidePageSize]="true">
+    </mat-paginator>
+  </div>
+</div>
+
+<div class="d-flex flex-column d-flex justify-content-center">
+  <edit-preview *ngFor="let edit of allChanges" [data]="edit" class="mx-auto"></edit-preview>
+</div>
