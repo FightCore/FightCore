@@ -1,5 +1,5 @@
-<p>isLoadingNotifications: {{isLoadingNotifications}}</p>
-<p>isLoadingPushService: {{isLoadingPushService}}</p>
+<h4 *ngIf="bonusMessage" class="mb-3 font-weight-light">{{ bonusMessage }}</h4>
+
 <div class="toolbar">
   <mat-toolbar>
     <button  mat-raised-button class="btn btn-primary" (click)="markAllRead()">

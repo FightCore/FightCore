@@ -27,6 +27,8 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
   totalNotifs: number = 0;
   currentPage = 1;
 
+  bonusMessage: string; // For presenting an optional message at top
+
   // These are set from server
   static readonly BROADCAST_NAME = "BroadcastNotification";
   readonly PAGE_SIZE = 20; // Can't make static as template can't read it
@@ -71,6 +73,10 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
         console.log('Getting username was rejected', reason);
       }
     );
+
+    if(environment.envName === 'noback') {
+      this.bonusMessage = 'Demo Mode: This is not yet functional in this mode';
+    }
   }
 
   ngOnDestroy() {
