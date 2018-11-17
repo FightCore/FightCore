@@ -52,7 +52,7 @@
       <span *ngIf="(data.changes.added > 0 || data.changes.removed > 0) && data.changes.reordered > 0"> &middot; </span>
 
       <span *ngIf="data.changes.reordered > 0" class="text-secondary" matTooltip="Number of posts reordered in this list">
-        <span class="inline-icon"><mat-icon>reorder</mat-icon></span>
+        <span class="inline-icon"><mat-icon>drag_indicator</mat-icon></span>
         {{data.changes.reordered}} post
       </span>
     </div>

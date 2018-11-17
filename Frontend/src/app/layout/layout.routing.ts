@@ -13,6 +13,7 @@ import { NotFoundComponent } from '../pages/not-found/not-found.component';
 import { AuthGuard } from '../services/auth-guard.service';
 import { ProfileComponent } from '../pages/profile/profile.component';
 import { SignupComponent } from '../pages/signup/signup.component';
+import { GroupComponent } from '../pages/group/group.component';
 
 export const LayoutRoutes: Routes = [
     { 
@@ -33,6 +34,10 @@ export const LayoutRoutes: Routes = [
         canActivate: [AuthGuard]
     },
     { 
+        path: 'library/:id',
+        component: ViewPostComponent
+    },
+    { 
         path: 'library/:id/:postName',
         component: ViewPostComponent
     },
@@ -47,6 +52,18 @@ export const LayoutRoutes: Routes = [
     {
         path: 'signup',
         component: SignupComponent
+    },
+    {
+        path: 'group',
+        component: GroupComponent
+    },
+    {
+        path: 'group/:groupId',
+        component: GroupComponent
+    },
+    {
+        path: 'group/:groupId/:groupName',
+        component: GroupComponent
     },
     {
         path: 'profile',

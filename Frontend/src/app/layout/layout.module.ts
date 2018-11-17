@@ -1,3 +1,4 @@
+import { GroupComponent } from './../pages/group/group.component';
 import { AuthBridgeService } from './../services/auth-bridge.service';
 import { AboutUsComponent } from './../pages/home/about-us/about-us.component';
 import { MatchupsComponent } from './../pages/characters/matchups/matchups.component';
@@ -79,7 +80,8 @@ import { SiteNewsComponent } from '../pages/home/site-news/site-news.component';
       SignupComponent,
       NotificationsComponent,
       SiteNewsComponent,
-      AboutUsComponent
+      AboutUsComponent,
+      GroupComponent
   ],
   entryComponents: [
     BasicsComponent,
