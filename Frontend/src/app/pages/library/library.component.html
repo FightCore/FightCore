@@ -37,7 +37,7 @@
       <div *ngIf="totalPosts == 0">No posts found</div>
 
       <div class="d-flex flex-wrap">
-        <div class="post-container" *ngFor="let post of posts">
+        <div *ngFor="let post of posts">
           <a (click)="open(post)" style="cursor:pointer;">
             <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
           </a>

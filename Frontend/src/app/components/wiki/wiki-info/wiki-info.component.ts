@@ -20,7 +20,7 @@ export class WikiInfoComponent implements OnInit {
     // Initialize tabs
     this.tabItems = [
       {
-        title: 'Review Edits',
+        title: 'Review Suggestions',
         tabItem: new TabItem(WikiReviewComponent, '')
       },
       {

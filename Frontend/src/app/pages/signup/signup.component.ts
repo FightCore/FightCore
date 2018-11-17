@@ -21,6 +21,8 @@ export class SignupComponent implements OnInit {
   isSubmitting: boolean;
   onSubmitErrorMessages: string[];
 
+  bonusMessage: string; // For presenting an optional message under header
+
   readonly passMinLength = 6; // So only need to change in one place
 
   constructor(private titleService: Title,
@@ -46,6 +48,7 @@ export class SignupComponent implements OnInit {
 
     if(environment.envName === 'noback') {
       this.titleService.setTitle('Sign Up (Not Functional in No Backend Mode)');
+      this.bonusMessage = 'Demo Mode: Please use the default users listed on the login page, this form isn\'t functional in this mode';
     }
     else {
       this.titleService.setTitle('Sign Up');

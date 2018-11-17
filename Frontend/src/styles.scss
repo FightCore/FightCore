@@ -60,7 +60,13 @@ body div.cdk-overlay-container {
 }
 
 // For any card "posts" (Library post, comment post, etc)
-div.card.post {
+div.card.post-preview {
+    width: 300px;
+}
+div.card.suggestion-preview {
+    width: 600px;
+}
+div.card.post, div.card.post-preview, div.card.suggestion-preview {
     margin-top: 0px;
     margin-bottom: 5px;
 

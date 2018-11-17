@@ -1,6 +1,7 @@
 <div class="card mx-auto pb-3">
-  <form [formGroup]="form" (ngSubmit)="login()" class="mx-auto text-center">
-    <h3 class="h3 mb-3 font-weight-normal">Please sign in</h3>
+  <form [formGroup]="form" (ngSubmit)="login()" class="mx-auto pl-2 pr-2 text-center">
+    <h3 class="h3 mb-1 font-weight-normal">Please sign in</h3>
+    <h4 class="mb-3 font-weight-light">{{ bonusMessage }}</h4>
     
     <mat-form-field>
       <input matInput required formControlName="usernameControl" 

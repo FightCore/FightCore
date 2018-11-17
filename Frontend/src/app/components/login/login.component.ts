@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   isSubmitting: boolean;
   onSubmitErrorMessage: string;
+
+  bonusMessage: string; // For presenting an optional message under header
   
   constructor(private authService: OAuthService, private router: Router, fb: FormBuilder) { 
     this.form = fb.group({
@@ -26,6 +28,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(environment.envName === 'noback') {
+      this.bonusMessage = 'Demo Mode: Use usernames "TestUserA" and "TestUserB" to login, password does not matter';
+    }
   }
 
   login() {

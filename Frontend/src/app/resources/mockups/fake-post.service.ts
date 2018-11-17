@@ -12,14 +12,27 @@ export abstract class FakePostService {
             id: 1,
             authorId: 1,
             author: FakeUserService.getUser(1),
-            createdDate: new Date(2018, 11, 12),
-            lastEdit: new Date(2018, 11, 13),
+            createdDate: new Date(2018, 10, 12),
+            lastEdit: new Date(2018, 10, 13),
             views: 0,
             rating: 1,
             urlName: '',
             category: 1,
-            title: 'Fake Post A',
+            title: 'Default Post A',
             content: 'Some test content, yay!'
+        },
+        {
+            id: 2,
+            authorId: 2,
+            author: FakeUserService.getUser(2),
+            createdDate: new Date(2018, 10, 13),
+            lastEdit: new Date(2018, 10, 14),
+            views: 0,
+            rating: 1,
+            urlName: '',
+            category: 1,
+            title: 'Default Post B',
+            content: 'Some more test content, yay!'
         }
     ];
 
