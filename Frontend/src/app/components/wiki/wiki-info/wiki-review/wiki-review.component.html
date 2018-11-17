@@ -7,7 +7,6 @@
       <mat-select 
       placeholder="Sorting"
       [(value)]="selectedSort"
-      (selectionChange)="onSelectionChange()"
       >
         <mat-option *ngFor="let option of sortOptions" [value]="option.id">
           {{option.name}}
@@ -17,7 +16,7 @@
   </div>
   
   <div>
-    <mat-paginator [length]="1" [pageSize]="10" [hidePageSize]="true" (page)="onPageChange($event)">
+    <mat-paginator [length]="1" [pageSize]="10" [hidePageSize]="true">
     </mat-paginator>
   </div>
 </div>
