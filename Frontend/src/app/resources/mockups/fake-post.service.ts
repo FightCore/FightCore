@@ -33,6 +33,19 @@ export abstract class FakePostService {
             category: 1,
             title: 'Default Post B',
             content: 'Some more test content, yay!'
+        },
+        {
+            id: 3,
+            authorId: 2,
+            author: FakeUserService.getUser(2),
+            createdDate: new Date(2018, 10, 14),
+            lastEdit: new Date(2018, 10, 15),
+            views: 0,
+            rating: 1,
+            urlName: '',
+            category: 1,
+            title: 'A Third Post, yay!',
+            content: 'You know you wanted some more test content riiiiiiiight?'
         }
     ];
 

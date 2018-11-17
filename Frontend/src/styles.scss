@@ -3,6 +3,10 @@
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
 
+body .card { // Quick override, cards normally have huge top+bottom margins
+  margin: 0px; // TODO: Directly modify other stylesheet instead
+}
+
 div.info a.showPointer { // Simple class to display pointer as links don't show it without a href by default
   cursor: pointer;
 
@@ -86,28 +90,6 @@ div.card.post, div.card.post-preview, div.card.suggestion-preview {
     cursor: pointer;
     &:hover {
       background: gainsboro; // Testing code, simulating interactivity
-    }
-  }
-
-  div.fixed-corner {
-    $size: 20px;
-
-    position: absolute;
-    width: $size;
-    height: $size;
-    top: 0px;
-    right: 0px;
-    // top: -$size/4;
-    // right: -$size/4;
-
-    .inner-wrapper{
-      position: relative;
-      .mat-icon-button, .mat-icon { // Styles to put an icon inline with text
-        font-size: $size;
-        line-height: $size;
-        width: $size;
-        height: $size;
-      }
     }
   }
 

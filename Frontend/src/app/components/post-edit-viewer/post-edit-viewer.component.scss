@@ -1,0 +1,22 @@
+div.card.edit-wrapper {
+  background-color: #C2DFE3;
+
+  .header {
+    $size: 30px;
+    height: $size;
+    margin: 0px;
+
+    .mat-icon-button, .mat-icon {
+      font-size: $size;
+      line-height: $size;
+      width: $size;
+      height: $size;
+    }
+
+    .button-close {
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}

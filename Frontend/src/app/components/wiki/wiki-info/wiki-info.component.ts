@@ -56,12 +56,15 @@ export class WikiInfoComponent implements OnInit {
   }
 
   initEditComponent() {
+    // HIGH PRIORITY (don't accept PR with this): This never works until user clicks to go to the edit tab
+    //        (tab isn't instantiated until it's navigated to)
+
     // If component not yet initialized, wait until it is
     if(!this.tabItems[this.editComponentIndex].tabItem.instantiatedComponent) {
       // TODO: Do this in some fail safe way! eg, if doesn't work after X attempts, throw an error
       console.log("Edit component not yet instantiated, retrying later...");
 
-      setTimeout(() => { this.initEditComponent() }, 100);
+      setTimeout(() => { this.initEditComponent() }, 250);
       return;
     }
 

@@ -7,7 +7,7 @@ import { Post } from 'src/app/models/Post';
   styleUrls: ['./wiki-edit.component.css']
 })
 export class WikiEditComponent implements OnInit {
-  postList: Post[];
+  data: Post[];
   
   constructor() { }
 
@@ -15,7 +15,7 @@ export class WikiEditComponent implements OnInit {
   }
 
   setData(postList: Post[]) {
-    this.postList = postList;
+    this.data = postList;
   }
 
 }

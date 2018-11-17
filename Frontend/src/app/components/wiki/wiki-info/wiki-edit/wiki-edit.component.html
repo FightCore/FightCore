@@ -12,9 +12,9 @@
   <p>TODO: Remove or reorder buttons per post</p>
 </div>
 
-<div *ngIf="postList && postList.length; else noPosts" class="scrolling-wrapper">
-  <div class="section" *ngFor="let post of postList">
-    <post-viewer [data]="post" [simpleMode]="true" [editMode]="true"></post-viewer>
+<div *ngIf="data && data.length; else noPosts" class="scrolling-wrapper">
+  <div class="section" *ngFor="let post of data; let i = index">
+    <post-edit-viewer [data]="post" [position]="i" [listLength]="data.length"></post-edit-viewer>
   </div>
 </div>
 

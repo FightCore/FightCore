@@ -1,3 +1,31 @@
-<p>
-  post-edit-viewer works!
-</p>
+<div class="card edit-wrapper">
+  <div class="header d-flex">
+    <div class="mr-auto text-secondary">
+      <mat-icon>drag_indicator</mat-icon>
+    </div>
+
+    <div class="button-close">
+      <button mat-icon-button matTooltip="Remove from this list">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <post-viewer [data]="data" [simpleMode]="true" [editMode]="true"></post-viewer>
+
+  <div class="row justify-content-center">
+    <div class="col">
+      <button *ngIf="position > 0" mat-button matTooltip="Move to the left">
+        <mat-icon>arrow_back</mat-icon>
+        Move Left
+      </button>
+    </div>
+
+    <div class="col">
+      <button *ngIf="position < listLength-1" mat-button matTooltip="Move to the right">
+        Move Right
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
