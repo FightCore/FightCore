@@ -6,17 +6,32 @@ div.card.edit-wrapper {
     height: $size;
     margin: 0px;
 
-    .mat-icon-button, .mat-icon {
-      font-size: $size;
-      line-height: $size;
-      width: $size;
-      height: $size;
+    .icon-drag {
+      $smolSize: $size*2/3;
+
+      cursor: default; // Don't want text cursor when it's just there for detail
+      width: $smolSize;
+      height: $smolSize;
+
+      .mat-icon-button, .mat-icon {
+        font-size: $smolSize;
+        line-height: $smolSize;
+        width: $smolSize;
+        height: $smolSize;
+      }
     }
 
-    .button-close {
+    .button-remove {
       &:hover {
         color: red;
       }
+
+      .mat-icon-button, .mat-icon {
+        font-size: $size;
+        line-height: $size;
+        width: $size;
+        height: $size;
+      }  
     }
   }
 }
