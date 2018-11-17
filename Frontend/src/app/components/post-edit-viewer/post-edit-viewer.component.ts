@@ -1,5 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Post } from 'src/app/models/Post';
+
+export interface PostMoveEvent {
+  oldPos: number;
+  newPos: number;
+}
 
 /**
  * Wrapper around a post preview to display edit capabilities
@@ -16,9 +21,30 @@ export class PostEditViewerComponent implements OnInit {
   @Input('position') position: number; // Position of this post in list
   @Input('listLength') listLength: number; // Total length of post list
 
+  @Output('move') moveEmitter = new EventEmitter<PostMoveEvent>(); // Emits target position wishes to move to
+  @Output('remove') removeEmitter = new EventEmitter<number>(); // Emits position of element that should be removed
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onMoveLeft() {
+    this.moveEmitter.emit({
+      oldPos: this.position,
+      newPos: this.position - 1
+    });
+  }
+
+  onMoveRight() {
+    this.moveEmitter.emit({
+      oldPos: this.position,
+      newPos: this.position + 1
+    });
+  }
+
+  onRemove() {
+    this.removeEmitter.emit(this.position);
   }
 
 }

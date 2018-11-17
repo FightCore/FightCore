@@ -1,2 +1,2 @@
 <h4>Wiki Info</h4>
-<app-tabs [tabs]="tabItems"></app-tabs>
+<app-tabs [tabs]="tabItems" (instantiated)="onTabCreated($event)"></app-tabs>

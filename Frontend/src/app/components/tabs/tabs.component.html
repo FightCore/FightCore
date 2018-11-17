@@ -1,7 +1,7 @@
 <mat-tab-group>
   <mat-tab *ngFor="let tab of tabItems" label="{{tab.title}}" [disabled]="disableTabs && tab.canDisable">
     <ng-template matTabContent>
-      <tab-contents [tab]="tab.tabItem"></tab-contents>
+      <tab-contents [tab]="tab.tabItem" (instantiated)="onInstantiaton($event)"></tab-contents>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

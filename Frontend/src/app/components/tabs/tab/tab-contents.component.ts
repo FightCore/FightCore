@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { TabComponentInterface } from './tab-component.interface';
-import { TabItem } from './tab-item';
+import { TabItem, TabInstantiation } from './tab-item';
 import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver, EventEmitter, Output } from '@angular/core';
 import { TabDirective } from './tab.directive';
 
@@ -12,7 +12,8 @@ import { TabDirective } from './tab.directive';
 })
 export class TabContentsComponent implements OnInit {
   @Input('tab') tab: TabItem;
-  @Output('done') done = new EventEmitter(); // Generic pass-through output emitter
+  @Output('done') done = new EventEmitter(); // Generic pass-through output emitter from tab (rewrite with popup code)
+  @Output('instantiated') instantiated = new EventEmitter<TabInstantiation>();
 
   @ViewChild(TabDirective) tabHost: TabDirective;
 
@@ -37,8 +38,11 @@ export class TabContentsComponent implements OnInit {
     // TODO: Move this to a popup-specific implementation, separate tab from popup?
     componentRef.instance.isPopupMode = true;
 
-    // Let tab item itself know about the reference so parent can access the component
-    this.tab.instantiatedComponent = componentRef.instance;
+    // Let others have a reference to the instantiated component
+    this.instantiated.emit({
+      type: this.tab.component,
+      instance: componentRef.instance
+    });
   }
 
 }

@@ -1,0 +1,15 @@
+.button-add {
+    $size: 40px;
+    color: #6c757d;
+
+    &:hover {
+      color: #4caf50;
+    }
+
+    .mat-icon-button, .mat-icon {
+      font-size: $size;
+      line-height: $size;
+      width: $size;
+      height: $size;
+    }  
+  }

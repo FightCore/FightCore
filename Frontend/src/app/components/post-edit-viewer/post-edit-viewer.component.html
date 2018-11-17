@@ -5,7 +5,7 @@
     </div>
 
     <div class="button-remove">
-      <button mat-icon-button matTooltip="Remove from this list">
+      <button (click)="onRemove()" mat-icon-button matTooltip="Remove from this list">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
@@ -15,14 +15,14 @@
 
   <div class="row justify-content-center">
     <div class="col">
-      <button *ngIf="position > 0" mat-button matTooltip="Move to the left">
+      <button *ngIf="position > 0" (click)="onMoveLeft()" mat-button matTooltip="Move to the left">
         <mat-icon>arrow_back</mat-icon>
         Move Left
       </button>
     </div>
 
     <div class="col">
-      <button *ngIf="position < listLength-1" mat-button matTooltip="Move to the right">
+      <button *ngIf="position < listLength-1" (click)="onMoveRight()" mat-button matTooltip="Move to the right">
         Move Right
         <mat-icon>arrow_forward</mat-icon>
       </button>

@@ -2,7 +2,7 @@ import { WikiPermsComponent } from './wiki-perms/wiki-perms.component';
 import { WikiHistoryComponent } from './wiki-history/wiki-history.component';
 import { Component, OnInit, Input } from '@angular/core';
 import { TabsInterface } from '../../tabs/tabs.interface';
-import { TabItem } from '../../tabs/tab/tab-item';
+import { TabItem, TabInstantiation } from '../../tabs/tab/tab-item';
 import { WikiReviewComponent } from './wiki-review/wiki-review.component';
 import { WikiEditComponent } from './wiki-edit/wiki-edit.component';
 import { Post } from 'src/app/models/Post';
@@ -16,7 +16,7 @@ export class WikiInfoComponent implements OnInit {
   private currentPostList: Post[]; // List to give to edit/suggest section
 
   tabItems: TabsInterface[]; // Tabs to generate
-  private readonly editComponentIndex = 1; // Index of edit component in tabItems
+  editComponent: WikiEditComponent;
 
   constructor() { }
 
@@ -52,29 +52,31 @@ export class WikiInfoComponent implements OnInit {
     // Eg if parent posts component is still loading, what should be shown all over in these areas?
 
     this.currentPostList = postList;
-    this.initEditComponent();
+
+    // If edit component already around, pass this straight through
+    if(this.editComponent) {
+      this.initEditComponent();
+    }
+  }
+
+  /**
+   * Handle each tab being finally created
+   * @param instanceData Tab instance that was created
+   */
+  onTabCreated(instanceData: TabInstantiation) {
+    // We currently only care about the edit component
+    if(instanceData.type === WikiEditComponent) {
+      this.editComponent = instanceData.instance;
+
+      // If data was already given, then pass it straight through
+      if(this.currentPostList) {
+        this.initEditComponent();
+      }
+    }
   }
 
   initEditComponent() {
-    // HIGH PRIORITY (don't accept PR with this): This never works until user clicks to go to the edit tab
-    //        (tab isn't instantiated until it's navigated to)
-
-    // If component not yet initialized, wait until it is
-    if(!this.tabItems[this.editComponentIndex].tabItem.instantiatedComponent) {
-      // TODO: Do this in some fail safe way! eg, if doesn't work after X attempts, throw an error
-      console.log("Edit component not yet instantiated, retrying later...");
-
-      setTimeout(() => { this.initEditComponent() }, 250);
-      return;
-    }
-
-    let editComponent = this.tabItems[this.editComponentIndex].tabItem.instantiatedComponent;
-    if(editComponent instanceof WikiEditComponent) {
-      editComponent.setData(this.currentPostList);
-    }
-    else {
-      console.log('Error: editComponent not correct type', editComponent);
-    }
+    this.editComponent.setData(this.currentPostList);
   }
 
 }

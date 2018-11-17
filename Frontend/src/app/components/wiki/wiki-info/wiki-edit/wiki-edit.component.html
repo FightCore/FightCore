@@ -13,8 +13,26 @@
 </div>
 
 <div *ngIf="data && data.length; else noPosts" class="scrolling-wrapper">
-  <div class="section" *ngFor="let post of data; let i = index">
-    <post-edit-viewer [data]="post" [position]="i" [listLength]="data.length"></post-edit-viewer>
+  <div class="section d-flex align-items-center mr-2">
+    <button (click)="onAdd(true)" mat-icon-button class="button-add" matTooltip="Add new post to this list">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </div>
+
+  <div *ngFor="let post of data; let i = index" class="section">
+    <post-edit-viewer 
+      [data]="post"
+      [position]="i" 
+      [listLength]="data.length" 
+      (move)="onMoveRequest($event)"
+      (remove)="onRemoveRequest($event)">
+    </post-edit-viewer>
+  </div>
+
+  <div *ngIf="data && data.length" class="section button-add d-flex align-items-center ml-2">
+    <button (click)="onAdd(false)" mat-icon-button matTooltip="Add new post to this list">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
   </div>
 </div>
 
