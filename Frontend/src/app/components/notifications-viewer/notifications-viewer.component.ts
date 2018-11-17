@@ -1,8 +1,8 @@
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { Router } from '@angular/router';
 import { environment } from './../../../environments/environment';
 import { Component, OnInit, Input } from '@angular/core';
 import { HubConnectionBuilder, LogLevel, HubConnection } from '@aspnet/signalr';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Notification } from 'src/app/models/Notification';
 import { NotificationService } from 'src/app/services/notification.service';
 import { PageEvent } from '@angular/material';
@@ -36,7 +36,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
   static readonly TOAST_MAX_CONTENT_LENGTH = 100;
 
   constructor(
-    private authService: OAuthService,
+    private authService: AuthBridgeService,
     private router: Router,
     private notifService: NotificationService,
     private toastr: ToastrService) { }
@@ -58,6 +58,8 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
           this.startPushNotifHub();
         }
         else {
+          this.isLoadingPushService = false;
+
           this.errorMsgs.push('Object return is missing username!')
           console.log('Object return is missing username!');
         }
@@ -208,6 +210,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
         this.errorMsgs.push('Error while establishing connection')
         console.log('Error while establishing connection: ', err)
       });
+
     this.isLoadingPushService = false;
   }
 

@@ -1,19 +1,12 @@
+import { AuthBridgeService } from './auth-bridge.service';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { environment } from 'src/environments/environment';
-import { FakeAuthService } from '../resources/mockups/fake-auth.service';
 
 export abstract class BaseAuthGuard implements CanActivate {
 
-  constructor(protected router: Router, protected authService: OAuthService) { }
+  constructor(protected router: Router, protected authService: AuthBridgeService) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-		let hasValidAccessToken: boolean = environment.envName === 'noback' ? 
-      FakeAuthService.hasValidAccessToken() : 
-			this.authService.hasValidAccessToken();
-		
-		if (hasValidAccessToken && this.isAuthorized) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {		
+		if (this.authService.hasValidAccessToken() && this.isAuthorized) {
 			return true;
 		}
 

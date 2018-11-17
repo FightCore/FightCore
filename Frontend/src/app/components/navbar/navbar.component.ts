@@ -1,10 +1,8 @@
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Title } from '@angular/platform-browser';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { environment } from 'src/environments/environment';
-import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 import { NavAction } from '../shared/nav-actions.enum';
 
 @Component({
@@ -20,7 +18,7 @@ export class NavbarComponent implements OnInit {
   private toggleButton: any;
   private sidebarVisible: boolean;
 
-  constructor(private authService: OAuthService, private element: ElementRef, private router: Router, private titleService: Title) {
+  constructor(private authService: AuthBridgeService, private element: ElementRef, private router: Router, private titleService: Title) {
     this.sidebarVisible = false;
   }
 
@@ -39,13 +37,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
-    if(environment.envName === 'noback') {
-        FakeAuthService.logOut();
-    }
-    else {
-        this.authService.logOut(true);
-    }
-    
+    this.authService.logOut(true);    
     this.router.navigate(["/login"]);
   }
 
@@ -137,9 +129,6 @@ export class NavbarComponent implements OnInit {
   }
 
   get isLoggedIn(): boolean {
-    if(environment.envName === 'noback') {
-        return FakeAuthService.hasValidAccessToken();
-    }
     return this.authService.hasValidAccessToken();
   }
 }

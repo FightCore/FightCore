@@ -1,8 +1,6 @@
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { Component, OnInit, HostListener } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 
 declare interface RouteInfo {
   path: string;
@@ -26,7 +24,7 @@ export class SidebarComponent implements OnInit {
   menuItems: any[];
   innerWidth: number;
 
-  constructor(private authService: OAuthService,  private router: Router) { }
+  constructor(private authService: AuthBridgeService,  private router: Router) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
@@ -43,20 +41,11 @@ export class SidebarComponent implements OnInit {
   }
 
   logOut() {
-    if(environment.envName === 'noback') {
-      return FakeAuthService.logOut();
-    }
-    else {
-      this.authService.logOut(true);
-    }
-    
+    this.authService.logOut(true);    
     this.router.navigate(["/login"]);
   }
 
   get isLoggedIn(): boolean {
-    if(environment.envName === 'noback') {
-      return FakeAuthService.hasValidAccessToken();
-    }
     return this.authService.hasValidAccessToken();
   }
 }

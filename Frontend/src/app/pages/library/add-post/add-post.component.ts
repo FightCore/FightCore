@@ -1,4 +1,3 @@
-import { OAuthService } from 'angular-oauth2-oidc';
 import { PostSubmission } from './../../../models/PostSubmission';
 import { PostService } from './../../../services/post.service';
 import { Post } from './../../../models/Post';
@@ -17,8 +16,7 @@ export class AddPostComponent implements OnInit {
   
   constructor(private titleService: Title,
     private router: Router,
-    private postService: PostService,
-    private authService: OAuthService) { }
+    private postService: PostService) { }
 
   ngOnInit() {
     this.titleService.setTitle("Add Post");

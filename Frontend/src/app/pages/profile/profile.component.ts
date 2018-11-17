@@ -1,9 +1,7 @@
-import { OAuthService } from 'angular-oauth2-oidc';
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,16 +11,12 @@ import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
 export class ProfileComponent implements OnInit {
   username: string;
 
-  constructor(private titleService: Title, private authService: OAuthService, private router: Router) { }
+  constructor(private titleService: Title, private authService: AuthBridgeService, private router: Router) { }
 
   ngOnInit() {
     this.titleService.setTitle("Profile");
 
-    let authPromise: Promise<object> = environment.envName === 'noback' ? 
-      FakeAuthService.loadUserProfile() : 
-      this.authService.loadUserProfile();
-
-    authPromise.then(
+    this.authService.loadUserProfile().then(
       obj => {
         let returnObj = obj as { username: string }; // Can't access Object's properties directly, being extra careful here
         if(returnObj.username) {

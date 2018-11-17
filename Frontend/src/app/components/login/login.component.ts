@@ -1,7 +1,6 @@
-import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { environment } from 'src/environments/environment';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   bonusMessage: string; // For presenting an optional message under header
   
-  constructor(private authService: OAuthService, private router: Router, fb: FormBuilder) { 
+  constructor(private authService: AuthBridgeService, private router: Router, fb: FormBuilder) { 
     this.form = fb.group({
       usernameControl: ['', [Validators.required] ],
       passControl: ['', [Validators.required] ]
@@ -42,11 +41,7 @@ export class LoginComponent implements OnInit {
     this.form.disable();
     this.onSubmitErrorMessage = ""; // Clear for new submit
 
-    let authPromise: Promise<object> = environment.envName === 'noback' ? 
-      FakeAuthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value) : 
-      this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value);
-
-    authPromise
+    this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value)
       .then((tokenResponse => {
         this.isSubmitting = false;
         // TODO: Show some confirmation message and state should be navigating to another page

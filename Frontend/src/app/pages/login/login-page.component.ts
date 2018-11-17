@@ -1,8 +1,6 @@
-import { FakeAuthService } from 'src/app/resources/mockups/fake-auth.service';
-import { environment } from 'src/environments/environment';
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,14 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  constructor(private titleService: Title, private authService: OAuthService, private router: Router) { 
+  constructor(private titleService: Title, private authService: AuthBridgeService, private router: Router) { 
   }
 
   ngOnInit() {
-    let isLoggedIn: boolean = environment.envName === 'noback' ? 
-      FakeAuthService.hasValidAccessToken() : 
-      this.authService.hasValidAccessToken();
-    if (isLoggedIn) {
+    if (this.authService.hasValidAccessToken()) {
       this.router.navigate(['/home']);
     }
     this.titleService.setTitle("Login");

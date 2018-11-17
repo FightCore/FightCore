@@ -35,6 +35,7 @@ import { WikiReviewComponent } from './wiki/wiki-info/wiki-review/wiki-review.co
 import { WikiEditComponent } from './wiki/wiki-info/wiki-edit/wiki-edit.component';
 import { WikiHistoryComponent } from './wiki/wiki-info/wiki-history/wiki-history.component';
 import { WikiPermsComponent } from './wiki/wiki-info/wiki-perms/wiki-perms.component';
+import { SuggestionComponent } from './wiki/suggestion/suggestion.component';
 
 @NgModule({
   imports: [
@@ -89,7 +90,8 @@ import { WikiPermsComponent } from './wiki/wiki-info/wiki-perms/wiki-perms.compo
     WikiReviewComponent,
     WikiEditComponent,
     WikiHistoryComponent,
-    WikiPermsComponent
+    WikiPermsComponent,
+    SuggestionComponent
   ],
   entryComponents: [
     TabExampleComponent,

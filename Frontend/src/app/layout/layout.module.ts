@@ -1,3 +1,4 @@
+import { AuthBridgeService } from './../services/auth-bridge.service';
 import { AboutUsComponent } from './../pages/home/about-us/about-us.component';
 import { MatchupsComponent } from './../pages/characters/matchups/matchups.component';
 import { BasicsComponent } from './../pages/characters/basics/basics.component';
@@ -90,6 +91,7 @@ import { SiteNewsComponent } from '../pages/home/site-news/site-news.component';
     AboutUsComponent
   ],
   providers: [
+    AuthBridgeService,
     AuthGuard,
     UserService,
     PostService,

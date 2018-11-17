@@ -1,6 +1,6 @@
+import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { AppError } from './../../errors/app-error';
 import { UserSubmission } from './../../models/UserSubmission';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private titleService: Title,
     fb: FormBuilder,
-    private authService: OAuthService, 
+    private authService: AuthBridgeService, 
     private router: Router,
     private userService: UserService) {
     this.form = fb.group({
