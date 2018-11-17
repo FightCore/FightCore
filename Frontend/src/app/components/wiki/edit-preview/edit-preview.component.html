@@ -37,30 +37,24 @@
     <div class="info">
       <span class="font-weight-bold">Changes </span>
 
-      <a *ngIf="data.changes.added > 0" class="showPointer">
-        <span class="text-success" matTooltip="Number of posts added to this list">
-          <span class="inline-icon"><mat-icon>add</mat-icon></span>
-          {{data.changes.added}} post
-        </span>
-      </a>
+      <span *ngIf="data.changes.added > 0" class="text-success" matTooltip="Number of posts added to this list">
+        <span class="inline-icon"><mat-icon>add</mat-icon></span>
+        {{data.changes.added}} post
+      </span>
 
       <span *ngIf="data.changes.added > 0 && (data.changes.removed > 0 || data.changes.reordered > 0)"> &middot; </span>
 
-      <a *ngIf="data.changes.removed > 0" class="showPointer">
-        <span class="text-danger" matTooltip="Number of posts removed from this list">
-          <span class="inline-icon"><mat-icon>clear</mat-icon></span>
-          {{data.changes.removed}} post
-        </span>
-      </a>
+      <span *ngIf="data.changes.removed > 0" class="text-danger" matTooltip="Number of posts removed from this list">
+        <span class="inline-icon"><mat-icon>clear</mat-icon></span>
+        {{data.changes.removed}} post
+      </span>
       
       <span *ngIf="(data.changes.added > 0 || data.changes.removed > 0) && data.changes.reordered > 0"> &middot; </span>
 
-      <a *ngIf="data.changes.reordered > 0" class="showPointer">
-        <span class="text-secondary" matTooltip="Number of posts reordered in this list">
-          <span class="inline-icon"><mat-icon>reorder</mat-icon></span>
-          {{data.changes.reordered}} post
-        </span>
-      </a>
+      <span *ngIf="data.changes.reordered > 0" class="text-secondary" matTooltip="Number of posts reordered in this list">
+        <span class="inline-icon"><mat-icon>reorder</mat-icon></span>
+        {{data.changes.reordered}} post
+      </span>
     </div>
 
     <div *ngIf="isNotPendingSuggestion() && !data.isDirectEdit" class="info">
@@ -70,15 +64,15 @@
 
     <div class="row justify-content-center">
       <div class="col">
-        <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
+        <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Upvote this change">
           <i class="material-icons">thumb_up</i>
           <div>{{data.rating}}</div>
         </div>
       </div>
 
       <div class="col">
-        <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
-          <i class="material-icons">chat_bubble_outline</i>
+        <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Go to comments">
+          <i class="material-icons">comment</i>
           <div>{{data.commentCount}}</div>
         </div>
       </div>

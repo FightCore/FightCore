@@ -17,15 +17,15 @@
       <div class="card-body">
         <div *ngIf="!editMode" class="row justify-content-center">
           <div class="col">
-            <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
+            <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Upvote this post">
               <mat-icon>thumb_up</mat-icon>
               <div>22</div>
             </div>
           </div>
 
           <div class="col">
-            <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
-              <mat-icon>chat_bubble_outline</mat-icon>
+            <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Go to comments">
+              <mat-icon>comment</mat-icon>
               <div>1</div>
             </div>
           </div>
@@ -43,7 +43,7 @@
     <ng-template #showDetails>
       <div class="post card">
         <div class="card-header d-flex">
-          <div class="ratingTool flex-column text-center text-secondary" matTooltip="Not yet implemented">
+          <div class="ratingTool flex-column text-center text-secondary" matTooltip="Upvote this post">
             <mat-icon>thumb_up</mat-icon>
             <div>22</div>
           </div>
@@ -79,7 +79,7 @@
           </button>
 
           <button mat-button (click)="onAdd()" matTooltip="Add to your resourceful list">
-              <mat-icon>add</mat-icon>
+              <mat-icon>playlist_add</mat-icon>
               Add
           </button>
           <button mat-button (click)="onShare()" matTooltip="Share this delightful post">
