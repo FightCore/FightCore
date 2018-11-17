@@ -1,5 +1,7 @@
-import { Type } from '@angular/core';
+import { Type, ComponentRef } from '@angular/core';
 
 export class TabItem {
-  constructor(public component: Type<any>, public data: any) {}
+  public instantiatedComponent: any;
+
+  constructor(public component: Type<any>, public data: any) {}  
 }

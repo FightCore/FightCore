@@ -11,6 +11,7 @@
     </mat-paginator>
   </mat-toolbar>
 </div>
+
 <div *ngIf="isLoadingNotifications || isLoadingPushService; else notifInfo">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>

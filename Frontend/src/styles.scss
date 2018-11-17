@@ -4,109 +4,160 @@
 @import "../node_modules/bootstrap/scss/mixins";
 
 div.info a.showPointer { // Simple class to display pointer as links don't show it without a href by default
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+span.inline-icon .mat-icon { // Styles to put an icon inline with text
+  font-size: 1em;
+  width: 1em;
+  height: 1em;
+
+  // Fix odd extra spacing, too much space on side
+  margin-right: -2px;
 }
 
 body div.cdk-overlay-container {
-    z-index: 2000; // Overlay elements like tooltips or select tools need to be on top of popups and sidebars 
+  z-index: 2000; // Overlay elements like tooltips or select tools need to be on top of popups and sidebars 
 }
 
 // Overrides for modal popups (needs to be global if not directly overriding module)
 .base-popup .modal-dialog {
-    @include media-breakpoint-up(lg) { // "Desktop" devices (from Bootstrap)
-        max-width: 1200px;
-        padding-left: 8px;
-        padding-right: 8px;
-    }
+  @include media-breakpoint-up(lg) { // "Desktop" devices (from Bootstrap)
+    max-width: 1200px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  @include media-breakpoint-down(md) { // "Mobile" devices (from Bootstrap)
+    width: 100%;
+    max-width: 100%; // Overriding default which sets to 500px at time of writing
+    height: 100%;
+    margin: 0px;
+  }
+
+  .modal-content {
     @include media-breakpoint-down(md) { // "Mobile" devices (from Bootstrap)
-        width: 100%;
-        max-width: 100%; // Overriding default which sets to 500px at time of writing
-        height: 100%;
-        margin: 0px;
+      width: 100%;
+      height: 100%;
     }
 
-    .modal-content {
-        @include media-breakpoint-down(md) { // "Mobile" devices (from Bootstrap)
-            width: 100%;
-            height: 100%;
-        }
+    background-color: #eee;
 
-        background-color: #eee;
+    .modal-header, .modal-footer {
+      border: none; // Want an appearance of a flat popup so card content and such popups out normally
+    };
 
-        .modal-header, .modal-footer {
-            border: none; // Want an appearance of a flat popup so card content and such popups out normally
-        };
+    .modal-body {
+      padding-top: 0px; // Header alone has enough padding below it
 
-        .modal-body {
-            padding-top: 0px; // Header alone has enough padding below it
-
-            // For viewing posts specifically- Only two cards next to each other
-            // TODO: Make more specific for posts only! (eg, add the post class here)
-            .card {
-                margin-top: 0px;
-                // TODO: Cards have wayyy too much padding in them for posts
-            }
-        }
+      // For viewing posts specifically- Only two cards next to each other
+      // TODO: Make more specific for posts only! (eg, add the post class here)
+      .card {
+        margin-top: 0px;
+        // TODO: Cards have wayyy too much padding in them for posts
+      }
     }
+  }
 }
 
 // For character-picker component, can't target checkbox in there (scoping issues?)
 .searchbar .mat-pseudo-checkbox {
-    display: none;
+  display: none;
 }
 
 // For any card "posts" (Library post, comment post, etc)
 div.card.post-preview {
-    width: 300px;
+  width: 300px;
 }
 div.card.suggestion-preview {
-    width: 600px;
+  width: 600px;
 }
 div.card.post, div.card.post-preview, div.card.suggestion-preview {
-    margin-top: 0px;
-    margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px; // Added specifically for fixed-corner offset nature, could be improved upon in future
 
+  position: relative;
+
+  div.ratingTool {
+    cursor: pointer;
+    &:hover {
+      background: gainsboro; // Testing code, simulating interactivity
+    }
+  }
+
+  div.fixed-corner {
+    $size: 20px;
+
+    position: absolute;
+    width: $size;
+    height: $size;
+    top: 0px;
+    right: 0px;
+    // top: -$size/4;
+    // right: -$size/4;
+
+    .inner-wrapper{
+      position: relative;
+      .mat-icon-button, .mat-icon { // Styles to put an icon inline with text
+        font-size: $size;
+        line-height: $size;
+        width: $size;
+        height: $size;
+      }
+    }
+  }
+
+  div.card-header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
     div.ratingTool {
-        cursor: pointer;
-        &:hover {
-            background: gainsboro; // Testing code, simulating interactivity
-        }
+      width: 40px; // Need set width so header spacing doesn't keep moving based off of rating
+      margin-left: -15px;
+      margin-right: 5px;
+
+      div { // Couldn't figure out how else to center the entire rating tool so centering each child
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    
+    div.info img {
+      height: 1.5em; // TODO: Center image with rest of text without making entire row taller at all
+    }
+  }
+
+  div.card-body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+
+    hr.shortDivider {
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
 
-    div.card-header {
-        padding-bottom: 5px;
-        
-        div.ratingTool {
-            width: 40px; // Need set width so header spacing doesn't keep moving based off of rating
-            margin-left: -15px;
-            margin-right: 5px;
-
-            div { // Couldn't figure out how else to center the entire rating tool so centering each child
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-        
-        div.info img {
-            height: 1.5em; // TODO: Center image with rest of text without making entire row taller at all
-        }
+    div.ratingTool div {
+      padding-left: 5px; // For horizontal rating elements, add a bit of space between number and icon
     }
+  }
+}
 
-    div.card-body {
-        padding-top: 0px;
-        padding-bottom: 0px;
+// For horizontal flexbox lists
+div.scrolling-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin: 0px 5px;
 
-        hr.shortDivider {
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
+  .section {
+    flex: 0 0 auto;
 
-        div.ratingTool div {
-            padding-left: 5px; // For horizontal rating elements, add a bit of space between number and icon
-        }
+    &:not(:last-child) {
+      padding-right: 5px;
     }
+  }
 }

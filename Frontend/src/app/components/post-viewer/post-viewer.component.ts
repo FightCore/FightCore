@@ -12,7 +12,8 @@ import { LinkEmbedComponent } from '../link-embed/link-embed.component';
 })
 export class PostViewerComponent implements OnInit, TabComponentInterface {
   @Input('data') data: Post;
-  @Input('simpleMode') simpleMode: boolean = false;
+  @Input('simpleMode') simpleMode: boolean = false; // Displays post as a simple preview
+  @Input('editMode') editMode: boolean = false; // Shows list edit controls for a post
   
   @ViewChildren(LinkEmbedComponent) linkEmbedList: QueryList<LinkEmbedComponent>; // Can't just use ViewChild as dynamically generated
   linkEmbed: LinkEmbedComponent; // Should really only have one

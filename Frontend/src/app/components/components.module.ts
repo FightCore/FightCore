@@ -36,6 +36,7 @@ import { WikiEditComponent } from './wiki/wiki-info/wiki-edit/wiki-edit.componen
 import { WikiHistoryComponent } from './wiki/wiki-info/wiki-history/wiki-history.component';
 import { WikiPermsComponent } from './wiki/wiki-info/wiki-perms/wiki-perms.component';
 import { SuggestionComponent } from './wiki/suggestion/suggestion.component';
+import { PostEditViewerComponent } from './post-edit-viewer/post-edit-viewer.component';
 
 @NgModule({
   imports: [
@@ -91,7 +92,8 @@ import { SuggestionComponent } from './wiki/suggestion/suggestion.component';
     WikiEditComponent,
     WikiHistoryComponent,
     WikiPermsComponent,
-    SuggestionComponent
+    SuggestionComponent,
+    PostEditViewerComponent
   ],
   entryComponents: [
     TabExampleComponent,

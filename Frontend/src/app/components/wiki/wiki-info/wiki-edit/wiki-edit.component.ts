@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Post } from 'src/app/models/Post';
 
 @Component({
   selector: 'app-wiki-edit',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./wiki-edit.component.css']
 })
 export class WikiEditComponent implements OnInit {
-
+  postList: Post[];
+  
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setData(postList: Post[]) {
+    this.postList = postList;
   }
 
 }

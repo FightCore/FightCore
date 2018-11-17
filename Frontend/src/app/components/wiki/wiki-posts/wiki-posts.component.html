@@ -23,7 +23,7 @@
   </div>
 
   <ng-template #showPosts>
-    <div *ngIf="postList; else noPosts" class="scrolling-wrapper">
+    <div *ngIf="postList && postList.length; else noPosts" class="scrolling-wrapper">
       <div class="section" *ngFor="let post of postList">
         <a (click)="open(post)" style="cursor:pointer;">
           <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
@@ -36,6 +36,6 @@
     </ng-template>
   </ng-template>
 
-  <wiki-info class="mt-4 ml-2"></wiki-info>
+  <wiki-info #wikiInfo class="mt-4 ml-2"></wiki-info>
   <post-popup #postPopup></post-popup>
 </div>

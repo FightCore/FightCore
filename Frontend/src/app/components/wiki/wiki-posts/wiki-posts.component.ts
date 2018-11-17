@@ -1,3 +1,4 @@
+import { WikiInfoComponent } from './../wiki-info/wiki-info.component';
 import { PostPopupComponent } from './../../post-popup/post-popup.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Post } from '../../../models/Post';
@@ -12,6 +13,7 @@ export class WikiPostsComponent implements OnInit {
   postList: Post[];
 
   @ViewChild('postPopup') postPopup: PostPopupComponent;
+  @ViewChild('wikiInfo') wikiInfo: WikiInfoComponent;
 
   isLoading: boolean; // Shows loading indicator for user
 
@@ -34,6 +36,8 @@ export class WikiPostsComponent implements OnInit {
 
   public doneLoadingPosts(posts: Post[]) {
     this.postList = posts;
+    this.wikiInfo.setPostList(posts);
+    
     this.isLoading = false;
   }
 

@@ -1,3 +1,27 @@
-<p>
-  wiki-edit works!
-</p>
+<p>Edit the list here:</p>
+
+<div>
+  <p>TODO: Summary of changes</p>
+</div>
+
+<div>
+  <p>TODO: Add items (search via name, id, or url)</p>
+</div>
+
+<div>
+  <p>TODO: Remove or reorder buttons per post</p>
+</div>
+
+<div *ngIf="postList && postList.length; else noPosts" class="scrolling-wrapper">
+  <div class="section" *ngFor="let post of postList">
+    <post-viewer [data]="post" [simpleMode]="true" [editMode]="true"></post-viewer>
+  </div>
+</div>
+
+<ng-template #noPosts>
+  <p class="ml-2">No posts found.</p>
+</ng-template>
+
+<div>
+  <p>Next/confirm/submit button goes here</p>
+</div>  

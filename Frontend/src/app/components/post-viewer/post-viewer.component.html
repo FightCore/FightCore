@@ -2,33 +2,58 @@
   <div *ngIf="simpleMode; else fullDetails">
 
     <div class="post-preview card">
-      <div class="card-header d-flex pb-0">        
+      <!-- <div class="fixed-corner">
+        <div class="inner-wrapper">
+          <button mat-icon-button color="warn">
+              <mat-icon matTooltip="Remove post from post list">close</mat-icon>
+            </button>
+        </div>
+      </div> -->
+
+      <div class="card-header d-flex pb-0">
         <div>
           <div class="info text-secondary">
             {{ getCategoryName() }} <img [src]="getCharacterIcon()"> &middot; 
             By <a class="showPointer" (click)="viewAuthor()"  matTooltip="View the author's info">{{ getAuthorName() }}</a> &middot; 
             <a class="showPointer" (click)="viewHistory()"  matTooltip="View this post's edit history">{{ data.createdDate | date }}</a>
           </div>
+          
           <h4 class="font-weight-bold mb-0">{{data.title}}</h4>
         </div>
       </div>
       
       <div class="card-body">
-        <div class="row justify-content-center">
+        <div *ngIf="!editMode; else editControls" class="row justify-content-center">
           <div class="col">
             <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
-              <i class="material-icons">thumb_up</i>
+              <mat-icon>thumb_up</mat-icon>
               <div>22</div>
             </div>
           </div>
 
           <div class="col">
             <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Not yet implemented">
-              <i class="material-icons">chat_bubble_outline</i>
+              <mat-icon>chat_bubble_outline</mat-icon>
               <div>1</div>
             </div>
           </div>
         </div>
+
+        <ng-template #editControls>
+            <div class="row justify-content-center">
+              <div class="col">
+                <div class="ratingTool d-flex justify-content-center" matTooltip="Not yet implemented">
+                  <mat-icon>arrow_back</mat-icon>
+                </div>
+              </div>
+    
+              <div class="col">
+                <div class="ratingTool d-flex justify-content-center" matTooltip="Not yet implemented">
+                  <mat-icon class="material-icons">arrow_forward</mat-icon>
+                </div>
+              </div>
+            </div>
+        </ng-template>
       </div>
     </div>
 
@@ -43,7 +68,7 @@
       <div class="post card">
         <div class="card-header d-flex">
           <div class="ratingTool flex-column text-center text-secondary" matTooltip="Not yet implemented">
-            <i class="material-icons">thumb_up</i>
+            <mat-icon>thumb_up</mat-icon>
             <div>22</div>
           </div>
           
@@ -69,20 +94,20 @@
 
         <div class="card-footer d-flex justify-content-start flex-wrap text-secondary">
           <button mat-button (click)="onRepost()" matTooltip="Make sure your followers see this delightful post">
-              <i class="material-icons">cached</i>
+              <mat-icon>cached</mat-icon>
               Repost
           </button>
           <button mat-button (click)="onEdit()" class="mr-auto" matTooltip="Edit this versatile post">
-              <i class="material-icons">edit</i>
+              <mat-icon>edit</mat-icon>
               Edit
           </button>
 
           <button mat-button (click)="onAdd()" matTooltip="Add to your resourceful list">
-              <i class="material-icons">add</i>
+              <mat-icon>add</mat-icon>
               Add
           </button>
           <button mat-button (click)="onShare()" matTooltip="Share this delightful post">
-              <i class="material-icons">share</i>
+              <mat-icon>share</mat-icon>
               Share
           </button>
 

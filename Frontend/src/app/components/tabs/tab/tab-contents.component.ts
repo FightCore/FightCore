@@ -36,6 +36,9 @@ export class TabContentsComponent implements OnInit {
     }
     // TODO: Move this to a popup-specific implementation, separate tab from popup?
     componentRef.instance.isPopupMode = true;
+
+    // Let tab item itself know about the reference so parent can access the component
+    this.tab.instantiatedComponent = componentRef.instance;
   }
 
 }
