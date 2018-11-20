@@ -2,17 +2,26 @@
 using FightCore.Models.PlayerStatistics;
 using FightCore.Models.Characters;
 using System.Linq;
+using FightCore.Services.Patterns;
+using System.Threading.Tasks;
 
 namespace FightCore.Services.PlayerStatistics
 {
-    public class CharacterPlayerStatsService
+    public interface ICharacterPlayerStatsService : IService<CharacterPlayerStats>
     {
+        CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character);
+    }
 
-        public static CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character)
+    public class CharacterPlayerStatsService : ICharacterPlayerStatsService
+    {
+        public CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character)
         {
-            CharacterPlayerStats stats = new CharacterPlayerStats();
-            stats.Player = player;
-            stats.Character = character;
+            WinLossRecordService winLossRecordService = new WinLossRecordService();
+            CharacterPlayerStats stats = new CharacterPlayerStats
+            {
+                Player = player,
+                Character = character
+            };
             List<SetGame> setGames = new List<SetGame>();
 
             //Enumerate through player sets to retrieve set games
@@ -23,7 +32,7 @@ namespace FightCore.Services.PlayerStatistics
                 setGames.AddRange(set.Games);
             }
 
-            stats.WinLossRecord = WinLossRecordService.GetWinLossRecordByCharacter(player, character);
+            stats.WinLossRecord = winLossRecordService.GetWinLossRecordByCharacter(player, character);
 
             // Total games played with character by player divivded by total games played by player = character usage
             stats.CharacterUsage =
@@ -35,5 +44,49 @@ namespace FightCore.Services.PlayerStatistics
             return stats;
         }
 
+        public void Delete(params CharacterPlayerStats[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(CharacterPlayerStats entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<CharacterPlayerStats>> GetAllAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public CharacterPlayerStats Insert(CharacterPlayerStats entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<CharacterPlayerStats> InsertAsync(CharacterPlayerStats entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<CharacterPlayerStats> InsertRange(params CharacterPlayerStats[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<CharacterPlayerStats>> InsertRangeAsync(params CharacterPlayerStats[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public CharacterPlayerStats Update(CharacterPlayerStats entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<CharacterPlayerStats> UpdateRange(params CharacterPlayerStats[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -1,17 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FightCore.Models.Characters;
 using FightCore.Models.PlayerStatistics;
+using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
-    public class PlayerMetricService
+    public interface IPlayerMetricService : IService<PlayerMetricService>
     {
-
-        public static PlayerMetric GetPlayerMetric(Player player)
+        PlayerMetricService PlayerMetricService(Player player);
+    }
+    public class PlayerMetricService : IPlayerMetricService
+    {
+        public PlayerMetric GetPlayerMetric(Player player)
         {
-            PlayerMetric metric = new PlayerMetric();
-            metric.Player = player;
-            metric.Characters = new List<Character>();
+            CharacterPlayerStatsService characterPlayerStatsService = new CharacterPlayerStatsService();
+            PlayerMetric metric = new PlayerMetric
+            {
+                Player = player,
+                Characters = new List<Character>()
+            };
 
             //Extra variables for calculation
             int tempPlayerId;
@@ -53,11 +61,60 @@ namespace FightCore.Services.PlayerStatistics
                     continue;
                 }
                 characterIds.Add(character.Id);
-                metric.CharacterPlayerStats.Add(CharacterPlayerStatsService.GetCharacterPlayerStats(player, character));
+                metric.CharacterPlayerStats.Add(characterPlayerStatsService.GetCharacterPlayerStats(player, character));
             }
 
             return metric;
         }
 
+        public void Delete(params PlayerMetricService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(PlayerMetricService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<PlayerMetricService>> GetAllAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public PlayerMetricService Insert(PlayerMetricService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<PlayerMetricService> InsertAsync(PlayerMetricService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<PlayerMetricService> InsertRange(params PlayerMetricService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<PlayerMetricService>> InsertRangeAsync(params PlayerMetricService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public PlayerMetricService Update(PlayerMetricService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<PlayerMetricService> UpdateRange(params PlayerMetricService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        PlayerMetricService IPlayerMetricService.PlayerMetricService(Player player)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

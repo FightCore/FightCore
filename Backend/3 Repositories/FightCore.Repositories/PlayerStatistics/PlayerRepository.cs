@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FightCore.Models.PlayerStatistics;
 using FightCore.Repositories.Patterns;
@@ -10,6 +11,7 @@ namespace FightCore.Repositories.PlayerStatistics
     {
         Task<List<Player>> GetAllPlayersWithMediaAsync();
         Task<Player> GetDetailedPlayerByIdAsync(int PlayerId);
+        Player GetDetailedPlayerById(int PlayerId);
     }
     public class PlayerRepository : Repository<Player>, IPlayerRepository
     {
@@ -29,6 +31,14 @@ namespace FightCore.Repositories.PlayerStatistics
                 .Include(x => x.Sets).ThenInclude(x => x.Games)
                 .Include(x => x.Sets).ThenInclude(x => x.Tournament)
                 .FirstOrDefaultAsync(x => x.Id == PlayerId);
+        }
+
+        public Player GetDetailedPlayerById(int PlayerId)
+        {
+            return Queryable.Include(x => x.Media)
+                .Include(x => x.Sets).ThenInclude(x => x.Games)
+                .Include(x => x.Sets).ThenInclude(x => x.Tournament)
+                .FirstOrDefault(x => x.Id == PlayerId);
         }
 
     }

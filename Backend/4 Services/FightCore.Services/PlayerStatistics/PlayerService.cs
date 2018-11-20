@@ -10,7 +10,6 @@ namespace FightCore.Services.PlayerStatistics
     public interface IPlayerService : IEntityService<Player>
     {
         Task<List<Player>> GetAllPlayersAsync();
-        Task<Player> GetDetailedPlayerByIdAsync(int PlayerId);
     }
     public class PlayerService : EntityService<Player>, IPlayerService
     {
@@ -25,9 +24,14 @@ namespace FightCore.Services.PlayerStatistics
             return _repository.GetAllPlayersWithMediaAsync();
         }
 
-        public Task<Player> GetDetailedPlayerByIdAsync(int PlayerId)
+        public override Task<Player> FindByIdAsync(int PlayerId)
         {
             return _repository.GetDetailedPlayerByIdAsync(PlayerId);
+        }
+
+        public override Player FindById(int PlayerId)
+        {
+            return _repository.GetDetailedPlayerById(PlayerId);
         }
 
     }

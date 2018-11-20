@@ -2,12 +2,18 @@
 using FightCore.Models.PlayerStatistics;
 using FightCore.Models.Characters;
 using System.Linq;
+using FightCore.Services.Patterns;
+using System.Threading.Tasks;
 
 namespace FightCore.Services.PlayerStatistics
 {
-    public class WinLossRecordService
+    public interface IWinLossRecordService : IService<WinLossRecordService>
     {
-        public static WinLossRecord GetWinLossRecordByCharacter(Player player, Character character)
+        WinLossRecord GetWinLossRecordByCharacter(Player player, Character character);
+    }
+    public class WinLossRecordService : IWinLossRecordService
+    {
+        public WinLossRecord GetWinLossRecordByCharacter(Player player, Character character)
         {
             WinLossRecord winLossRecord = new WinLossRecord();
             //Enumerate through player sets to retrieve set games
@@ -35,7 +41,7 @@ namespace FightCore.Services.PlayerStatistics
         }
 
         //Overload for when games are already known
-        public static WinLossRecord GetWinLossRecordByCharacter(Player player, Character character, List<SetGame> games)
+        public WinLossRecord GetWinLossRecordByCharacter(Player player, Character character, List<SetGame> games)
         {
             WinLossRecord winLossRecord = new WinLossRecord();
             winLossRecord.Games = games;
@@ -54,6 +60,51 @@ namespace FightCore.Services.PlayerStatistics
             winLossRecord.Losses = winLossRecord.Total - winLossRecord.Wins;
 
             return winLossRecord;
+        }
+
+        public void Delete(params WinLossRecordService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(WinLossRecordService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public WinLossRecordService Insert(WinLossRecordService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<WinLossRecordService> InsertAsync(WinLossRecordService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<WinLossRecordService> InsertRange(params WinLossRecordService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<WinLossRecordService>> InsertRangeAsync(params WinLossRecordService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public WinLossRecordService Update(WinLossRecordService entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<WinLossRecordService> UpdateRange(params WinLossRecordService[] entities)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<WinLossRecordService>> GetAllAsync()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

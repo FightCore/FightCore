@@ -10,7 +10,6 @@ namespace FightCore.Services.PlayerStatistics
     public interface ITournamentService : IEntityService<Tournament>
     {
         Task<List<Tournament>> GetAllTournamentsAsync();
-        Task<Tournament> GetDetailedTournamentByIdAsync(int TournamentId);
     }
     public class TournamentService : EntityService<Tournament>, ITournamentService
     {
@@ -25,9 +24,14 @@ namespace FightCore.Services.PlayerStatistics
             return _repository.GetAllTournamentsWithMediaAsync();
         }
 
-        public Task<Tournament> GetDetailedTournamentByIdAsync(int TournamentId)
+        public override Task<Tournament> FindByIdAsync(int TournamentId)
         {
             return _repository.GetDetailedTournamentByIdAsync(TournamentId);
+        }
+
+        public override Tournament FindById(int TournamentId)
+        {
+            return _repository.GetDetailedTournamentById(TournamentId);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FightCore.Models.PlayerStatistics;
 using FightCore.Repositories.Patterns;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ namespace FightCore.Repositories.PlayerStatistics
     public interface ISetGameRepository : IRepositoryAsync<SetGame>
     {
         Task<SetGame> GetDetailedSetGameByIdAsync(int SetGameId);
+        SetGame GetDetailedSetGameById(int SetGameId);
     }
 
     public class SetGameRepository : Repository<SetGame>, ISetGameRepository
@@ -23,6 +25,14 @@ namespace FightCore.Repositories.PlayerStatistics
                 .Include(x => x.Set).ThenInclude(x => x.Tournament)
                 .Include(x => x.Set).ThenInclude(x => x.Event)
                 .FirstOrDefaultAsync(x => x.Id == SetGameId);
+        }
+
+        public SetGame GetDetailedSetGameById(int SetGameId)
+        {
+            return Queryable.Include(x => x.Character1).Include(x => x.Character2)
+                .Include(x => x.Set).ThenInclude(x => x.Tournament)
+                .Include(x => x.Set).ThenInclude(x => x.Event)
+                .FirstOrDefault(x => x.Id == SetGameId);
         }
 
     }

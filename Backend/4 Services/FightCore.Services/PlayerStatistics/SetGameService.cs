@@ -8,7 +8,7 @@ namespace FightCore.Services.PlayerStatistics
 {
     public interface ISetGameService : IEntityService<SetGame>
     {
-        Task<SetGame> GetDetailedSetGameByIdAsync(int SetGameId);
+
     }
     public class SetGameService : EntityService<SetGame>, ISetGameService
     {
@@ -18,9 +18,14 @@ namespace FightCore.Services.PlayerStatistics
             _repository = repository;
         }
 
-        public Task<SetGame> GetDetailedSetGameByIdAsync(int SetGameId)
+        public override Task<SetGame> FindByIdAsync(int SetGameId)
         {
             return _repository.GetDetailedSetGameByIdAsync(SetGameId);
+        }
+
+        public override SetGame FindById(int SetGameId)
+        {
+            return _repository.GetDetailedSetGameById(SetGameId);
         }
 
     }

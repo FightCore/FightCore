@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using FightCore.Models;
 using FightCore.Models.PlayerStatistics;
 using FightCore.Repositories.Patterns;
 using FightCore.Repositories.PlayerStatistics;
@@ -10,7 +11,6 @@ namespace FightCore.Services.PlayerStatistics
     public interface IEventService : IEntityService<Event>
     {
         Task<List<Event>> GetAllEventsAsync();
-        Task<Event> GetDetailedEventByIdAsync(int EventId);
     }
     public class EventService : EntityService<Event>, IEventService
     {
@@ -25,9 +25,14 @@ namespace FightCore.Services.PlayerStatistics
             return _repository.GetAllEventsWithMediaAsync();
         }
 
-        public Task<Event> GetDetailedEventByIdAsync(int EventId)
+        public override Task<Event> FindByIdAsync(int EventId)
         {
             return _repository.GetDetailedEventByIdAsync(EventId);
+        }
+
+        public override Event FindById(int EventId)
+        {
+            return _repository.GetDetailedEventById(EventId);
         }
 
     }
