@@ -1,4 +1,4 @@
-import { TabComponentInterface } from './../../../components/tabs/tab/tab-component.interface';
+import { TabComponentInterface } from 'src/app/components/tabs/tab/tab-component.interface';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

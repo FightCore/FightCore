@@ -1,10 +1,10 @@
-import { PostSubmission } from './../../../models/PostSubmission';
-import { PostService } from './../../../services/post.service';
-import { Post } from './../../../models/Post';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { PostEditorComponent } from 'src/app/components/post-editor/post-editor.component';
+import { PostService } from 'src/app/services/post.service';
+import { Post } from 'src/app/models/Post';
+import { PostSubmission } from 'src/app/models/PostSubmission';
 
 @Component({
   selector: 'app-add-post',

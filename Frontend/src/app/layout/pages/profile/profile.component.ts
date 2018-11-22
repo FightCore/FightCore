@@ -1,7 +1,7 @@
-import { AuthBridgeService } from './../../services/auth-bridge.service';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AuthBridgeService } from 'src/app/services/auth-bridge.service';
 
 @Component({
   selector: 'app-profile',

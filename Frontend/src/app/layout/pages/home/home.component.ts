@@ -1,10 +1,10 @@
-import { environment } from './../../../environments/environment';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TabsInterface } from 'src/app/components/tabs/tabs.interface';
 import { TabItem } from 'src/app/components/tabs/tab/tab-item';
 import { SiteNewsComponent } from './site-news/site-news.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',

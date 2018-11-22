@@ -1,6 +1,3 @@
-import { AuthBridgeService } from './../../services/auth-bridge.service';
-import { AppError } from './../../errors/app-error';
-import { UserSubmission } from './../../models/UserSubmission';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -9,6 +6,9 @@ import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 import { PasswordErrorStateMatcher } from 'src/app/components/shared/password.errorstatematcher';
 import { PasswordValidators } from 'src/app/components/shared/password.validators';
+import { AuthBridgeService } from 'src/app/services/auth-bridge.service';
+import { UserSubmission } from 'src/app/models/UserSubmission';
+import { AppError } from 'src/app/errors/app-error';
 
 @Component({
   selector: 'app-signup',

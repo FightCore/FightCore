@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { TabComponentInterface } from '../../../components/tabs/tab/tab-component.interface';
-import { PostService } from '../../../services/post.service';
-import { Post } from '../../../models/Post';
+import { TabComponentInterface } from 'src/app/components/tabs/tab/tab-component.interface';
 import { WikiPostsComponent } from 'src/app/components/wiki/wiki-posts/wiki-posts.component';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-overview',

@@ -1,14 +1,13 @@
 import { CombosTechComponent } from './combos-tech/combos-tech.component';
 import { BasicsComponent } from './basics/basics.component';
-import { DashGeneratorComponent } from './../../dashboard/dash-generator/dash-generator.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { TabItem } from '../../components/tabs/tab/tab-item';
-import { TabsInterface } from '../../components/tabs/tabs.interface';
-import { Character } from '../../models/Character';
 import { MatchupsComponent } from './matchups/matchups.component';
 import { FrameDataComponent } from './frame-data/frame-data.component';
 import { OverviewComponent } from './overview/overview.component';
+import { TabsInterface } from 'src/app/components/tabs/tabs.interface';
+import { TabItem } from 'src/app/components/tabs/tab/tab-item';
+import { Character } from 'src/app/models/Character';
 
 @Component({
   selector: 'app-characters',

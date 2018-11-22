@@ -1,12 +1,12 @@
-import { PostService } from './../../services/post.service';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Post } from '../../models/Post';
-import { PostPopupComponent } from '../../components/post-popup/post-popup.component';
 import { PageEvent } from '@angular/material';
 import { PostFiltersStatus } from 'src/app/components/post-filters/post-filters.component';
 import { PostPreview } from 'src/app/models/PostPreview';
+import { PostPopupComponent } from 'src/app/components/post-popup/post-popup.component';
+import { PostService } from 'src/app/services/post.service';
+import { Post } from 'src/app/models/Post';
 
 @Component({
   selector: 'app-library',
