@@ -1,6 +1,7 @@
 import { DashboardService } from './../../services/dashboard.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Post } from 'src/app/models/Post';
+import { PostPopupComponent } from 'src/app/components/post-popup/post-popup.component';
 
 @Component({
   selector: 'dash-posts-widget',
@@ -10,6 +11,8 @@ import { Post } from 'src/app/models/Post';
 export class PostsWidgetComponent implements OnInit {
   @Input('type') type: string; // Currently only supporting 'General' and 'Character'
   
+  @ViewChild('postPopup') postPopup: PostPopupComponent;
+
   posts: Post[];
   isLoading: boolean;
   header: string; // Title shown
@@ -48,6 +51,10 @@ export class PostsWidgetComponent implements OnInit {
   postRetrievalError(error) {
     console.log("Failed to retrieve posts", error);
     this.isLoading = false;
+  }
+
+  open(post: Post) {
+    this.postPopup.openPopup(post);
   }
 
   hasValidType(): boolean {

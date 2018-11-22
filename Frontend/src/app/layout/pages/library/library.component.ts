@@ -15,8 +15,6 @@ import { Post } from 'src/app/models/Post';
 })
 export class LibraryComponent implements OnInit {
   posts: PostPreview[] = [];
-  displayPost: PostPreview;
-  @ViewChild('postContent') postContent: TemplateRef<any>;
   @ViewChild('postPopup') postPopup: PostPopupComponent;
 
   isLoading: boolean;
