@@ -9,12 +9,12 @@ body .card { // Quick override, cards normally have huge top+bottom margins
 body p { // Quick override, normally has 1rem margin bottom
   margin: 0px; // TODO: Directly modify other stylesheet instead
 }
-body .main-content > .container-fluid {
+body .main-content > .container-fluid { // Override over main layout containers
   @include media-breakpoint-up(lg) { // "Desktop" devices (from Bootstrap)
-    padding: 0px 15px; // Need more padding with sidebar shadow on larger layouts
+    padding: 0px 25px; // Need more padding with sidebar shadow on larger layouts
   }
   @include media-breakpoint-down(md) { // "Mobile" devices (from Bootstrap)
-    padding: 0px 5px; // Mobile layout doesn't have any action elements on sides
+    padding: 0px 12px; // Mobile layout doesn't have any extra elements on sides
   }
 }
 
