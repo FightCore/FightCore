@@ -42,6 +42,7 @@ import { NotificationService } from '../services/notification.service';
 import { SiteNewsComponent } from './pages/home/site-news/site-news.component';
 import { GroupComponent } from './pages/group/group.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
+import { HomeDashComponent } from './pages/home/home-dash/home-dash.component';
 
 @NgModule({
   imports: [
@@ -81,7 +82,8 @@ import { DashboardModule } from '../dashboard/dashboard.module';
       NotificationsComponent,
       SiteNewsComponent,
       AboutUsComponent,
-      GroupComponent
+      GroupComponent,
+      HomeDashComponent
   ],
   entryComponents: [
     BasicsComponent,
@@ -90,7 +92,8 @@ import { DashboardModule } from '../dashboard/dashboard.module';
     FrameDataComponent,
     OverviewComponent,
     SiteNewsComponent,
-    AboutUsComponent
+    AboutUsComponent,
+    HomeDashComponent
   ],
   providers: [
     AuthBridgeService,

@@ -1,8 +1,9 @@
 import { ComponentsModule } from './../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ExampleWidgetComponent } from './example-widget/example-widget.component';
 import { DashGeneratorComponent } from './dash-generator/dash-generator.component';
+import { NewsWidgetComponent } from './news-widget/news-widget.component';
+import { PostsWidgetComponent } from './posts-widget/posts-widget.component';
 
 @NgModule({
   imports: [
@@ -11,14 +12,16 @@ import { DashGeneratorComponent } from './dash-generator/dash-generator.componen
   ],
   declarations: [
     DashGeneratorComponent,
-    ExampleWidgetComponent
+    NewsWidgetComponent,
+    PostsWidgetComponent
   ],
   entryComponents: [
     DashGeneratorComponent
   ],
   exports: [
     DashGeneratorComponent,
-    ExampleWidgetComponent
+    NewsWidgetComponent,
+    PostsWidgetComponent
   ]
 })
 export class DashboardModule { }

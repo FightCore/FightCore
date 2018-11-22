@@ -1,3 +1,4 @@
+import { HomeDashComponent } from './home-dash/home-dash.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -27,7 +28,11 @@ export class HomeComponent implements OnInit {
     // Initialize tabs
     this.tabItems = [
       {
-        title: 'Site News',
+        title: 'Dash',
+        tabItem: new TabItem(HomeDashComponent, '')
+      },
+      {
+        title: 'All News',
         tabItem: new TabItem(SiteNewsComponent, '')
       },
       {
