@@ -1,3 +1,21 @@
-<p>
-  posts-widget works!
-</p>
+<div *ngIf="hasValidType(); else noType" class="mt-4">
+  <div *ngIf="isTypeGeneral()" class="super card">
+      <div class="card-header card-header-info">
+        <h4>Popular General Posts</h4>
+      </div>
+
+    <div class="card-body">Body</div>
+  </div>
+
+  <div *ngIf="isTypeCharacter()" class="super card">
+      <div class="card-header card-header-info">
+        <h4>Popular Pikachu Posts</h4>
+      </div>
+
+    <div class="card-body">Body</div>
+  </div>
+
+</div>
+<ng-template #noType>
+  <p>No type given to component!</p>
+</ng-template>

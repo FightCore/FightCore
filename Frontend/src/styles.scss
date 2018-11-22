@@ -6,6 +6,9 @@
 body .card { // Quick override, cards normally have huge top+bottom margins
   margin: 0px; // TODO: Directly modify other stylesheet instead
 }
+body p { // Quick override, normally has 1rem margin bottom
+  margin: 0px; // TODO: Directly modify other stylesheet instead
+}
 
 div.info a.showPointer { // Simple class to display pointer as links don't show it without a href by default
   cursor: pointer;
@@ -24,8 +27,8 @@ span.inline-icon .mat-icon { // Styles to put an icon inline with text
   margin-right: -2px;
 }
 
-body div.cdk-overlay-container {
-  z-index: 2000; // Overlay elements like tooltips or select tools need to be on top of popups and sidebars 
+body div.cdk-overlay-container { // Overlay elements like tooltips or select tools need to be on top of popups and sidebars 
+  z-index: 2000;
 }
 
 // Overrides for modal popups (needs to be global if not directly overriding module)
@@ -70,6 +73,22 @@ body div.cdk-overlay-container {
 // For character-picker component, can't target checkbox in there (scoping issues?)
 .searchbar .mat-pseudo-checkbox {
   display: none;
+}
+
+// For super cards- cards that can contain other cards
+div.super.card {
+  background-color: whitesmoke;
+
+  .card-header {
+    // Note: If includes card-header-info, these are overidden in dashboard stylesheet
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 5px;
+    
+    h4 {
+      margin-bottom: 0px;
+    }
+  }
 }
 
 // For any card "posts" (Library post, comment post, etc)
