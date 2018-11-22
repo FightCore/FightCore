@@ -1,4 +1,3 @@
-import { PostService } from 'src/app/services/post.service';
 import { PostsPage } from './../../models/PostsPage';
 import { Post } from './../../models/Post';
 import { Observable, of } from 'rxjs';
@@ -15,9 +14,10 @@ export abstract class FakePostService {
             createdDate: new Date(2018, 10, 12),
             lastEdit: new Date(2018, 10, 13),
             views: 0,
-            rating: 1,
+            rating: 22,
             urlName: '',
-            category: 1,
+            category: 0,
+            characterIds: [],
             title: 'Default Post A',
             content: 'Some test content, yay!'
         },
@@ -28,9 +28,10 @@ export abstract class FakePostService {
             createdDate: new Date(2018, 10, 13),
             lastEdit: new Date(2018, 10, 14),
             views: 0,
-            rating: 1,
+            rating: 2,
             urlName: '',
-            category: 1,
+            category: 0,
+            characterIds: [0],
             title: 'Default Post B',
             content: 'Some more test content, yay!'
         },
@@ -41,9 +42,10 @@ export abstract class FakePostService {
             createdDate: new Date(2018, 10, 14),
             lastEdit: new Date(2018, 10, 15),
             views: 0,
-            rating: 1,
+            rating: 42,
             urlName: '',
             category: 1,
+            characterIds: [0],
             title: 'A Third Post, yay!',
             content: 'You know you wanted some more test content riiiiiiiight?'
         }

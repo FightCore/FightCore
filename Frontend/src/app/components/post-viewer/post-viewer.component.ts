@@ -100,8 +100,14 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
   getAuthorName(): string {
     return this.data.author.userName;
   }
+  hasCharacter(): boolean {
+    return this.data.characterIds && this.data.characterIds.length > 0;
+  }
   getCharacterIcon(): string {
     return 'assets/example_stock.png';
+  }
+  getRating(): number {
+    return this.data.rating ? this.data.rating : 0;  // TODO: Should be required?
   }
 
 }

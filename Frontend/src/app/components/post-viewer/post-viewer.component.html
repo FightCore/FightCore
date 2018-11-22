@@ -5,7 +5,7 @@
       <div class="card-header d-flex pb-0">
         <div>
           <div class="info text-secondary">
-            {{ getCategoryName() }} <img [src]="getCharacterIcon()"> &middot; 
+            {{ getCategoryName() }} <img *ngIf="hasCharacter()" [src]="getCharacterIcon()"> &middot; 
             By <a class="showPointer" (click)="viewAuthor()"  matTooltip="View the author's info">{{ getAuthorName() }}</a> &middot; 
             <a class="showPointer" (click)="viewHistory()"  matTooltip="View this post's edit history">{{ data.createdDate | date }}</a>
           </div>
@@ -19,7 +19,7 @@
           <div class="col">
             <div class="ratingTool d-flex justify-content-center text-secondary" matTooltip="Upvote this post">
               <mat-icon>thumb_up</mat-icon>
-              <div>22</div>
+              <div>{{ getRating() }}</div>
             </div>
           </div>
 
@@ -45,7 +45,7 @@
         <div class="card-header d-flex">
           <div class="ratingTool flex-column text-center text-secondary" matTooltip="Upvote this post">
             <mat-icon>thumb_up</mat-icon>
-            <div>22</div>
+            <div>{{ getRating() }}</div>
           </div>
           
           <div>
