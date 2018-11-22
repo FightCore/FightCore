@@ -6,7 +6,7 @@ import { PostSubmission } from 'src/app/models/PostSubmission';
 import { FakeUserService } from './fake-user.service';
 
 export abstract class FakePostService {
-    private static postList: Post[] = [
+    static postList: Post[] = [
         {
             id: 1,
             authorId: 1,

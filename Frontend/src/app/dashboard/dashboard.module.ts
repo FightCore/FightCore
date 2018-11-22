@@ -4,11 +4,14 @@ import { CommonModule } from '@angular/common';
 import { DashGeneratorComponent } from './dash-generator/dash-generator.component';
 import { NewsWidgetComponent } from './news-widget/news-widget.component';
 import { PostsWidgetComponent } from './posts-widget/posts-widget.component';
+import { MatProgressBarModule } from '@angular/material';
+import { DashboardService } from '../services/dashboard.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule
+    ComponentsModule,
+    MatProgressBarModule
   ],
   declarations: [
     DashGeneratorComponent,
@@ -22,6 +25,9 @@ import { PostsWidgetComponent } from './posts-widget/posts-widget.component';
     DashGeneratorComponent,
     NewsWidgetComponent,
     PostsWidgetComponent
+  ],
+  providers: [
+    DashboardService
   ]
 })
 export class DashboardModule { }

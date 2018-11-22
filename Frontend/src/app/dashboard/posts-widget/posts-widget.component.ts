@@ -1,4 +1,6 @@
+import { DashboardService } from './../../services/dashboard.service';
 import { Component, OnInit, Input } from '@angular/core';
+import { Post } from 'src/app/models/Post';
 
 @Component({
   selector: 'dash-posts-widget',
@@ -6,11 +8,46 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./posts-widget.component.css']
 })
 export class PostsWidgetComponent implements OnInit {
-  @Input('type') type: string; // For mockup only supports 'General' and 'Character'
+  @Input('type') type: string; // Currently only supporting 'General' and 'Character'
+  
+  posts: Post[];
+  isLoading: boolean;
+  header: string; // Title shown
 
-  constructor() { }
+  constructor(private dashService: DashboardService) { }
 
   ngOnInit() {
+    this.isLoading = true;
+    if(this.isTypeGeneral()) {
+      this.header = "Popular General Posts";
+      this.dashService.getPosts(-1, 0, -1).subscribe(postPage => 
+        {
+          this.isLoading = false;
+
+          this.posts = postPage.posts;
+        },
+        error => this.postRetrievalError(error)
+      );
+    }
+    else if(this.isTypeCharacter()) {
+      this.header = "Latest Character Posts";
+      this.dashService.getPosts(-1, -1, -1).subscribe(postPage => 
+        {
+          this.isLoading = false;
+
+          this.posts = postPage.posts;
+        },
+        error => this.postRetrievalError(error)
+      );
+    }
+    else {
+      this.isLoading = false;
+    }
+  }
+
+  postRetrievalError(error) {
+    console.log("Failed to retrieve posts", error);
+    this.isLoading = false;
   }
 
   hasValidType(): boolean {
