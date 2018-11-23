@@ -1,3 +1,4 @@
+import { GameComponent } from './pages/game/game.component';
 import { ViewPostComponent } from './pages/library/view-post/view-post.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { Routes } from '@angular/router';
@@ -19,6 +20,10 @@ export const LayoutRoutes: Routes = [
     { 
         path: 'home',
         component: HomeComponent
+    },
+    { 
+        path: 'game',
+        component: GameComponent
     },
     { 
         path: 'characters',

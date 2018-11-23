@@ -43,6 +43,12 @@ import { SiteNewsComponent } from './pages/home/site-news/site-news.component';
 import { GroupComponent } from './pages/group/group.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
 import { HomeDashComponent } from './pages/home/home-dash/home-dash.component';
+import { GameComponent } from './pages/game/game.component';
+import { GameOverviewComponent } from './pages/game/game-overview/game-overview.component';
+import { GameBeginnerComponent } from './pages/game/game-beginner/game-beginner.component';
+import { GameJourneymenComponent } from './pages/game/game-journeymen/game-journeymen.component';
+import { GameIntermediateComponent } from './pages/game/game-intermediate/game-intermediate.component';
+import { GameAdvancedComponent } from './pages/game/game-advanced/game-advanced.component';
 
 @NgModule({
   imports: [
@@ -83,7 +89,13 @@ import { HomeDashComponent } from './pages/home/home-dash/home-dash.component';
       SiteNewsComponent,
       AboutUsComponent,
       GroupComponent,
-      HomeDashComponent
+      HomeDashComponent,
+      GameComponent,
+      GameOverviewComponent,
+      GameBeginnerComponent,
+      GameJourneymenComponent,
+      GameIntermediateComponent,
+      GameAdvancedComponent
   ],
   entryComponents: [
     BasicsComponent,
@@ -93,7 +105,12 @@ import { HomeDashComponent } from './pages/home/home-dash/home-dash.component';
     OverviewComponent,
     SiteNewsComponent,
     AboutUsComponent,
-    HomeDashComponent
+    HomeDashComponent,
+    GameOverviewComponent,
+    GameBeginnerComponent,
+    GameJourneymenComponent,
+    GameIntermediateComponent,
+    GameAdvancedComponent
   ],
   providers: [
     AuthBridgeService,
