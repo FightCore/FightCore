@@ -30,20 +30,22 @@ namespace FightCore.Services.PlayerStatistics
             foreach (Set set in player.Sets)
             {
                 if (set.Player1Id == player.Id) 
-                    //Player 1
+                    //Our player is Player 1
                     character1SetGameList.AddRange(set.Games);
-                else 
-                    //Player 2
+                else
+                    //Our player is Player 2
                     character2SetGameList.AddRange(set.Games);
             }
 
+            //Add characters where our player is Player 1
             foreach (SetGame setGame in character1SetGameList)
             {
                 metric.Characters.Add(setGame.Character1);
             }
 
+            //Add characters where our player is Player 2
             foreach (SetGame setGame in character2SetGameList)
-            {
+            {            
                 metric.Characters.Add(setGame.Character2);
             }
 
