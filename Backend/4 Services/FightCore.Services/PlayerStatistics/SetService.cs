@@ -6,10 +6,13 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
+    /// <summary>
+    /// Generic Entity Service interface for the Set Entity
+    /// </summary>
     public interface ISetService : IEntityService<Set>
     {
-
     }
+
     public class SetService : EntityService<Set>, ISetService
     {
         private readonly ISetRepository _repository;

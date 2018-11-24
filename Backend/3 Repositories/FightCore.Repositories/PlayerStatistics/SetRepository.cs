@@ -8,8 +8,8 @@ namespace FightCore.Repositories.PlayerStatistics
 {
     public interface ISetRepository : IRepositoryAsync<Set>
     {
-        Task<Set> GetDetailedSetByIdAsync(int SetId);
-        Set GetDetailedSetById(int SetId);
+        Task<Set> GetDetailedSetByIdAsync(int setId);
+        Set GetDetailedSetById(int setId);
     }
 
     public class SetRepository : Repository<Set>, ISetRepository
@@ -19,7 +19,7 @@ namespace FightCore.Repositories.PlayerStatistics
         {
         }
 
-        public Task<Set> GetDetailedSetByIdAsync(int SetId)
+        public Task<Set> GetDetailedSetByIdAsync(int setId)
         {
             return Queryable
                 .Include(x => x.Games).ThenInclude(x => x.Character1)
@@ -28,10 +28,10 @@ namespace FightCore.Repositories.PlayerStatistics
                 .Include(x => x.Event)
                 .Include(x => x.Winner)
                 .Include(x => x.Loser)
-                .FirstOrDefaultAsync(x => x.Id == SetId);
+                .FirstOrDefaultAsync(x => x.Id == setId);
         }
 
-        public Set GetDetailedSetById(int SetId)
+        public Set GetDetailedSetById(int setId)
         {
             return Queryable
                 .Include(x => x.Games).ThenInclude(x => x.Character1)
@@ -40,7 +40,7 @@ namespace FightCore.Repositories.PlayerStatistics
                 .Include(x => x.Event)
                 .Include(x => x.Winner)
                 .Include(x => x.Loser)
-                .FirstOrDefault(x => x.Id == SetId);
+                .FirstOrDefault(x => x.Id == setId);
         }
 
     }

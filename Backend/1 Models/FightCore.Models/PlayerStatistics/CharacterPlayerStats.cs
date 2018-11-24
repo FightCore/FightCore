@@ -15,5 +15,15 @@ namespace FightCore.Models.PlayerStatistics
         public WinLossRecord WinLossRecord { get; set; }
         public decimal CharacterUsage { get; set; }
 
+        public CharacterPlayerStats()
+        {
+
+        }
+
+        public CharacterPlayerStats(Player player, Character character)
+        {
+            this.Player = player;
+            this.Character = character;
+        }
     }
 }

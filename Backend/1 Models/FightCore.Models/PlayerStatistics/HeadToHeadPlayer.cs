@@ -11,5 +11,21 @@ namespace FightCore.Models.PlayerStatistics
         public PlayerMetric PlayerMetric { get; set; }
         public int SetWins { get; set; }
         public int GameWins { get; set; }
+
+        public HeadToHeadPlayer()
+        {
+
+        }
+
+        public HeadToHeadPlayer(Player player, PlayerMetric metric)
+        {
+            this.Id = player.Id;
+            this.Sponsor = player.Sponsor;
+            this.SmashggId = player.SmashggId;
+            this.Media = player.Media;
+            this.Sets = player.Sets;
+            this.PlayerMetric = metric;
+        }
+
     }
 }

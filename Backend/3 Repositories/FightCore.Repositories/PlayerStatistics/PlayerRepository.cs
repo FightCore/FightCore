@@ -13,6 +13,7 @@ namespace FightCore.Repositories.PlayerStatistics
         Task<Player> GetDetailedPlayerByIdAsync(int PlayerId);
         Player GetDetailedPlayerById(int PlayerId);
     }
+
     public class PlayerRepository : Repository<Player>, IPlayerRepository
     {
 

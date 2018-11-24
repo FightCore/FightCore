@@ -7,10 +7,14 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
+    /// <summary>
+    /// Generic Entity Service interface for the Player Entity
+    /// </summary>
     public interface IPlayerService : IEntityService<Player>
     {
         Task<List<Player>> GetAllPlayersAsync();
     }
+
     public class PlayerService : EntityService<Player>, IPlayerService
     {
         private readonly IPlayerRepository _repository;

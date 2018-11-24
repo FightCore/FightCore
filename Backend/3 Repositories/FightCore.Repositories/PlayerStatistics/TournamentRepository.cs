@@ -10,8 +10,8 @@ namespace FightCore.Repositories.PlayerStatistics
     public interface ITournamentRepository : IRepositoryAsync<Tournament>
     {
         Task<List<Tournament>> GetAllTournamentsWithMediaAsync();
-        Task<Tournament> GetDetailedTournamentByIdAsync(int TournamentId);
-        Tournament GetDetailedTournamentById(int TournamentId);
+        Task<Tournament> GetDetailedTournamentByIdAsync(int tournamentId);
+        Tournament GetDetailedTournamentById(int tournamentId);
     }
 
     public class TournamentRepository : Repository<Tournament>, ITournamentRepository
@@ -26,18 +26,18 @@ namespace FightCore.Repositories.PlayerStatistics
             return Queryable.Include(x => x.Medias).ToListAsync();
         }
 
-        public Task<Tournament> GetDetailedTournamentByIdAsync(int TournamentId)
+        public Task<Tournament> GetDetailedTournamentByIdAsync(int tournamentId)
         {
             return Queryable
                 .Include(x => x.Medias)
-                .FirstOrDefaultAsync(x => x.Id == TournamentId);
+                .FirstOrDefaultAsync(x => x.Id == tournamentId);
         }
 
-        public Tournament GetDetailedTournamentById(int TournamentId)
+        public Tournament GetDetailedTournamentById(int tournamentId)
         {
             return Queryable
                 .Include(x => x.Medias)
-                .FirstOrDefault(x => x.Id == TournamentId);
+                .FirstOrDefault(x => x.Id == tournamentId);
         }
 
     }

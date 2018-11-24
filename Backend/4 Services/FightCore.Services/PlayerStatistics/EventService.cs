@@ -8,10 +8,14 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
+    /// <summary>
+    /// Generic Entity Service interface for the Event Entity
+    /// </summary>
     public interface IEventService : IEntityService<Event>
     {
         Task<List<Event>> GetAllEventsAsync();
     }
+
     public class EventService : EntityService<Event>, IEventService
     {
         private readonly IEventRepository _repository;
@@ -25,14 +29,14 @@ namespace FightCore.Services.PlayerStatistics
             return _repository.GetAllEventsWithMediaAsync();
         }
 
-        public override Task<Event> FindByIdAsync(int EventId)
+        public override Task<Event> FindByIdAsync(int eventId)
         {
-            return _repository.GetDetailedEventByIdAsync(EventId);
+            return _repository.GetDetailedEventByIdAsync(eventId);
         }
 
-        public override Event FindById(int EventId)
+        public override Event FindById(int eventId)
         {
-            return _repository.GetDetailedEventById(EventId);
+            return _repository.GetDetailedEventById(eventId);
         }
 
     }

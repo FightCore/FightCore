@@ -11,5 +11,16 @@ namespace FightCore.Models.PlayerStatistics
         public List<Character> Characters { get; set; }
         public List<CharacterPlayerStats> CharacterPlayerStats { get; set; }
 
+        public PlayerMetric()
+        {
+
+        }
+
+        public PlayerMetric(Player player, List<Character> characters)
+        {
+            this.Player = player;
+            this.Characters = characters;
+        }
+
     }
 }

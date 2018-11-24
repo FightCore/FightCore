@@ -7,10 +7,14 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
+    /// <summary>
+    /// Generic Entity Service interface for the Tournament Entity
+    /// </summary>
     public interface ITournamentService : IEntityService<Tournament>
     {
         Task<List<Tournament>> GetAllTournamentsAsync();
     }
+
     public class TournamentService : EntityService<Tournament>, ITournamentService
     {
         private readonly ITournamentRepository _repository;

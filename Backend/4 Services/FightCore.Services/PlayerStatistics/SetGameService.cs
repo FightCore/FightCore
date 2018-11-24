@@ -6,10 +6,13 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
+    /// <summary>
+    /// Generic Entity Service interface for the SetGame Entity
+    /// </summary>
     public interface ISetGameService : IEntityService<SetGame>
     {
-
     }
+
     public class SetGameService : EntityService<SetGame>, ISetGameService
     {
         private readonly ISetGameRepository _repository;
@@ -18,14 +21,14 @@ namespace FightCore.Services.PlayerStatistics
             _repository = repository;
         }
 
-        public override Task<SetGame> FindByIdAsync(int SetGameId)
+        public override Task<SetGame> FindByIdAsync(int setGameId)
         {
-            return _repository.GetDetailedSetGameByIdAsync(SetGameId);
+            return _repository.GetDetailedSetGameByIdAsync(setGameId);
         }
 
-        public override SetGame FindById(int SetGameId)
+        public override SetGame FindById(int setGameId)
         {
-            return _repository.GetDetailedSetGameById(SetGameId);
+            return _repository.GetDetailedSetGameById(setGameId);
         }
 
     }

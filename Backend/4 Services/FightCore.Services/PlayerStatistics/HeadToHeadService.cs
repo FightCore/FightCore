@@ -6,21 +6,27 @@ using FightCore.Services.Patterns;
 
 namespace FightCore.Services.PlayerStatistics
 {
-    public interface IHeadToHeadService : IService<HeadToHead>
+    /// <summary>
+    /// Service for Head to Head calculations between players.
+    /// Currently supports statistics on Win Loss Records
+    /// between players.
+    /// </summary>
+    public interface IHeadToHeadService
     {
         HeadToHead GetHeadToHead(Player player1, Player player2);
     }
+
     public class HeadToHeadService : IHeadToHeadService
     {
         public HeadToHead GetHeadToHead(Player player1, Player player2)
         {
             HeadToHeadPlayerService h2hPlayerService = new HeadToHeadPlayerService();
             HeadToHead headToHead = new HeadToHead
-            {
-                Player1 = h2hPlayerService.GetHeadToHeadPlayer(player1),
-                Player2 = h2hPlayerService.GetHeadToHeadPlayer(player2),
-                Sets = new List<Set>()
-            };
+                (
+                h2hPlayerService.GetHeadToHeadPlayer(player1),
+                h2hPlayerService.GetHeadToHeadPlayer(player2), 
+                new List<Set>()
+                );
 
             // Get all sets from player1's list of sets that have the passed player1 and player2 as players.
             headToHead.Sets.AddRange(player1.Sets.Where(x =>
@@ -32,60 +38,13 @@ namespace FightCore.Services.PlayerStatistics
             headToHead.Player2.SetWins = headToHead.Sets.Count(x => x.Winner.Id == player2.Id && x.Loser.Id == player1.Id);
 
             // Assign number of game wins for Player 1 and Player 2 using established shared games
-            IEnumerator<Set> setEnum = headToHead.Sets.GetEnumerator();
-            while (setEnum.MoveNext())
+            foreach (Set set in headToHead.Sets)
             {
-                Set set = (Set)setEnum.Current;
                 headToHead.Player1.GameWins += set.Games.Count(x => x.Winner == player1.Id && x.Loser == player2.Id);
                 headToHead.Player2.GameWins += set.Games.Count(x => x.Winner == player2.Id && x.Loser == player1.Id);
             }
 
             return headToHead;
-        }
-
-        public void Delete(params HeadToHead[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Delete(HeadToHead entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<HeadToHead>> GetAllAsync()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public HeadToHead Insert(HeadToHead entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<HeadToHead> InsertAsync(HeadToHead entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<HeadToHead> InsertRange(params HeadToHead[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<HeadToHead>> InsertRangeAsync(params HeadToHead[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public HeadToHead Update(HeadToHead entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<HeadToHead> UpdateRange(params HeadToHead[] entities)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

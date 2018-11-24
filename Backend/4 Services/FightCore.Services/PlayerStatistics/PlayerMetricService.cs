@@ -3,57 +3,56 @@ using System.Threading.Tasks;
 using FightCore.Models.Characters;
 using FightCore.Models.PlayerStatistics;
 using FightCore.Services.Patterns;
+using System.Linq;
 
 namespace FightCore.Services.PlayerStatistics
 {
-    public interface IPlayerMetricService : IService<PlayerMetricService>
+    /// <summary>
+    /// Service for overall Metrics for players;
+    /// currently supports statistics for characters
+    /// used by player (see CharacterPlayerStatsService)
+    /// </summary>
+    public interface IPlayerMetricService
     {
-        PlayerMetricService PlayerMetricService(Player player);
+        PlayerMetric GetPlayerMetric(Player player);
     }
+
     public class PlayerMetricService : IPlayerMetricService
     {
         public PlayerMetric GetPlayerMetric(Player player)
         {
             CharacterPlayerStatsService characterPlayerStatsService = new CharacterPlayerStatsService();
-            PlayerMetric metric = new PlayerMetric
+            PlayerMetric metric = new PlayerMetric(player, new List<Character>());
+            List<SetGame> character1SetGameList = new List<SetGame>();
+            List<SetGame> character2SetGameList = new List<SetGame>();
+            List<int> characterIds;
+
+            foreach (Set set in player.Sets)
             {
-                Player = player,
-                Characters = new List<Character>()
-            };
+                if (set.Player1Id == player.Id) 
+                    //Player 1
+                    character1SetGameList.AddRange(set.Games);
+                else 
+                    //Player 2
+                    character2SetGameList.AddRange(set.Games);
+            }
 
-            //Extra variables for calculation
-            int tempPlayerId;
-            List<int> characterIds = new List<int>();
-
-            //Enumerate through Sets then Set Games to get all characters used by player
-            IEnumerator<Set> setEnum = player.Sets.GetEnumerator();
-            while (setEnum.MoveNext())
+            foreach (SetGame setGame in character1SetGameList)
             {
-                Set set = (Set)setEnum.Current;
-                IEnumerator<SetGame> setGameEnum = set.Games.GetEnumerator();
-                if (set.Player1Id == player.Id)
-                    tempPlayerId = set.Player1Id;
-                else
-                    tempPlayerId = set.Player2Id;
+                metric.Characters.Add(setGame.Character1);
+            }
 
-                while (setGameEnum.MoveNext())
-                {
-                    SetGame setGame = (SetGame)setGameEnum.Current;
-                    if (tempPlayerId == set.Player1Id)
-                        metric.Characters.Add(setGame.Character1);
-                    else
-                        metric.Characters.Add(setGame.Character2);
-                }
+            foreach (SetGame setGame in character2SetGameList)
+            {
+                metric.Characters.Add(setGame.Character2);
             }
 
             metric.CharacterPlayerStats = new List<CharacterPlayerStats>();
+            characterIds = new List<int>();
 
             //Enumerate through the characters added above and create statistics for the given player for each character
-            IEnumerator<Character> characterEnum = metric.Characters.GetEnumerator();
-            characterIds = new List<int>();
-            while (characterEnum.MoveNext())
+            foreach (Character character in metric.Characters)
             {
-                Character character = (Character)characterEnum.Current;
 
                 //Avoid making statistics for the same character more than once by using list of character ids.
                 if (characterIds.Contains(character.Id))
@@ -65,56 +64,6 @@ namespace FightCore.Services.PlayerStatistics
             }
 
             return metric;
-        }
-
-        public void Delete(params PlayerMetricService[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Delete(PlayerMetricService entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<PlayerMetricService>> GetAllAsync()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public PlayerMetricService Insert(PlayerMetricService entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<PlayerMetricService> InsertAsync(PlayerMetricService entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<PlayerMetricService> InsertRange(params PlayerMetricService[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<PlayerMetricService>> InsertRangeAsync(params PlayerMetricService[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public PlayerMetricService Update(PlayerMetricService entity)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerable<PlayerMetricService> UpdateRange(params PlayerMetricService[] entities)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        PlayerMetricService IPlayerMetricService.PlayerMetricService(Player player)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
