@@ -12,10 +12,13 @@ namespace FightCore.Services.Games
     public interface IGameService : IEntityService<Game>
     {
         Task<List<Game>> GetAllGamesAsync();
+
+        Task<List<Game>> GetAllGamesByIdsAsync(IEnumerable<int> ids);
     }
     public class GameService : EntityService<Game>, IGameService
     {
         private readonly IGameRepository _gameRepository;
+
         public GameService(IGameRepository gameRepository) : base(gameRepository)
         {
             _gameRepository = gameRepository;
@@ -24,6 +27,11 @@ namespace FightCore.Services.Games
         public Task<List<Game>> GetAllGamesAsync()
         {
             return _gameRepository.GetAllGamesAsync();
+        }
+
+        public Task<List<Game>> GetAllGamesByIdsAsync(IEnumerable<int> ids)
+        {
+            return _gameRepository.GetAllGamesByIdsAsync(ids);
         }
 
         public override Game FindById(int id)

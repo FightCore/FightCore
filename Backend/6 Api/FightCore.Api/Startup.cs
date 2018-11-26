@@ -101,7 +101,6 @@ namespace FightCore.Api
                             });
 
                         options
-
                             // These endpoints still need to be implemented
                             // .EnableAuthorizationEndpoint("/connect/authorize")
                             // .EnableLogoutEndpoint("/connect/logout")
@@ -143,7 +142,19 @@ namespace FightCore.Api
             services.AddSwaggerGen(
                 options =>
                     {
-                        options.SwaggerDoc("v1", new Info { Title = $"{nameof(FightCore)} API", Version = "v1" });
+                        options.SwaggerDoc(
+                            "v1",
+                            new Info
+                                {
+                                    Title = $"{nameof(FightCore)} API",
+                                    Version = "v1",
+                                    Contact = new Contact
+                                                  {
+                                                      Name = "Discord",
+                                                      Url = "https://discord.gg/NNZDYGY",
+                                                      Email = string.Empty
+                                    }
+                                });
                         options.IncludeXmlComments(
                             $@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(FightCore)}.Api.xml");
                         options.DescribeAllEnumsAsStrings();

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AutoMapper;
-
 using FightCore.Api.Resources.Characters;
 using FightCore.Models.Characters;
 using FightCore.Repositories.Patterns;
 using FightCore.Services.Characters;
-
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FightCore.Api.Controllers
@@ -168,17 +163,20 @@ namespace FightCore.Api.Controllers
         /// User needs to be logged in to do so.
         /// </summary>
         /// <param name="detailedCombo">The combo article wanting to be published</param>
-        /// <returns>
-        /// 203: Combo has been created and is at this location.
-        /// 400: Combo object is wrong.
-        /// </returns>
+        /// <returns>An ActionResult</returns>
+        /// <response code="203">Combo has been created and is at this location.</response>
+        /// <response code="400">Combo object is wrong.</response>
         [Authorize]
         [HttpPost]
+        [ProducesResponseType(203)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Create([FromBody] DetailedComboResource detailedCombo)
         {
             var combo = _mapper.Map<Combo>(detailedCombo);
+
             await _comboService.InsertAsync(combo);
             await _unitOfWorkAsync.SaveChangesAsync();
+
             return CreatedAtAction(nameof(GetComboByIdAsync), new { id = combo.Id }, _mapper.Map<ComboResource>(combo));
         }
     }

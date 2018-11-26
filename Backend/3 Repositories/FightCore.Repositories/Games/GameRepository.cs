@@ -16,6 +16,8 @@ namespace FightCore.Repositories.Games
 
         Task<Game> GetGameByIdAsync(int id);
 
+        Task<List<Game>> GetAllGamesByIdsAsync(IEnumerable<int> ids);
+
         Task<List<Game>> GetAllGamesAsync();
     }
 
@@ -33,6 +35,11 @@ namespace FightCore.Repositories.Games
         public Task<Game> GetGameByIdAsync(int id)
         {
             return Queryable.IncludeMedia().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public Task<List<Game>> GetAllGamesByIdsAsync(IEnumerable<int> ids)
+        {
+            return Queryable.Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
         public Task<List<Game>> GetAllGamesAsync()

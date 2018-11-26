@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using FightCore.Api.Resources.Characters;
+using FightCore.Api.Resources.Games;
+
 namespace FightCore.Api.Resources
 {
     public class UserResource
@@ -17,6 +20,15 @@ namespace FightCore.Api.Resources
     public class UserResultResource : UserResource
     {
         public string Email { get; set; }
+    }
+
+    public class UserWithMetaDataResource : UserResource
+    {
+        public string Bio { get; set; }
+
+        public List<CharacterResource> FavoriteCharacters { get; set; }
+
+        public List<GameResource> FavoriteGames { get; set; }
     }
 
     public class NewUserResource : UserResource

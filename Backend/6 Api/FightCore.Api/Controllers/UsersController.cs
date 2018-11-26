@@ -8,6 +8,8 @@ using FightCore.Api.Resources;
 using FightCore.Models;
 using FightCore.Repositories.Patterns;
 using FightCore.Services;
+using FightCore.Services.Characters;
+using FightCore.Services.Games;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +22,8 @@ namespace FightCore.Api.Controllers
     {
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IUserService _userService;
+        private readonly ICharacterService _characterService;
+        private readonly IGameService _gameService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
@@ -30,12 +34,15 @@ namespace FightCore.Api.Controllers
         /// <param name="userService"></param>
         /// <param name="userManager"></param>
         /// <param name="mapper"></param>
-        public UsersController(IUnitOfWorkAsync unitOfWork, IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UsersController(IUnitOfWorkAsync unitOfWork, IUserService userService, IGameService gameService, ICharacterService characterService,
+                               UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _userService = userService;
             _userManager = userManager;
             _mapper = mapper;
+            _characterService = characterService;
+            _gameService = gameService;
         }
 
         /// <summary>
@@ -55,6 +62,13 @@ namespace FightCore.Api.Controllers
             return Ok(_mapper.Map<UserResource>(user));
         }
 
+        /// <summary>
+        /// Gets the details about the user currently authorized
+        /// </summary>
+        /// <returns>
+        /// 200 with the details of the current user
+        /// 403 if the user is not authorized
+        /// </returns>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetCurrentUserDetails()
@@ -75,7 +89,9 @@ namespace FightCore.Api.Controllers
         {
             var users = await _userService.GetAllAsync();
             if (users == null || !users.Any())
+            {
                 return NotFound();
+            }
 
             return Ok(_mapper.Map<IEnumerable<UserResource>>(users));
         }
@@ -84,14 +100,20 @@ namespace FightCore.Api.Controllers
         /// Updates the user to the given changes.
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("update")]
         [Authorize]
         public async Task<IActionResult> Update([FromBody] UserMetaDataResource metaData)
         {
             var currentId = _userManager.GetUserId(ClaimsPrincipal.Current);
             var user = await _userService.FindByIdAsync(Convert.ToInt32(currentId));
 
-            return null;
+            var characters = await _characterService.GetAllCharactersByIdsAsync(metaData.FavoriteCharacters);
+            var games = await _gameService.GetAllGamesByIdsAsync(metaData.FavoriteGames);
+
+            _userService.UpdateUserForMetaData(user, games, characters, metaData.Bio);
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
         }
 
         /// <summary>
@@ -110,10 +132,10 @@ namespace FightCore.Api.Controllers
 
             if (result.Succeeded)
             {
-                return this.CreatedAtAction(nameof(this.Get), new { user.Id }, _mapper.Map<UserResource>(user));
+                return CreatedAtAction(nameof(this.Get), new { user.Id }, _mapper.Map<UserResource>(user));
             }
 
-            return this.Conflict(result.Errors);
+            return Conflict(result.Errors);
         }
     }
 }

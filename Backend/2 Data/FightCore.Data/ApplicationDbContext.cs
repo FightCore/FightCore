@@ -36,7 +36,9 @@ namespace FightCore.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<Post>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
+#if DEBUG
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
+#endif
 
             #region Character
 

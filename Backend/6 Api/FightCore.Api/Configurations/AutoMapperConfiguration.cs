@@ -13,6 +13,7 @@ using FightCore.Api.Resources.Shared;
 using FightCore.Models;
 using FightCore.Models.Characters;
 using FightCore.Models.Shared;
+using FightCore.Models.User;
 using FightCore.Repositories;
 
 namespace FightCore.Api.Configurations
@@ -26,6 +27,10 @@ namespace FightCore.Api.Configurations
             CreateMap<UserResource, ApplicationUser>().ReverseMap();
             CreateMap<UserResultResource, ApplicationUser>().ReverseMap();
             CreateMap<NewUserResource, ApplicationUser>();
+            CreateMap<UserWithMetaDataResource, ApplicationUser>();
+
+            CreateMap<UserCharacter, Character>().ConvertUsing(x => x.Character);
+            CreateMap<UserGame, Game>().ConvertUsing(x => x.Game);
 
             #endregion Users
 

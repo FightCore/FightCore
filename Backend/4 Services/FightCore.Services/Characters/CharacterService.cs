@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FightCore.Models.Characters;
 using FightCore.Repositories;
@@ -12,14 +13,18 @@ namespace FightCore.Services.Characters
     {
         Task<List<Character>> GetAllCharactersAsync();
 
+        Task<List<Character>> GetAllCharactersByIdsAsync(IEnumerable<int> ids);
+
         Task<List<Character>> GetCharactersByGameAsync(int gameId);
 
         Task<List<Character>> GetCharactersByNameAsync(string name);
     }
+
     public class CharacterService : EntityService<Character>, ICharacterService
     {
         private readonly ICharacterRepository _repository;
-        public CharacterService(ICharacterRepository repository) : base((IRepositoryAsync<Character>) repository)
+
+        public CharacterService(ICharacterRepository repository) : base(repository)
         {
             _repository = repository;
         }
@@ -27,6 +32,11 @@ namespace FightCore.Services.Characters
         public Task<List<Character>> GetAllCharactersAsync()
         {
             return _repository.GetAllCharactersWithMediaAndGameAsync();
+        }
+
+        public Task<List<Character>> GetAllCharactersByIdsAsync(IEnumerable<int> ids)
+        {
+            return _repository.GetAllCharactersByIdsAsync(ids);
         }
 
         public override Task<Character> FindByIdAsync(int id)
