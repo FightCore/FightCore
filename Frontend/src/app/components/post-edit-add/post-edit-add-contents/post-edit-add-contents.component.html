@@ -1,4 +1,39 @@
-<p>
-  post-edit-add-contents works!
-</p>
-<button (click)="finished(1)">Test Send Pos Close</button>
+<form [formGroup]="form" (ngSubmit)="onSearch()">
+  <h3 class="h3 mb-1 font-weight-normal">Add a post</h3>
+
+  <div class="input-group no-border search">
+      <input 
+        formControlName="searchControl" 
+        type="text"
+        value=""
+        class="form-control"
+        placeholder="Find a post by id, url, or title"
+        >
+      <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+          <i class="material-icons">search</i>
+          <div class="ripple-container"></div>
+      </button>
+  </div>
+</form>
+
+<div class="results">
+  <div *ngIf="isLoading; else showResults">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <ng-template #showResults>
+    <div *ngIf="results; else noResults">
+
+    </div>
+
+    <ng-template #noResults>
+      <div *ngIf="lastSearch; else showStartText">
+        Sorry couldn't find any results with that last search of {{lastSearch}}
+      </div>
+
+      <ng-template #showStartText>
+        Try searching for a post! Feel free to use the id or url if you know it, or even search via title
+      </ng-template>
+    </ng-template>
+  </ng-template>
+</div>
