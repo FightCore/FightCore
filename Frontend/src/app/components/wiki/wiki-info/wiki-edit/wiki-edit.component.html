@@ -8,38 +8,51 @@
   <p>TODO: Add items (search via name, id, or url)</p>
 </div>
 
-<div>
-  <p>TODO: Remove or reorder buttons per post</p>
-</div>
-
-<div *ngIf="data && data.length; else noPosts" class="scrolling-wrapper">
+<h3>Current Posts:</h3>
+<div *ngIf="currentPosts && currentPosts.length; else noPosts" class="scrolling-wrapper">
   <div class="section d-flex align-items-center mr-2">
     <button (click)="onAdd(true)" mat-icon-button class="button-add" matTooltip="Add new post to this list">
       <mat-icon>add_circle_outline</mat-icon>
     </button>
   </div>
 
-  <div *ngFor="let post of data; let i = index" class="section">
+  <div *ngFor="let post of currentPosts; let i = index" class="section">
     <post-edit-viewer 
       [data]="post"
       [position]="i" 
-      [listLength]="data.length" 
+      [listLength]="currentPosts.length" 
       (move)="onMoveRequest($event)"
       (remove)="onRemoveRequest($event)">
     </post-edit-viewer>
   </div>
 
-  <div *ngIf="data && data.length" class="section button-add d-flex align-items-center ml-2">
+  <div *ngIf="currentPosts && currentPosts.length" class="section button-add d-flex align-items-center ml-2">
     <button (click)="onAdd(false)" mat-icon-button matTooltip="Add new post to this list">
       <mat-icon>add_circle_outline</mat-icon>
     </button>
   </div>
 </div>
-
 <ng-template #noPosts>
-  <p class="ml-2">No posts found.</p>
+  <p class="ml-2">No posts in current list.</p>
 </ng-template>
+
+<div *ngIf="removedPosts && removedPosts.length">
+  <h3>Removed Posts:</h3>
+
+  <div class="scrolling-wrapper">
+    <div *ngFor="let post of removedPosts; let i = index" class="section">
+      <post-edit-viewer 
+        [data]="post"
+        [position]="i" 
+        [listLength]="removedPosts.length"
+        isRemoved="true"
+        (undoRemove)="undoRemove($event)">
+      </post-edit-viewer>
+    </div>
+  </div>
+</div>
 
 <div>
   <p>Next/confirm/submit button goes here</p>
-</div>  
+</div>
+<post-edit-add #postAdder (addPost)="onAddChoice($event)"></post-edit-add>

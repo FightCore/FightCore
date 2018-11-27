@@ -1,6 +1,10 @@
 div.card.edit-wrapper {
   background-color: #C2DFE3;
 
+  &.removed {
+    background-color: #FFA987;
+  }
+
   .header {
     $size: 30px;
     height: $size;

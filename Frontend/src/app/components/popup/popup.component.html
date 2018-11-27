@@ -7,7 +7,7 @@
   </div>
   
   <div class="modal-body">
-    <tab-contents [tab]="contentItem" (done)="onChildDone()"></tab-contents>
+    <tab-contents [tab]="contentItem" (done)="onChildDone($event)"></tab-contents>
   </div>
 </ng-template>
 

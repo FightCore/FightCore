@@ -13,9 +13,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './popup.component.html'
 })
 export class PopupComponent implements OnInit {
-  @Output('onClose') onClose = new EventEmitter();
-  
-  title: string;        
+  @Output('onClose') onClose = new EventEmitter<any>();
+  closeVal: any = null; // Explicitly null by default
+
+  title: string;
   contentItem: TabItem; // TODO:  Rename interface and variable, plus document
 
   @ViewChild('container') popupContainer: TemplateRef<any>;
@@ -41,12 +42,17 @@ export class PopupComponent implements OnInit {
       .result.then((result) => {
         this.onClose.emit();
       }, (reason) => {
-        this.onClose.emit(); // This part is also called during a coded dismiss like in onChildDone
+        this.onClose.emit(this.closeVal); // This part is also called during a coded dismiss like in onChildDone
+        this.closeVal = null; // In case this popup component is reused
       }
     );
   }
 
-  onChildDone() {
+  onChildDone(childVal: any) {
+    if(childVal) {
+      this.closeVal = childVal;
+    }
+
     this.modalService.dismissAll();
   }
 

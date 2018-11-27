@@ -1,5 +1,4 @@
 import { TabItem } from './../tabs/tab/tab-item';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Post } from '../../models/Post';
 import { Location } from '@angular/common';
@@ -21,9 +20,7 @@ export class PostPopupComponent implements OnInit {
    */
   previousUrl: string;
 
-  constructor(private modalService: NgbModal,
-    private location: Location,
-    private router: Router) { }
+  constructor(private location: Location, private router: Router) { }
 
   ngOnInit() {
   }

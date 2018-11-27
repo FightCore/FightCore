@@ -37,6 +37,8 @@ import { WikiHistoryComponent } from './wiki/wiki-info/wiki-history/wiki-history
 import { WikiPermsComponent } from './wiki/wiki-info/wiki-perms/wiki-perms.component';
 import { PostEditViewerComponent } from './post-edit-viewer/post-edit-viewer.component';
 import { EditPreviewComponent } from './wiki/edit-preview/edit-preview.component';
+import { PostEditAddComponent } from './post-edit-add/post-edit-add.component';
+import { PostEditAddContentsComponent } from './post-edit-add/post-edit-add-contents/post-edit-add-contents.component';
 
 @NgModule({
   imports: [
@@ -93,7 +95,9 @@ import { EditPreviewComponent } from './wiki/edit-preview/edit-preview.component
     WikiHistoryComponent,
     WikiPermsComponent,
     EditPreviewComponent,
-    PostEditViewerComponent
+    PostEditViewerComponent,
+    PostEditAddComponent,
+    PostEditAddContentsComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -104,7 +108,8 @@ import { EditPreviewComponent } from './wiki/edit-preview/edit-preview.component
     WikiReviewComponent,
     WikiEditComponent,
     WikiHistoryComponent,
-    WikiPermsComponent
+    WikiPermsComponent,
+    PostEditAddContentsComponent
   ],
   exports: [
     FooterComponent,

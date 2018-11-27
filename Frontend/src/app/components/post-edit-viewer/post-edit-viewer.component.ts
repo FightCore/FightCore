@@ -16,6 +16,7 @@ export interface PostMoveEvent {
 })
 export class PostEditViewerComponent implements OnInit {
   @Input('data') data: Post; // Post to display
+  @Input('isRemoved') isRemoved: boolean;
 
   // Context inputs used to determine what elements to display
   @Input('position') position: number; // Position of this post in list
@@ -23,6 +24,7 @@ export class PostEditViewerComponent implements OnInit {
 
   @Output('move') moveEmitter = new EventEmitter<PostMoveEvent>(); // Emits target position wishes to move to
   @Output('remove') removeEmitter = new EventEmitter<number>(); // Emits position of element that should be removed
+  @Output('undoRemove') undoRemoveEmitter = new EventEmitter<number>(); // Emits position of element that should be restored
 
   constructor() { }
 
@@ -42,9 +44,13 @@ export class PostEditViewerComponent implements OnInit {
       newPos: this.position + 1
     });
   }
-
+  
   onRemove() {
     this.removeEmitter.emit(this.position);
+  }
+
+  onUndoRemove() {
+    this.undoRemoveEmitter.emit(this.position);
   }
 
 }

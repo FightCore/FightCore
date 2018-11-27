@@ -1,13 +1,18 @@
-<div class="card edit-wrapper">
+<div class="card edit-wrapper" [class.removed]="isRemoved">
   <div class="header d-flex">
     <div class="icon-drag mr-auto text-secondary">
-      <mat-icon>drag_indicator</mat-icon>
+      <mat-icon [class.invisible]="isRemoved">drag_indicator</mat-icon>
     </div>
 
     <div class="button-remove">
-      <button (click)="onRemove()" mat-icon-button matTooltip="Remove from this list">
+      <button *ngIf="!isRemoved; else undo" (click)="onRemove()" mat-icon-button matTooltip="Remove from this list">
         <mat-icon>delete</mat-icon>
       </button>
+      <ng-template #undo>
+        <button (click)="onUndoRemove()" mat-icon-button matTooltip="Undo removing this post from list">
+          <mat-icon>undo</mat-icon>
+        </button>
+      </ng-template>
     </div>
   </div>
 
@@ -15,14 +20,14 @@
 
   <div class="row justify-content-center">
     <div class="col">
-      <button *ngIf="position > 0" (click)="onMoveLeft()" mat-button matTooltip="Move to the left">
+      <button [class.invisible]="isRemoved || position <= 0" (click)="onMoveLeft()" mat-button matTooltip="Move to the left">
         <mat-icon>arrow_back</mat-icon>
         Move Left
       </button>
     </div>
 
     <div class="col">
-      <button *ngIf="position < listLength-1" (click)="onMoveRight()" mat-button matTooltip="Move to the right">
+      <button [class.invisible]="isRemoved || position >= listLength-1" (click)="onMoveRight()" mat-button matTooltip="Move to the right">
         Move Right
         <mat-icon>arrow_forward</mat-icon>
       </button>
