@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Service for Calculating Wins, Losses, 
-    /// and Total Games for players depending
-    /// on the referenced entity.
+    /// Service for Calculating Wins, Losses, and Total Games for players depending on the referenced entity.
+    /// <see cref="FightCore.Models.PlayerStatistics.WinLossRecord"/>
     /// </summary>
     public interface IWinLossRecordService
     {

@@ -8,9 +8,8 @@ using System.Linq;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Service for overall Metrics for players.
-    /// Currently supports statistics for characters
-    /// used by player (see CharacterPlayerStatsService)
+    /// Service for overall Metrics for players. <see cref="FightCore.Models.PlayerStatistics.PlayerMetric"/>
+    /// Currently supports statistics for characters used by player <see cref="FightCore.Models.PlayerStatistics.CharacterPlayerStats"/>
     /// </summary>
     public interface IPlayerMetricService
     {

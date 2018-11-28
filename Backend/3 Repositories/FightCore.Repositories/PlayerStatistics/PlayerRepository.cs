@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FightCore.Repositories.PlayerStatistics
 {
+    /// <summary>
+    /// Repository interface for Entity <see cref="FightCore.Models.PlayerStatistics.Player"/>
+    /// </summary>
     public interface IPlayerRepository : IRepositoryAsync<Player>
     {
         Task<List<Player>> GetAllPlayersWithMediaAsync();

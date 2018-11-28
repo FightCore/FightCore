@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FightCore.Repositories.PlayerStatistics
 {
+    /// <summary>
+    /// Repository interface for Entity <see cref="FightCore.Models.PlayerStatistics.SetGame"/>
+    /// </summary>
     public interface ISetGameRepository : IRepositoryAsync<SetGame>
     {
         Task<SetGame> GetDetailedSetGameByIdAsync(int setGameId);

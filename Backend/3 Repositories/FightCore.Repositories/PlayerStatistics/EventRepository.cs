@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace FightCore.Repositories.PlayerStatistics
 {
+    /// <summary>
+    /// Repository interface for Entity <see cref="FightCore.Models.PlayerStatistics.Event"/>
+    /// </summary>
     public interface IEventRepository : IRepositoryAsync<Event>
     {
         Task<List<Event>> GetAllEventsWithMediaAsync();

@@ -7,7 +7,7 @@ using FightCore.Services.Patterns;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Generic Entity Service interface for the SetGame Entity
+    /// Entity Service interface for Entity <see cref="FightCore.Models.PlayerStatistics.SetGame"/>
     /// </summary>
     public interface ISetGameService : IEntityService<SetGame>
     {
