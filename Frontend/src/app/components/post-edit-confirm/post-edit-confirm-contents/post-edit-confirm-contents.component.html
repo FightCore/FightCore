@@ -1,6 +1,25 @@
 <post-edit-viewer-changes [changeData]="changeData" [finalList]="data"></post-edit-viewer-changes>
 
-<div>Button/collapser to preview final intended state of post list</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-2">
+  <mat-form-field>
+    <input
+      matInput 
+      required 
+      formControlName="descriptionCtrl" 
+      placeholder="What are your changes? Why should they be made?"
+      type="text">
+    <mat-error *ngIf="descriptionCtrl.hasError('required')">
+      Username is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
 
-<div>Description of changes input (required)</div>
-<div>Submit button</div>
+  <button 
+    type="submit"
+    mat-raised-button
+    [disabled]="!form.valid || isSubmitting"
+    [class.disabled]="!form.valid || isSubmitting"
+    class="btn-lg mb-2"
+    color="primary">
+    Submit
+  </button>
+</form>
