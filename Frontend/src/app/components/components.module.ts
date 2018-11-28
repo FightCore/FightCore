@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule, MatMenuModule, MatTooltipModule, MatSnackBarModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule, MatMenuModule, MatTooltipModule, MatSnackBarModule, MatExpansionModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -39,6 +39,9 @@ import { PostEditViewerComponent } from './post-edit-viewer/post-edit-viewer.com
 import { EditPreviewComponent } from './wiki/edit-preview/edit-preview.component';
 import { PostEditAddComponent } from './post-edit-add/post-edit-add.component';
 import { PostEditAddContentsComponent } from './post-edit-add/post-edit-add-contents/post-edit-add-contents.component';
+import { PostEditConfirmComponent } from './post-edit-confirm/post-edit-confirm.component';
+import { PostEditConfirmContentsComponent } from './post-edit-confirm/post-edit-confirm-contents/post-edit-confirm-contents.component';
+import { PostEditViewerChangesComponent } from './post-edit-viewer/post-edit-viewer-changes/post-edit-viewer-changes.component';
 
 @NgModule({
   imports: [
@@ -63,6 +66,7 @@ import { PostEditAddContentsComponent } from './post-edit-add/post-edit-add-cont
     MatPaginatorModule,
     MatToolbarModule,
     MatSnackBarModule,
+    MatExpansionModule,
     ToastrModule.forRoot(),
     NgbModalModule // Yes this is necessary for popups even if not directly used anywhere
   ],
@@ -98,7 +102,10 @@ import { PostEditAddContentsComponent } from './post-edit-add/post-edit-add-cont
     EditPreviewComponent,
     PostEditViewerComponent,
     PostEditAddComponent,
-    PostEditAddContentsComponent
+    PostEditAddContentsComponent,
+    PostEditConfirmComponent,
+    PostEditConfirmContentsComponent,
+    PostEditViewerChangesComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -110,7 +117,8 @@ import { PostEditAddContentsComponent } from './post-edit-add/post-edit-add-cont
     WikiEditComponent,
     WikiHistoryComponent,
     WikiPermsComponent,
-    PostEditAddContentsComponent
+    PostEditAddContentsComponent,
+    PostEditConfirmContentsComponent
   ],
   exports: [
     FooterComponent,

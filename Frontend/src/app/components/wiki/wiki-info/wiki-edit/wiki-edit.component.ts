@@ -1,3 +1,4 @@
+import { PostEditConfirmComponent } from './../../../post-edit-confirm/post-edit-confirm.component';
 import { MatSnackBar } from '@angular/material';
 import { PostEditAddComponent } from './../../../post-edit-add/post-edit-add.component';
 import { PostMoveEvent } from './../../../post-edit-viewer/post-edit-viewer.component';
@@ -18,6 +19,7 @@ export interface PostEditData {
 })
 export class WikiEditComponent implements OnInit {
   @ViewChild('postAdder') postAdder: PostEditAddComponent;
+  @ViewChild('postConfirmer') postConfirmer: PostEditConfirmComponent;
 
   currentPosts: Post[];
   removedPosts: Post[];
@@ -179,7 +181,7 @@ export class WikiEditComponent implements OnInit {
    * Handles user clicking done button after making desired edits
    */
   onDoneEditing(): void {
-    this.snackBar.open('Done with editing', 'Close', {duration: 2000});
+    this.postConfirmer.show(this.currentPosts);
   }
 
   private getMetadata(postId: number, isSafeCheck?: boolean): PostEditData {

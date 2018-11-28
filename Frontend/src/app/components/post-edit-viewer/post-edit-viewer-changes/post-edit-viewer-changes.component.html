@@ -1,0 +1,41 @@
+<div class="info">
+  <span class="font-weight-bold">Changes </span>
+
+  <span *ngIf="showAddedSection()" class="text-success" matTooltip="Number of posts added to this list">
+    <span class="inline-icon"><mat-icon>add</mat-icon></span>
+    {{changeData.totalAdded}} post<span *ngIf="changeData.totalAdded > 1">s</span>
+  </span>
+
+  <span *ngIf="showFirstSeparator()"> &middot; </span>
+
+  <span *ngIf="showRemovedSection()" class="text-danger" matTooltip="Number of posts removed from this list">
+    <span class="inline-icon"><mat-icon>clear</mat-icon></span>
+    {{changeData.totalRemoved}} post<span *ngIf="changeData.totalRemoved > 1">s</span>
+  </span>
+  
+  <span *ngIf="showSecondSeperator()"> &middot; </span>
+
+  <span *ngIf="showReorderedSection()" class="text-secondary" matTooltip="Posts were only reordered in this change">
+    <span class="inline-icon"><mat-icon>drag_indicator</mat-icon></span>
+    Reordered posts
+  </span>
+</div>
+
+<mat-expansion-panel class="post-container">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Preview post list after changes
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div *ngIf="finalList && finalList.length; else noPosts" class="scrolling-wrapper">
+    <div class="section" *ngFor="let post of finalList">
+      <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+    </div>
+  </div>
+
+  <ng-template #noPosts>
+    <p class="ml-2">No posts found.</p>
+  </ng-template>
+
+</mat-expansion-panel>
