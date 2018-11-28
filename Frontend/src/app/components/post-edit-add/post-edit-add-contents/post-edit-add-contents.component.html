@@ -1,18 +1,16 @@
 <form [formGroup]="form" (ngSubmit)="onSearch()">
-  <h3 class="h3 mb-1 font-weight-normal">Add a post</h3>
-
   <div class="input-group no-border search">
-      <input 
-        formControlName="searchControl" 
-        type="text"
-        value=""
-        class="form-control"
-        placeholder="Find a post by id, url, or title"
-        >
-      <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
-          <i class="material-icons">search</i>
-          <div class="ripple-container"></div>
-      </button>
+    <input 
+      formControlName="searchControl" 
+      type="text"
+      value=""
+      class="form-control"
+      placeholder="Find a post by id, url, or title"
+      >
+    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+        <i class="material-icons">search</i>
+        <div class="ripple-container"></div>
+    </button>
   </div>
 </form>
 
@@ -22,13 +20,17 @@
   </div>
 
   <ng-template #showResults>
-    <div *ngIf="results; else noResults">
-
+    <div *ngIf="results && results.length; else noResults">
+      <div *ngFor="let post of results" class="d-flex flex-column">
+        <a (click)="selectPost(post.id)" style="cursor:pointer;">
+          <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+        </a>
+      </div>
     </div>
 
     <ng-template #noResults>
       <div *ngIf="lastSearch; else showStartText">
-        Sorry couldn't find any results with that last search of {{lastSearch}}
+        Sorry couldn't find any results with the last search of {{lastSearch}}
       </div>
 
       <ng-template #showStartText>

@@ -90,6 +90,14 @@ export class PostService extends BaseService {
       .pipe(catchError(this.handleError));
   }
 
+  public findPostsByTitle(search: string): Observable<Post[]> {
+    if(environment.envName === 'noback') {
+      return FakePostService.findPostsByTitle(search);
+    }
+
+    throw new Error('Not yet implemented');
+  }
+
   public createPost(newPost : PostSubmission): Observable<Post> {
     if(environment.envName === 'noback') {
       return FakePostService.createPost(newPost);

@@ -21,7 +21,7 @@ export class PostEditAddComponent implements OnInit {
   public show() {
     // TODO: Let contents know what posts are already added to save user time
     let postViewer = new TabItem(PostEditAddContentsComponent, "");
-    this.popup.show(postViewer,"");
+    this.popup.show(postViewer,"Add a post");
   }
 
   onAddChoice(value: number) {
