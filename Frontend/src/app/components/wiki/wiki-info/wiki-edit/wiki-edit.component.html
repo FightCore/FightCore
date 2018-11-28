@@ -4,10 +4,6 @@
   <p>TODO: Summary of changes</p>
 </div>
 
-<div>
-  <p>TODO: Add items (search via name, id, or url)</p>
-</div>
-
 <h3>Current Posts:</h3>
 <div *ngIf="currentPosts && currentPosts.length; else noPosts" class="scrolling-wrapper">
   <div class="section d-flex align-items-center mr-2">
@@ -21,6 +17,7 @@
       [data]="post"
       [position]="i" 
       [listLength]="currentPosts.length" 
+      [isNew]="isPostNew(post.id)"
       (move)="onMoveRequest($event)"
       (remove)="onRemoveRequest($event)">
     </post-edit-viewer>

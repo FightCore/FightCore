@@ -9,7 +9,7 @@ import { PostService } from 'src/app/services/post.service';
   styleUrls: ['./post-edit-add-contents.component.scss']
 })
 export class PostEditAddContentsComponent implements OnInit {
-  @Output('done') done = new EventEmitter<number>(); // For closing self in popup as necessary
+  @Output('done') done = new EventEmitter<Post>(); // For closing self in popup as necessary
   
   form: FormGroup;
   isLoading: boolean;
@@ -139,8 +139,8 @@ export class PostEditAddContentsComponent implements OnInit {
     this.isLoading = false;
   }
 
-  selectPost(postId: number) {
-    this.done.emit(postId);
+  selectPost(post: Post) {
+    this.done.emit(post);
   }
 
   get searchInputControl(): AbstractControl { return this.form.get('searchControl'); }

@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { PostEditAddComponent } from './../../../post-edit-add/post-edit-add.component';
 import { PostMoveEvent } from './../../../post-edit-viewer/post-edit-viewer.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -24,12 +25,12 @@ export class WikiEditComponent implements OnInit {
 
   shouldAddBeginning: boolean;
   
-  constructor() { }
+  constructor(private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
 
-  setData(postList: Post[]) {
+  initData(postList: Post[]): void {
     // Make a copy of input as array itself is modified
     this.currentPosts = postList.map(post => ({...post}));
 
@@ -47,7 +48,7 @@ export class WikiEditComponent implements OnInit {
     this.removedPosts = [];
   }
 
-  onMoveRequest(positions: PostMoveEvent) {
+  onMoveRequest(positions: PostMoveEvent):void {
     // Move the post visually for the user
     WikiEditComponent.elementMove(this.currentPosts, positions.oldPos, positions.newPos);
 
@@ -56,48 +57,137 @@ export class WikiEditComponent implements OnInit {
     //        This is what I get for doing data structures so early without proper planning
   }
 
-  onRemoveRequest(position: number) {
+  /**
+   * Handles trying to remove a post from the current posts list
+   * @param position Position of post to remove from current posts list
+   */
+  onRemoveRequest(position: number): void {
+    if(position < 0 || position >= this.currentPosts.length) {
+      throw new Error('onRemoveRequest: Invalid position chosen: ' + position);
+    }
+
     // Take the post out of the current posts area and keep a copy of it
     let removedPost: Post = this.currentPosts.splice(position, 1)[0];
 
-    // Add the post to the removed section
-    this.removedPosts.push(removedPost);
+    // If not a newly added post, add the post to the removed section
+    if(!this.isPostNew(removedPost.id)) {
+      this.removedPosts.push(removedPost);
+    }
 
     // Note that no need to update current positioning info as it's not used here
   }
 
-  undoRemove(position: number) {
+  /**
+   * Un-remove a post from the post list
+   * @param position Position of post to un-remove in removed posts area
+   */
+  undoRemove(position: number): void {
+    if(position < 0 || position >= this.removedPosts.length) {
+      throw new Error('undoRemove: Invalid position chosen: ' + position);
+    }
+
     // Take this post out of the removed posts area and keep a copy of it
     let undoPost: Post = this.removedPosts.splice(position, 1)[0];
 
     // Get a reference to the post's metadata
-    let metadata: PostEditData = this.allPostData.find(data => {
-      return data.post.id === undoPost.id;
-    }); 
-
-    if(!metadata) {
-      // All has gone wrong if this occurs
-      throw new Error('Tried to undoRemove a post without metadata');
-    }
+    let metadata: PostEditData = this.getMetadata(undoPost.id);
 
     // Add the post to the current posts list at its original location
     this.currentPosts.splice(metadata.startingPos, 0, undoPost);
     metadata.currentPos = metadata.startingPos; // Will change object in overall array
   }
 
-  onAdd(atBeginning: boolean) {
+  /**
+   * Handles clicking an add post button
+   * @param atBeginning True if new post should be added at beginning of list, false if at end
+   */
+  onAdd(atBeginning: boolean): void {
     this.shouldAddBeginning = atBeginning; // Update flag according to how add was chosen
 
     // Show add tool
     this.postAdder.show();
   }
 
-  onAddChoice(postId: number) {
-    console.log("onAddChoice: Add post", postId);
+  onAddChoice(newPost: Post): void {
+    console.log("onAddChoice: Add post", newPost);
 
     // Double check that post isn't already in list
+    let copy: Post = this.currentPosts.find(post => { return post.id === newPost.id } );
+    if(copy) {
+      // Tell the user in some way that the post was already added
+      this.snackBar.open('Sorry, that post has already been added to this list', 'Close', {
+        duration: 2000
+      });
+      return;
+    }
 
-    // If post was removed earlier, clean up from removal list
+    // Add this post into the appropriate position
+    let insertPos: number; // For updating metadata later
+    if(this.shouldAddBeginning) {
+      insertPos = 0;
+      this.currentPosts.unshift(newPost);
+    }
+    else {
+      insertPos = this.currentPosts.length;
+      this.currentPosts.push(newPost);
+    }
+
+    // Loop over removal array and try to find a copy
+    let index: number;
+    copy = null; // For clarity
+    for(index = 0; index < this.removedPosts.length; index++) { // For loop for index+break capability
+      if(this.removedPosts[index].id === newPost.id) {
+        copy = this.removedPosts[index];
+        break;
+      }
+    }
+
+    // If copy in removed posts found, clean it up
+    let metadata: PostEditData;
+    if(copy) {
+      // Take out of removed list
+      this.removedPosts.splice(index, 1);
+
+      // Get the existing metadata and update current position
+      metadata = this.getMetadata(newPost.id);
+      metadata.currentPos = insertPos;
+    }
+    // Otherwise, if this was a completely new post, add new metadata
+    else {
+      metadata = {
+        post: newPost,
+        startingPos: -1,
+        currentPos: insertPos
+      };
+      this.allPostData.push(metadata);
+    }
+  }
+
+  /**
+   * Determines whether post was newly added
+   * @param postId Id of post to check
+   * @returns True if post was newly added to list, false otherwise
+   */
+  isPostNew(postId: number): boolean {
+    // TODO: Reorganize data structures so not doing an O(n) lookup per post just for this
+    let metadata: PostEditData = this.getMetadata(postId);
+    return metadata.startingPos === -1;
+  }
+
+  private getMetadata(postId: number, isSafeCheck?: boolean): PostEditData {
+    let metadata: PostEditData =  this.allPostData.find(data => {
+      return data.post.id === postId;
+    });
+
+    if(!metadata && !isSafeCheck) {
+      throw new Error('getMetadata: Could not find metadata for postId ' + postId);
+    }
+
+    return metadata;
+  }
+
+  private removeMetadata(postId: number): void {
+    throw new Error('Not yet implemented');
   }
 
   /**
@@ -106,7 +196,7 @@ export class WikiEditComponent implements OnInit {
    * @param from Index of element to move
    * @param to Index of where element should be
    */
-  private static elementMove(arr: Array<any>, from: number, to: number) {
+  private static elementMove(arr: Array<any>, from: number, to: number): void {
     if(from >= arr.length || from < 0 || to >= arr.length || to < 0) {
       throw new Error('elementMove: from and/or to is not in bounds');
     }

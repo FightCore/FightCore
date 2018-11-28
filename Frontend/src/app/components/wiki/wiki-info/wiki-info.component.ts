@@ -76,7 +76,7 @@ export class WikiInfoComponent implements OnInit {
   }
 
   initEditComponent() {
-    this.editComponent.setData(this.currentPostList);
+    this.editComponent.initData(this.currentPostList);
   }
 
 }

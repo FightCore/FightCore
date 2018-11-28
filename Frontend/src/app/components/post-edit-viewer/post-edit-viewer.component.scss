@@ -1,6 +1,10 @@
 div.card.edit-wrapper {
   background-color: #C2DFE3;
 
+  &.new {
+    background-color: #c8e6c9;
+  }
+
   &.removed {
     background-color: #FFA987;
   }

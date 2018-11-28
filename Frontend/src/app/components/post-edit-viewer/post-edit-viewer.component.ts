@@ -17,6 +17,7 @@ export interface PostMoveEvent {
 export class PostEditViewerComponent implements OnInit {
   @Input('data') data: Post; // Post to display
   @Input('isRemoved') isRemoved: boolean;
+  @Input('isNew') isNew: boolean;
 
   // Context inputs used to determine what elements to display
   @Input('position') position: number; // Position of this post in list
@@ -28,28 +29,31 @@ export class PostEditViewerComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if(this.isRemoved && this.isNew) { // Safety check
+      throw new Error('A post cannot be both new and removed');
+    }
   }
 
-  onMoveLeft() {
+  onMoveLeft(): void {
     this.moveEmitter.emit({
       oldPos: this.position,
       newPos: this.position - 1
     });
   }
 
-  onMoveRight() {
+  onMoveRight(): void {
     this.moveEmitter.emit({
       oldPos: this.position,
       newPos: this.position + 1
     });
   }
   
-  onRemove() {
+  onRemove(): void {
     this.removeEmitter.emit(this.position);
   }
 
-  onUndoRemove() {
+  onUndoRemove(): void {
     this.undoRemoveEmitter.emit(this.position);
   }
 

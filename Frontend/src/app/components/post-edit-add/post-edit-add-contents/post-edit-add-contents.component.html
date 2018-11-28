@@ -22,7 +22,7 @@
   <ng-template #showResults>
     <div *ngIf="results && results.length; else noResults">
       <div *ngFor="let post of results" class="d-flex flex-column">
-        <a (click)="selectPost(post.id)" style="cursor:pointer;">
+        <a (click)="selectPost(post)" style="cursor:pointer;">
           <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
         </a>
       </div>
