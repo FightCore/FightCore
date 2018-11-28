@@ -27,7 +27,8 @@
       <button type="submit" mat-raised-button
       [disabled]="!form.valid || isSubmitting"
       [class.disabled]="!form.valid || isSubmitting"
-      class="btn btn-primary btn-lg">
+      class="btn-lg"
+      color="primary">
         Sign in
       </button>
     </div>
@@ -35,7 +36,7 @@
       <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
     </div>
     <div>
-      <button  mat-raised-button (click)="goSignUp()" class="btn btn-primary btn-lg">
+      <button  mat-raised-button (click)="goSignUp()" class="btn-lg my-2" color="primary">
         Sign up
       </button>
     </div>

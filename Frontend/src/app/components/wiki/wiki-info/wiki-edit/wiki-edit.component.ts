@@ -24,6 +24,7 @@ export class WikiEditComponent implements OnInit {
   allPostData: PostEditData[];
 
   shouldAddBeginning: boolean;
+  anyChanges: boolean = true; // Represents if user has made any changes to this list
   
   constructor(private snackBar: MatSnackBar) { }
 
@@ -174,6 +175,13 @@ export class WikiEditComponent implements OnInit {
     return metadata.startingPos === -1;
   }
 
+  /**
+   * Handles user clicking done button after making desired edits
+   */
+  onDoneEditing(): void {
+    this.snackBar.open('Done with editing', 'Close', {duration: 2000});
+  }
+
   private getMetadata(postId: number, isSafeCheck?: boolean): PostEditData {
     let metadata: PostEditData =  this.allPostData.find(data => {
       return data.post.id === postId;
@@ -187,6 +195,17 @@ export class WikiEditComponent implements OnInit {
   }
 
   private removeMetadata(postId: number): void {
+    throw new Error('Not yet implemented');
+  }
+
+  /**
+   * Does a full check to see if there are any applicable changes user made
+   */
+  private checkAnyChanges(): void {
+    // TODO: If removal or add lists have any items, changes set for sure
+
+    // TODO: Otherwise, check that current list does not match order of original list of posts
+
     throw new Error('Not yet implemented');
   }
 

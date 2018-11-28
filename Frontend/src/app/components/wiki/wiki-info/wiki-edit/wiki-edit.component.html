@@ -1,11 +1,7 @@
 <p>Edit the list here:</p>
 
-<div>
-  <p>TODO: Summary of changes</p>
-</div>
-
 <h3>Current Posts:</h3>
-<div *ngIf="currentPosts && currentPosts.length; else noPosts" class="scrolling-wrapper">
+<div class="scrolling-wrapper">
   <div class="section d-flex align-items-center mr-2">
     <button (click)="onAdd(true)" mat-icon-button class="button-add" matTooltip="Add new post to this list">
       <mat-icon>add_circle_outline</mat-icon>
@@ -23,15 +19,20 @@
     </post-edit-viewer>
   </div>
 
-  <div *ngIf="currentPosts && currentPosts.length" class="section button-add d-flex align-items-center ml-2">
-    <button (click)="onAdd(false)" mat-icon-button matTooltip="Add new post to this list">
+  <div class="section button-add d-flex align-items-center ml-2">
+    <button 
+      *ngIf="currentPosts && currentPosts.length; else noPosts"
+      (click)="onAdd(false)"
+      mat-icon-button matTooltip="Add new post to this list">
       <mat-icon>add_circle_outline</mat-icon>
     </button>
+
+    <ng-template #noPosts>
+      Add a post to this wonderful list
+    </ng-template>
   </div>
+  
 </div>
-<ng-template #noPosts>
-  <p class="ml-2">No posts in current list.</p>
-</ng-template>
 
 <div *ngIf="removedPosts && removedPosts.length">
   <h3>Removed Posts:</h3>
@@ -49,7 +50,14 @@
   </div>
 </div>
 
-<div>
-  <p>Next/confirm/submit button goes here</p>
+<div class="mt-4">
+  <button 
+    mat-raised-button
+    (click)="onDoneEditing()"
+    [disabled]="!anyChanges"
+    color="primary">
+    Finish Editing
+</button>
 </div>
+
 <post-edit-add #postAdder (addPost)="onAddChoice($event)"></post-edit-add>
