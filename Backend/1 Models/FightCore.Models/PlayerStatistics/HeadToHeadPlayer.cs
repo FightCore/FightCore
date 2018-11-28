@@ -5,7 +5,8 @@ using System.Text;
 namespace FightCore.Models.PlayerStatistics
 {
     public class HeadToHeadPlayer : Player
-    {   /// <summary>
+    {   
+        /// <summary>
         /// Inherits from Player and adds below fields for use in HeadToHead objects
         /// </summary>
         public PlayerMetric PlayerMetric { get; set; }

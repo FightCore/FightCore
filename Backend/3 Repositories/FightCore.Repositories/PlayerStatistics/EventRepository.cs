@@ -10,8 +10,8 @@ namespace FightCore.Repositories.PlayerStatistics
     public interface IEventRepository : IRepositoryAsync<Event>
     {
         Task<List<Event>> GetAllEventsWithMediaAsync();
-        Task<Event> GetDetailedEventByIdAsync(int EventId);
-        Event GetDetailedEventById(int EventId);
+        Task<Event> GetDetailedEventByIdAsync(int eventId);
+        Event GetDetailedEventById(int eventId);
     }
 
     public class EventRepository : Repository<Event>, IEventRepository
@@ -26,18 +26,18 @@ namespace FightCore.Repositories.PlayerStatistics
             return Queryable.Include(x => x.Media).ToListAsync();
         }
 
-        public Task<Event> GetDetailedEventByIdAsync(int EventId)
+        public Task<Event> GetDetailedEventByIdAsync(int eventId)
         {
             return Queryable
                 .Include(x => x.Media)
-                .FirstOrDefaultAsync(x => x.Id == EventId);
+                .FirstOrDefaultAsync(x => x.Id == eventId);
         }
 
-        public Event GetDetailedEventById(int EventId)
+        public Event GetDetailedEventById(int eventId)
         {
             return Queryable
                 .Include(x => x.Media)
-                .FirstOrDefault(x => x.Id == EventId);
+                .FirstOrDefault(x => x.Id == eventId);
         }
 
     }

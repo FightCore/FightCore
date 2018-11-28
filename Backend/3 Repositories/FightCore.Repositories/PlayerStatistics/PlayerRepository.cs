@@ -10,8 +10,8 @@ namespace FightCore.Repositories.PlayerStatistics
     public interface IPlayerRepository : IRepositoryAsync<Player>
     {
         Task<List<Player>> GetAllPlayersWithMediaAsync();
-        Task<Player> GetDetailedPlayerByIdAsync(int PlayerId);
-        Player GetDetailedPlayerById(int PlayerId);
+        Task<Player> GetDetailedPlayerByIdAsync(int playerId);
+        Player GetDetailedPlayerById(int playerId);
     }
 
     public class PlayerRepository : Repository<Player>, IPlayerRepository
@@ -26,20 +26,20 @@ namespace FightCore.Repositories.PlayerStatistics
             return Queryable.Include(x => x.Media).ToListAsync();
         }
 
-        public Task<Player> GetDetailedPlayerByIdAsync(int PlayerId)
+        public Task<Player> GetDetailedPlayerByIdAsync(int playerId)
         {
             return Queryable.Include(x => x.Media)
                 .Include(x => x.Sets).ThenInclude(x => x.Games)
                 .Include(x => x.Sets).ThenInclude(x => x.Tournament)
-                .FirstOrDefaultAsync(x => x.Id == PlayerId);
+                .FirstOrDefaultAsync(x => x.Id == playerId);
         }
 
-        public Player GetDetailedPlayerById(int PlayerId)
+        public Player GetDetailedPlayerById(int playerId)
         {
             return Queryable.Include(x => x.Media)
                 .Include(x => x.Sets).ThenInclude(x => x.Games)
                 .Include(x => x.Sets).ThenInclude(x => x.Tournament)
-                .FirstOrDefault(x => x.Id == PlayerId);
+                .FirstOrDefault(x => x.Id == playerId);
         }
 
     }

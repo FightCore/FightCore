@@ -28,14 +28,14 @@ namespace FightCore.Services.PlayerStatistics
             return _repository.GetAllTournamentsWithMediaAsync();
         }
 
-        public override Task<Tournament> FindByIdAsync(int TournamentId)
+        public override Task<Tournament> FindByIdAsync(int id)
         {
-            return _repository.GetDetailedTournamentByIdAsync(TournamentId);
+            return _repository.GetDetailedTournamentByIdAsync(id);
         }
 
-        public override Tournament FindById(int TournamentId)
+        public override Tournament FindById(int id)
         {
-            return _repository.GetDetailedTournamentById(TournamentId);
+            return _repository.GetDetailedTournamentById(id);
         }
 
     }

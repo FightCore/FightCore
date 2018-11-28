@@ -10,9 +10,9 @@ namespace FightCore.Models.PlayerStatistics
 {
     public class CharacterPlayerStats
     {
-        public Player Player { get; set; }
         public Character Character { get; set; }
         public WinLossRecord WinLossRecord { get; set; }
+        // Total games played with character by player divivded by total games played by player = CharacterUsage
         public decimal CharacterUsage { get; set; }
 
         public CharacterPlayerStats()
@@ -20,9 +20,8 @@ namespace FightCore.Models.PlayerStatistics
 
         }
 
-        public CharacterPlayerStats(Player player, Character character)
+        public CharacterPlayerStats(Character character)
         {
-            this.Player = player;
             this.Character = character;
         }
     }

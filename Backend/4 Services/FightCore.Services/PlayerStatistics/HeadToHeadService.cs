@@ -13,20 +13,21 @@ namespace FightCore.Services.PlayerStatistics
     /// </summary>
     public interface IHeadToHeadService
     {
-        HeadToHead GetHeadToHead(Player player1, Player player2);
+        HeadToHead GetHeadToHead(Player player1, Player player2, HeadToHeadPlayerService h2hPlayerService, 
+            PlayerMetricService playerMetricService, CharacterPlayerStatsService characterPlayerStatsService, WinLossRecordService winLossRecordService);
     }
 
     public class HeadToHeadService : IHeadToHeadService
     {
-        public HeadToHead GetHeadToHead(Player player1, Player player2)
+        public HeadToHead GetHeadToHead(Player player1, Player player2, HeadToHeadPlayerService h2hPlayerService, 
+            PlayerMetricService playerMetricService, CharacterPlayerStatsService characterPlayerStatsService, WinLossRecordService winLossRecordService)
         {
-            HeadToHeadPlayerService h2hPlayerService = new HeadToHeadPlayerService();
             HeadToHead headToHead = new HeadToHead
-                (
-                h2hPlayerService.GetHeadToHeadPlayer(player1),
-                h2hPlayerService.GetHeadToHeadPlayer(player2), 
+            (
+                h2hPlayerService.GetHeadToHeadPlayer(player1, playerMetricService, characterPlayerStatsService, winLossRecordService),
+                h2hPlayerService.GetHeadToHeadPlayer(player2, playerMetricService, characterPlayerStatsService, winLossRecordService), 
                 new List<Set>()
-                );
+            );
 
             // Get all sets from player1's list of sets that have the passed player1 and player2 as players.
             headToHead.Sets.AddRange(player1.Sets.Where(x =>

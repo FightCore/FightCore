@@ -15,15 +15,14 @@ namespace FightCore.Services.PlayerStatistics
     /// </summary>
     public interface ICharacterPlayerStatsService
     {
-        CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character);
+        CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character, WinLossRecordService winLossRecordService);
     }
 
     public class CharacterPlayerStatsService : ICharacterPlayerStatsService
     {
-        public CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character)
+        public CharacterPlayerStats GetCharacterPlayerStats(Player player, Character character, WinLossRecordService winLossRecordService)
         {
-            WinLossRecordService winLossRecordService = new WinLossRecordService();
-            CharacterPlayerStats stats = new CharacterPlayerStats(player, character);
+            CharacterPlayerStats stats = new CharacterPlayerStats(character);
             List<SetGame> setGames = new List<SetGame>();
 
             //Enumerate through player sets to retrieve set games

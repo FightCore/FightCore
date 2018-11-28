@@ -21,14 +21,14 @@ namespace FightCore.Services.PlayerStatistics
             _repository = repository;
         }
 
-        public override Task<SetGame> FindByIdAsync(int setGameId)
+        public override Task<SetGame> FindByIdAsync(int id)
         {
-            return _repository.GetDetailedSetGameByIdAsync(setGameId);
+            return _repository.GetDetailedSetGameByIdAsync(id);
         }
 
-        public override SetGame FindById(int setGameId)
+        public override SetGame FindById(int id)
         {
-            return _repository.GetDetailedSetGameById(setGameId);
+            return _repository.GetDetailedSetGameById(id);
         }
 
     }

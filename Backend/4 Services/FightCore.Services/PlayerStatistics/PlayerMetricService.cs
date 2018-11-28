@@ -8,20 +8,19 @@ using System.Linq;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Service for overall Metrics for players;
-    /// currently supports statistics for characters
+    /// Service for overall Metrics for players.
+    /// Currently supports statistics for characters
     /// used by player (see CharacterPlayerStatsService)
     /// </summary>
     public interface IPlayerMetricService
     {
-        PlayerMetric GetPlayerMetric(Player player);
+        PlayerMetric GetPlayerMetric(Player player, CharacterPlayerStatsService characterPlayerStatsService, WinLossRecordService winLossRecordService);
     }
 
     public class PlayerMetricService : IPlayerMetricService
     {
-        public PlayerMetric GetPlayerMetric(Player player)
+        public PlayerMetric GetPlayerMetric(Player player, CharacterPlayerStatsService characterPlayerStatsService, WinLossRecordService winLossRecordService)
         {
-            CharacterPlayerStatsService characterPlayerStatsService = new CharacterPlayerStatsService();
             PlayerMetric metric = new PlayerMetric(player, new List<Character>());
             List<SetGame> character1SetGameList = new List<SetGame>();
             List<SetGame> character2SetGameList = new List<SetGame>();
@@ -62,7 +61,7 @@ namespace FightCore.Services.PlayerStatistics
                     continue;
                 }
                 characterIds.Add(character.Id);
-                metric.CharacterPlayerStats.Add(characterPlayerStatsService.GetCharacterPlayerStats(player, character));
+                metric.CharacterPlayerStats.Add(characterPlayerStatsService.GetCharacterPlayerStats(player, character, winLossRecordService));
             }
 
             return metric;

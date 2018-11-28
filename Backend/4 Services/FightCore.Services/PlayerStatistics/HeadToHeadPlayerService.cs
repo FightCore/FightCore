@@ -13,15 +13,16 @@ namespace FightCore.Services.PlayerStatistics
     /// </summary>
     public interface IHeadToHeadPlayerService
     {
-        HeadToHeadPlayer GetHeadToHeadPlayer(Player player);
+        HeadToHeadPlayer GetHeadToHeadPlayer(Player player, PlayerMetricService playerMetricService, 
+            CharacterPlayerStatsService characterPlayerStatsService, WinLossRecordService winLossRecordService);
     }
 
     public class HeadToHeadPlayerService : IHeadToHeadPlayerService
     {
-        public HeadToHeadPlayer GetHeadToHeadPlayer(Player player)
+        public HeadToHeadPlayer GetHeadToHeadPlayer(Player player, PlayerMetricService playerMetricService, 
+            CharacterPlayerStatsService characterPlayerStatsService, WinLossRecordService winLossRecordService)
         {
-            PlayerMetricService playerMetricService = new PlayerMetricService();
-            return new HeadToHeadPlayer(player, playerMetricService.GetPlayerMetric(player));
+            return new HeadToHeadPlayer(player, playerMetricService.GetPlayerMetric(player, characterPlayerStatsService, winLossRecordService));
         }
     }
 }
