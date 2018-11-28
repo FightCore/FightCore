@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FightCore.Repositories.PlayerStatistics
 {
     /// <summary>
-    /// Repository interface for Entity <see cref="FightCore.Models.PlayerStatistics.Player"/>
+    /// Repository interface for Entity <see cref="Player"/>
     /// </summary>
     public interface IPlayerRepository : IRepositoryAsync<Player>
     {

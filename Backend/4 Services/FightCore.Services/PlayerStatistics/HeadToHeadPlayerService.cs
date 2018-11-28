@@ -6,7 +6,7 @@ using FightCore.Services.Patterns;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Service for Head to Head Player creation. <see cref="FightCore.Models.PlayerStatistics.HeadToHeadPlayer"/>
+    /// Service for Head to Head Player creation. <see cref="HeadToHeadPlayer"/>
     /// Head to Head Players inherit Player class and have a PlayerMetrics object as an additional field
     /// </summary>
     public interface IHeadToHeadPlayerService

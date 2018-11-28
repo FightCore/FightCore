@@ -9,7 +9,7 @@ using FightCore.Services.Patterns;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Entity Service interface for Entity <see cref="FightCore.Models.PlayerStatistics.Event"/>
+    /// Entity Service interface for Entity <see cref="Event"/>
     /// </summary>
     public interface IEventService : IEntityService<Event>
     {

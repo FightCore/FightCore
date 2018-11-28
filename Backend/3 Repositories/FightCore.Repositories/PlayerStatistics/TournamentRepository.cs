@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FightCore.Repositories.PlayerStatistics
 {
     /// <summary>
-    /// Repository interface for Entity <see cref="FightCore.Models.PlayerStatistics.Tournament"/>
+    /// Repository interface for Entity <see cref="Tournament"/>
     /// </summary>
     public interface ITournamentRepository : IRepositoryAsync<Tournament>
     {

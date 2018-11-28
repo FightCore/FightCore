@@ -9,7 +9,7 @@ namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
     /// Service for Calculating Wins, Losses, and Total Games for players depending on the referenced entity.
-    /// <see cref="FightCore.Models.PlayerStatistics.WinLossRecord"/>
+    /// <see cref="WinLossRecord"/>
     /// </summary>
     public interface IWinLossRecordService
     {

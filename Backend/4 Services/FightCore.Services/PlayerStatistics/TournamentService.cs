@@ -8,7 +8,7 @@ using FightCore.Services.Patterns;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Entity Service interface for Entity <see cref="FightCore.Models.PlayerStatistics.Tournament"/>
+    /// Entity Service interface for Entity <see cref="Tournament"/>
     /// </summary>
     public interface ITournamentService : IEntityService<Tournament>
     {

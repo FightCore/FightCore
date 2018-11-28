@@ -7,7 +7,7 @@ using FightCore.Services.Patterns;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Service for Head to Head calculations between players. <see cref="FightCore.Models.PlayerStatistics.HeadToHead"/>
+    /// Service for Head to Head calculations between players. <see cref="HeadToHead"/>
     /// Currently supports statistics on Win Loss Records between players.
     /// </summary>
     public interface IHeadToHeadService

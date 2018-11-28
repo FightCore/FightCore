@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FightCore.Services.PlayerStatistics
 {
     /// <summary>
-    /// Service for Metrics for players by character. <see cref="FightCore.Models.PlayerStatistics.CharacterPlayerStats"/>
+    /// Service for Metrics for players by character. <see cref="CharacterPlayerStats"/>
     /// Current statistics are Win Loss Record with specified character and character usage out of total games played by player
     /// </summary>
     public interface ICharacterPlayerStatsService
