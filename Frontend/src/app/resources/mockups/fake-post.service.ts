@@ -51,8 +51,21 @@ export abstract class FakePostService {
     }
   ];
 
+  /**
+   * Abstracts away looking up a post by id
+   * @param id Id of post to get
+   * @returns Post with given post id
+   */
+  static fakeGetPostDirect(id: number): Post {
+    // Posts should be in order of id in mocked up data, if it exists
+    if(id < 0 || id > FakePostService.postList.length) {
+      return null;
+    }
+    return FakePostService.postList[id-1];
+  }
+
   public static getPost(id: number): Observable<Post> {
-    return of(FakePostService.postList[id-1]).pipe(delay(500));
+    return of(FakePostService.fakeGetPostDirect(id)).pipe(delay(500));
   }
 
   public static getPostsPage(): Observable<PostsPage> {
@@ -86,7 +99,7 @@ export abstract class FakePostService {
 
   public static findPostsByTitle(search: string): Observable<Post[]> {
     let insensitiveSearch = search.toLocaleUpperCase();
-    let posts: Post[] = this.postList.filter(post => {
+    let posts: Post[] = FakePostService.postList.filter(post => {
       return post.title.toLocaleUpperCase().includes(insensitiveSearch);
     });
 

@@ -23,8 +23,8 @@
   </div>
 
   <ng-template #showPosts>
-    <div *ngIf="postList && postList.length; else noPosts" class="scrolling-wrapper">
-      <div class="section" *ngFor="let post of postList">
+    <div *ngIf="postList && postList.posts.length; else noPosts" class="scrolling-wrapper">
+      <div class="section" *ngFor="let post of postList.posts">
         <a (click)="open(post)" style="cursor:pointer;">
           <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
         </a>
