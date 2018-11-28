@@ -53,21 +53,17 @@ export class PostEditAddContentsComponent implements OnInit {
         let id: number = Number(splitPath[2]);
         if(!isNaN(id) && id > 0) {
           this.searchForId(id);
-          return;
         }
         else {
           // Let the user know that the url seemed fine but id seemed invalid
           // TODO
-
-          return;
         }
       }
       else {
         // Let the user know that the url was invalid
         // TODO
-
-        return;
       }
+      return; // No need to check other possibilities at this point
     }
 
     // If got to this point, converting to url failed so continue checking...
