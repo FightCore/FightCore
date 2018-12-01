@@ -9,6 +9,7 @@ import { PlayersComponent } from './../pages/players/players.component';
 import { LibraryComponent } from '../pages/library/library.component';
 import { AddPostComponent } from './../pages/library/add-post/add-post.component';
 import { NotFoundComponent } from '../pages/not-found/not-found.component';
+import { HeadToHeadComponent } from '../pages/head-to-head/head-to-head.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { ProfileComponent } from '../pages/profile/profile.component';
@@ -56,6 +57,10 @@ export const LayoutRoutes: Routes = [
         path: 'notifications',
         component: NotificationsComponent,
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'headtohead',
+        component: HeadToHeadComponent
     },
     {
         path: '**',

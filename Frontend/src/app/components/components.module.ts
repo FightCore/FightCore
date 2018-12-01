@@ -26,6 +26,7 @@ import { NotificationsViewerComponent } from './notifications-viewer/notificatio
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
+import { H2hDisplayComponent } from './h2h-display/h2h-display.component';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { NotificationService } from '../services/notification.service';
     PostPopupComponent,
     PopupComponent,
     EditorComponent,
-    NotificationsViewerComponent
+    NotificationsViewerComponent,
+    H2hDisplayComponent
   ],
   entryComponents: [
     TabExampleComponent,
@@ -93,7 +95,8 @@ import { NotificationService } from '../services/notification.service';
     PostPopupComponent,
     PopupComponent,
     EditorComponent, // TODO: Not sure if this should be external
-    NotificationsViewerComponent
+    NotificationsViewerComponent,
+    H2hDisplayComponent
   ],
   providers: [
     NotificationService

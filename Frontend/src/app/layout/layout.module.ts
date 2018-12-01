@@ -16,6 +16,7 @@ import { LibraryComponent } from '../pages/library/library.component';
 import { PlayersComponent } from './../pages/players/players.component';
 import { LoginComponent } from '../pages/login/login.component';
 import { ProfileComponent } from '../pages/profile/profile.component';
+import { HeadToHeadComponent } from '../pages/head-to-head/head-to-head.component';
 
 import { AuthGuard } from '../services/auth-guard.service';
 import { UserService } from '../services/user.service';
@@ -75,7 +76,9 @@ import { NotificationService } from '../services/notification.service';
       FrameDataComponent,
       OverviewComponent,
       SignupComponent,
-      NotificationsComponent
+      NotificationsComponent,
+      HeadToHeadComponent
+
   ],
   entryComponents: [
     BasicsComponent,
