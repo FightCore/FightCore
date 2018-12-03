@@ -31,9 +31,7 @@
         /// </summary>
         public int GameId { get; set; }
 
-        /// <summary>
-        /// Gets or sets a list of media objects related to this character
-        /// </summary>
+        /// <inheritdoc />
         public List<Media> Media { get; set; }
 
         /// <summary>

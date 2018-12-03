@@ -1,4 +1,6 @@
-﻿using FightCore.Models.Characters;
+﻿using System.ComponentModel.DataAnnotations;
+
+using FightCore.Models.Characters;
 
 namespace FightCore.Models.User
 {

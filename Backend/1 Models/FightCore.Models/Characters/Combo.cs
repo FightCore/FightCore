@@ -32,6 +32,11 @@ namespace FightCore.Models.Characters
         /// Gets or sets the difficulty of the combo
         /// </summary>
         public int Difficulty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category that this combo belongs to
+        /// </summary>
+        public ComboCategory Category { get; set; }
         #endregion
 
         #region Characters

@@ -39,6 +39,8 @@ namespace FightCore.Data
 #if DEBUG
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
 #endif
+            builder.ApplyConfiguration(new UserCharacterConfiguration());
+            builder.ApplyConfiguration(new UserGameConfiguration());
 
             #region Character
 

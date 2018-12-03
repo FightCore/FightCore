@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FightCore.Data.Migrations
@@ -7,6 +8,123 @@ namespace FightCore.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_OpenIddictTokens_ApplicationId",
+                table: "OpenIddictTokens");
+
+            migrationBuilder.DropIndex(
+                name: "IX_OpenIddictAuthorizations_ApplicationId",
+                table: "OpenIddictAuthorizations");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Type",
+                table: "OpenIddictTokens",
+                maxLength: 25,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Subject",
+                table: "OpenIddictTokens",
+                maxLength: 450,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Status",
+                table: "OpenIddictTokens",
+                maxLength: 25,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ReferenceId",
+                table: "OpenIddictTokens",
+                maxLength: 100,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictTokens",
+                maxLength: 50,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "OpenIddictScopes",
+                maxLength: 200,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictScopes",
+                maxLength: 50,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Type",
+                table: "OpenIddictAuthorizations",
+                maxLength: 25,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Subject",
+                table: "OpenIddictAuthorizations",
+                maxLength: 450,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Status",
+                table: "OpenIddictAuthorizations",
+                maxLength: 25,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictAuthorizations",
+                maxLength: 50,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Type",
+                table: "OpenIddictApplications",
+                maxLength: 25,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictApplications",
+                maxLength: 50,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ClientId",
+                table: "OpenIddictApplications",
+                maxLength: 100,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AddColumn<string>(
+                name: "Bio",
+                table: "AspNetUsers",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Combos",
                 columns: table => new
@@ -16,6 +134,8 @@ namespace FightCore.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     AuthorId = table.Column<int>(nullable: true),
+                    Difficulty = table.Column<int>(nullable: false),
+                    Category = table.Column<int>(nullable: false),
                     PerformersDescription = table.Column<string>(nullable: true),
                     ReceiversDescription = table.Column<string>(nullable: true),
                     StagesDescription = table.Column<string>(nullable: true),
@@ -63,13 +183,39 @@ namespace FightCore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    ReadDate = table.Column<DateTime>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    RouteLink = table.Column<string>(nullable: true),
+                    IsImportant = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notifications_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DamageMetric",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    StartDamage = table.Column<double>(nullable: false),
-                    EndDamage = table.Column<double>(nullable: false),
+                    StartDamageMin = table.Column<double>(nullable: false),
+                    StartDamageMax = table.Column<double>(nullable: false),
+                    DamageDealt = table.Column<double>(nullable: false),
                     ComboId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -136,6 +282,37 @@ namespace FightCore.Data.Migrations
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserGame",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    GameId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserGame", x => new { x.GameId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserGame_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserGame_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserGame_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -216,6 +393,37 @@ namespace FightCore.Data.Migrations
                         principalTable: "ControllerInputs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserCharacter",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    CharacterId = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCharacter", x => new { x.CharacterId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_UserCharacter_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserCharacter_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserCharacter_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -346,6 +554,11 @@ namespace FightCore.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Bio", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 2, 0, null, "680f3083-462f-4c8f-ba9a-c09a44145495", "test2@test.com", true, false, null, "TEST2@TEST.COM", "TEST2", "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", null, false, "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", false, "test2" });
+
+            migrationBuilder.InsertData(
                 table: "Games",
                 columns: new[] { "Id", "Abbreviation", "Name" },
                 values: new object[,]
@@ -366,6 +579,16 @@ namespace FightCore.Data.Migrations
                     { 3, "The all-star", 3, "Mario" },
                     { 4, "The all-star", 4, "Mario" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictTokens_ApplicationId_Status_Subject_Type",
+                table: "OpenIddictTokens",
+                columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictAuthorizations_ApplicationId_Status_Subject_Type",
+                table: "OpenIddictAuthorizations",
+                columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Characters_GameId",
@@ -473,6 +696,11 @@ namespace FightCore.Data.Migrations
                 column: "InputId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notifications_UserId",
+                table: "Notifications",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Techniques_AuthorId",
                 table: "Techniques",
                 column: "AuthorId");
@@ -481,6 +709,26 @@ namespace FightCore.Data.Migrations
                 name: "IX_Techniques_GameId",
                 table: "Techniques",
                 column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCharacter_ApplicationUserId",
+                table: "UserCharacter",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCharacter_UserId",
+                table: "UserCharacter",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGame_ApplicationUserId",
+                table: "UserGame",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserGame_UserId",
+                table: "UserGame",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -504,6 +752,15 @@ namespace FightCore.Data.Migrations
                 name: "Media");
 
             migrationBuilder.DropTable(
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
+                name: "UserCharacter");
+
+            migrationBuilder.DropTable(
+                name: "UserGame");
+
+            migrationBuilder.DropTable(
                 name: "Combos");
 
             migrationBuilder.DropTable(
@@ -520,6 +777,136 @@ namespace FightCore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Games");
+
+            migrationBuilder.DropIndex(
+                name: "IX_OpenIddictTokens_ApplicationId_Status_Subject_Type",
+                table: "OpenIddictTokens");
+
+            migrationBuilder.DropIndex(
+                name: "IX_OpenIddictAuthorizations_ApplicationId_Status_Subject_Type",
+                table: "OpenIddictAuthorizations");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumns: new[] { "Id", "ConcurrencyStamp" },
+                keyValues: new object[] { 2, "680f3083-462f-4c8f-ba9a-c09a44145495" });
+
+            migrationBuilder.DropColumn(
+                name: "Bio",
+                table: "AspNetUsers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Type",
+                table: "OpenIddictTokens",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 25);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Subject",
+                table: "OpenIddictTokens",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 450);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Status",
+                table: "OpenIddictTokens",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 25);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ReferenceId",
+                table: "OpenIddictTokens",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 100,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictTokens",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 50,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "OpenIddictScopes",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 200);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictScopes",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 50,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Type",
+                table: "OpenIddictAuthorizations",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 25);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Subject",
+                table: "OpenIddictAuthorizations",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 450);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Status",
+                table: "OpenIddictAuthorizations",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 25);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictAuthorizations",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 50,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Type",
+                table: "OpenIddictApplications",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 25);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ConcurrencyToken",
+                table: "OpenIddictApplications",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 50,
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ClientId",
+                table: "OpenIddictApplications",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 100);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictTokens_ApplicationId",
+                table: "OpenIddictTokens",
+                column: "ApplicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictAuthorizations_ApplicationId",
+                table: "OpenIddictAuthorizations",
+                column: "ApplicationId");
         }
     }
 }
