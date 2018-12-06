@@ -8,11 +8,11 @@
     </button>
   </div>
 
-  <div *ngFor="let post of currentPosts; let i = index" class="section">
+  <div *ngFor="let post of changeData.final; let i = index" class="section">
     <post-edit-viewer 
       [data]="post"
       [position]="i" 
-      [listLength]="currentPosts.length" 
+      [listLength]="changeData.final.length" 
       [isNew]="isPostNew(post.id)"
       (move)="onMoveRequest($event)"
       (remove)="onRemoveRequest($event)">
@@ -21,7 +21,7 @@
 
   <div class="section button-add d-flex align-items-center ml-2">
     <button 
-      *ngIf="currentPosts && currentPosts.length; else noPosts"
+      *ngIf="changeData.final && changeData.final.length; else noPosts"
       (click)="onAdd(false)"
       mat-icon-button matTooltip="Add new post to this list">
       <mat-icon>add_circle_outline</mat-icon>
@@ -34,15 +34,15 @@
   
 </div>
 
-<div *ngIf="removedPosts && removedPosts.length">
+<div *ngIf="changeData.removed && changeData.removed.length">
   <h3>Removed Posts:</h3>
 
   <div class="scrolling-wrapper">
-    <div *ngFor="let post of removedPosts; let i = index" class="section">
+    <div *ngFor="let post of changeData.removed; let i = index" class="section">
       <post-edit-viewer 
         [data]="post"
         [position]="i" 
-        [listLength]="removedPosts.length"
+        [listLength]="changeData.removed.length"
         isRemoved="true"
         (undoRemove)="undoRemove($event)">
       </post-edit-viewer>
@@ -54,7 +54,7 @@
   <button 
     mat-raised-button
     (click)="onDoneEditing()"
-    [disabled]="!anyChanges"
+    [disabled]="!haveAnyChanges"
     color="primary">
     Finish Editing
 </button>

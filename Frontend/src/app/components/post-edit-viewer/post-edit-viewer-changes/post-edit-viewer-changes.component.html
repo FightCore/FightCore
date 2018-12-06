@@ -3,14 +3,14 @@
 
   <span *ngIf="showAddedSection()" class="text-success" matTooltip="Number of posts added to this list">
     <span class="inline-icon"><mat-icon>add</mat-icon></span>
-    {{changeData.totalAdded}} post<span *ngIf="changeData.totalAdded > 1">s</span>
+    {{changeData.added.length}} post<span *ngIf="changeData.added.length > 1">s</span>
   </span>
 
   <span *ngIf="showFirstSeparator()"> &middot; </span>
 
   <span *ngIf="showRemovedSection()" class="text-danger" matTooltip="Number of posts removed from this list">
     <span class="inline-icon"><mat-icon>clear</mat-icon></span>
-    {{changeData.totalRemoved}} post<span *ngIf="changeData.totalRemoved > 1">s</span>
+    {{changeData.removed.length}} post<span *ngIf="changeData.removed.length > 1">s</span>
   </span>
   
   <span *ngIf="showSecondSeperator()"> &middot; </span>
@@ -28,8 +28,8 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <div *ngIf="finalList && finalList.length; else noPosts" class="scrolling-wrapper">
-    <div class="section" *ngFor="let post of finalList">
+  <div *ngIf="changeData.final && changeData.final.length; else noPosts" class="scrolling-wrapper">
+    <div class="section" *ngFor="let post of changeData.final">
       <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
     </div>
   </div>

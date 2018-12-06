@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PopupComponent } from '../popup/popup.component';
 import { TabItem } from '../tabs/tab/tab-item';
 import { PostEditConfirmContentsComponent } from './post-edit-confirm-contents/post-edit-confirm-contents.component';
-import { Post } from 'src/app/models/Post';
+import { ListChangeData } from '../post-edit-viewer/list-change-data.interface';
 
 @Component({
   selector: 'post-edit-confirm',
@@ -17,8 +17,8 @@ export class PostEditConfirmComponent implements OnInit {
   ngOnInit() {
   }
 
-  public show(finalList: Post[]): void {
-    let postViewer = new TabItem(PostEditConfirmContentsComponent, finalList);
+  public show(changeData: ListChangeData): void {
+    let postViewer = new TabItem(PostEditConfirmContentsComponent, changeData);
     this.popup.show(postViewer,"Confirm edit/suggestion");
   }
 

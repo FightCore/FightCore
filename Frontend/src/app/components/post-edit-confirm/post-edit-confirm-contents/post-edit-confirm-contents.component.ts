@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ListChangeData } from '../../post-edit-viewer/post-edit-viewer-changes/post-edit-viewer-changes.component';
 import { Post } from 'src/app/models/Post';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ListChangeData } from '../../post-edit-viewer/list-change-data.interface';
 
 @Component({
   selector: 'post-edit-confirm-contents',
@@ -9,9 +9,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./post-edit-confirm-contents.component.css']
 })
 export class PostEditConfirmContentsComponent implements OnInit {
-  @Input('data') data: Post[]; // Final list of posts for previewing
+  @Input('data') data: ListChangeData;
   @Output('done') done = new EventEmitter<null>(); // TODO: Pass back some form of success/cancel
-  changeData: ListChangeData;
   
   form: FormGroup;
   isSubmitting: boolean;
@@ -23,11 +22,6 @@ export class PostEditConfirmContentsComponent implements OnInit {
    }
 
   ngOnInit() {
-    // TODO Testing
-    this.changeData = {
-      totalAdded: 0,
-      totalRemoved: 0
-    };
   }
 
   onSubmit(): void {

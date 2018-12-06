@@ -4,13 +4,7 @@ import { PostEditAddComponent } from './../../../post-edit-add/post-edit-add.com
 import { PostMoveEvent } from './../../../post-edit-viewer/post-edit-viewer.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Post } from 'src/app/models/Post';
-
-export interface PostEditData {
-  post: Post;
-
-  startingPos: number;
-  currentPos: number;
-}
+import { ListChangeData } from 'src/app/components/post-edit-viewer/list-change-data.interface';
 
 @Component({
   selector: 'app-wiki-edit',
@@ -21,12 +15,12 @@ export class WikiEditComponent implements OnInit {
   @ViewChild('postAdder') postAdder: PostEditAddComponent;
   @ViewChild('postConfirmer') postConfirmer: PostEditConfirmComponent;
 
-  currentPosts: Post[];
-  removedPosts: Post[];
-  allPostData: PostEditData[];
+  originalPosts: Post[]; // Reference for comparing
+
+  changeData: ListChangeData;
 
   shouldAddBeginning: boolean;
-  anyChanges: boolean = true; // Represents if user has made any changes to this list
+  haveAnyChanges: boolean; // Represents if user has made any changes to this list
   
   constructor(private snackBar: MatSnackBar) { }
 
@@ -34,30 +28,36 @@ export class WikiEditComponent implements OnInit {
   }
 
   initData(postList: Post[]): void {
-    // Make a copy of input as array itself is modified
-    this.currentPosts = postList.map(post => ({...post}));
+    this.changeData = {
+      added: [],
+      removed: [],
+      final: []
+    }
 
-    // Generate metadata regarding all posts to track changes (shouldn't change post objects themselves)
-    this.allPostData = [];
-    postList.forEach((post, index) => {
-      this.allPostData.push({
-        post: post,
-        startingPos: index,
-        currentPos: index
-      });
-    });
+    this.originalPosts = postList; // For checking if there are any reorder modifications
+    // Make a copy of input as array itself is modified
+    this.changeData.final = postList.map(post => ({...post}));
 
     // Just in case, reset other post-based elements
-    this.removedPosts = [];
+    this.haveAnyChanges = false;
   }
 
   onMoveRequest(positions: PostMoveEvent):void {
-    // Move the post visually for the user
-    WikiEditComponent.elementMove(this.currentPosts, positions.oldPos, positions.newPos);
+    // If positions are out of bounds...
+    if(positions.oldPos >= this.changeData.final.length || positions.oldPos < 0 || 
+      positions.newPos >= this.changeData.final.length || positions.newPos < 0) {
+      // Give user feedback then back out
+      this.snackBar.open('Sorry, that move request is invalid... although that shouldn\'t be possible', 'Close', {
+        duration: 2000
+      });
+      return;
+    }
 
-    // TODO: Update the tracking info for all posts whose positions were shifted?
-    //        Better yet, why not limit this to post id + shift direction?
-    //        This is what I get for doing data structures so early without proper planning
+    // Move the post for the user
+    WikiEditComponent.elementMove(this.changeData.final, positions.oldPos, positions.newPos);
+
+    // Can't be sure actually have any changes compared to original list so double check
+    this.checkAnyChanges();
   }
 
   /**
@@ -65,19 +65,30 @@ export class WikiEditComponent implements OnInit {
    * @param position Position of post to remove from current posts list
    */
   onRemoveRequest(position: number): void {
-    if(position < 0 || position >= this.currentPosts.length) {
-      throw new Error('onRemoveRequest: Invalid position chosen: ' + position);
+    if(position < 0 || position >= this.changeData.final.length) {
+      // Give user feedback then back out
+      this.snackBar.open('Sorry, that remove position is invalid... although that shouldn\'t be possible', 'Close', {
+        duration: 2000
+      });
+      return;
     }
 
     // Take the post out of the current posts area and keep a copy of it
-    let removedPost: Post = this.currentPosts.splice(position, 1)[0];
+    let removedPost: Post = this.changeData.final.splice(position, 1)[0];
 
-    // If not a newly added post, add the post to the removed section
-    if(!this.isPostNew(removedPost.id)) {
-      this.removedPosts.push(removedPost);
+    // If a newly added post, remove it without a trace- user changed their mind
+    let newPostPos = this.getNewPostPos(removedPost.id);
+    if(newPostPos > -1) {
+      this.changeData.added.splice(newPostPos, 1);
+
+      this.checkAnyChanges(); // Need to double check as not sure at this point
     }
+    // Otherwise, keep track of this pre-existing post for tracking and letting the user easily reverse decision
+    else {
+      this.changeData.removed.push(removedPost);
 
-    // Note that no need to update current positioning info as it's not used here
+      this.haveAnyChanges = true; // For sure have new changes so just set
+    }
   }
 
   /**
@@ -85,19 +96,33 @@ export class WikiEditComponent implements OnInit {
    * @param position Position of post to un-remove in removed posts area
    */
   undoRemove(position: number): void {
-    if(position < 0 || position >= this.removedPosts.length) {
-      throw new Error('undoRemove: Invalid position chosen: ' + position);
+    if(position < 0 || position >= this.changeData.removed.length) {
+      // Give user feedback then back out
+      this.snackBar.open('Sorry, that undo position is invalid... although that shouldn\'t be possible', 'Close', {
+        duration: 2000
+      });
+      return;
     }
 
     // Take this post out of the removed posts area and keep a copy of it
-    let undoPost: Post = this.removedPosts.splice(position, 1)[0];
+    let undoPost: Post = this.changeData.removed.splice(position, 1)[0];
 
-    // Get a reference to the post's metadata
-    let metadata: PostEditData = this.getMetadata(undoPost.id);
+    // Find original position of this post for easy reinsertion
+    let originalPos = -1;
+    for(let i = 0; i < this.originalPosts.length; i++) {
+      if(this.originalPosts[i].id === undoPost.id) {
+        originalPos = i;
+        break;
+      }
+    }
+    if(originalPos === -1) { // Really should not happen
+      throw new Error('undoRemove: Could not find post in original list')
+    }
 
     // Add the post to the current posts list at its original location
-    this.currentPosts.splice(metadata.startingPos, 0, undoPost);
-    metadata.currentPos = metadata.startingPos; // Will change object in overall array
+    this.changeData.final.splice(originalPos, 0, undoPost);
+
+    this.checkAnyChanges(); // May or may not have changes compared to original list anymore
   }
 
   /**
@@ -112,10 +137,8 @@ export class WikiEditComponent implements OnInit {
   }
 
   onAddChoice(newPost: Post): void {
-    console.log("onAddChoice: Add post", newPost);
-
     // Double check that post isn't already in list
-    let copy: Post = this.currentPosts.find(post => { return post.id === newPost.id } );
+    let copy: Post = this.changeData.final.find(post => { return post.id === newPost.id } );
     if(copy) {
       // Tell the user in some way that the post was already added
       this.snackBar.open('Sorry, that post has already been added to this list', 'Close', {
@@ -125,79 +148,76 @@ export class WikiEditComponent implements OnInit {
     }
 
     // Add this post into the appropriate position
-    let insertPos: number; // For updating metadata later
     if(this.shouldAddBeginning) {
-      insertPos = 0;
-      this.currentPosts.unshift(newPost);
+      this.changeData.final.unshift(newPost);
     }
     else {
-      insertPos = this.currentPosts.length;
-      this.currentPosts.push(newPost);
+      this.changeData.final.push(newPost);
     }
 
-    // Loop over removal array and try to find a copy
+    // Loop over removal array and try to find a copy to remove it
     let index: number;
     copy = null; // For clarity
-    for(index = 0; index < this.removedPosts.length; index++) { // For loop for index+break capability
-      if(this.removedPosts[index].id === newPost.id) {
-        copy = this.removedPosts[index];
+    for(index = 0; index < this.changeData.removed.length; index++) { // For loop for index+break capability
+      if(this.changeData.removed[index].id === newPost.id) {
+        copy = this.changeData.removed[index];
         break;
       }
     }
 
     // If copy in removed posts found, clean it up
-    let metadata: PostEditData;
     if(copy) {
-      // Take out of removed list
-      this.removedPosts.splice(index, 1);
+      this.changeData.removed.splice(index, 1);
 
-      // Get the existing metadata and update current position
-      metadata = this.getMetadata(newPost.id);
-      metadata.currentPos = insertPos;
+      this.checkAnyChanges(); // User may have just gone on a roundabout way to undo their changes
     }
-    // Otherwise, if this was a completely new post, add new metadata
+    // Otherwise, if this was a completely new post, keep track of it
     else {
-      metadata = {
-        post: newPost,
-        startingPos: -1,
-        currentPos: insertPos
-      };
-      this.allPostData.push(metadata);
-    }
-  }
+      this.changeData.added.push(newPost);
 
-  /**
-   * Determines whether post was newly added
-   * @param postId Id of post to check
-   * @returns True if post was newly added to list, false otherwise
-   */
-  isPostNew(postId: number): boolean {
-    // TODO: Reorganize data structures so not doing an O(n) lookup per post just for this
-    let metadata: PostEditData = this.getMetadata(postId);
-    return metadata.startingPos === -1;
+      this.haveAnyChanges = true; // Definitely have changes at this point
+    }
   }
 
   /**
    * Handles user clicking done button after making desired edits
    */
   onDoneEditing(): void {
-    this.postConfirmer.show(this.currentPosts);
+    this.postConfirmer.show(this.changeData);
   }
 
-  private getMetadata(postId: number, isSafeCheck?: boolean): PostEditData {
-    let metadata: PostEditData =  this.allPostData.find(data => {
-      return data.post.id === postId;
+  /**
+   * Checks if a post is completely new to this list
+   * @param postId Id of post to check
+   * @returns True if post is completely new, false otherwise
+   */
+  isPostNew(postId: number): boolean {
+    // This post is new if it exists in the new posts array
+    this.changeData.added.forEach(post => {
+      if(post.id === postId) {
+        return true;
+      }
     });
 
-    if(!metadata && !isSafeCheck) {
-      throw new Error('getMetadata: Could not find metadata for postId ' + postId);
-    }
-
-    return metadata;
+    // Otherwise, this post is definitely not completely new to the list
+    return false;
   }
 
-  private removeMetadata(postId: number): void {
-    throw new Error('Not yet implemented');
+  /**
+   * Gets position of new post in new post array
+   * @param postId Id of post to check
+   * @returns Id of position of new post in appropriate array, or -1 if not found
+   */
+  private getNewPostPos(postId: number): number {
+    // Simply linear search
+    let matchPos = -1;
+    for(let i = 0; i < this.changeData.added.length; i++) {
+      if(this.changeData.added[i].id === postId) {
+        matchPos = i;
+        break;
+      }
+    }
+    return matchPos;
   }
 
   /**
@@ -205,10 +225,27 @@ export class WikiEditComponent implements OnInit {
    */
   private checkAnyChanges(): void {
     // TODO: If removal or add lists have any items, changes set for sure
+    if(this.changeData.removed.length > 0 || this.changeData.added.length > 0) {
+      this.haveAnyChanges = true;
+      return;
+    }
 
-    // TODO: Otherwise, check that current list does not match order of original list of posts
+    // Sanity check- with no removes or new adds, the two lists should be equal size
+    if(this.originalPosts.length !== this.changeData.final.length) {
+      throw new Error('checkAnyChanges: originalPosts and changeData.final MUST be same length at this point!');
+    }
 
-    throw new Error('Not yet implemented');
+    // Otherwise, check that current list does not match order of original list of posts
+    for(let i = 0; i < this.originalPosts.length; i++) {
+      // If same exact post isn't in a position, then posts are different
+      if(this.originalPosts[i].id !== this.changeData.final[i].id) {
+        this.haveAnyChanges = true;
+        return;
+      }
+    }
+
+    // Otherwise, there really aren't any changes
+    this.haveAnyChanges = false;
   }
 
   /**

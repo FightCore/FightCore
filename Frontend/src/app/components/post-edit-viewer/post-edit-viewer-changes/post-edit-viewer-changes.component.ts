@@ -1,10 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post } from 'src/app/models/Post';
-
-export interface ListChangeData {
-  totalAdded: number;
-  totalRemoved: number;
-}
+import { ListChangeData } from '../list-change-data.interface';
 
 @Component({
   selector: 'post-edit-viewer-changes',
@@ -15,8 +10,6 @@ export class PostEditViewerChangesComponent implements OnInit {
   @Input('simpleMode') isSimpleMode: boolean;
   @Input('changeData') changeData: ListChangeData;
   
-  @Input('finalList') finalList: Post[]; // Non-simple mode: Let user view what final list will look like
-
   constructor() { }
 
   ngOnInit() {
@@ -26,14 +19,14 @@ export class PostEditViewerChangesComponent implements OnInit {
    * Determines if the add section should show
    */
   showAddedSection(): boolean {
-    return !this.isSimpleMode || this.changeData.totalAdded > 0;
+    return !this.isSimpleMode || this.changeData.added.length > 0;
   }
 
   /**
    * Determines if the removed section should show
    */
   showRemovedSection(): boolean {
-    return !this.isSimpleMode || this.changeData.totalRemoved > 0;
+    return !this.isSimpleMode || this.changeData.removed.length > 0;
   }
 
   /**
@@ -41,7 +34,7 @@ export class PostEditViewerChangesComponent implements OnInit {
    */
   showReorderedSection(): boolean {
     // Show only when there seem to be no other changes
-    return this.changeData.totalAdded === 0 && this.changeData.totalRemoved === 0;
+    return this.changeData.added.length === 0 && this.changeData.removed.length === 0;
   }
 
   /**
