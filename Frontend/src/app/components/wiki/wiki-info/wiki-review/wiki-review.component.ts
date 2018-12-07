@@ -1,6 +1,8 @@
+import { PostListService } from './../../../../services/post-list.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PostInfo } from 'src/app/resources/post-info';
-import { EditSuggestion } from '../../edit-suggestion.interface';
+import { EditSuggestion } from 'src/app/models/EditSuggestion';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-wiki-review',
@@ -12,48 +14,28 @@ export class WikiReviewComponent implements OnInit {
   @Output('selectionChange') selectionChange = new EventEmitter<number>();
   
   suggestions: EditSuggestion[];
+  isLoading: boolean;
 
   sortOptions = PostInfo.PostSortOptions; // TODO: Put in a more centralized location
   
-  constructor() { }
+  constructor(private postListService: PostListService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.suggestions = [
-      {
-        author: 'TestUserA',
-        createdDate: new Date(),
-        commentCount: 0,
-        rating: 1,
+    this.isLoading = true;
+    this.postListService.getPendingSuggestions(1).subscribe(
+      list => {
+        this.suggestions = list.suggestions;
 
-        description: 'Replaced old character guide with more comprehensive one',
-        changes: {
-          added: 1,
-          removed: 1,
-          reordered: 1
-        },
-
-        isAccepted: false,
-        isDenied: false,
-        isDirectEdit: false
+        this.isLoading = false;
       },
-      {
-        author: 'TestUserB',
-        createdDate: new Date(),
-        commentCount: 2,
-        rating: 6,
+      error => {
+        this.snackBar.open('Sorry, could not retrieve list of current suggestions', 'Close', {
+          duration: 2000
+        });
 
-        description: 'Added a B&B combo post',
-        changes: {
-          added: 1,
-          removed: 0,
-          reordered: 0
-        },
-
-        isAccepted: false,
-        isDenied: false,
-        isDirectEdit: false
+        this.isLoading = false;
       }
-    ];
+    );
   }
 
 }

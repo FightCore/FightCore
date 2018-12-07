@@ -1,5 +1,5 @@
-import { EditSuggestion } from './../edit-suggestion.interface';
 import { Component, OnInit, Input } from '@angular/core';
+import { EditSuggestion } from 'src/app/models/EditSuggestion';
 
 @Component({
   selector: 'edit-preview',

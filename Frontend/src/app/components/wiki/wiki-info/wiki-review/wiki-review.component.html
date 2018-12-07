@@ -20,6 +20,20 @@
   </div>
 </div>
 
-<div class="d-flex flex-column d-flex justify-content-center">
-  <edit-preview *ngFor="let suggestion of suggestions" [data]="suggestion" class="mx-auto"></edit-preview>
+<div *ngIf="isLoading; else showSuggestions">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
+
+<ng-template #showSuggestions>
+  <div *ngIf="suggestions && suggestions.length > 0; else noSuggestions">
+    <div class="d-flex flex-column d-flex justify-content-center">
+      <edit-preview *ngFor="let suggestion of suggestions" [data]="suggestion" class="mx-auto"></edit-preview>
+    </div>
+  </div>
+
+  <ng-template #noSuggestions>
+    <div class="text-center">
+      No pending suggestions were found
+    </div>
+  </ng-template>
+</ng-template>

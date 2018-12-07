@@ -16,9 +16,9 @@ export class WikiEditComponent implements OnInit {
   @ViewChild('postConfirmer') postConfirmer: PostEditConfirmComponent;
 
   originalPosts: Post[]; // Reference for comparing
-
   changeData: ListChangeData;
 
+  isLoading: boolean = true; // Not in ngOnInit as data could be initialized before then
   shouldAddBeginning: boolean;
   haveAnyChanges: boolean; // Represents if user has made any changes to this list
   
@@ -40,6 +40,8 @@ export class WikiEditComponent implements OnInit {
 
     // Just in case, reset other post-based elements
     this.haveAnyChanges = false;
+
+    this.isLoading = false;
   }
 
   onMoveRequest(positions: PostMoveEvent):void {

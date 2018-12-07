@@ -1,64 +1,71 @@
-<p>Edit the list here:</p>
-
-<h3>Current Posts:</h3>
-<div class="scrolling-wrapper">
-  <div class="section d-flex align-items-center mr-2">
-    <button (click)="onAdd(true)" mat-icon-button class="button-add" matTooltip="Add new post to this list">
-      <mat-icon>add_circle_outline</mat-icon>
-    </button>
-  </div>
-
-  <div *ngFor="let post of changeData.final; let i = index" class="section">
-    <post-edit-viewer 
-      [data]="post"
-      [position]="i" 
-      [listLength]="changeData.final.length" 
-      [isNew]="isPostNew(post.id)"
-      (move)="onMoveRequest($event)"
-      (remove)="onRemoveRequest($event)">
-    </post-edit-viewer>
-  </div>
-
-  <div class="section button-add d-flex align-items-center ml-2">
-    <button 
-      *ngIf="changeData.final && changeData.final.length; else noPosts"
-      (click)="onAdd(false)"
-      mat-icon-button matTooltip="Add new post to this list">
-      <mat-icon>add_circle_outline</mat-icon>
-    </button>
-
-    <ng-template #noPosts>
-      Add a post to this wonderful list
-    </ng-template>
-  </div>
-  
+<div *ngIf="isLoading; else showEditing">
+  Waiting for data to be passed down...
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 
-<div *ngIf="changeData.removed && changeData.removed.length">
-  <h3>Removed Posts:</h3>
+<ng-template #showEditing>
+  <p>Edit the list here:</p>
 
+  <h3>Current Posts:</h3>
   <div class="scrolling-wrapper">
-    <div *ngFor="let post of changeData.removed; let i = index" class="section">
+    <div class="section d-flex align-items-center mr-2">
+      <button (click)="onAdd(true)" mat-icon-button class="button-add" matTooltip="Add new post to this list">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+    </div>
+
+    <div *ngFor="let post of changeData.final; let i = index" class="section">
       <post-edit-viewer 
         [data]="post"
         [position]="i" 
-        [listLength]="changeData.removed.length"
-        isRemoved="true"
-        (undoRemove)="undoRemove($event)">
+        [listLength]="changeData.final.length" 
+        [isNew]="isPostNew(post.id)"
+        (move)="onMoveRequest($event)"
+        (remove)="onRemoveRequest($event)">
       </post-edit-viewer>
     </div>
-  </div>
-</div>
 
-<div class="mt-4">
-  <button 
-    mat-raised-button
-    (click)="onDoneEditing()"
-    [disabled]="!haveAnyChanges"
-    color="primary">
-    Finish Editing
-</button>
-</div>
+    <div class="section button-add d-flex align-items-center ml-2">
+      <button 
+        *ngIf="changeData.final && changeData.final.length; else noPosts"
+        (click)="onAdd(false)"
+        mat-icon-button matTooltip="Add new post to this list">
+        <mat-icon>add_circle_outline</mat-icon>
+      </button>
+
+      <ng-template #noPosts>
+        Add a post to this wonderful list
+      </ng-template>
+    </div>
+    
+  </div>
+
+  <div *ngIf="changeData.removed && changeData.removed.length">
+    <h3>Removed Posts:</h3>
+
+    <div class="scrolling-wrapper">
+      <div *ngFor="let post of changeData.removed; let i = index" class="section">
+        <post-edit-viewer 
+          [data]="post"
+          [position]="i" 
+          [listLength]="changeData.removed.length"
+          isRemoved="true"
+          (undoRemove)="undoRemove($event)">
+        </post-edit-viewer>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <button 
+      mat-raised-button
+      (click)="onDoneEditing()"
+      [disabled]="!haveAnyChanges"
+      color="primary">
+      Finish Editing
+  </button>
+  </div>
+</ng-template>
 
 <post-edit-add #postAdder (addPost)="onAddChoice($event)"></post-edit-add>
 <post-edit-confirm #postConfirmer></post-edit-confirm>

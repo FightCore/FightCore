@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { EditSuggestion } from '../../edit-suggestion.interface';
 import { PostInfo } from 'src/app/resources/post-info';
+import { EditSuggestion } from 'src/app/models/EditSuggestion';
 
 @Component({
   selector: 'app-wiki-history',
