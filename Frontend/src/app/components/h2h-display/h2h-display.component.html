@@ -1,22 +1,53 @@
 <div class="card">
-    <div class="card-header card-header-warning" >
+    <div class="card-header card-header-primary" >
       <h4 class="card-title">General Statistics</h4>
-      <p class="card-category">General statistics of PLAYER1 vs. PLAYER2</p>
+      <p class="card-category">General statistics of {{player1}} vs. {{player2}}</p>
     </div>
     <div class="card-content table-responsive table-full-width">
       <table class="table">
-        <thead class="text-danger">
-          <th>PLAYER1</th>
+        <thead class="text-primary">
           <th>Statistic</th>
-          <th>PLAYER2</th>
+          <th>{{player1}}</th>
+          <th>{{player2}}</th>
         </thead>
         <tbody>
           <tr>
-            <td>Dakota Rice</td>
-            <td>Niger</td>
-            <td>Oud-Turnhout</td>
+            <td>Set Wins</td>
+            <td>10</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Game wins</td>
+            <td>30</td>
+            <td>20</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <div class="card">
+      <div class="card-header card-header-warning" >
+        <h4 class="card-title">Stage Statistics</h4>
+        <p class="card-category">Stage statistics of {{player1}} vs. {{player2}}</p>
+      </div>
+      <div class="card-content table-responsive table-full-width">
+        <table class="table" mat-table dataSource="stageStats">
+          <thead class="text-warning">
+              <ng-container matColumnDef="statistic">
+                  <th mat-header-cell matHeaderCellDef> Stage </th>
+                  <td mat-cell *matCellDef="let stage"> {{stage.statistic}} </td>
+                </ng-container>
+                <ng-container matColumnDef="player1Value">
+                    <th mat-header-cell matHeaderCellDef> {{player1}} </th>
+                    <td mat-cell *matCellDef="let stage"> {{stage.player1Value}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="player2Value">
+                      <th mat-header-cell matHeaderCellDef> {{player2}} </th>
+                      <td mat-cell *matCellDef="let stage"> {{stage.player2Value}} </td>
+                    </ng-container>
+          </thead>
+              <tr mat-header-row matHeaderRowDef="columnsToDisplay"></tr>
+              <tr mat-row matRowDef="let row; columns: columnsToDisplay;"></tr>
+        </table>
+      </div>
+    </div>
