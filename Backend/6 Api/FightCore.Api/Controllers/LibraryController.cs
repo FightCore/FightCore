@@ -10,6 +10,7 @@ using FightCore.Repositories.Patterns;
 using FightCore.Services.Resources;
 using Ganss.XSS;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,15 +20,18 @@ namespace FightCore.Api.Controllers
     /// <summary>
     /// The controller for the <see cref="FightCore.Models.Resources.Post"/> class
     /// </summary>
+    /// <inheritdoc/>
     [Route("[controller]")]
     [ApiController]
     public class LibraryController : ControllerBase
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
+
+        /// <inheritdoc/>
         public LibraryController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, IPostService userResourceService, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _configuration = configuration;
@@ -46,34 +50,36 @@ namespace FightCore.Api.Controllers
         /// <param name="categoryFilter">Optionally filter by post category. Set to -1 for not using this filter or set to appropriate value from <see cref="Models.Resources.ResourceCategory"/></param>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
         public async Task<IActionResult> GetPostsAsync(int pageSize, int pageNumber, int sortOption, int categoryFilter)
         {
-            PostsResultResource result;
-
             // Basic validation checking
             if (pageNumber < 1)
             {
                 return BadRequest("Page number must be valid");
             }
+
             // Page size must be valid (greater than 0, max is in configuration)
-            int maxPageSize;
-            Int32.TryParse(_configuration["PostMaxPageSize"], out maxPageSize);
-            if(pageSize < 1 || pageSize > maxPageSize)
+            int.TryParse(_configuration["PostMaxPageSize"], out var maxPageSize);
+            if (pageSize < 1 || pageSize > maxPageSize)
             {
                 return BadRequest("Page size must be greater than 0 but no greater than " + maxPageSize);
             }
-            //  Sort option must be valid part of enum (IsDefined isn't safe so checking first to last value)
-            if(!Enum.IsDefined(typeof(SortCategory), sortOption))
+
+            // Sort option must be valid part of enum (IsDefined isn't safe so checking first to last value)
+            if (!Enum.IsDefined(typeof(SortCategory), sortOption))
             {
                 return BadRequest("Sort option must be valid");
             }
+
             // Explicitly set and check category filter
             ResourceCategory? category;
-            if(categoryFilter == -1)
+            if (categoryFilter == -1)
             {
                 category = null;
             }
-            else if(!Enum.IsDefined(typeof(ResourceCategory), categoryFilter))
+            else if (!Enum.IsDefined(typeof(ResourceCategory), categoryFilter))
             {
                 return BadRequest("Category filter must be -1 or must be a valid category value");
             }
@@ -83,11 +89,12 @@ namespace FightCore.Api.Controllers
             }
 
             // Get total count of results
-            int totalPosts = await _postService.GetPostCountAsync(category);
+            var totalPosts = await _postService.GetPostCountAsync(category);
+
             // If no results, can wrap things up here
-            if(totalPosts < 1)
+            if (totalPosts < 1)
             {
-                result = new PostsResultResource
+                var pagedResult = new PostsResultResource
                 {
                     PageSize = pageSize,
                     PageNumber = pageNumber,
@@ -95,34 +102,39 @@ namespace FightCore.Api.Controllers
                     Posts = new List<PostPreviewResource>()
                 };
 
-                return Ok(result);
+                return Ok(pagedResult);
             }
 
             // If pageNumber is outside range, bad request. No point in trying to grab posts
-            if((pageNumber - 1) * pageSize > totalPosts)
+            if ((pageNumber - 1) * pageSize > totalPosts)
             {
                 return BadRequest("Page number is outside range");
             }
 
             // Otherwise, finally get the sorted and optionally filtered page of posts
             var posts = _postService.GetPosts(pageSize, pageNumber, (SortCategory)sortOption, category);
-            result = new PostsResultResource
+            var result = new PostsResultResource
             {
                 PageSize = pageSize,
                 PageNumber = pageNumber,
                 Total = totalPosts,
                 Posts = _mapper.Map<List<PostPreviewResource>>(posts)
             };
+
             return Ok(result);
         }
 
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPostByIdAsync(int id)
         {
             var resource = await _postService.FindByIdAsync(id);
 
             if (resource == null)
+            {
                 return NotFound();
+            }
 
             var resourceMapped = _mapper.Map<PostResultResource>(resource);
 
@@ -136,6 +148,8 @@ namespace FightCore.Api.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create([FromBody] PostResource postInput)
         {
             // Clean up title, content, and link as necessary (currently just basic HTMl sanitization to prevent XSS)
@@ -148,19 +162,20 @@ namespace FightCore.Api.Controllers
 
             // Verify inputs are still valid
             // TODO: Varify category appropriately separately
-            if(postInput.Title == "")
+            if (string.IsNullOrWhiteSpace(postInput.Title))
             {
                 return BadRequest("Title cannot be blank");
             }
-            if(postInput.Content == "" && postInput.FeaturedLink == "")
+
+            if (string.IsNullOrWhiteSpace(postInput.Content) && string.IsNullOrWhiteSpace(postInput.FeaturedLink))
             {
                 return BadRequest("Both Content and FeaturedLink cannot be blank");
             }
 
             // Create the post and initialize basic necessary properties
-            var post = _mapper.Map<Models.Resources.Post>(postInput);
-            int userId;
-            Int32.TryParse(_userManager.GetUserId(User), out userId);
+            var post = _mapper.Map<Post>(postInput);
+
+            int.TryParse(_userManager.GetUserId(User), out var userId);
             post.AuthorId = userId;
             post.CreatedDate = DateTime.Now;
 
