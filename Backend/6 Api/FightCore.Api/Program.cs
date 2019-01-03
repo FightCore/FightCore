@@ -9,6 +9,9 @@ namespace FightCore.Api
 {
     public class Program
     {
+        /// <summary>
+        /// Gets the configuration based off the appsettings.json files.
+        /// </summary>
         private static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -16,6 +19,10 @@ namespace FightCore.Api
             .AddEnvironmentVariables()
             .Build();
 
+        /// <summary>
+        /// The method that is executed when running the program.
+        /// </summary>
+        /// <param name="args">The provided arguments to run with.</param>
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()

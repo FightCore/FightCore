@@ -12,15 +12,15 @@ using FightCore.Api.Notifications;
 namespace FightCore.Api.Configurations
 {
     /// <summary>
-    /// DependencyInjections
+    /// A class used to do dependency injection.
     /// </summary>
     public static class DependencyInjections
     {
         /// <summary>
-        /// Adds the patterns.
+        /// Adds the base of patterns to the services so they can be used.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <returns></returns>
+        /// <returns>The same services with the patterns added.</returns>
         public static IServiceCollection AddPatterns(this IServiceCollection services)
         {
             services.AddScoped<DbContext, ApplicationDbContext>();
@@ -34,10 +34,10 @@ namespace FightCore.Api.Configurations
         }
 
         /// <summary>
-        /// Adds the services and repositories.
+        /// Adds the services and repositories to the services so they can be used using dependency injection.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <returns></returns>
+        /// <returns>The same services with the services and repositories added.</returns>
         public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();

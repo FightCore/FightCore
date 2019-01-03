@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FightCore.Api.Posts.Resources;
 using FightCore.Api.Resources;
 using FightCore.Api.Resources.Posts;
@@ -11,8 +7,12 @@ using FightCore.Models;
 
 namespace FightCore.Api.Configurations
 {
+    /// <inheritdoc/>
     public class AutoMapperConfiguration : Profile
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoMapperConfiguration"/> class.
+        /// </summary>
         public AutoMapperConfiguration()
         {
             CreateMap<UserResource, ApplicationUser>().ReverseMap();
