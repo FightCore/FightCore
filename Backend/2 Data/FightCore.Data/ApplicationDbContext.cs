@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FightCore.Data.Configurations;
+﻿using FightCore.Data.Configurations;
 using FightCore.Models;
 using FightCore.Models.Resources;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +25,7 @@ namespace FightCore.Data
         }
 
         public DbSet<Post> Posts { get; set; }
+
         public DbSet<Notification> Notifications { get; set; }
     }
 }

@@ -9,88 +9,104 @@ namespace FightCore.Repositories.Patterns
 {
     public class Repository<TEntity> : IRepositoryAsync<TEntity> where TEntity : class
     {
-        private readonly DbSet<TEntity> _dbSet;
+        private readonly DbSet<TEntity> _databaseSet;
+
         private readonly DbContext _context;
 
-        protected IQueryable<TEntity> Queryable { get => _dbSet; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
+        /// </summary>
+        /// <param name="context">The context wanting to be used.</param>
         public Repository(DbContext context)
         {
-            _dbSet = context.Set<TEntity>();
+            _databaseSet = context.Set<TEntity>();
             _context = context;
         }
 
-        public virtual void Delete(params TEntity[] entities)
+        protected IQueryable<TEntity> Queryable => _databaseSet;
+
+        /// <inheritdoc />
+        public virtual void Delete(params TEntity[] keyValues)
         {
-            _dbSet.RemoveRange(entities);
+            _databaseSet.RemoveRange(keyValues);
         }
 
+        /// <inheritdoc />
         public virtual void Delete(TEntity entity)
         {
-            _dbSet.Remove(entity);
+            _databaseSet.Remove(entity);
         }
 
+        /// <inheritdoc />
         public virtual TEntity Find(Expression<Func<TEntity, bool>> query)
         {
-            return _dbSet.FirstOrDefault(query);
+            return _databaseSet.FirstOrDefault(query);
         }
 
-        public virtual async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> query)
+        /// <inheritdoc />
+        public virtual Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> query)
         {
-            return await _dbSet.FirstOrDefaultAsync(query);
+            return _databaseSet.FirstOrDefaultAsync(query);
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<TEntity> FindRange(Expression<Func<TEntity, bool>> query)
         {
-            return _dbSet.Where(query).ToArray();
+            return _databaseSet.Where(query).ToArray();
         }
 
+        /// <inheritdoc />
         public virtual async Task<IEnumerable<TEntity>> FindRangeAsync(Expression<Func<TEntity, bool>> query)
         {
-            return await _dbSet.Where(query).ToArrayAsync();
+            return await _databaseSet.Where(query).ToArrayAsync();
         }
 
+        /// <inheritdoc />
         public virtual TEntity Insert(TEntity entity)
         {
-            _dbSet.Add(entity);
+            _databaseSet.Add(entity);
             return entity;
         }
 
+        /// <inheritdoc />
         public virtual async Task<TEntity> InsertAsync(TEntity entity)
         {
-            await _dbSet.AddAsync(entity);
+            await _databaseSet.AddAsync(entity);
             return entity;
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<TEntity> InsertRange(params TEntity[] entities)
         {
-            _dbSet.AddRange(entities);
+            _databaseSet.AddRange(entities);
             return entities;
         }
 
+        /// <inheritdoc />
         public virtual async Task<IEnumerable<TEntity>> InsertRangeAsync(params TEntity[] entities)
         {
-            await _dbSet.AddRangeAsync(entities);
+            await _databaseSet.AddRangeAsync(entities);
             return entities;
         }
 
+        /// <inheritdoc />
         public virtual TEntity Update(TEntity entity)
         {
-            _dbSet.Update(entity);
+            _databaseSet.Update(entity);
             return entity;
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<TEntity> UpdateRange(params TEntity[] entities)
         {
-            _dbSet.UpdateRange(entities);
+            _databaseSet.UpdateRange(entities);
             return entities;
         }
 
+        /// <inheritdoc />
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _databaseSet.ToListAsync();
         }
-        
-        protected DbSet<T> Set<T>() where T : class => _context.Set<T>();
     }
 }
