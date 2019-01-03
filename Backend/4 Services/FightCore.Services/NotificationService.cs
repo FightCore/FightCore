@@ -28,6 +28,7 @@ namespace FightCore.Services
         /// Marks all unread notifications for a user as read
         /// </summary>
         /// <param name="userId">User whose notifications should be now all read</param>
+        /// <returns>An awaitable task.</returns>
         Task MarkAllUnreadReadAsync(int userId);
     }
 
@@ -35,6 +36,7 @@ namespace FightCore.Services
     {
         private readonly INotificationRepository _repository;
 
+        /// <inheritdoc />
         public NotificationService(INotificationRepository repository) : base(repository)
         {
             _repository = repository;

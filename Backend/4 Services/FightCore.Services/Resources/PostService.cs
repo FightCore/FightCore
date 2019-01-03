@@ -32,6 +32,7 @@ namespace FightCore.Services.Resources
     {
         private readonly IPostRepository _repository;
 
+        /// <inheritdoc />
         public PostService(IPostRepository repository) : base(repository)
         {
             _repository = repository;
