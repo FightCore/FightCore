@@ -1,28 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using FightCore.Api.Posts.Resources;
 using FightCore.Api.Resources.Posts;
 using FightCore.Models;
 using FightCore.Models.Resources;
 using FightCore.Repositories.Patterns;
 using FightCore.Services.Resources;
+
 using Ganss.XSS;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace FightCore.Api.Controllers
+namespace FightCore.Api.Controllers.V1
 {
     /// <summary>
-    /// The controller for the <see cref="FightCore.Models.Resources.Post"/> class
+    /// The controller for the <see cref="Post"/> class
     /// </summary>
     /// <inheritdoc/>
     [Route("[controller]")]
     [ApiController]
+    [ApiVersion("1")]
     public class LibraryController : ControllerBase
     {
         private readonly IConfiguration _configuration;

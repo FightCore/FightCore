@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using FightCore.Api.Notifications;
 using FightCore.Api.Resources.Notifications;
 using FightCore.Models;
 using FightCore.Repositories.Patterns;
 using FightCore.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 
-namespace FightCore.Api.SignalRTesting
+namespace FightCore.Api.Controllers.V1
 {
     /// <summary>
     /// Handles notification interactions for a user
     /// </summary>
     [Route("[controller]")]
     [ApiController]
+    [ApiVersion("1")]
     public class NotificationsController : ControllerBase
     {
         private IConfiguration _configuration;

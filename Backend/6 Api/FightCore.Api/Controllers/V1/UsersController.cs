@@ -1,23 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using FightCore.Api.Resources;
 using FightCore.Models;
 using FightCore.Repositories.Patterns;
 using FightCore.Services;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FightCore.Api.Controllers
+namespace FightCore.Api.Controllers.V1
 {
     [Route("[controller]")]
     [ApiController]
+    [ApiVersion("1")]
     public class UsersController : Controller
     {
-
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly IUserService _userService;
         private readonly UserManager<ApplicationUser> _userManager;

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Threading.Tasks;
-using AspNet.Security.OpenIdConnect.Primitives;
+﻿using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
 using FightCore.Api.Configurations;
 using FightCore.Api.Notifications;
+using FightCore.Api.OperationFilters;
 using FightCore.Data;
 using FightCore.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,6 +17,10 @@ using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 
 namespace FightCore.Api
 {
@@ -63,6 +64,8 @@ namespace FightCore.Api
 
             RegisterAuthentication(services);
 
+            RegisterVersioning(services);
+
             services.AddAutoMapper(option => option.AddProfile(new AutoMapperConfiguration()));
             services.AddPatterns();
             services.AddServicesAndRepositories();
@@ -103,6 +106,7 @@ namespace FightCore.Api
                     options.SwaggerDoc("v1", new Info { Title = $"{nameof(FightCore)} API", Version = "v1" });
                     options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(FightCore)}.Api.xml");
                     options.DescribeAllEnumsAsStrings();
+                    options.OperationFilter<ApiVersionOperationFilter>();
 
                     //// o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new ApiKeyScheme()
                     //// {
@@ -115,14 +119,14 @@ namespace FightCore.Api
                     options.AddSecurityDefinition(
                         JwtBearerDefaults.AuthenticationScheme,
                         new OAuth2Scheme
-                            {
-                                Type = "oauth2",
-                                                                                                  Flow = "password",
-                                                                                                  TokenUrl = "/connect/token"
-                                                                                              });
+                        {
+                            Type = "oauth2",
+                            Flow = "password",
+                            TokenUrl = "/connect/token"
+                        });
                     options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
                                                        {
-                                                           { "Bearer", new string[] { } }
+                                                           { "Bearer", Array.Empty<string>() }
                                                        });
                 });
         }
@@ -173,7 +177,7 @@ namespace FightCore.Api
                 {
                     routes.MapRoute(
                         name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
+                        template: "/{controller=Home}/{action=Index}/{id?}");
                 });
         }
 
@@ -251,22 +255,22 @@ namespace FightCore.Api
                         options.Audience = "resource_server";
                         options.RequireHttpsMetadata = false;
                         options.TokenValidationParameters = new TokenValidationParameters
-                                                                {
-                                                                    NameClaimType = OpenIdConnectConstants.Claims.Subject,
-                                                                    RoleClaimType = OpenIdConnectConstants.Claims.Role
-                                                                };
+                        {
+                            NameClaimType = OpenIdConnectConstants.Claims.Subject,
+                            RoleClaimType = OpenIdConnectConstants.Claims.Role
+                        };
                         options.Events = new JwtBearerEvents
-                                             {
-                                                 OnMessageReceived = context =>
-                                                     {
-                                                         if (context.Request.Query.TryGetValue("token", out var token))
-                                                         {
-                                                             context.Token = token;
-                                                         }
+                        {
+                            OnMessageReceived = context =>
+                                {
+                                    if (context.Request.Query.TryGetValue("token", out var token))
+                                    {
+                                        context.Token = token;
+                                    }
 
-                                                         return Task.CompletedTask;
-                                                     }
-                                             };
+                                    return Task.CompletedTask;
+                                }
+                        };
                     });
         }
 
@@ -305,6 +309,21 @@ namespace FightCore.Api
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                     options.UseOpenIddict();
                 });
+        }
+
+        #endregion
+
+        #region Versioning
+
+        private void RegisterVersioning(IServiceCollection services)
+        {
+            services.AddApiVersioning(
+                options =>
+                    {
+                        options.DefaultApiVersion = new ApiVersion(1, 0); // specify the default api version
+                        options.AssumeDefaultVersionWhenUnspecified = true; // assume that the caller wants the default version if they don't specify
+                    }
+                );
         }
 
         #endregion
