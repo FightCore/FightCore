@@ -1,3 +1,5 @@
+# Backend setup
+
 _Note that this wiki is not complete. Please request changes as you go or make edits directly!_
 
 1. Install [SQL Server](https://www.microsoft.com/en-us/sql-server/default.aspx), easiest to set default server name now to "SQLExpress". Recommended to install [SQL Server Management Studio](https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017) afterwards as well
