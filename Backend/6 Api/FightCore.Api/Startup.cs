@@ -49,7 +49,6 @@ namespace FightCore.Api
         /// <param name="services">The services for Dependency Injection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-
             RegisterCors(services);
 
             RegisterSignalR(services);
