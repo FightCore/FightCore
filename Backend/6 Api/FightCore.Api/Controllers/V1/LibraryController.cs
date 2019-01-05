@@ -9,6 +9,8 @@ using FightCore.Api.Resources.Posts;
 using FightCore.Models;
 using FightCore.Models.Resources;
 using FightCore.Repositories.Patterns;
+using FightCore.Resources.Controllers;
+using FightCore.Resources.Controllers.Shared;
 using FightCore.Services.Resources;
 
 using Ganss.XSS;
@@ -62,20 +64,20 @@ namespace FightCore.Api.Controllers.V1
             // Basic validation checking
             if (pageNumber < 1)
             {
-                return BadRequest("Page number must be valid");
+                return BadRequest(LibraryResources.PageNumberInvalid);
             }
 
             // Page size must be valid (greater than 0, max is in configuration)
             int.TryParse(_configuration["PostMaxPageSize"], out var maxPageSize);
             if (pageSize < 1 || pageSize > maxPageSize)
             {
-                return BadRequest("Page size must be greater than 0 but no greater than " + maxPageSize);
+                return BadRequest(string.Format(LibraryResources.PageSizeWrongSize, maxPageSize));
             }
 
             // Sort option must be valid part of enum (IsDefined isn't safe so checking first to last value)
             if (!Enum.IsDefined(typeof(SortCategory), sortOption))
             {
-                return BadRequest("Sort option must be valid");
+                return BadRequest(LibraryResources.SortOptionInvalid);
             }
 
             // Explicitly set and check category filter
@@ -86,7 +88,7 @@ namespace FightCore.Api.Controllers.V1
             }
             else if (!Enum.IsDefined(typeof(ResourceCategory), categoryFilter))
             {
-                return BadRequest("Category filter must be -1 or must be a valid category value");
+                return BadRequest(LibraryResources.CategoryFilterInvalid);
             }
             else
             {
@@ -99,13 +101,11 @@ namespace FightCore.Api.Controllers.V1
             // If no results, can wrap things up here
             if (totalPosts < 1)
             {
-                var pagedResult = new PostsResultResource
-                {
-                    PageSize = pageSize,
-                    PageNumber = pageNumber,
-                    Total = totalPosts,
-                    Posts = new List<PostPreviewResource>()
-                };
+                var pagedResult = new PostsResultResource(
+                    pageSize,
+                    pageNumber,
+                    totalPosts,
+                    new List<PostPreviewResource>());
 
                 return Ok(pagedResult);
             }
@@ -113,18 +113,16 @@ namespace FightCore.Api.Controllers.V1
             // If pageNumber is outside range, bad request. No point in trying to grab posts
             if ((pageNumber - 1) * pageSize > totalPosts)
             {
-                return BadRequest("Page number is outside range");
+                return BadRequest(LibraryResources.PageNumberOutsideRange);
             }
 
             // Otherwise, finally get the sorted and optionally filtered page of posts
             var posts = _postService.GetPosts(pageSize, pageNumber, (SortCategory)sortOption, category);
-            var result = new PostsResultResource
-            {
-                PageSize = pageSize,
-                PageNumber = pageNumber,
-                Total = totalPosts,
-                Posts = _mapper.Map<List<PostPreviewResource>>(posts)
-            };
+            var result = new PostsResultResource(
+                pageSize,
+                pageNumber,
+                totalPosts,
+                _mapper.Map<List<PostPreviewResource>>(posts));
 
             return Ok(result);
         }
@@ -138,7 +136,7 @@ namespace FightCore.Api.Controllers.V1
 
             if (resource == null)
             {
-                return NotFound();
+                return NotFound(string.Format(ApiResources.NotFound, nameof(Post), id));
             }
 
             var resourceMapped = _mapper.Map<PostResultResource>(resource);
@@ -169,12 +167,12 @@ namespace FightCore.Api.Controllers.V1
             // TODO: Varify category appropriately separately
             if (string.IsNullOrWhiteSpace(postInput.Title))
             {
-                return BadRequest("Title cannot be blank");
+                return BadRequest(LibraryResources.TitleCannotBeBlank);
             }
 
             if (string.IsNullOrWhiteSpace(postInput.Content) && string.IsNullOrWhiteSpace(postInput.FeaturedLink))
             {
-                return BadRequest("Both Content and FeaturedLink cannot be blank");
+                return BadRequest(LibraryResources.TitleAndLinkBlank);
             }
 
             // Create the post and initialize basic necessary properties

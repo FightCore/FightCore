@@ -322,8 +322,7 @@ namespace FightCore.Api
                     {
                         options.DefaultApiVersion = new ApiVersion(1, 0); // specify the default api version
                         options.AssumeDefaultVersionWhenUnspecified = true; // assume that the caller wants the default version if they don't specify
-                    }
-                );
+                    });
         }
 
         #endregion

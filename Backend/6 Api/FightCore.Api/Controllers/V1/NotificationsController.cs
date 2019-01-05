@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 using AutoMapper;
@@ -8,9 +9,11 @@ using FightCore.Api.Notifications;
 using FightCore.Api.Resources.Notifications;
 using FightCore.Models;
 using FightCore.Repositories.Patterns;
+using FightCore.Resources.Controllers.Shared;
 using FightCore.Services;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -18,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace FightCore.Api.Controllers.V1
 {
+    /// <inheritdoc />
     /// <summary>
     /// Handles notification interactions for a user
     /// </summary>
@@ -26,17 +30,14 @@ namespace FightCore.Api.Controllers.V1
     [ApiVersion("1")]
     public class NotificationsController : ControllerBase
     {
-        private IConfiguration _configuration;
-        private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
+        private readonly IHubContext<NotifyHub, ITypedHubClient> _hubContext;
 
-        /// <summary>
-        /// Initialize
-        /// </summary>
-        /// <param name="hubContext"></param>
+        /// <inheritdoc />
         public NotificationsController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext, UserManager<ApplicationUser> userManager)
         {
             _configuration = configuration;
@@ -68,16 +69,15 @@ namespace FightCore.Api.Controllers.V1
             }
 
             // Get current user's id
-            int userId;
-            Int32.TryParse(_userManager.GetUserId(User), out userId);
+            int.TryParse(_userManager.GetUserId(User), out var userId);
 
             // Get count of notifications for user
-            var totalNotifs = await _notificationService.GetNotificationsCountAsync(userId);
-            if (totalNotifs == 0)
+            var totalNotifications = await _notificationService.GetNotificationsCountAsync(userId);
+            if (totalNotifications == 0)
             {
                 result = new NotificationsResource
                 {
-                    TotalNotifications = totalNotifs,
+                    TotalNotifications = totalNotifications,
                     CurrentPage = pageNumber,
                     Notifications = new List<NotificationResultResource>()
                 };
@@ -85,9 +85,8 @@ namespace FightCore.Api.Controllers.V1
             }
 
             // If pageNumber is outside range, bad request. No point in trying to grab notifications
-            int pageSize;
-            Int32.TryParse(_configuration["NotificationsPageSize"], out pageSize);
-            if ((pageNumber - 1) * pageSize > totalNotifs)
+            int.TryParse(_configuration["NotificationsPageSize"], out var pageSize);
+            if ((pageNumber - 1) * pageSize > totalNotifications)
             {
                 return BadRequest("Page number is outside range");
             }
@@ -96,7 +95,7 @@ namespace FightCore.Api.Controllers.V1
             var notifications = _notificationService.GetNotificationsForUser(userId, pageSize, pageNumber);
             result = new NotificationsResource
             {
-                TotalNotifications = totalNotifs,
+                TotalNotifications = totalNotifications,
                 CurrentPage = pageNumber,
                 Notifications = _mapper.Map<List<NotificationResultResource>>(notifications)
             };
@@ -112,8 +111,7 @@ namespace FightCore.Api.Controllers.V1
         public async Task<IActionResult> MarkAllUnreadRead()
         {
             // Get current user's id
-            int userId;
-            Int32.TryParse(_userManager.GetUserId(User), out userId);
+            int.TryParse(_userManager.GetUserId(User), out var userId);
 
             // Mark all of their notifications as read
             await _notificationService.MarkAllUnreadReadAsync(userId);
@@ -125,37 +123,45 @@ namespace FightCore.Api.Controllers.V1
         /// <summary>
         /// Marks a single notification as read
         /// </summary>
-        /// <param name="notifId">Notification to mark as read</param>
-        /// <returns>
-        /// 200 if notification successfully marked as read
-        /// 400 if can't find notification by id or if notification already marked as read
-        /// 405 if noitification is not for current user
-        /// </returns>
-        [HttpPost("{notifId}")]
+        /// <param name="notificationId">Notification to mark as read</param>
+        /// <response code="200">notification successfully marked as read</response>
+        /// <response code="400">can't find notification by id or if notification already marked as read</response>
+        /// <response code="405">notification is not for current user</response>
+        /// <returns>An awaitable task.</returns>
+        [HttpPost("{notificationId}")]
         [Authorize]
-        public async Task<IActionResult> MarkRead(int notifId)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> MarkRead(int notificationId)
         {
             // If invalid id...
-            if (notifId < 1)
+            if (notificationId < 1)
             {
-                return BadRequest("Bad id");
+                return BadRequest(ApiResources.BadId);
             }
 
             // Get intended notification
-            var notif = await _notificationService.FindByIdAsync(notifId);
+            var notification = await _notificationService.FindByIdAsync(notificationId);
 
             // Get current user's id
-            int userId;
-            Int32.TryParse(_userManager.GetUserId(User), out userId);
+            int.TryParse(_userManager.GetUserId(User), out var userId);
+
             // If notif not for current user...
-            if (notif.UserId != userId) return Unauthorized();
+            if (notification.UserId != userId)
+            {
+                return Unauthorized();
+            }
 
             // If already read, nothing more to do
-            if (notif.ReadDate != null) return BadRequest("Notification already read");
+            if (notification.ReadDate != null)
+            {
+                return BadRequest("Notification already read");
+            }
 
             // Finally, mark the notification as read
-            notif.ReadDate = DateTime.Now;
-            _notificationService.Update(notif);
+            notification.ReadDate = DateTime.Now;
+            _notificationService.Update(notification);
             await _unitOfWork.SaveChangesAsync();
 
             return Ok();

@@ -38,6 +38,7 @@
     <ProjectReference Include="..\..\2 Data\FightCore.Data\FightCore.Data.csproj" />
     <ProjectReference Include="..\..\3 Repositories\FightCore.Repositories\FightCore.Repositories.csproj" />
     <ProjectReference Include="..\..\4 Services\FightCore.Services\FightCore.Services.csproj" />
+    <ProjectReference Include="..\..\FightCore.Resources\FightCore.Resources.csproj" />
   </ItemGroup>
 
 </Project>

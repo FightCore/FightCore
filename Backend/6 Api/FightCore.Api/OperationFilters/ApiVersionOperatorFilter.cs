@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 using FightCore.Api.Helpers;
 
@@ -10,8 +7,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FightCore.Api.OperationFilters
 {
+    /// <inheritdoc />
     public class ApiVersionOperationFilter : IOperationFilter
     {
+        /// <inheritdoc />
         public void Apply(Operation operation, OperationFilterContext context)
         {
             var actionApiVersionModel = context.ApiDescription.ActionDescriptor?.GetApiVersion();
