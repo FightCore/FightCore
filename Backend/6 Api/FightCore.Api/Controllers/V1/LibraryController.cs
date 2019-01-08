@@ -59,7 +59,7 @@ namespace FightCore.Api.Controllers.V1
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
-        public async Task<IActionResult> GetPostsAsync(int pageSize, int pageNumber, int sortOption, int categoryFilter)
+        public async Task<IActionResult> GetPostsAsync(int pageSize = 25, int pageNumber = 1, int sortOption = 1, int categoryFilter = -1)
         {
             // Basic validation checking
             if (pageNumber < 1)

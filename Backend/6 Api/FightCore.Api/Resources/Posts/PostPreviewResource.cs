@@ -12,6 +12,8 @@ namespace FightCore.Api.Resources.Posts
     {
         public int Id { get; set; }
 
+        public UserResource Author { get; set; }
+
         public int AuthorId { get; set; }
 
         public string Title { get; set; }

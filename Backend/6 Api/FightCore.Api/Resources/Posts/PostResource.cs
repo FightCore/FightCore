@@ -1,6 +1,8 @@
 ﻿using FightCore.Models;
 using System;
 
+using FightCore.Api.Resources;
+
 namespace FightCore.Api.Posts.Resources
 {
     /// <summary>
@@ -9,14 +11,17 @@ namespace FightCore.Api.Posts.Resources
     public class PostResource
     {
         public int Category { get; set; }
+
         /// <summary>
         /// The title of the resource
         /// </summary>
         public string Title { get; set; }
+
         /// <summary>
         /// The content of the resource
         /// </summary>
         public string Content { get; set; }
+
         /// <summary>
         /// The link that the feature is about
         /// </summary>
@@ -29,21 +34,28 @@ namespace FightCore.Api.Posts.Resources
     public class PostResultResource : PostResource
     {
         public int Id { get; set; }
+
         /// <summary>
         /// The user who has written this resource
         /// </summary>
-        public ApplicationUser Author { get; set; }
+        public UserResource Author { get; set; }
+
         public int AuthorId { get; set; }
+
         public DateTime CreatedDate { get; set; }
+
         public DateTime LastEdit { get; set; }
+
         /// <summary>
         /// The suggested skill for the reader
         /// </summary>
         public int SkillLevel { get; set; }
+
         /// <summary>
         /// The amount of views the post has
         /// </summary>
         public int Views { get; set; }
+
         /// <summary>
         /// If the post is patch dependent this will contain the patchId
         /// </summary>

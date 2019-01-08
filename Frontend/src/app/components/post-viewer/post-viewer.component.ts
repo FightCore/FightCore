@@ -42,10 +42,13 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     return this.data.category + " (cat name)";
   }
   getAuthorName(): string {
-    return this.data.authorId + " (name)";
+    return this.data.author.userName;
   }
   getCharacterIcon(characterId: number): string {
     return characterId + " (icon)";
+  }
+  isDeveloper(): boolean {
+    return false;
   }
 
 }

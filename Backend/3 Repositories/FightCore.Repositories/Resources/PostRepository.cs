@@ -25,6 +25,13 @@ namespace FightCore.Repositories.Resources
         /// <param name="category">Which category should be used.</param>
         /// <returns>A collection of <see cref="Post"/> object.s</returns>
         IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
+
+        /// <summary>
+        /// Gets a post objected based on the Id.
+        /// </summary>
+        /// <param name="id">The id wanting to be searched for.</param>
+        /// <returns>The post or NULL.</returns>
+        Task<Post> GetPostById(int id);
     }
 
     public class PostRepository : Repository<Post>, IPostRepository
@@ -61,14 +68,22 @@ namespace FightCore.Repositories.Resources
                     break;
             }
 
+
             if (category == null)
             {
                 return sorted
+                    .Include(p => p.Author)
                     .Skip(pageSize * (pageNumber - 1))
                     .Take(pageSize);
             }
 
-            return sorted.Where(x => x.Category == category).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            return sorted.Include(p => p.Author).Where(x => x.Category == category).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+        }
+
+        /// <inheritdoc/>
+        public Task<Post> GetPostById(int id)
+        {
+            return Queryable.Include(p => p.Author).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

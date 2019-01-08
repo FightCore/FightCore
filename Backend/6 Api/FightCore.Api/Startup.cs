@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -187,8 +188,8 @@ namespace FightCore.Api
         private void RegisterIdentity(IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -205,33 +206,53 @@ namespace FightCore.Api
                         .UseDbContext<ApplicationDbContext>();
                 })
                 .AddServer(options =>
-                {
-                    options.UseMvc();
-                    options
+                    {
+                        options.UseMvc();
+                        options
+                            .EnableTokenEndpoint("/connect/token")
+                            .EnableUserinfoEndpoint("/api/userinfo");
+
                         // These endpoints still need to be implemented
                         //.EnableAuthorizationEndpoint("/connect/authorize")
                         //.EnableLogoutEndpoint("/connect/logout")
                         //.EnableIntrospectionEndpoint("/connect/introspect")
-                        .EnableTokenEndpoint("/connect/token")
-                        .EnableUserinfoEndpoint("/api/userinfo");
 
 
-                    options.RegisterScopes(OpenIdConnectConstants.Scopes.Email,
+                        options.RegisterScopes(
+                        OpenIdConnectConstants.Scopes.Email,
                         OpenIdConnectConstants.Scopes.Profile,
                         OpenIddictConstants.Scopes.Roles);
 
-                    options.EnableRequestCaching();
 
-                    options.AllowPasswordFlow();
-                    options.AllowRefreshTokenFlow();
+                        options.EnableRequestCaching();
 
-                    options.AcceptAnonymousClients();
+                        options.AllowPasswordFlow();
+                        options.AllowRefreshTokenFlow();
 
-                    options.DisableHttpsRequirement();
+                        options.AcceptAnonymousClients();
+#if DEBUG
+                        options.AddDevelopmentSigningCertificate();
+                        options.DisableHttpsRequirement();
+#endif
 
-                    options.UseJsonWebTokens();
-                    options.AddEphemeralSigningKey();
-                });
+                        options.Services.AddCors(
+                            corsOptions =>
+                                {
+                                    corsOptions.AddPolicy(
+                                        "AllowSpecificOrigins",
+                                        builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod()
+                                            .AllowAnyHeader().AllowCredentials());
+                                });
+
+                        options.UseJsonWebTokens();
+                        options.AddEphemeralSigningKey();
+                        services.Configure<MvcOptions>(
+                            mvcOptions =>
+                            {
+                                mvcOptions.Filters.Add(
+                                        new CorsAuthorizationFilterFactory("AllowSpecificOrigins"));
+                            });
+                    });
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
@@ -249,28 +270,30 @@ namespace FightCore.Api
                         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                     })
                 .AddJwtBearer(options =>
+                {
+                    options.Authority = Configuration.GetSection("Jwt:Authority").Value;
+                    options.Audience = "resource_server";
+#if DEBUG
+                    options.RequireHttpsMetadata = false;
+#endif
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        options.Authority = Configuration.GetSection("Jwt:Authority").Value;
-                        options.Audience = "resource_server";
-                        options.RequireHttpsMetadata = false;
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            NameClaimType = OpenIdConnectConstants.Claims.Subject,
-                            RoleClaimType = OpenIdConnectConstants.Claims.Role
-                        };
-                        options.Events = new JwtBearerEvents
-                        {
-                            OnMessageReceived = context =>
+                        NameClaimType = OpenIdConnectConstants.Claims.Subject,
+                        RoleClaimType = OpenIdConnectConstants.Claims.Role
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                            {
+                                if (context.Request.Query.TryGetValue("token", out var token))
                                 {
-                                    if (context.Request.Query.TryGetValue("token", out var token))
-                                    {
-                                        context.Token = token;
-                                    }
-
-                                    return Task.CompletedTask;
+                                    context.Token = token;
                                 }
-                        };
-                    });
+
+                                return Task.CompletedTask;
+                            }
+                    };
+                });
         }
 
         private void RegisterAuthentication(IApplicationBuilder application)

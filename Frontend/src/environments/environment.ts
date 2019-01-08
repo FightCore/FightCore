@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  tokenEndpoint: "https://localhost:44399/connect/token",
-  userInfoEndpoint: "https://localhost:44399/connect/userinfo",
-  baseUrl: "https://localhost:44399"
+  tokenEndpoint: "https://localhost:5001/connect/token",
+  userInfoEndpoint: "https://localhost:5001/connect/userinfo",
+  baseUrl: "https://localhost:5001"
 };
 
 /*
