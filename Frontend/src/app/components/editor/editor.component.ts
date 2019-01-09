@@ -11,7 +11,7 @@ import Quill from 'quill';
 export class EditorComponent implements OnInit {
   @ViewChild('editorContainer') container: ElementRef;
   editor: Quill; // No good TS definition for Quill afaik
-
+  initText: string;
   constructor() { }
 
   ngOnInit() {
@@ -20,6 +20,9 @@ export class EditorComponent implements OnInit {
       theme: 'snow'
     };
     this.editor = new Quill(this.container.nativeElement, options);
+    if (this.initText) {
+      this.editor.setText(this.initText);
+    }
   }
 
   /**
@@ -37,6 +40,10 @@ export class EditorComponent implements OnInit {
    */
   public isEmpty(): boolean {
     return this.editor.getText() === '\n'; // Even if editor is empty, this contains a newline
+  }
+
+  public setText(text: string) {
+    this.initText = text;
   }
 
 }

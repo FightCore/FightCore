@@ -42,10 +42,10 @@
     </div>
     <ng-template #showDetails>
         <div class="row post-container">
-          <div class="col-md-8">
+          <div class="isDeveloper() ? col-md-8 : col-md-12">
             <div class="card"> 
               <div class="card-header">
-                <h4 class="card-title">(Unused Atm)</h4>
+                <h4 class="card-title">By {{getAuthorName()}}</h4>
               </div>
               <div class="card-body">
                 <div *ngIf="data.featureUrl">
@@ -53,8 +53,9 @@
                     {{data.featureUrl}}
                   </a>
                 </div>
-                <div *ngIf="data.content" [innerHtml]="data.content">
-                </div>
+                  <app-editor *ngIf="isEditing();" #bodyEditor></app-editor>
+                  <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
+                <button (click)="toggleEditing()">Edit</button>
               </div>
             </div>
           </div>

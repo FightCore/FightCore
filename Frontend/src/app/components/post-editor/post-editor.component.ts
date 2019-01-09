@@ -38,20 +38,21 @@ export class PostEditorComponent implements OnInit {
 
   @ViewChild('stepper') stepperComponent;
   @ViewChild('bodyEditor') bodyEditor: EditorComponent;
-  
+
   metaFormGroup: FormGroup;
   contentFormGroup: FormGroup;
   additionalFormGroup: FormGroup;
   resetDialogRef: MatDialogRef<ConfirmDialogComponent>;
 
-  showLinkPreview = false; // Whether to show or hide the link preview component (which isn't perfect, component can be changed in the future)
+  // Whether to show or hide the link preview component (which isn't perfect, component can be changed in the future)
+  showLinkPreview = false;
   showYTEmbed = false;
 
   showGameSpecificFields = false; // Default false as must select a category first
   showCombosFields = false;
 
   isSubmitting = false;  // Show loading bar on Submit page
-  onSubmitErrorMessage = "";
+  onSubmitErrorMessage = '';
 
   // Fields for character select
   charSelectTitle: string;        // Title filled in once category is selected
@@ -167,11 +168,10 @@ export class PostEditorComponent implements OnInit {
   onPostCatSelection() {
     // If doing a game-independent post, hide all game-specific controls
     // TODO: Figure out why can't use ===, where's the type difference coming from and how to avoid ==?
-    if(this.selectedPostCat == PostInfo.GameIndependentId) {
+    if (this.selectedPostCat == PostInfo.GameIndependentId) {
       this.showGameSpecificFields = false;
       this.showCombosFields = false; // Technically unnecessary but more complete & robust
-    }
-    else {
+    } else {
       this.showGameSpecificFields = true;
 
       // Show combos fields only for combo posts
@@ -181,19 +181,17 @@ export class PostEditorComponent implements OnInit {
         // Set up main character select as required
         this.charSelectTitle = 'Performed By Character(s)';
         this.isCharacterRequired = true;
-      }
-      else {
+      } else {
         this.showCombosFields = false;
 
         // Character select is optional
-        this.charSelectTitle = 'Any relevant character(s)?'
+        this.charSelectTitle = 'Any relevant character(s)?';
         this.isCharacterRequired = false;
       }
     }
   }
 
   /**
-   * 
    * TODO: Handle multiple character selection
    * @param character Selected character
    */
@@ -203,7 +201,6 @@ export class PostEditorComponent implements OnInit {
   }
 
   /**
-   * 
    * TODO: Handle multiple character selection
    * @param character Selected character
    */
@@ -214,7 +211,7 @@ export class PostEditorComponent implements OnInit {
 
   onFeaturedLinkChange() {
     // If url doesn't match pattern or is blank, nothing to do
-    if(this.contentFormGroup.controls.linkCtrl.invalid || !this.contentFormGroup.controls.linkCtrl.value) {
+    if (this.contentFormGroup.controls.linkCtrl.invalid || !this.contentFormGroup.controls.linkCtrl.value) {
       this.showLinkPreview = false;
       this.showYTEmbed = false;
       return;
@@ -233,14 +230,11 @@ export class PostEditorComponent implements OnInit {
 
     let ytVidId = this.getYoutubeVideoId(this.contentFormGroup.controls.linkCtrl.value);
     // TODO If url matches supported video type, show video icon and preview embed
-    if(ytVidId) {
-      console.log("Got youtube id!", ytVidId);
+    if (ytVidId) {
+      console.log('Got youtube id!', ytVidId);
       this.showLinkPreview = false; // Hide other preview
       this.showYTEmbed = true;
-      
-    }
-    
-    else {
+    } else {
       // Otherwise, show a link preview
 
       // Show that loading preview
@@ -254,7 +248,7 @@ export class PostEditorComponent implements OnInit {
    */
   onResetClick() {
     let dialogData: DialogData = {
-      title: 'Reset Post?', 
+      title: 'Reset Post?',
       body: 'Are you sure you want to reset your post?',
       positiveActionName: 'Reset',
       negativeActionName: 'Cancel'
@@ -270,28 +264,28 @@ export class PostEditorComponent implements OnInit {
     this.resetDialogRef
       .afterClosed()
       .subscribe(isAffirmative => {
-        if(isAffirmative) {
+        if (isAffirmative) {
           this.stepperComponent.reset();
         }
       });
   }
-  
+
   /**
    * Handles form validation and outputs post data if seems valid
    */
   onSubmitClick() {
-    if(this.isSubmitting) {      
+    if (this.isSubmitting) {
       return;
     }
 
     // TODO: Actually do full validation on all form data first before continuing here
     if(!this.isContentFormValid()) {
-      this.onSubmitErrorMessage = "Form is invalid";
+      this.onSubmitErrorMessage = 'Form is invalid';
       return;
     }
 
     this.isSubmitting = true;
-    this.onSubmitErrorMessage = "";
+    this.onSubmitErrorMessage = '';
 
     // Populate the post to create with necessary fields
     let post = PostService.getBasicPost();
@@ -335,11 +329,13 @@ export class PostEditorComponent implements OnInit {
    */
   private isContentFormValid(): boolean {
     // Basic validators check
-    if(this.contentFormGroup.invalid) return false;
+    if (this.contentFormGroup.invalid) {
+      return false;
+    }
     
     // Post must contain either a video or text at least
     let controls = this.contentFormGroup.controls; // Shortcut
-    if(this.bodyEditor.isEmpty() && controls.linkCtrl.value === '') {
+    if (this.bodyEditor.isEmpty() && controls.linkCtrl.value === '') {
       return false;
     }
 
