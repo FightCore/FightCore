@@ -88,9 +88,10 @@ namespace FightCore.Api
                 app.UseHsts();
             }
 
+            RegisterCors(app);
+
             RegisterAuthentication(app);
 
-            RegisterCors(app);
             RegisterSwagger(app);
 
             RegisterSignalR(app);
@@ -208,20 +209,34 @@ namespace FightCore.Api
                 .AddServer(options =>
                     {
                         options.UseMvc();
-                        options
-                            .EnableTokenEndpoint("/connect/token")
-                            .EnableUserinfoEndpoint("/api/userinfo");
 
+                        options.Services.AddCors(
+                            corsOptions =>
+                                {
+                                    corsOptions.AddPolicy(
+                                        "AllowSpecificOrigins",
+                                        builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod()
+                                            .AllowAnyHeader().AllowCredentials());
+                                });
+                        services.Configure<MvcOptions>(
+                            mvcOptions =>
+                                {
+                                    mvcOptions.Filters.Add(
+                                        new CorsAuthorizationFilterFactory("AllowSpecificOrigins"));
+                                });
+                        options
                         // These endpoints still need to be implemented
                         //.EnableAuthorizationEndpoint("/connect/authorize")
                         //.EnableLogoutEndpoint("/connect/logout")
                         //.EnableIntrospectionEndpoint("/connect/introspect")
+                            .EnableTokenEndpoint("/connect/token")
+                            .EnableUserinfoEndpoint("/api/userinfo");
 
 
                         options.RegisterScopes(
-                        OpenIdConnectConstants.Scopes.Email,
-                        OpenIdConnectConstants.Scopes.Profile,
-                        OpenIddictConstants.Scopes.Roles);
+                            OpenIdConnectConstants.Scopes.Email,
+                            OpenIdConnectConstants.Scopes.Profile,
+                            OpenIddictConstants.Scopes.Roles);
 
 
                         options.EnableRequestCaching();
@@ -235,23 +250,8 @@ namespace FightCore.Api
                         options.DisableHttpsRequirement();
 #endif
 
-                        options.Services.AddCors(
-                            corsOptions =>
-                                {
-                                    corsOptions.AddPolicy(
-                                        "AllowSpecificOrigins",
-                                        builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod()
-                                            .AllowAnyHeader().AllowCredentials());
-                                });
-
                         options.UseJsonWebTokens();
                         options.AddEphemeralSigningKey();
-                        services.Configure<MvcOptions>(
-                            mvcOptions =>
-                            {
-                                mvcOptions.Filters.Add(
-                                        new CorsAuthorizationFilterFactory("AllowSpecificOrigins"));
-                            });
                     });
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -281,6 +281,7 @@ namespace FightCore.Api
                         NameClaimType = OpenIdConnectConstants.Claims.Subject,
                         RoleClaimType = OpenIdConnectConstants.Claims.Role
                     };
+
                     options.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = context =>

@@ -58,7 +58,7 @@ namespace FightCore.Api.Controllers.V1
         /// </returns>
         [HttpGet("{pageNumber}")]
         [Authorize]
-        public async Task<IActionResult> Get(int pageNumber)
+        public async Task<IActionResult> Get(int pageNumber = 1)
         {
             NotificationsResource result;
 
