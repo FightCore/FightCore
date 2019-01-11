@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FightCore.Api.Posts.Resources;
 using FightCore.Api.Resources;
 using FightCore.Api.Resources.Posts;
 using FightCore.Api.Resources.Notifications;

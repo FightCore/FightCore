@@ -1,6 +1,7 @@
 ﻿using AspNet.Security.OpenIdConnect.Primitives;
 using AutoMapper;
 using FightCore.Api.Configurations;
+using FightCore.Api.Middleware;
 using FightCore.Api.Notifications;
 using FightCore.Api.OperationFilters;
 using FightCore.Data;
@@ -188,6 +189,9 @@ namespace FightCore.Api
 
         private void RegisterIdentity(IServiceCollection services)
         {
+			// Registers the BCrypt password hasher, has to be done before AddIdentity.
+			services.AddScoped<IPasswordHasher<ApplicationUser>, BCryptPasswordHasher<ApplicationUser>>();
+
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

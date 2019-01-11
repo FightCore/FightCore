@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using AutoMapper;
-
-using FightCore.Api.Posts.Resources;
 using FightCore.Api.Resources.Posts;
 using FightCore.Models;
 using FightCore.Models.Resources;
