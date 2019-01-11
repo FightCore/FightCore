@@ -8,27 +8,27 @@ namespace FightCore.Api.Resources.Notifications
     public class NotificationResource
     {
         /// <summary>
-        /// Gets or sets the user this notification is for
+        /// The user this notification is for.
         /// </summary>
         public int UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the title of the notification
+        /// The title of the notification.
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the content of the notification
+        /// The content of the notification.
         /// </summary>
         public string Content { get; set; }
 
         /// <summary>
-        /// Gets or sets the on-site relative link for where this notification should lead to
+        /// The on-site relative link for where this notification should lead to.
         /// </summary>
         public string RouteLink { get; set; }
 
         /// <summary>
-        /// Gets or sets the flat that determines if this notification is important or not
+        /// The flat that determines if this notification is important or not.
         /// </summary>
         public bool IsImportant { get; set; }
     }
@@ -39,17 +39,17 @@ namespace FightCore.Api.Resources.Notifications
     public class NotificationResultResource : NotificationResource
     {
         /// <summary>
-        /// Gets or sets the id of this notification
+        /// The id of this notification.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets when this notification was created
+        /// When this notification was created.
         /// </summary>
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
-        /// Gets or sets when this notification was actually read by the user
+        /// When this notification was actually read by the user.
         /// </summary>
         public DateTime? ReadDate { get; set; }
     }

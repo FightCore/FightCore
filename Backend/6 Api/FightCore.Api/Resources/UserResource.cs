@@ -7,8 +7,9 @@ namespace FightCore.Api.Resources
 {
     public class UserResource
     {
-        public string Email { get; set; }
-
+		/// <summary>
+		/// The user name the user is referred by.
+		/// </summary>
         public string UserName { get; set; }
     }
 
@@ -16,10 +17,23 @@ namespace FightCore.Api.Resources
     {
         public int Id { get; set; }
 
-    }
+		/// <summary>
+		/// The email of the user.
+		/// </summary>
+		public string Email { get; set; }
+
+	}
 
     public class NewUserResource : UserResource
     {
-        public string Password { get; set; }
+		/// <summary>
+		/// The email of the user.
+		/// </summary>
+		public string Email { get; set; }
+
+		/// <summary>
+		/// The password the user is using.
+		/// </summary>
+		public string Password { get; set; }
     }
 }
