@@ -1,0 +1,52 @@
+sudo: required
+git:
+  depth: false
+matrix:
+    include:
+      - language: csharp
+        mono: none
+        dotnet: 2.1
+        before_script:
+            - cd Backend
+        script:
+            - dotnet restore
+            - dotnet build
+            - dotnet test
+
+      - language: node_js
+        node_js:
+            - "8"
+        before_script:
+            - cd Frontend
+            - npm install -g @angular/cli
+            - npm install
+        script:
+            - ng build --prod
+    #   - language: csharp
+    #     mono: none 
+    #     dotnet: 2.1.401
+
+    #     install:
+    #         - cd Backend
+    #         - dotnet tool install --global dotnet-sonarscanner
+    #         - dotnet restore
+
+    #     before_script:
+    #         - export PATH="$PATH:$HOME/.dotnet/tools"
+    #     script:
+    #         - dotnet sonarscanner begin /k:"fightcore-ci-test" /n:"FightCore" /v:"1" /o:"bartdebever-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$SONAR_TOKEN"
+    #         - dotnet build
+    #         - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
+        cache:
+            directories:
+                - '$HOME/.nuget/packages'
+                - '$HOME/.local/share/NuGet/Cache'
+                - '$HOME/.sonar/cache'
+
+    #   - language: java
+    #     dist: trusty
+    #     addons:
+    #         sonarcloud:
+    #             organization: "bartdebever-github"
+    #     script:
+    #         - sonar-scanner
