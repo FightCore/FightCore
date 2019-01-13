@@ -154,7 +154,6 @@ namespace FightCore.Api.Controllers.V1
         public async Task<IActionResult> Create([FromBody] PostResource postInput)
         {
             // Clean up title, content, and link as necessary (currently just basic HTMl sanitization to prevent XSS)
-            // TODO: Additional checking necessary for SQL injection? Not sure how safe EF inheritly is
             var sanitizer = new HtmlSanitizer();
             sanitizer.AllowedAttributes.Add("class");
             postInput.Title = sanitizer.Sanitize(postInput.Title);
@@ -186,5 +185,50 @@ namespace FightCore.Api.Controllers.V1
 
             return CreatedAtAction(nameof(GetPostByIdAsync), new { Id = post.Id }, _mapper.Map<PostResultResource>(post));
         }
-    }
+
+		/// <summary>
+		/// Updates the given post.
+		/// </summary>
+		/// <param name="post">The post wanting to be updated.</param>
+		/// <returns></returns>
+		[Authorize]
+		[HttpPut]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		public async Task<IActionResult> Update([FromBody] PostResource post)
+		{
+			return Ok();
+		}
+
+		/// <summary>
+		/// Deletes the post with the given id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[Authorize]
+		[HttpDelete]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		public async Task<IActionResult> Delete(int id)
+		{
+			return Ok();
+		}
+
+		/// <summary>
+		/// Publishes or hides a post by the given id and state.
+		/// </summary>
+		/// <returns></returns>
+		[Authorize]
+		[HttpPost("publish/{id}/{isPublic}")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		public async Task<IActionResult> Publish(int id, bool isPublic = true)
+		{
+			return Ok();
+		}
+
+	}
 }
