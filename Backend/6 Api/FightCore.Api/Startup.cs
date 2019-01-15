@@ -190,7 +190,7 @@ namespace FightCore.Api
         private void RegisterIdentity(IServiceCollection services)
         {
 			// Registers the BCrypt password hasher, has to be done before AddIdentity.
-			services.AddScoped<IPasswordHasher<ApplicationUser>, BCryptPasswordHasher<ApplicationUser>>();
+            services.AddScoped<IPasswordHasher<ApplicationUser>, BCryptPasswordHasher<ApplicationUser>>();
 
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -333,7 +333,7 @@ namespace FightCore.Api
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseSqlServer("Server=DESKTOP-BORT;Database=FightCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
                     options.UseOpenIddict();
                 });
         }

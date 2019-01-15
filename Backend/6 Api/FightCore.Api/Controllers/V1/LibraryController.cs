@@ -125,6 +125,14 @@ namespace FightCore.Api.Controllers.V1
             return Ok(result);
         }
 
+        [HttpGet("user/{userId}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
+        public async Task<IActionResult> GetPostsByUserAsync(int userId)
+        {
+            return Ok();
+        }
+
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
         [HttpGet("{id}")]
@@ -196,23 +204,55 @@ namespace FightCore.Api.Controllers.V1
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		public async Task<IActionResult> Update([FromBody] PostResource post)
+		public async Task<IActionResult> Update([FromBody] PostResultResource post)
 		{
-			return Ok();
+		    var oldPost = await _postService.FindByIdAsync(post.Id);
+		    if (oldPost == null)
+		    {
+		        return NotFound();
+		    }
+
+		    int.TryParse(_userManager.GetUserId(User), out var userId);
+		    if (oldPost.AuthorId != userId)
+		    {
+		        return Unauthorized();
+		    }
+
+		    var postEntity = _mapper.Map<Post>(post);
+		    _postService.Update(postEntity);
+		    await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
 		}
 
-		/// <summary>
-		/// Deletes the post with the given id.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		[Authorize]
+        /// <summary>
+        /// Deletes the post with the given id.
+        /// </summary>
+        /// <param name="id">The id of the post wanting to be deleted.</param>
+        /// <response code="200">Post has successfully been deleted.</response>
+        /// <response code="401">The post you are deleting isn't yours.</response>
+        /// <response code="404">The post you are wanting to delete isn't found.</response>
+        /// <returns>An awaitable task.</returns>
+        [Authorize]
 		[HttpDelete]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		public async Task<IActionResult> Delete(int id)
 		{
+		    var post = await _postService.FindByIdAsync(id);
+		    if (post == null)
+		    {
+		        return NotFound();
+		    }
+
+		    int.TryParse(_userManager.GetUserId(User), out var userId);
+		    if (post.AuthorId != userId)
+		    {
+		        return Unauthorized();
+		    }
+
+		    await _postService.DeleteByIdAsync(id);
 			return Ok();
 		}
 

@@ -10,6 +10,7 @@ using FightCore.Repositories.Patterns;
 using FightCore.Services;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,11 +47,15 @@ namespace FightCore.Api.Controllers.V1
         /// <param name="id">The id that the user is associated with</param>
         /// <returns>User information of the given id</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResultResource))]
         public async Task<IActionResult> Get(int id)
         {
             var user = await _userService.FindByIdAsync(id);
             if (user == null)
+            {
                 return NotFound();
+            }
 
             return Ok(_mapper.Map<UserResultResource>(user));
         }
@@ -61,11 +66,15 @@ namespace FightCore.Api.Controllers.V1
         /// <returns>List of all users</returns>
         [HttpGet]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAllAsync();
             if (users == null || !users.Any())
+            {
                 return NotFound();
+            }
 
             return Ok(_mapper.Map<IEnumerable<UserResultResource>>(users));
         }
@@ -79,6 +88,8 @@ namespace FightCore.Api.Controllers.V1
         /// Will return a 409 if there are issues with the register.
         /// </returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create([FromBody] NewUserResource userResource)
         {
             var user = _mapper.Map<ApplicationUser>(userResource);

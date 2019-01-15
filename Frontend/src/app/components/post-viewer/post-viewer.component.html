@@ -53,9 +53,13 @@
                     {{data.featureUrl}}
                   </a>
                 </div>
-                  <app-editor *ngIf="isEditing();" #bodyEditor></app-editor>
+                <div *ngIf="isEditing();">
+                  <app-editor #bodyEditor></app-editor>
+                  <button mat-icon-button color="primary" (click)="toggleEditing()">Save</button>
+                </div>
+                  
                   <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
-                <button (click)="toggleEditing()">Edit</button>
+                <button mat-icon-button color="primary" (click)="toggleEditing()">Edit</button>
               </div>
             </div>
           </div>

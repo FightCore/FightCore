@@ -50,5 +50,10 @@ namespace FightCore.Models.Resources
         /// Gets or sets the patch dependent id.
         /// </summary>
         public int PatchId { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the post is published.
+        /// </summary>
+        public bool Published { get; set; }
     }
 }

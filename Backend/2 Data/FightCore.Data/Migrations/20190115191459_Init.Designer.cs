@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FightCore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181001200146_AddedUserResources")]
-    partial class AddedUserResources
+    [Migration("20190115191459_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -36,6 +36,8 @@ namespace FightCore.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FlairUrl");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -73,11 +75,42 @@ namespace FightCore.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" }
+                        new { Id = 1, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "user@test.nl", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "USER@TEST.NL", NormalizedUserName = "USER@TEST.NL", PasswordHash = "$2y$12$AqxWrJO46eF27pK/i/YgR.3NWF5J4Ii058fFr.kQKDToFZjjxAcPe", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "user@test.nl" },
+                        new { Id = 2, AccessFailedCount = 0, ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495", Email = "test2@test.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "TEST2@TEST.COM", NormalizedUserName = "TEST2", PasswordHash = "$2y$12$AqxWrJO46eF27pK/i/YgR.3NWF5J4Ii058fFr.kQKDToFZjjxAcPe", PhoneNumberConfirmed = false, SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D", TwoFactorEnabled = false, UserName = "test2" }
                     );
                 });
 
-            modelBuilder.Entity("FightCore.Models.Resources.UserResource", b =>
+            modelBuilder.Entity("FightCore.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<bool>("IsImportant");
+
+                    b.Property<DateTime?>("ReadDate");
+
+                    b.Property<string>("RouteLink")
+                        .IsRequired();
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,6 +130,8 @@ namespace FightCore.Data.Migrations
 
                     b.Property<int>("PatchId");
 
+                    b.Property<bool>("Published");
+
                     b.Property<int>("SkillLevel");
 
                     b.Property<string>("Title");
@@ -107,7 +142,7 @@ namespace FightCore.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -224,12 +259,14 @@ namespace FightCore.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClientId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("ClientSecret");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("ConsentType");
 
@@ -244,7 +281,8 @@ namespace FightCore.Data.Migrations
                     b.Property<string>("RedirectUris");
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
@@ -262,24 +300,28 @@ namespace FightCore.Data.Migrations
                     b.Property<string>("ApplicationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Properties");
 
                     b.Property<string>("Scopes");
 
                     b.Property<string>("Status")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
                     b.ToTable("OpenIddictAuthorizations");
                 });
@@ -290,14 +332,16 @@ namespace FightCore.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Description");
 
                     b.Property<string>("DisplayName");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.Property<string>("Properties");
 
@@ -321,7 +365,8 @@ namespace FightCore.Data.Migrations
                     b.Property<string>("AuthorizationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<DateTimeOffset?>("CreationDate");
 
@@ -331,19 +376,22 @@ namespace FightCore.Data.Migrations
 
                     b.Property<string>("Properties");
 
-                    b.Property<string>("ReferenceId");
+                    b.Property<string>("ReferenceId")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Status");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
 
                     b.HasIndex("AuthorizationId");
 
@@ -351,10 +399,20 @@ namespace FightCore.Data.Migrations
                         .IsUnique()
                         .HasFilter("[ReferenceId] IS NOT NULL");
 
+                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
+
                     b.ToTable("OpenIddictTokens");
                 });
 
-            modelBuilder.Entity("FightCore.Models.Resources.UserResource", b =>
+            modelBuilder.Entity("FightCore.Models.Notification", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
                 {
                     b.HasOne("FightCore.Models.ApplicationUser", "Author")
                         .WithMany()
