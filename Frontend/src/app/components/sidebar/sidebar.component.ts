@@ -1,3 +1,6 @@
+/**
+ * Sidebar component contains the items and the routes that they go to.
+ */
 import { Component, OnInit, HostListener } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
@@ -9,10 +12,10 @@ declare interface RouteInfo {
   class: string;
 }
 export const ROUTES: RouteInfo[] = [
-  { path: '/home', title: 'Home',  icon:'home', class: '' },
-  { path: '/characters', title: 'Characters',  icon:'copyright', class: '' },
-  { path: '/library', title: 'Library',  icon:'book', class: '' },
-  { path: '/players', title: 'Players',  icon:'person', class: '' }
+  { path: '/home', title: 'Home',  icon: 'home', class: '' },
+  { path: '/characters', title: 'Characters',  icon: 'copyright', class: '' },
+  { path: '/library', title: 'Library',  icon: 'book', class: '' },
+  { path: '/players', title: 'Players',  icon: 'person', class: '' }
 ];
 
 @Component({
@@ -42,7 +45,7 @@ export class SidebarComponent implements OnInit {
 
   logOut() {
     this.authService.logOut(true);
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
   get isLoggedIn(): boolean {

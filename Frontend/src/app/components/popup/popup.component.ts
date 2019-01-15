@@ -14,8 +14,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class PopupComponent implements OnInit {
   @Output('onClose') onClose = new EventEmitter();
-  
-  title: string;        
+
+  title: string;
   contentItem: TabItem; // TODO:  Rename interface and variable, plus document
 
   @ViewChild('container') popupContainer: TemplateRef<any>;
@@ -33,8 +33,8 @@ export class PopupComponent implements OnInit {
   show(contents: TabItem, title?: string): void {
     this.contentItem = contents;
     this.title = title; // Should be safe even if null as checked in template
-    
-    this.modalService.open(this.popupContainer, 
+
+    this.modalService.open(this.popupContainer,
       {
         windowClass: 'base-popup' // Defined in global styles.scss
       })

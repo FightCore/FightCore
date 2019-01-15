@@ -14,15 +14,14 @@ export class LayoutComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-      
   }
 
   onNotifClick() {
-    console.log("Layout component says onNotificationsClick");
+    console.log('Layout component says onNotificationsClick');
 
     // TODO: Make the notification viewer component active in the background somehow
-      // Want to be listening for push notifications without needing this open. Likely need to separate push service from UI and embed here
-    let notifPopup = new TabItem(NotificationsViewerComponent, "");
-    this.popup.show(notifPopup, "Notifications");
+    // Want to be listening for push notifications without needing this open. Likely need to separate push service from UI and embed here
+    let notifPopup = new TabItem(NotificationsViewerComponent, '');
+    this.popup.show(notifPopup, 'Notifications');
   }
 }

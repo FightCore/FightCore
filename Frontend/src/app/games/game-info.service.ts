@@ -8,18 +8,18 @@ export class GameInfoService {
   private gamesInfo: GameInfo[] = [
     {
       id: 1,
-      fullName: "Super Smash Bros. for Wii U",
-      shortName: "Smash 4"
+      fullName: 'Super Smash Bros. for Wii U',
+      shortName: 'Smash 4'
     },
     {
       id: 2,
-      fullName: "Super Smash Bros. Melee",
-      shortName: "Melee"
+      fullName: 'Super Smash Bros. Melee',
+      shortName: 'Melee' 
     },
     {
       id: 3,
-      fullName: "Rivals of Aether",
-      shortName: "RoA"
+      fullName: 'Rivals of Aether',
+      shortName: 'RoA'
     }
   ]
   private currentGameId: number = 1; // Default to Smash 4 for now
@@ -30,7 +30,7 @@ export class GameInfoService {
    * Gets all support games' basic info
    * @returns All games' basic info
    */
-  public getGames(): GameInfo[] {    
+  public getGames(): GameInfo[] {
     return this.gamesInfo;
   }
 

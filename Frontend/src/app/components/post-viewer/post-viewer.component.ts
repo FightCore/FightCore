@@ -32,7 +32,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
         },
         error => {
           this.isLoading = false;
-          console.log("Failed to get data", error);
+          console.log('Failed to get data', error);
         }
       );
     }
@@ -43,7 +43,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     return this.data.category === PostInfo.CombosCatId;
   }
   getCategoryName(): string {
-    return this.data.category + " (cat name)";
+    return this.data.category + ' (cat name)';
   }
   getAuthorName(): string {
     if (!this.data.author) {
@@ -52,7 +52,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     return this.data.author.userName;
   }
   getCharacterIcon(characterId: number): string {
-    return characterId + " (icon)";
+    return characterId + ' (icon)';
   }
   isDeveloper(): boolean {
     return false;

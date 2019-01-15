@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
     this.sidebarVisible = false;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     this.authService.logOut(true);
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
   sidebarOpen() {
@@ -50,13 +50,15 @@ export class NavbarComponent implements OnInit {
       body.classList.add('nav-open');
 
       this.sidebarVisible = true;
-  };
+  }
+
   sidebarClose() {
       const body = document.getElementsByTagName('body')[0];
       this.toggleButton.classList.remove('toggled');
       this.sidebarVisible = false;
       body.classList.remove('nav-open');
-  };
+  }
+
   sidebarToggle() {
       // const toggleButton = this.toggleButton;
       // const body = document.getElementsByTagName('body')[0];
@@ -69,7 +71,7 @@ export class NavbarComponent implements OnInit {
       }
       const body = document.getElementsByTagName('body')[0];
 
-      if (this.mobile_menu_visible == 1) {
+      if (this.mobile_menu_visible === 1) {
           // $('html').removeClass('nav-open');
           body.classList.remove('nav-open');
           if ($layer) {
@@ -91,7 +93,7 @@ export class NavbarComponent implements OnInit {
 
           if (body.querySelectorAll('.main-panel')) {
               document.getElementsByClassName('main-panel')[0].appendChild($layer);
-          }else if (body.classList.contains('off-canvas-sidebar')) {
+          } else if (body.classList.contains('off-canvas-sidebar')) {
               document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
           }
 
@@ -113,8 +115,8 @@ export class NavbarComponent implements OnInit {
           this.mobile_menu_visible = 1;
 
       }
-  };
-
+  }
+  
   onNotifClick() {
     this.onNavSelection.emit();
   }

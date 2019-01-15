@@ -1,8 +1,8 @@
-import { PostPreview } from "./PostPreview";
+import { PostPreview } from './PostPreview';
 
 export interface PostsPage {
     pageSize: number;
     pageNumber: number;
     total: number;
-    posts: PostPreview[]
+    posts: PostPreview[];
 }

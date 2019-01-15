@@ -7,7 +7,4 @@ export interface PostPreview {
     title: string;
     category: number;
     views: number;
-
-    //rating?: number;
-    //characterIds?: number[];
 }

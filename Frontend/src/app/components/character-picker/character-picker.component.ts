@@ -12,7 +12,6 @@ export class CharacterPickerComponent implements OnInit {
 
   @Input('placeholder') placeholderTitle = 'Select a Character';
   @Input('showAsRequired') isRequired = false; // By default, don't show as required (asterisk vs close button)
-  
   @Input('multiple') isMultiple = false;
   @Input('defaultChar') defaultChar: number = -1;
   @Input('defaultMultiChars') defaultMultipleChar: number[] = [];
@@ -32,41 +31,40 @@ export class CharacterPickerComponent implements OnInit {
     this.fullCharList = CharacterInfo.getCharacters(1); // Just a shortcut
     this.displayCharacters = this.fullCharList; // Display all by default
 
-    if(this.isMultiple) 
+    if (this.isMultiple) {
       this.selection = this.defaultMultipleChar;
-    else
+    } else {
       this.selection = this.defaultChar;
+    }
   }
 
-  
   /**
    * Called when user selects a character (or clears selection) from selector
    */
   onSelectionChange() {
     // Pass the selected character to the parent depending on selection type
     let typeCheckedSel; // Make the compiler happy, could also use typeof checking instead
-    if(this.isMultiple) {
+    if (this.isMultiple) {
       typeCheckedSel = this.selection as number[];
-      
+
       // Build the list of selected characters and output it
       let selectedChars: Character[] = [];
       typeCheckedSel.forEach(id => {
         selectedChars.push(this.fullCharList[id]);
       });
       this.onMultiCharChange.emit(selectedChars);
-    }
-    else {
+    } else {
       typeCheckedSel = this.selection as number;
       this.onCharChange.emit(this.fullCharList[typeCheckedSel]);
     }
   }
 
   onClearCatSelect() {
-    if(this.isMultiple)
+    if (this.isMultiple) {
       this.selection = [];
-    else
+    } else {
       this.selection = -1;
-    
+    }
     this.onSelectionChange();
   }
 

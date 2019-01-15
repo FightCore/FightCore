@@ -13,7 +13,7 @@ import { EditorComponent } from '../editor/editor.component';
 export function urlValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
     // No value is technically valid
-    if(!control.value) {
+    if (!control.value) {
       return null;
     }
 
@@ -97,7 +97,7 @@ export class PostEditorComponent implements OnInit {
   selectedComboType: number[];
 
   skillCategories = PostInfo.PostSkillCategories;
-  selectedSkill: number = 1; // Initialize to N/A
+  selectedSkill: 1; // Initialize to N/A
 
   patches = [
     {
@@ -117,7 +117,7 @@ export class PostEditorComponent implements OnInit {
       name: '1.1.5'
     }
   ];
-  selectedPatch: number = 1; // Initialize to latest patch // TODO: Figure out why not initializing to this
+  selectedPatch: 1; // Initialize to latest patch // TODO: Figure out why not initializing to this
 
   // TODO: Handle certain special move variations, like KO punch vs normal neutral b?
   moves = [
@@ -168,14 +168,14 @@ export class PostEditorComponent implements OnInit {
   onPostCatSelection() {
     // If doing a game-independent post, hide all game-specific controls
     // TODO: Figure out why can't use ===, where's the type difference coming from and how to avoid ==?
-    if (this.selectedPostCat == PostInfo.GameIndependentId) {
+    if (this.selectedPostCat === PostInfo.GameIndependentId) {
       this.showGameSpecificFields = false;
       this.showCombosFields = false; // Technically unnecessary but more complete & robust
     } else {
       this.showGameSpecificFields = true;
 
       // Show combos fields only for combo posts
-      if(this.selectedPostCat == PostInfo.CombosCatId) {
+      if(this.selectedPostCat === PostInfo.CombosCatId) {
         this.showCombosFields = true;
 
         // Set up main character select as required
@@ -294,15 +294,15 @@ export class PostEditorComponent implements OnInit {
     post.title = this.contentFormGroup.controls.titleCtrl.value;
     post.featuredLink = this.contentFormGroup.controls.linkCtrl.value;
     post.content = this.bodyEditor.getContents();
-    
+
     post.skillLevel = this.selectedSkill;
     post.patchId = this.selectedPatch;
 
     // If showing other game fields, use their data as well
-    if(this.showGameSpecificFields) {
+    if (this.showGameSpecificFields) {
       post.characterIds = this.mainCharSelect;
 
-      if(this.showCombosFields) {
+      if (this.showCombosFields) {
         post.targetCharacterIds = this.targetCharSelect;
         post.comboTypeIds = this.selectedComboType;
         post.targetPercent = this.metaFormGroup.controls.comboPercCtrl.value;
@@ -322,7 +322,7 @@ export class PostEditorComponent implements OnInit {
     this.isSubmitting = false;
     this.onSubmitErrorMessage = errorMsg;
   }
-  
+
   /**
    * Determines if the content-specific form group is valid
    * @returns true if content form valid, false if invalid
@@ -332,7 +332,7 @@ export class PostEditorComponent implements OnInit {
     if (this.contentFormGroup.invalid) {
       return false;
     }
-    
+
     // Post must contain either a video or text at least
     let controls = this.contentFormGroup.controls; // Shortcut
     if (this.bodyEditor.isEmpty() && controls.linkCtrl.value === '') {
@@ -353,7 +353,7 @@ export class PostEditorComponent implements OnInit {
   private isSupportedVideo(url: string): string {
     // If youtube vid, return YOUTUBE
     // If 
-    
+
     return '';
   }
 }

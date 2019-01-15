@@ -15,27 +15,27 @@ import { ProfileComponent } from '../pages/profile/profile.component';
 import { SignupComponent } from '../pages/signup/signup.component';
 
 export const LayoutRoutes: Routes = [
-    { 
+    {
         path: 'home',
         component: HomeComponent
     },
-    { 
+    {
         path: 'characters',
         component: CharactersComponent
     },
-    { 
+    {
         path: 'library',
         component: LibraryComponent
     },
-    { 
+    {
         path: 'library/add',
         component: AddPostComponent
     },
-    { 
+    {
         path: 'library/:id/:postName',
         component: ViewPostComponent
     },
-    { 
+    {
         path: 'players',
         component: PlayersComponent
     },
@@ -61,5 +61,4 @@ export const LayoutRoutes: Routes = [
         path: '**',
         component: NotFoundComponent
     }
-    
 ];
