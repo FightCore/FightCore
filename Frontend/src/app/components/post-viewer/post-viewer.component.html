@@ -55,11 +55,20 @@
                 </div>
                 <div *ngIf="isEditing();">
                   <app-editor #bodyEditor></app-editor>
-                  <button mat-icon-button color="primary" (click)="toggleEditing()">Save</button>
+                  <button mat-raised-button color="primary" (click)="toggleEditing()"
+                  matTooltip="Add a post to the library" matTooltipPosition="above">
+                    Save
+                  </button>
                 </div>
-                  
+                <div *ngIf="!isEditing();">
                   <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
-                <button mat-icon-button color="primary" (click)="toggleEditing()">Edit</button>
+                    <button mat-raised-button color="primary" (click)="toggleEditing()"
+                    matTooltip="Add a post to the library" matTooltipPosition="above">
+                      Edit
+                    </button>
+                </div>
+
+
               </div>
             </div>
           </div>
