@@ -25,17 +25,19 @@ export class LoginComponent implements OnInit {
     if (this.authService.hasValidAccessToken()) {
       this.router.navigate(['/home']);
     }
-    this.titleService.setTitle("Login");
+    this.titleService.setTitle('Login');
   }
 
   login() {
     // Safety check, form should always be valid at this point
-    if(this.form.invalid) return;
+    if (this.form.invalid) {
+      return;
+    }
 
     // Show that the form is now loading
     this.isSubmitting = true;
     this.form.disable();
-    this.onSubmitErrorMessage = ""; // Clear for new submit
+    this.onSubmitErrorMessage = ''; // Clear for new submit
 
     this.authService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.usernameControl.value, this.passControl.value)
       .then((tokenResponse => {
@@ -47,8 +49,8 @@ export class LoginComponent implements OnInit {
         this.form.enable();
 
         // TODO: Show some better error message
-        console.log("Error: ", error);
-        this.onSubmitErrorMessage = "Sorry, the submit failed for some reason!"
+        console.log('Error: ', error);
+        this.onSubmitErrorMessage = error.error.error_description;
       });
   }
 
