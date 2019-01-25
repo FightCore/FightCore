@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Title } from '@angular/platform-browser';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { Console } from '@angular/core/src/console';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class NavbarComponent implements OnInit {
   @Output('onNavSelection') onNavSelection = new EventEmitter(); // Outputs when a nav option is selected (currently only notifications)
 
+  username: string;
   private listTitles: any[];
   private mobile_menu_visible: any = 0;
   private toggleButton: any;
@@ -33,6 +35,15 @@ export class NavbarComponent implements OnInit {
          this.mobile_menu_visible = 0;
        }
    });
+
+   this.authService.loadUserProfile().then(
+    obj => {
+      let returnObj = obj as { username: string }; // Can't access Object's properties directly, being extra careful here
+      if(returnObj.username) {
+        console.log(returnObj);
+        this.username = returnObj.username;
+      }
+    });
   }
 
   logOut() {
@@ -124,7 +135,7 @@ export class NavbarComponent implements OnInit {
   get title(): string {
     return this.titleService.getTitle();
   }
-
+  
   get isLoggedIn(): boolean {
     return this.authService.hasValidAccessToken();
   }

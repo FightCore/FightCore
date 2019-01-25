@@ -1,37 +1,42 @@
 <div *ngIf="data; else invalidPost">
   <div *ngIf="simpleMode; else fullDetails">
     <div class="card post-preview"> 
-      <div class="card-header">
+      <div class="card-header card-header-primary">
         <h4 class="card-title">{{data.title}}</h4>
+        <p class="card-category">By {{getAuthorName()}}</p>
       </div>
       <div class="card-body">
-        <div *ngIf="data.featureUrl">
-          Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
-        </div>
-        <div>
-          <i class="material-icons">category</i>
-          <span>{{getCategoryName()}}</span>
-        </div>
-        <div *ngIf="data.characterIds">
-          <i class="material-icons">videogame_asset</i>
-          <span *ngFor="let charId of data.characterIds">
-            {{getCharacterIcon(charId)}}
-          </span>
-        </div>
-        <div *ngIf="isCombo()">
-          At a glance combo info here
-        </div>
-        <div>
-          <i class="material-icons">unfold_more</i>
-          <span>{{data.rating}}</span>
-        </div>
-        <div>
-          <i class="material-icons">visibility</i>
-          <span>{{data.views}}</span>
-        </div>
-        <div>
-          <i class="material-icons">edit</i>
-          <span>{{getAuthorName()}}</span>
+        <div class="row">
+          <div class="col-md-8">
+              <br/> <!--  Ugly, need to remove -->
+              <div *ngIf="data.featureUrl">
+                  Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
+                </div>
+                <div>
+                  <i class="material-icons">category</i>
+                  <span>{{getCategoryName()}}</span>
+                </div>
+                <div *ngIf="data.characterIds">
+                  <i class="material-icons">videogame_asset</i>
+                  <span *ngFor="let charId of data.characterIds">
+                    {{getCharacterIcon(charId)}}
+                  </span>
+                </div>
+                <div *ngIf="isCombo()">
+                  At a glance combo info here
+                </div>
+                <div>
+                  <i class="material-icons">unfold_more</i>
+                  <span>{{data.rating}} Rating</span>
+                </div>
+                <div>
+                  <i class="material-icons">visibility</i>
+                  <span>{{data.views}} Views</span>
+                </div>
+          </div>
+          <div class="col-md-4">
+            <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" width="100px" height="100px"/>
+          </div>
         </div>
       </div>
     </div>

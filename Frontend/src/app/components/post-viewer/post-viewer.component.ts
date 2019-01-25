@@ -4,6 +4,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Post } from '../../models/Post';
 import { PostInfo } from 'src/app/resources/post-info';
 import { EditorComponent } from '../editor/editor.component';
+import { Category } from 'src/app/models/posts/Category';
 
 @Component({
   selector: 'post-viewer',
@@ -42,18 +43,26 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
   isCombo(): boolean {
     return this.data.category === PostInfo.CombosCatId;
   }
+
   getCategoryName(): string {
+    if (this.data.category != null) {
+      return new Category().getCategoryById(this.data.category) + ' (category)';
+    }
+
     return this.data.category + ' (cat name)';
   }
+
   getAuthorName(): string {
     if (!this.data.author) {
       return null;
     }
     return this.data.author.userName;
   }
+
   getCharacterIcon(characterId: number): string {
     return characterId + ' (icon)';
   }
+
   isDeveloper(): boolean {
     return false;
   }
@@ -67,6 +76,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     if (this.data.authorId === 1) {
       this.editing = !this.editing;
     }
+    // Set timeout cause the editor will be NULL otherwise.
     setTimeout(() => {this.bodyEditor.editor.pasteHTML(this.data.content);
     }, 100);
   }

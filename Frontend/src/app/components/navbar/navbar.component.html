@@ -22,7 +22,10 @@
             <ul class="navbar-nav">
                 <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link" [routerLink]="['/profile']" placement="bottom" ngbTooltip="View profile">
-                        <i class="material-icons">person</i>
+                        <!-- <i class="material-icons">person</i> -->
+                        <p>{{ username }}</p>
+                        <!-- Move to TypeScript method.-->
+                        <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" height="30px" width="30px"/>
                         <p>
                             <span class="d-lg-none d-md-block">Account</span>
                         </p>
