@@ -1,41 +1,50 @@
 <div *ngIf="data; else invalidPost">
   <div *ngIf="simpleMode; else fullDetails">
-    <div class="card post-preview"> 
+    <div class="card post-preview">
       <div class="card-header card-header-primary">
-        <h4 class="card-title">{{data.title}}</h4>
-        <p class="card-category">By {{getAuthorName()}}</p>
+        <div class="row">
+          <div class="col-md-10">
+            <h4 class="card-title">{{data.title}}</h4>
+            <p class="card-category">By {{getAuthorName()}}</p>
+          </div>
+          <div class="col-md-2">
+              <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" width="50px"
+              height="50px" />
+            </div>
+        </div>
+
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-8">
-              <br/> <!--  Ugly, need to remove -->
-              <div *ngIf="data.featureUrl">
-                  Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
-                </div>
-                <div>
-                  <i class="material-icons">category</i>
-                  <span>{{getCategoryName()}}</span>
-                </div>
-                <div *ngIf="data.characterIds">
-                  <i class="material-icons">videogame_asset</i>
-                  <span *ngFor="let charId of data.characterIds">
-                    {{getCharacterIcon(charId)}}
-                  </span>
-                </div>
-                <div *ngIf="isCombo()">
-                  At a glance combo info here
-                </div>
-                <div>
-                  <i class="material-icons">unfold_more</i>
-                  <span>{{data.rating}} Rating</span>
-                </div>
-                <div>
-                  <i class="material-icons">visibility</i>
-                  <span>{{data.views}} Views</span>
-                </div>
+            <br /> <!--  Ugly, need to remove -->
+            <div *ngIf="data.featureUrl">
+              Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
+            </div>
+            <div>
+              <i class="material-icons">category</i>
+              <span>{{getCategoryName()}}</span>
+            </div>
+            <div *ngIf="data.characterIds">
+              <i class="material-icons">videogame_asset</i>
+              <span *ngFor="let charId of data.characterIds">
+                {{getCharacterIcon(charId)}}
+              </span>
+            </div>
+            <div *ngIf="isCombo()">
+              At a glance combo info here
+            </div>
+            <div>
+              <i class="material-icons">unfold_more</i>
+              <span>{{data.rating}} Rating</span>
+            </div>
+            <div>
+              <i class="material-icons">visibility</i>
+              <span>{{data.views}} Views</span>
+            </div>
           </div>
           <div class="col-md-4">
-            <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" width="100px" height="100px"/>
+
           </div>
         </div>
       </div>
@@ -46,49 +55,49 @@
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <ng-template #showDetails>
-        <div class="row post-container">
-          <div class="isDeveloper() ? col-md-8 : col-md-12">
-            <div class="card"> 
-              <div class="card-header">
-                <h4 class="card-title">By {{getAuthorName()}}</h4>
-              </div>
-              <div class="card-body">
-                <div *ngIf="data.featureUrl">
-                  <a [href]="data.featureUrl">
-                    {{data.featureUrl}}
-                  </a>
-                </div>
-                <div *ngIf="isEditing();">
-                  <app-editor #bodyEditor></app-editor>
-                  <button mat-raised-button color="primary" (click)="toggleEditing()"
-                  matTooltip="Add a post to the library" matTooltipPosition="above">
-                    Save
-                  </button>
-                </div>
-                <div *ngIf="!isEditing();">
-                  <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
-                    <button mat-raised-button color="primary" (click)="toggleEditing()"
-                    matTooltip="Add a post to the library" matTooltipPosition="above">
-                      Edit
-                    </button>
-                </div>
-              </div>
+      <div class="row post-container">
+        <div class="isDeveloper() ? col-md-8 : col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">By {{getAuthorName()}}</h4>
             </div>
-          </div>
-          <!-- Enabled if developer -->
-          <div *ngIf="isDeveloper()" class="col-md-4">
-            <div class="card"> 
-              <div class="card-header">
-                <h4 class="card-title">Extra Info</h4>
+            <div class="card-body">
+              <div *ngIf="data.featureUrl">
+                <a [href]="data.featureUrl">
+                  {{data.featureUrl}}
+                </a>
               </div>
-              <div class="card-body">
-                <div>
-                  <p>{{data | json}}</p>
-                </div>
+              <div *ngIf="isEditing();">
+                <app-editor #bodyEditor></app-editor>
+                <button mat-raised-button color="primary" (click)="toggleEditing()" matTooltip="Add a post to the library"
+                  matTooltipPosition="above">
+                  Save
+                </button>
+              </div>
+              <div *ngIf="!isEditing();">
+                <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
+                <button mat-raised-button color="primary" (click)="toggleEditing()" matTooltip="Add a post to the library"
+                  matTooltipPosition="above">
+                  Edit
+                </button>
               </div>
             </div>
           </div>
         </div>
+        <!-- Enabled if developer -->
+        <div *ngIf="isDeveloper()" class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Extra Info</h4>
+            </div>
+            <div class="card-body">
+              <div>
+                <p>{{data | json}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </ng-template>
 </div>
