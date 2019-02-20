@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.2.0-preview1-35029" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Bindings" />
+  </ItemGroup>
+
 </Project>
