@@ -77,7 +77,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
       this.editing = !this.editing;
     }
     // Set timeout cause the editor will be NULL otherwise.
-    setTimeout(() => {this.bodyEditor.editor.pasteHTML(this.data.content);
+    setTimeout(() => {this.bodyEditor.setText(this.data.content);
     }, 100);
   }
 }

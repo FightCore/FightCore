@@ -1,4 +1,3 @@
-<div>
-  <div id="toolbar"></div>
-  <div #editorContainer></div>
-</div>
+<button class="btn btn-primary" (click)="toggleMarkdown()">{{ isMarkdown() == true ? 'Fancy editor': 'Markdown editor' }}</button>
+<td-text-editor *ngIf="isMarkdown()" #textEditor [options]="options"></td-text-editor>
+<quill-editor *ngIf="!isMarkdown()"></quill-editor>

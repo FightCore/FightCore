@@ -28,6 +28,8 @@ import { NotificationsViewerComponent } from './notifications-viewer/notificatio
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
+import { CovalentTextEditorModule } from '@covalent/text-editor';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   imports: [
@@ -51,7 +53,9 @@ import { NotificationService } from '../services/notification.service';
     MatToolbarModule,
     ToastrModule.forRoot(),
     NgbModalModule, // Yes this is necessary for popups even if not directly used anywhere
-    NgbTooltipModule
+    NgbTooltipModule,
+    CovalentTextEditorModule,
+    QuillModule
   ],
   declarations: [
     FooterComponent,
