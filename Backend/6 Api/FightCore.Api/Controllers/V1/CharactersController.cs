@@ -16,13 +16,13 @@ namespace FightCore.Api.Controllers.V1
     {
         private readonly ICharacterService _characterService;
         private readonly IMapper _mapper;
-        
+
         public CharactersController(ICharacterService characterService, IMapper mapper)
         {
             _characterService = characterService;
             _mapper = mapper;
         }
-        
+
         /// <summary>
         /// Gets all characters known in FightCore
         /// </summary>
@@ -33,12 +33,12 @@ namespace FightCore.Api.Controllers.V1
             var characters = await _characterService.GetAllAsync();
 
             var mappedCharacters = _mapper.Map<List<CharacterResource>>(characters);
-            
+
             return Ok(mappedCharacters);
         }
-        
+
         /// <summary>
-        /// Gets a character based on it's id. 
+        /// Gets a character based on it's id.
         /// </summary>
         /// <returns>A character object.</returns>
         [HttpGet("{id}")]
@@ -50,9 +50,9 @@ namespace FightCore.Api.Controllers.V1
             {
                 return NotFound();
             }
-            
+
             var mappedCharacter = _mapper.Map<CharacterResource>(character);
-            
+
             return Ok(mappedCharacter);
         }
 

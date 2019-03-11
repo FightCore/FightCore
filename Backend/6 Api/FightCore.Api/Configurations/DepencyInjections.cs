@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SignalR;
 using FightCore.Api.Notifications;
+using FightCore.Services.Characters;
 
 namespace FightCore.Api.Configurations
 {
@@ -46,6 +47,7 @@ namespace FightCore.Api.Configurations
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<INotificationService, NotificationService>();
 
             return services;

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import Quill from 'quill';
+import { QuillModule } from 'ngx-quill';
 
 // NOTE: Quill doesn't currently support tables at all
 

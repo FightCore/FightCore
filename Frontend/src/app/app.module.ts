@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app.routing';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
         allowedUrls: [environment.baseUrl],
         sendAccessToken: true
       }
-    })
+    }),
+    QuillModule
   ],
   providers: [],
   bootstrap: [AppComponent]
