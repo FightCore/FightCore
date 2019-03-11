@@ -8,11 +8,10 @@
             <p class="card-category">By {{getAuthorName()}}</p>
           </div>
           <div class="col-md-2">
-              <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" width="50px"
-              height="50px" />
-            </div>
+            <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png"
+              width="50px" height="50px" />
+          </div>
         </div>
-
       </div>
       <div class="card-body">
         <div class="row">
@@ -34,17 +33,18 @@
             <div *ngIf="isCombo()">
               At a glance combo info here
             </div>
-            <div>
+            <div *ngIf="data.rating">
               <i class="material-icons">unfold_more</i>
               <span>{{data.rating}} Rating</span>
+            </div>
+            <div *ngIf="!data.rating">
+              <i class="material-icons">unfold_more</i>
+              <span>0 Rating</span>
             </div>
             <div>
               <i class="material-icons">visibility</i>
               <span>{{data.views}} Views</span>
             </div>
-          </div>
-          <div class="col-md-4">
-
           </div>
         </div>
       </div>
@@ -58,8 +58,9 @@
       <div class="row post-container">
         <div class="isDeveloper() ? col-md-8 : col-md-12">
           <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">By {{getAuthorName()}}</h4>
+            <div class="card-header card-header-primary">
+              <h1 class="card-title">{{data.title}}</h1>
+              <h3 class="card-title">By {{getAuthorName()}}</h3>
             </div>
             <div class="card-body">
               <div *ngIf="data.featureUrl">
@@ -69,15 +70,15 @@
               </div>
               <div *ngIf="isEditing();">
                 <app-editor #bodyEditor></app-editor>
-                <button mat-raised-button color="primary" (click)="toggleEditing()" matTooltip="Add a post to the library"
-                  matTooltipPosition="above">
+                <button mat-raised-button color="primary" (click)="toggleEditing()"
+                  matTooltip="Add a post to the library" matTooltipPosition="above">
                   Save
                 </button>
               </div>
               <div *ngIf="!isEditing();">
                 <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
-                <button mat-raised-button color="primary" (click)="toggleEditing()" matTooltip="Add a post to the library"
-                  matTooltipPosition="above">
+                <button mat-raised-button color="primary" (click)="toggleEditing()"
+                  matTooltip="Add a post to the library" matTooltipPosition="above">
                   Edit
                 </button>
               </div>

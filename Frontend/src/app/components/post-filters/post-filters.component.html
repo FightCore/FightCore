@@ -3,7 +3,7 @@
     <div>
       <mat-form-field>
         <mat-select matInput #catSelect
-          placeholder="Category"
+          placeholder="Select a category"
           [(value)]="selectedPostCat"
           (selectionChange)="onSelectChange()">
           <mat-option *ngFor="let category of postCatgories" [value]="category.id">
@@ -19,6 +19,6 @@
     </div>
   </div>
   <div class="post-filter">
-    <character-picker placeholder="[Doesn't work yet]" multiple="true"></character-picker>
+    <character-picker placeholder="Select a character" multiple="true"></character-picker>
   </div>
 </div>
