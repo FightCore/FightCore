@@ -2,8 +2,15 @@
   <div *ngIf="simpleMode; else fullDetails">
     <div class="card post-preview"> 
       <div class="card-header card-header-primary">
-        <h4 class="card-title">{{data.title}}</h4>
-        <p class="card-category">By {{getAuthorName()}}</p>
+        <div class="row">
+          <div class="col-md-10">
+              <h4 class="card-title">{{data.title}}</h4>
+              <p class="card-category">By {{getAuthorName()}}</p>
+          </div>
+            <div class="col-md-2">
+              <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" width="50px" height="50px"/>
+            </div>
+        </div>
       </div>
       <div class="card-body">
         <div class="row">
@@ -33,9 +40,6 @@
                   <i class="material-icons">visibility</i>
                   <span>{{data.views}} Views</span>
                 </div>
-          </div>
-          <div class="col-md-4">
-            <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" width="100px" height="100px"/>
           </div>
         </div>
       </div>
