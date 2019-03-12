@@ -1,3 +1,3 @@
 <button class="btn btn-primary" (click)="toggleMarkdown()">{{ isMarkdown() == true ? 'Fancy editor': 'Markdown editor' }}</button>
 <td-text-editor *ngIf="isMarkdown()" #textEditor [options]="options"></td-text-editor>
-<quill-editor *ngIf="!isMarkdown()"></quill-editor>
+<quill-editor *ngIf="!isMarkdown()" [ngModel]="html"></quill-editor>

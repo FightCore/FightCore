@@ -30,7 +30,7 @@ import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { QuillModule } from 'ngx-quill';
-import { Showdown } from 'showdown';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -53,11 +53,12 @@ import { Showdown } from 'showdown';
     MatPaginatorModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
+    MarkdownModule.forRoot(),
     NgbModalModule, // Yes this is necessary for popups even if not directly used anywhere
     NgbTooltipModule,
     CovalentTextEditorModule,
     QuillModule,
-    Showdown
+    // Showdown
   ],
   declarations: [
     FooterComponent,

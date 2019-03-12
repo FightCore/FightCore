@@ -1,21 +1,25 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CovalentTextEditorModule, TdTextEditorComponent } from '@covalent/text-editor';
-
+import { MarkdownService } from 'ngx-markdown';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements OnInit, AfterViewInit {
+export class EditorComponent implements OnInit {
   @ViewChild('textEditor') _textEditor: TdTextEditorComponent;
   @ViewChild('editorContainer') container: ElementRef;
 
   initText: string;
   markdownEditor: boolean;
   markdown: string;
+  html: string;
 
-  constructor() { }
+  constructor(private markdownService: MarkdownService) {
+  }
+
   options: any = {
     lineWrapping: true,
     toolbar: ['bold', 'italic', 'heading', '|', 'quote', 'side-by-side', 'fullscreen', 'preview'],
@@ -23,9 +27,6 @@ export class EditorComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit(): void {
   }
 
   /**
@@ -49,19 +50,26 @@ export class EditorComponent implements OnInit, AfterViewInit {
 
   public setText(text: string) {
     this.markdown = text;
-    this._textEditor.writeValue(text);
+    this.html = this.markdownService.compile(text);
   }
 
   public isMarkdown(): boolean {
     return this.markdownEditor;
   }
 
-  public toggleMarkdown(button: any) {
-    this.markdownEditor = !this.markdownEditor;
+  public toggleMarkdown() {
     if (this.markdownEditor) {
-      button.text = 'Fancy Editor';
-    } else {
-      button.text = 'Markdown Editor';
+      this.setText(this._textEditor.value);
     }
+
+    this.markdownEditor = !this.markdownEditor;
+
+    if (this.markdownEditor) {
+      setTimeout(() => { this._textEditor.writeValue(this.markdown); }, 100);
+    }
+  }
+
+  editor(quill: Quill) {
+    console.log('Quill ' + quill.getText());
   }
 }
