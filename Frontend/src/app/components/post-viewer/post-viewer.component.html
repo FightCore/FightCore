@@ -17,7 +17,7 @@
         <div class="row">
           <div class="col-md-8">
             <br /> <!--  Ugly, need to remove -->
-            <div *ngIf="data.featureUrl">
+            <div *ngIf="data.featuredLink">
               Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
             </div>
             <div>
@@ -63,9 +63,9 @@
               <h3 class="card-title">By {{getAuthorName()}}</h3>
             </div>
             <div class="card-body">
-              <div *ngIf="data.featureUrl">
-                <a [href]="data.featureUrl">
-                  {{data.featureUrl}}
+              <div *ngIf="data.featuredLink">
+                <a [href]="data.featuredLink">
+                  {{data.featuredLink}}
                 </a>
               </div>
               <div *ngIf="isEditing();">
