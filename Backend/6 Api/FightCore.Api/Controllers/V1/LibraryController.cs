@@ -253,6 +253,8 @@ namespace FightCore.Api.Controllers.V1
 		    }
 
 		    await _postService.DeleteByIdAsync(id);
+
+		    await _unitOfWork.SaveChangesAsync();
 			return Ok();
 		}
 
@@ -267,7 +269,23 @@ namespace FightCore.Api.Controllers.V1
 		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
 		public async Task<IActionResult> Publish(int id, bool isPublic = true)
 		{
-			return Ok();
+		    var post = await _postService.FindByIdAsync(id);
+		    if (post == null)
+		    {
+		        return NotFound();
+		    }
+
+		    int.TryParse(_userManager.GetUserId(User), out var userId);
+		    if (post.AuthorId != userId)
+		    {
+		        return Unauthorized();
+		    }
+
+		    post.Published = isPublic;
+		    _postService.Update(post);
+		    await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
 		}
 
 	}

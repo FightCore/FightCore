@@ -73,15 +73,19 @@ export class PostService extends BaseService {
       .set('pageNumber', pageNumber.toString())
       .set('sortOption', sortId.toString())
       .set('categoryFilter', category.toString());
-    
+ 
     return this.http.get<PostsPage>(
       `${environment.baseUrl}/library`,
       { headers: this.defaultHeaders, params: params })
       .pipe(catchError(this.handleError));
   }
 
-  public createPost(newPost : PostSubmission): Observable<Post> {
+  public createPost(newPost: PostSubmission): Observable<Post> {
     return this.http.post<Post>(`${environment.baseUrl}/library`, newPost, {headers: this.defaultHeaders})
       .pipe(catchError(this.handleError));
+  }
+
+  public publishPost(postId: number, publishState: boolean) {
+    return this.http.post(`${environment.baseUrl}/library/publish/${postId}/${publishState}`, null).pipe(catchError(this.handleError));
   }
 }

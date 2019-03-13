@@ -74,21 +74,33 @@
                   {{data.featuredLink}}
                 </a>
               </div>
-              <div *ngIf="!data.featuredLink">
-                <div *ngIf="isEditing();">
-                  <app-editor #bodyEditor></app-editor>
-                  <button mat-raised-button color="primary" (click)="toggleEditing()"
-                    matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
-                    Save
+              <div *ngIf="isMyPost()">
+                <div *ngIf="!data.featuredLink">
+                  <div *ngIf="isEditing();">
+                    <app-editor #bodyEditor></app-editor>
+                    <button mat-raised-button color="primary" (click)="toggleEditing()"
+                      matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
+                      Save
+                    </button>
+                  </div>
+                  <div *ngIf="!isEditing();">
+                    <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
+                    <button mat-raised-button color="primary" (click)="toggleEditing()"
+                      matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
+                      Edit
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <strong i18n>Status: </strong> {{ data.published ? 'Published' : 'Un-Published' }}
+                  <button mat-raised-button color="primary" (click)="publishItem()"
+                  matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
+                    Publish
                   </button>
                 </div>
-                <div *ngIf="!isEditing();">
-                  <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
-                  <button mat-raised-button color="primary" (click)="toggleEditing()"
-                    matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
-                    Edit
-                  </button>
-                </div>
+              </div>
+              <div *ngIf="!isMyPost()">
+                <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
               </div>
             </div>
           </div>

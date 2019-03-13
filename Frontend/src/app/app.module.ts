@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app.routing';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
     OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: [environment.baseUrl],

@@ -27,4 +27,6 @@ export interface Post {
     title: string;
     featuredLink?: string;
     content?: string;
+
+    published?: boolean;
 }

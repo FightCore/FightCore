@@ -5,6 +5,8 @@ import { Post } from '../../models/Post';
 import { PostInfo } from 'src/app/resources/post-info';
 import { EditorComponent } from '../editor/editor.component';
 import { Category } from 'src/app/models/posts/Category';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'post-viewer',
@@ -19,7 +21,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
   isLoading: boolean;
   editing: boolean;
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private oauthService: OAuthService, private toastr: ToastrService) { }
 
   ngOnInit() {
     // If showing full post and don't have all data, then need to load that data
@@ -67,17 +69,46 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     return false;
   }
 
+  isMyPost(): boolean {
+    return this.data.authorId === this.getUserClaim();
+  }
+
+  getUserClaim(): number {
+    const claims = this.oauthService.getIdentityClaims();
+    if (!claims) {
+      return null;
+    }
+    // Property is available, TypeScript not being a bro today.
+    // @ts-ignore
+    return parseFloat(`${claims.sub}`);
+  }
+
   isEditing(): boolean {
     return this.editing;
   }
 
   toggleEditing(): void {
     // TODO look for user id.
-    if (this.data.authorId === 1) {
+    if (this.isMyPost()) {
       this.editing = !this.editing;
+
+      // Set timeout cause the editor will be NULL otherwise.
+      setTimeout(() => {
+        this.bodyEditor.setText(this.data.content);
+      }, 100);
     }
-    // Set timeout cause the editor will be NULL otherwise.
-    setTimeout(() => {this.bodyEditor.setText(this.data.content);
-    }, 100);
+
+  }
+
+  publishItem(): void {
+    if (this.isMyPost()) {
+      this.postService.publishPost(this.data.id, !this.data.published).subscribe(_ => {
+        this.data.published = !this.data.published;
+        this.toastr.success('Success', 'Changed pulish status!');
+      },
+        error => {
+          this.toastr.error('Error', 'Failed to change status');
+        });
+    }
   }
 }

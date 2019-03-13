@@ -76,5 +76,10 @@ namespace FightCore.Api.Resources.Posts
         /// If the post is patch dependent this will contain the patchId.
         /// </summary>
         public int PatchId { get; set; }
+
+        /// <summary>
+        /// Indicates if the post has been published.
+        /// </summary>
+        public bool Published { get; set; }
     }
 }
