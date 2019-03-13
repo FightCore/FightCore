@@ -71,13 +71,10 @@ namespace FightCore.Repositories.Resources
 
             if (category == null)
             {
-                return sorted
-                    .Include(p => p.Author)
-                    .Skip(pageSize * (pageNumber - 1))
-                    .Take(pageSize);
+                return sorted.Include(p => p.Author).Where(x => x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
             }
 
-            return sorted.Include(p => p.Author).Where(x => x.Category == category).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            return sorted.Include(p => p.Author).Where(x => x.Category == category && x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
         }
 
         /// <inheritdoc/>
