@@ -39,5 +39,10 @@ namespace FightCore.Api.Resources.Posts
 		/// The category the post was made in.
 		/// </summary>
         public int Category { get; set; }
+
+		/// <summary>
+        /// The link featured in the post.
+        /// </summary>
+        public string FeaturedLink { get; set; }
     }
 }

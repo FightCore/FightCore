@@ -6,6 +6,9 @@
           <div class="col-md-10">
             <h4 class="card-title">{{data.title}}</h4>
             <p class="card-category">By {{getAuthorName()}}</p>
+            <div *ngIf="data.featuredLink">
+              External Link
+            </div>
           </div>
           <div class="col-md-2">
             <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png"
@@ -15,11 +18,8 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <br /> <!--  Ugly, need to remove -->
-            <div *ngIf="data.featuredLink">
-              Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
-            </div>
             <div>
               <i class="material-icons">category</i>
               <span>{{getCategoryName()}}</span>
@@ -64,23 +64,31 @@
             </div>
             <div class="card-body">
               <div *ngIf="data.featuredLink">
+                <p>
+                  <i>
+                    Note that this link may send you off the FightCore platform. Be wary of the link and proceed with
+                    care.
+                  </i>
+                </p>
                 <a [href]="data.featuredLink">
                   {{data.featuredLink}}
                 </a>
               </div>
-              <div *ngIf="isEditing();">
-                <app-editor #bodyEditor></app-editor>
-                <button mat-raised-button color="primary" (click)="toggleEditing()"
-                  matTooltip="Add a post to the library" matTooltipPosition="above">
-                  Save
-                </button>
-              </div>
-              <div *ngIf="!isEditing();">
-                <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
-                <button mat-raised-button color="primary" (click)="toggleEditing()"
-                  matTooltip="Add a post to the library" matTooltipPosition="above">
-                  Edit
-                </button>
+              <div *ngIf="!data.featuredLink">
+                <div *ngIf="isEditing();">
+                  <app-editor #bodyEditor></app-editor>
+                  <button mat-raised-button color="primary" (click)="toggleEditing()"
+                    matTooltip="Add a post to the library" matTooltipPosition="above">
+                    Save
+                  </button>
+                </div>
+                <div *ngIf="!isEditing();">
+                  <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
+                  <button mat-raised-button color="primary" (click)="toggleEditing()"
+                    matTooltip="Add a post to the library" matTooltipPosition="above">
+                    Edit
+                  </button>
+                </div>
               </div>
             </div>
           </div>

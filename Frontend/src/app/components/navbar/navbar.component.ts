@@ -97,7 +97,7 @@ export class NavbarComponent implements OnInit {
               $toggle.classList.add('toggled');
           }, 430);
 
-          const $layer = document.createElement('div');
+          var $layer = document.createElement('div');
           $layer.setAttribute('class', 'close-layer');
 
 
