@@ -4,7 +4,7 @@
             <a class="navbar-brand" href="#">{{title}}</a>
         </div> -->
         <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
-            <span class="sr-only">Toggle navigation</span>
+            <span i18n class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
@@ -14,7 +14,7 @@
                 <div class="input-group no-border">
                     <input type="text" value="" class="form-control" placeholder="Not active yet...">
                     <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
-                        <i class="material-icons">search</i>
+                        <i i18n class="material-icons">search</i>
                         <div class="ripple-container"></div>
                     </button>
                 </div>
@@ -27,7 +27,7 @@
                         <!-- Move to TypeScript method.-->
                         <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png" height="30px" width="30px"/>
                         <p>
-                            <span class="d-lg-none d-md-block">Account</span>
+                            <span i18n class="d-lg-none d-md-block">Account</span>
                         </p>
                     </a>
                 </li>
@@ -35,7 +35,7 @@
                     <a class="nav-link" (click)="onNotifClick()" placement="bottom" ngbTooltip="View notifications">
                         <i class="material-icons">notifications_none</i>
                         <p>
-                            <span class="d-lg-none d-md-block">Notifications</span>
+                            <span i18n class="d-lg-none d-md-block">Notifications</span>
                         </p>
                     </a>
                 </li>
@@ -43,7 +43,7 @@
                     <a class="nav-link" (click)="logOut()" placement="bottom-right" ngbTooltip="Sign out">
                         <i class="material-icons">exit_to_app</i>
                         <p>
-                            <span class="d-lg-none d-md-block">Sign out</span>
+                            <span i18n class="d-lg-none d-md-block">Sign out</span>
                         </p>
                     </a>
                 </li>
@@ -51,7 +51,7 @@
                     <a class="nav-link" [routerLink]="['/login']" placement="bottom-right" ngbTooltip="Sign in">
                         <i class="material-icons">vpn_key</i>
                         <p>
-                            <span class="d-lg-none d-md-block">Sign in</span>
+                            <span i18n class="d-lg-none d-md-block">Sign in</span>
                         </p>
                     </a>
                 </li>

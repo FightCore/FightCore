@@ -19,7 +19,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
 
   // These are set from server
   static readonly BROADCAST_NAME = 'BroadcastNotification';
-  static readonly PAGE_SIZE = 20; // Can't make static as template can't read it
+  readonly PAGE_SIZE = 20; // Can't make static as template can't read it
 
   // Limits for toast notification (currently just guessimating good numbers)
   static readonly TOAST_MAX_TITLE_LENGTH = 25;

@@ -1,8 +1,8 @@
 <mat-horizontal-stepper [linear]="true" #stepper>
   <mat-step [stepControl]="metaFormGroup">
     <form [formGroup]="metaFormGroup">
-      <ng-template matStepLabel>What is this post about?</ng-template>
-      <p>Help people find your content!</p>
+      <ng-template matStepLabel i18n>What is this post about?</ng-template>
+      <p i18n>Help people find your content!</p>
       <mat-form-field>
         <mat-select matInput
           formControlName="postCatCtrl" required
@@ -62,16 +62,16 @@
         </div>
       </div>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext i18n>Next</button>
       </div>
     </form>
   </mat-step>
 
   <mat-step [stepControl]="additionalFormGroup">
     <form [formGroup]="additionalFormGroup">
-      <ng-template matStepLabel>Optional details</ng-template>
-      <p>Keep your content relevant in the long run | {{selectedPatch}}</p>
-      <div>Skill Estimate: 
+      <ng-template matStepLabel i18n>Optional details</ng-template>
+      <p i18n>Keep your content relevant in the long run | {{selectedPatch}}</p>
+      <div i18n>Skill Estimate: 
         <mat-button-toggle-group
           name="skillSelect" 
           aria-label="Skill Select" 
@@ -94,17 +94,17 @@
         </mat-select>
       </mat-form-field>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious i18n>Back</button>
+        <button mat-button matStepperNext i18n>Next</button>
       </div>
    </form>
   </mat-step>
 
   <mat-step [stepControl]="contentFormGroup">
     <form [formGroup]="contentFormGroup">
-      <ng-template matStepLabel>Contents of the post?</ng-template>
-      <p>Fill out the content people will always see</p>
-      <p>Required to either have at least video url or text body</p>
+      <ng-template matStepLabel i18n>Contents of the post?</ng-template>
+      <p i18n>Fill out the content people will always see</p>
+      <p i18n>Required to either have at least video url or text body</p>
 
       <mat-form-field>
         <input matInput placeholder="Post Title" formControlName="titleCtrl" required>
@@ -113,31 +113,31 @@
       <mat-form-field>
         <input matInput matLinkPreview type="url" placeholder="Featured Link" formControlName="linkCtrl" (blur)="onFeaturedLinkChange()">
         
-        <mat-error *ngIf="contentFormGroup.controls.linkCtrl.hasError('badUrl')">
+        <mat-error *ngIf="contentFormGroup.controls.linkCtrl.hasError('badUrl')" i18n>
           Link url format is invalid. Did you miss a https:// or http://?
         </mat-error>
       </mat-form-field>
 
       <div>
-        <mat-label>Post Body</mat-label>
+        <mat-label i18n>Post Body</mat-label>
         <app-editor #bodyEditor></app-editor>
       </div>
       
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperPrevious i18n>Back</button>
+        <button mat-button matStepperNext i18n>Next</button>
       </div>
     </form>
   </mat-step>
 
   <mat-step>
     <ng-template matStepLabel>Submit</ng-template>
-    <p>Todo: Summary details here</p>
-    <p>Save for later (at some point), or submit straight away!</p>
+    <p i18n>Todo: Summary details here</p>
+    <p i18n>Save for later (at some point), or submit straight away!</p>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="onResetClick()">Reset</button>
-      <button mat-button (click)="onSubmitClick()">Submit</button>
+      <button mat-button matStepperPrevious i18n>Back</button>
+      <button mat-button (click)="onResetClick()" i18n>Reset</button>
+      <button mat-button (click)="onSubmitClick()" i18n>Submit</button>
     </div>
     <div>
       <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
