@@ -22,21 +22,21 @@ matrix:
             - npm install
         script:
             - ng build --prod
-    #   - language: csharp
-    #     mono: none 
-    #     dotnet: 2.1.401
+      - language: csharp
+        mono: none 
+        dotnet: 2.1.401
 
-    #     install:
-    #         - cd Backend
-    #         - dotnet tool install --global dotnet-sonarscanner
-    #         - dotnet restore
+        install:
+            - cd Backend
+            - dotnet tool install --global dotnet-sonarscanner
+            - dotnet restore
 
-    #     before_script:
-    #         - export PATH="$PATH:$HOME/.dotnet/tools"
-    #     script:
-    #         - dotnet sonarscanner begin /k:"fightcore-ci-test" /n:"FightCore" /v:"1" /o:"bartdebever-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$SONAR_TOKEN"
-    #         - dotnet build
-    #         - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
+        before_script:
+            - export PATH="$PATH:$HOME/.dotnet/tools"
+        script:
+            - dotnet sonarscanner begin /k:"FightCore_FightCore" /n:"FightCore" /v:"1" /o:"fightcore" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$SONAR_TOKEN"
+            - dotnet build
+            - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
         cache:
             directories:
                 - '$HOME/.nuget/packages'
@@ -45,8 +45,8 @@ matrix:
 
     #   - language: java
     #     dist: trusty
-    #     addons:
-    #         sonarcloud:
-    #             organization: "bartdebever-github"
-    #     script:
-    #         - sonar-scanner
+        addons:
+            sonarcloud:
+                organization: "fightcore"
+        script:
+            - sonar-scanner
