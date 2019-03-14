@@ -25,7 +25,7 @@ import { PostPopupComponent } from './post-popup/post-popup.component';
 import { PopupComponent } from './popup/popup.component';
 import { EditorComponent } from './editor/editor.component';
 import { NotificationsViewerComponent } from './notifications-viewer/notifications-viewer.component';
-// import { ToastrModule } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
@@ -52,7 +52,7 @@ import { MarkdownModule } from 'ngx-markdown';
     MatProgressBarModule,
     MatPaginatorModule,
     MatToolbarModule,
-    // ToastrModule.forRoot(),
+    ToastrModule.forRoot(),
     MarkdownModule.forRoot(),
     NgbModalModule, // Yes this is necessary for popups even if not directly used anywhere
     NgbTooltipModule,
