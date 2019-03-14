@@ -43,8 +43,8 @@ matrix:
                 - '$HOME/.local/share/NuGet/Cache'
                 - '$HOME/.sonar/cache'
 
-    #   - language: java
-    #     dist: trusty
+      - language: java
+        dist: trusty
         addons:
             sonarcloud:
                 organization: "fightcore"
