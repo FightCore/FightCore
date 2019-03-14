@@ -4,11 +4,10 @@
       <div class="card-header card-header-primary">
         <div class="row">
           <div class="col-md-10">
-            <h4 class="card-title">{{data.title}}</h4>
+            <h4 class="card-title"><i *ngIf="data.featuredLink" class="material-icons">trending_up</i>{{data.title}}</h4>
             <p class="card-category" i18n>By {{getAuthorName()}}</p>
-            <div *ngIf="data.featuredLink" i18n>
-              External Link
-            </div>
+            <a *ngIf="data.featuredLink" class="externalLink" [href]="data.featuredLink">{{data.featuredLink}}</a>
+            <div *ngIf="!data.featuredLink">One liner about the post itself.</div>
           </div>
           <div class="col-md-2">
             <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png"
