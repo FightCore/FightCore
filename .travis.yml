@@ -43,8 +43,8 @@ matrix:
                 - '$HOME/.local/share/NuGet/Cache'
                 - '$HOME/.sonar/cache'
 
-        addons:
-            sonarcloud:
-                organization: "fightcore"
-        script:
-            - sonar-scanner
+        # addons:
+        #     sonarcloud:
+        #         organization: "fightcore"
+        # script:
+        #     - sonar-scanner
