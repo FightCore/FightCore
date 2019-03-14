@@ -11,7 +11,7 @@
           </div>
           <div class="col-md-2">
             <img src="https://cdn.discordapp.com/attachments/385487978258104320/537929245607985152/mario.png"
-              width="50px" height="50px" />
+              alt="Post image" width="50px" height="50px" />
           </div>
         </div>
       </div>
@@ -19,11 +19,11 @@
         <div class="row">
           <div class="col-md-12">
             <div>
-              <i class="material-icons">category</i>
+              <em class="material-icons">category</em>
               <span>{{getCategoryName()}}</span>
             </div>
             <div *ngIf="data.characterIds">
-              <i class="material-icons">videogame_asset</i>
+              <em class="material-icons">videogame_asset</em>
               <span *ngFor="let charId of data.characterIds">
                 {{getCharacterIcon(charId)}}
               </span>
@@ -32,15 +32,15 @@
               At a glance combo info here
             </div>
             <div *ngIf="data.rating">
-              <i class="material-icons">unfold_more</i>
+              <em class="material-icons">unfold_more</em>
               <span i18n>{{data.rating}} Rating</span>
             </div>
             <div *ngIf="!data.rating">
-              <i class="material-icons">unfold_more</i>
+              <em class="material-icons">unfold_more</em>
               <span i18n>0 Rating</span>
             </div>
             <div>
-              <i class="material-icons">visibility</i>
+              <em class="material-icons">visibility</em>
               <span i18n>{{data.views}} Views</span>
             </div>
           </div>
