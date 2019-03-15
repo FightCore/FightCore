@@ -35,16 +35,20 @@ namespace FightCore.Api.Controllers.V1
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly IHubContext<NotifyHub, ITypedHubClient> _hubContext;
 
         /// <inheritdoc />
-        public NotificationsController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext, UserManager<ApplicationUser> userManager)
+        public NotificationsController(
+            IConfiguration configuration,
+            IUnitOfWorkAsync unitOfWork,
+            INotificationService notificationService,
+            IMapper mapper,
+            ////IHubContext<NotifyHub, ITypedHubClient> hubContext,
+            UserManager<ApplicationUser> userManager)
         {
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _notificationService = notificationService;
             _mapper = mapper;
-            _hubContext = hubContext;
             _userManager = userManager;
         }
 

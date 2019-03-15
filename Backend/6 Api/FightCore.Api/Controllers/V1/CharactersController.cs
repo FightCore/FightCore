@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FightCore.Api.Controllers.V1
 {
+    /// <inheritdoc />
     [Route("[controller]")]
     [ApiController]
     [ApiVersion("1")]
@@ -17,6 +18,7 @@ namespace FightCore.Api.Controllers.V1
         private readonly ICharacterService _characterService;
         private readonly IMapper _mapper;
 
+        /// <inheritdoc />
         public CharactersController(ICharacterService characterService, IMapper mapper)
         {
             _characterService = characterService;
@@ -62,9 +64,10 @@ namespace FightCore.Api.Controllers.V1
         /// <param name="id">The character's id.</param>
         /// <returns>A list of posts.</returns>
         [HttpGet("posts/{id}")]
-        public Task<IActionResult> GetPosts(int id)
+        public async Task<IActionResult> GetPosts(int id)
         {
-            return null;
+            await Task.Delay(0);
+            return Ok();
         }
     }
 }

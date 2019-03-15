@@ -6,7 +6,7 @@ namespace FightCore.Api.Resources.Shared
     /// An interface intended to be used to implement a paged result.
     /// </summary>
     /// <typeparam name="T">The type of object that will be returned</typeparam>
-    public interface IPagedResult<T>
+    public interface IPagedResult<out T>
     {
         /// <summary>
         /// Gets the number of the page provided.

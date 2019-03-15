@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace FightCore.Api.Resources
 {
+    /// <summary>
+    /// A class to output towards the API.
+    /// </summary>
     public class UserResource
     {
 		/// <summary>
@@ -13,8 +16,14 @@ namespace FightCore.Api.Resources
         public string UserName { get; set; }
     }
 
+    /// <summary>
+    /// Expanded the class of the user resource with personal details.
+    /// </summary>
     public class UserResultResource : UserResource
     {
+        /// <summary>
+        /// The id of the user.
+        /// </summary>
         public int Id { get; set; }
 
 		/// <summary>
@@ -24,6 +33,9 @@ namespace FightCore.Api.Resources
 
 	}
 
+    /// <summary>
+    /// The resource used to create new users.
+    /// </summary>
     public class NewUserResource : UserResource
     {
 		/// <summary>

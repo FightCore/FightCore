@@ -7,7 +7,10 @@ using Serilog;
 
 namespace FightCore.Api
 {
-    public class Program
+    /// <summary>
+    /// The program to be executed for the ASP.Net application.
+    /// </summary>
+    public static class Program
     {
         /// <summary>
         /// The method that is executed when running the program.

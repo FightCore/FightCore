@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FightCore.Api.Controllers.V1
 {
+    /// <inheritdoc />
     [Route("[controller]")]
     [ApiController]
     [ApiVersion("1")]
@@ -27,7 +28,7 @@ namespace FightCore.Api.Controllers.V1
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserController" /> class.
+        /// Initializes a new instance of the <see cref="UsersController" /> class.
         /// </summary>
         /// <param name="unitOfWork"></param>
         /// <param name="userService"></param>
@@ -94,6 +95,7 @@ namespace FightCore.Api.Controllers.V1
         {
             var user = _mapper.Map<ApplicationUser>(userResource);
             var result = await _userManager.CreateAsync(user, userResource.Password);
+            await _unitOfWork.SaveChangesAsync();
 
             if (result.Succeeded)
             {

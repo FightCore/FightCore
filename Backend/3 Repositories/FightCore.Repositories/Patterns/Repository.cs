@@ -11,8 +11,6 @@ namespace FightCore.Repositories.Patterns
     {
         private readonly DbSet<TEntity> _databaseSet;
 
-        private readonly DbContext _context;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
         /// </summary>
@@ -20,7 +18,6 @@ namespace FightCore.Repositories.Patterns
         public Repository(DbContext context)
         {
             _databaseSet = context.Set<TEntity>();
-            _context = context;
         }
 
         protected IQueryable<TEntity> Queryable => _databaseSet;

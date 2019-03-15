@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace FightCore.Api.Controllers.V1
 {
+    /// <inheritdoc />
     [Route("[controller]")]
     [ApiController]
     [ApiVersion("1")]
@@ -264,7 +265,7 @@ namespace FightCore.Api.Controllers.V1
         return Ok(claims);
     }
 
-    private static AuthenticationTicket CreateTicket(OpenIdConnectRequest request, OpenIddictApplication application)
+    private static AuthenticationTicket CreateTicket(OpenIddictApplication application)
     {
         // Create a new ClaimsIdentity containing the claims that
         // will be used to create an id_token, a token or a code.

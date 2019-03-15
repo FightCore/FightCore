@@ -125,14 +125,25 @@ namespace FightCore.Api.Controllers.V1
             return Ok(result);
         }
 
+        /// <summary>
+        /// Gets the post based on the provided user.
+        /// </summary>
+        /// <param name="userId">The user's id.</param>
+        /// <returns></returns>
         [HttpGet("user/{userId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
         public async Task<IActionResult> GetPostsByUserAsync(int userId)
         {
+            await Task.Delay(0);
             return Ok();
         }
 
+        /// <summary>
+        /// Gets the post by an id.
+        /// </summary>
+        /// <param name="id">The id of the post.</param>
+        /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
         [HttpGet("{id}")]

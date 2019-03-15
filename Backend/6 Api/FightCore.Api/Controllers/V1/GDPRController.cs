@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FightCore.Api.Controllers.V1
 {
-	[Route("[controller]")]
+    /// <inheritdoc />
+    [Route("[controller]")]
 	[ApiController]
 	[ApiVersion("1")]
 	public class GDPRController : ControllerBase
@@ -21,6 +22,7 @@ namespace FightCore.Api.Controllers.V1
 		[HttpGet]
 		public async Task<IActionResult> GetInfo()
 		{
+		    await Task.Delay(0);
 			return Ok();
 		}
 
@@ -32,6 +34,7 @@ namespace FightCore.Api.Controllers.V1
 		[HttpDelete]
 		public async Task<IActionResult> DeleteUser()
 		{
+		    await Task.Delay(0);
 			return Ok();
 		}
     }
