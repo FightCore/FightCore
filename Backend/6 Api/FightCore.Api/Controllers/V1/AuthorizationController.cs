@@ -153,7 +153,7 @@ namespace FightCore.Api.Controllers.V1
                 }
 
                 // Create a new authentication ticket.
-                var ticket = CreateTicket(request, application);
+                var ticket = CreateTicket(application);
 
                 return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
             }
