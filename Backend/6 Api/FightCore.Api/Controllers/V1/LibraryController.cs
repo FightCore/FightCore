@@ -180,7 +180,6 @@ namespace FightCore.Api.Controllers.V1
             postInput.FeaturedLink = sanitizer.Sanitize(postInput.FeaturedLink);
 
             // Verify inputs are still valid
-            // TODO: Varify category appropriately separately
             if (string.IsNullOrWhiteSpace(postInput.Title))
             {
                 return BadRequest(LibraryResources.TitleCannotBeBlank);
