@@ -58,7 +58,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     if (!this.data.author) {
       return null;
     }
-    return this.data.author.userName;
+    return this.data.author.username;
   }
 
   getCharacterIcon(characterId: number): string {
