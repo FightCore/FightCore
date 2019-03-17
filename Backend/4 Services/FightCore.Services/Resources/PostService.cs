@@ -27,7 +27,17 @@ namespace FightCore.Services.Resources
         /// <param name="category">Optionally filter on this post category</param>
         /// <returns>Posts for given page</returns>
         IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category);
+
+        /// <summary>
+        /// Gets the posts made by the user.
+        /// If the user is the current user it will also get unpublished posts.
+        /// </summary>
+        /// <param name="userId">The user's id.</param>
+        /// <param name="isCurrentUser">If the user is the current user.</param>
+        /// <returns>A collection of posts.</returns>
+        Task<List<Post>> GetPostsByUser(int userId, bool isCurrentUser);
     }
+
     public class PostService : EntityService<Post>, IPostService
     {
         private readonly IPostRepository _repository;
@@ -54,6 +64,11 @@ namespace FightCore.Services.Resources
         public IEnumerable<Post> GetPosts(int pageSize, int pageNumber, SortCategory sortOption, ResourceCategory? category)
         {
             return _repository.GetPosts(pageSize, pageNumber, sortOption, category);
+        }
+
+        public Task<List<Post>> GetPostsByUser(int userId, bool isCurrentUser)
+        {
+            return _repository.GetPostsByUser(userId, isCurrentUser);
         }
     }
 }

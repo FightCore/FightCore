@@ -32,6 +32,14 @@ namespace FightCore.Repositories.Resources
         /// <param name="id">The id wanting to be searched for.</param>
         /// <returns>The post or NULL.</returns>
         Task<Post> GetPostById(int id);
+
+        /// <summary>
+        /// Gets the post from the specified user.
+        /// </summary>
+        /// <param name="userId">The user's id.</param>
+        /// <param name="isCurrentUser">If the user is the current user.</param>
+        /// <returns>A list of posts.</returns>
+        Task<List<Post>> GetPostsByUser(int userId, bool isCurrentUser);
     }
 
     public class PostRepository : Repository<Post>, IPostRepository
@@ -75,6 +83,18 @@ namespace FightCore.Repositories.Resources
             }
 
             return sorted.Include(p => p.Author).Where(x => x.Category == category && x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+        }
+
+        public Task<List<Post>> GetPostsByUser(int userId, bool isCurrentUser)
+        {
+            var queryable = Queryable.Where(x => x.AuthorId == userId);
+
+            if (!isCurrentUser)
+            {
+                queryable.Where(x => x.Published);
+            }
+
+            return queryable.ToListAsync();
         }
 
         /// <inheritdoc/>

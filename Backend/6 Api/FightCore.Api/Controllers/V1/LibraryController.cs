@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using AutoMapper;
@@ -135,8 +136,16 @@ namespace FightCore.Api.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PostResultResource))]
         public async Task<IActionResult> GetPostsByUserAsync(int userId)
         {
-            await Task.Delay(0);
-            return Ok();
+            var isMyUser = !(int.TryParse(_userManager.GetUserId(User), out var myUserId) == false && myUserId == userId);
+
+            var posts = await _postService.GetPostsByUser(userId, isMyUser);
+
+            if (!posts.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(posts);
         }
 
         /// <summary>
@@ -193,7 +202,11 @@ namespace FightCore.Api.Controllers.V1
             // Create the post and initialize basic necessary properties
             var post = _mapper.Map<Post>(postInput);
 
-            int.TryParse(_userManager.GetUserId(User), out var userId);
+            if (int.TryParse(_userManager.GetUserId(User), out var userId) == false)
+            {
+                return Unauthorized();
+            }
+
             post.AuthorId = userId;
             post.CreatedDate = DateTime.Now;
 
