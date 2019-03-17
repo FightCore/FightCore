@@ -26,3 +26,12 @@ The backend uses the following technologies in the bigger picture:
 - Bcrypt
 - OpenIddict
 - Serilog
+
+### Frontend
+
+The frontend makes use of the following packages:
+
+- Quill
+- Toastr
+- Bootstrap 4
+- Covalent
