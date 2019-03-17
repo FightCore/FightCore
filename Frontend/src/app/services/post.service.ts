@@ -56,7 +56,7 @@ export class PostService extends BaseService {
   /**
    * Gets direct post url
    * @param post Post to create url for
-   * @returns url for routerLink representing this post 
+   * @returns url for routerLink representing this post
    */
   public static getPostUrl(post: Post): string {
     return '/library/' + post.id + '/' + post.urlName;
@@ -87,5 +87,9 @@ export class PostService extends BaseService {
 
   public publishPost(postId: number, publishState: boolean) {
     return this.http.post(`${environment.baseUrl}/library/publish/${postId}/${publishState}`, null).pipe(catchError(this.handleError));
+  }
+
+  public getUserPosts(userId: number) {
+    return this.http.get(`${environment.baseUrl}/library/user/${userId}`).pipe(catchError(this.handleError));
   }
 }

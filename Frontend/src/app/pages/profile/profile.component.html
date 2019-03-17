@@ -1,6 +1,24 @@
 <div class="main-content">
   <div class="container-fluid">
-    <h1 i18n>Profile Test</h1>
-    <p i18n>Current username: {{ username }}</p>
+    <h1 i18n>{{ username }}</h1>
+    <br/>
+    <div *ngIf="isLoading; else viewPosts">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="errorMsgs">
+      <div *ngFor="let err of errorMsgs" class="alert alert-danger">
+        {{ err | json }}
+      </div>
+    </div>
+    <ng-template #viewPosts>
+      <div *ngIf="totalPosts == 0" i18n>No posts found</div>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let post of posts">
+          <a (click)="open(post)" style="cursor:pointer;">
+            <post-viewer [data]="post" [simpleMode]="true"></post-viewer>
+          </a>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

@@ -2,6 +2,9 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { PostService } from 'src/app/services/post.service';
+import { User } from 'src/app/models/User';
+import { PostPreview } from 'src/app/models/PostPreview';
 
 @Component({
   selector: 'app-profile',
@@ -10,28 +13,44 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit {
   username: string;
+  posts: PostPreview[];
+  loading: boolean;
 
-  constructor(private titleService: Title, private authService: OAuthService, private router: Router) { }
+  constructor(
+    private titleService: Title,
+    private authService: OAuthService,
+    private router: Router,
+    private postService: PostService) { }
 
   ngOnInit() {
-    this.titleService.setTitle("Profile");
+    this.titleService.setTitle('Profile');
 
     this.authService.loadUserProfile().then(
       obj => {
-        let returnObj = obj as { username: string }; // Can't access Object's properties directly, being extra careful here
-        if(returnObj.username) {
-          this.username = returnObj.username;
-        }
-        else {
-          console.log("Object return is missing username!");
-          this.username = "[Failed to get username]";
+        // Can't access Object's properties directly, being extra careful here
+        const user = obj as User;
+        if (user) {
+          console.log(user);
+          this.username = user.username;
+          this.loadPosts(user.sub);
+        } else {
+          console.log('Object return is missing username!');
+          this.username = '[Failed to get username]';
         }
       },
-      reason => { 
-        this.username = "[Failed to get username]";
-        console.log("Rejected: ", reason) 
+      reason => {
+        this.username = '[Failed to get username]';
+        console.log('Rejected: ', reason);
       }
     );
   }
 
+  loadPosts(userId: number) {
+    this.postService.getUserPosts(userId).subscribe(
+      posts => {
+         this.posts = posts as PostPreview[];
+         this.loading = true;
+      }
+    )
+  }
 }
