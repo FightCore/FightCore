@@ -458,7 +458,7 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-.sonarqube/*
+**/.sonarqube/*
 
 # End of https://www.gitignore.io/api/csharp,aspnetcore
 /Backend/6 Api/FightCore.Api/FightCore.Api.xml
