@@ -66,6 +66,6 @@ namespace FightCore.Models.Resources
         public List<Upvote> Upvotes { get; set; }
 
         [NotMapped]
-        public int UpvoteCount => Upvotes.Count;
+        public int UpvoteCount => Upvotes?.Count ?? 0;
     }
 }
