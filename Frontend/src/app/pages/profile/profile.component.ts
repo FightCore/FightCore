@@ -14,7 +14,7 @@ import { PostPreview } from 'src/app/models/PostPreview';
 export class ProfileComponent implements OnInit {
   username: string;
   posts: PostPreview[];
-  loading: boolean;
+  loading = true;
 
   constructor(
     private titleService: Title,
@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
     this.postService.getUserPosts(userId).subscribe(
       posts => {
          this.posts = posts as PostPreview[];
-         this.loading = true;
+         this.loading = false;
       }
     )
   }
