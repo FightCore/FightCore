@@ -37,6 +37,7 @@ namespace FightCore.Data
             builder.Entity<Post>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new NotificationConfiguration());
+            builder.ApplyConfiguration(new UpvotesConfiguration());
         }
 
         public DbSet<Post> Posts { get; set; }
