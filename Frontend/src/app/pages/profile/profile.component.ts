@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit {
         // Can't access Object's properties directly, being extra careful here
         const user = obj as User;
         if (user) {
-          console.log(user);
           this.username = user.username;
           this.loadPosts(user.sub);
         } else {

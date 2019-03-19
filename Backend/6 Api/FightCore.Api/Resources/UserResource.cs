@@ -13,7 +13,7 @@ namespace FightCore.Api.Resources
 		/// <summary>
 		/// The user name the user is referred by.
 		/// </summary>
-        public string UserName { get; set; }
+        public string Username { get; set; }
     }
 
     /// <summary>

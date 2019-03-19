@@ -87,11 +87,11 @@ namespace FightCore.Repositories.Resources
 
         public Task<List<Post>> GetPostsByUser(int userId, bool isCurrentUser)
         {
-            var queryable = Queryable.Where(x => x.AuthorId == userId);
+            var queryable = Queryable.Include(x => x.Author).Include(x => x.Upvotes).Where(x => x.AuthorId == userId);
 
             if (!isCurrentUser)
             {
-                queryable.Where(x => x.Published);
+                queryable = queryable.Where(x => x.Published);
             }
 
             return queryable.ToListAsync();
@@ -100,7 +100,7 @@ namespace FightCore.Repositories.Resources
         /// <inheritdoc/>
         public Task<Post> GetPostById(int id)
         {
-            return Queryable.Include(p => p.Author).FirstOrDefaultAsync(x => x.Id == id);
+            return Queryable.Include(p => p.Author).Include(x => x.Upvotes).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

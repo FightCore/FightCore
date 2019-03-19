@@ -150,7 +150,9 @@ namespace FightCore.Api.Controllers.V1
                 return NotFound();
             }
 
-            return Ok(posts);
+            var mappedPosts = _mapper.Map<List<PostPreviewResource>>(posts);
+
+            return Ok(mappedPosts);
         }
 
         /// <summary>
