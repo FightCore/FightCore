@@ -331,7 +331,7 @@ namespace FightCore.Api.Controllers.V1
                 _upvoteService.Delete(upvote);
                 await _unitOfWork.SaveChangesAsync();
 
-                return Ok();
+                return Ok(false);
             }
 
             upvote = new Upvote() { PostId = postId, UserId = userId };
@@ -339,7 +339,7 @@ namespace FightCore.Api.Controllers.V1
             await _upvoteService.InsertAsync(upvote);
             await _unitOfWork.SaveChangesAsync();
 
-            return Ok();
+            return Ok(true);
         }
 
     }

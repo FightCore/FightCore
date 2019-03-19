@@ -117,8 +117,14 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
   }
 
   upvotePost(): void {
-    this.postService.upVotePost(this.data.id).subscribe(_ =>{
-      this.toastr.success('Upvoted post', 'Upvoted');
+    this.postService.upVotePost(this.data.id).subscribe(added => {
+      if (added) {
+        this.data.upvoteCount++;
+        this.toastr.success('Upvoted post', 'Upvoted');
+      } else {
+        this.data.upvoteCount--;
+        this.toastr.success('Removed upvote post', 'Upvoted');
+      }
     });
   }
 }
