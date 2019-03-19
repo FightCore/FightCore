@@ -108,12 +108,17 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
         if (this.data.published) {
           publishText = 'Changed post to be published.';
         }
-        
         this.toastr.success(publishText, 'Changed pulish status!');
       },
         error => {
           this.toastr.error('Error', 'Failed to change status');
         });
     }
+  }
+
+  upvotePost(): void {
+    this.postService.upVotePost(this.data.id).subscribe(_ =>{
+      this.toastr.success('Upvoted post', 'Upvoted');
+    });
   }
 }

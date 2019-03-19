@@ -32,7 +32,7 @@
               At a glance combo info here
             </div>
             <div *ngIf="data.upvoteCount">
-              <em class="material-icons">unfold_more</em>
+              <em (click)="upvotePost()" class="material-icons">unfold_more</em>
               <span i18n>{{data.upvoteCount}} Rating</span>
             </div>
             <div *ngIf="!data.upvoteCount">
