@@ -31,11 +31,11 @@
             <div *ngIf="isCombo()" i18n>
               At a glance combo info here
             </div>
-            <div *ngIf="data.rating">
+            <div *ngIf="data.upvoteCount">
               <em class="material-icons">unfold_more</em>
-              <span i18n>{{data.rating}} Rating</span>
+              <span i18n>{{data.upvoteCount}} Rating</span>
             </div>
-            <div *ngIf="!data.rating">
+            <div *ngIf="!data.upvoteCount">
               <em class="material-icons">unfold_more</em>
               <span i18n>0 Rating</span>
             </div>

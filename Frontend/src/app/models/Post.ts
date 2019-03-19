@@ -7,6 +7,7 @@ export interface Post {
     createdDate?: Date;
     views: number;
     rating?: number;
+    upvoteCount?: number;
     urlName?: string;                // SEO purposes, part of url, based off of title
 
     // Meta fields
