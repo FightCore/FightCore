@@ -16,8 +16,9 @@ namespace FightCore.Repositories.Resources
         /// Gets the amount of upvotes by a post.
         /// </summary>
         /// <param name="postId">The id of the post.</param>
+        /// <param name="userId">The id of the user.</param>
         /// <returns>The amount of upvotes.</returns>
-        Task<int> GetUpvotesByPost(int postId);
+        Task<Upvote> GetUpvotesByPost(int postId, int userId);
     }
 
     public class UpvoteRepository : Repository<Upvote>, IUpvoteRepository
@@ -27,9 +28,9 @@ namespace FightCore.Repositories.Resources
         {
         }
 
-        public Task<int> GetUpvotesByPost(int postId)
+        public Task<Upvote> GetUpvotesByPost(int postId, int userId)
         {
-            return Queryable.CountAsync(x => x.PostId == postId);
+            return Queryable.FirstOrDefaultAsync(x => x.PostId == postId && x.UserId == userId);
         }
     }
 }

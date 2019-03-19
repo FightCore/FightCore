@@ -15,7 +15,7 @@ namespace FightCore.Data.Configurations
         {
             builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(x => x.Post).WithMany().HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Post).WithMany(x => x.Upvotes).HasForeignKey(x => x.PostId).OnDelete(DeleteBehavior.Restrict);
 
             builder.HasKey(x => new { x.PostId, x.UserId });
         }

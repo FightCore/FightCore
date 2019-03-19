@@ -79,10 +79,10 @@ namespace FightCore.Repositories.Resources
 
             if (category == null)
             {
-                return sorted.Include(p => p.Author).Where(x => x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+                return sorted.Include(p => p.Author).Include(p => p.Upvotes).Where(x => x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
             }
 
-            return sorted.Include(p => p.Author).Where(x => x.Category == category && x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            return sorted.Include(p => p.Author).Include(p => p.Upvotes).Where(x => x.Category == category && x.Published).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
         }
 
         public Task<List<Post>> GetPostsByUser(int userId, bool isCurrentUser)

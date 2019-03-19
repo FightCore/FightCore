@@ -44,5 +44,10 @@ namespace FightCore.Api.Resources.Posts
         /// The link featured in the post.
         /// </summary>
         public string FeaturedLink { get; set; }
+
+		/// <summary>
+        /// The amount of upvotes the post has gotten.
+        /// </summary>
+        public int UpvoteCount { get; set; }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using AutoMapper;
+﻿using AutoMapper;
 using FightCore.Api.Resources.Posts;
 using FightCore.Models;
 using FightCore.Models.Resources;
@@ -11,14 +6,16 @@ using FightCore.Repositories.Patterns;
 using FightCore.Resources.Controllers;
 using FightCore.Resources.Controllers.Shared;
 using FightCore.Services.Resources;
-
 using Ganss.XSS;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FightCore.Api.Controllers.V1
 {
@@ -33,16 +30,24 @@ namespace FightCore.Api.Controllers.V1
     {
         private readonly IConfiguration _configuration;
         private readonly IPostService _postService;
+        private readonly IUpvoteService _upvoteService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
 
         /// <inheritdoc/>
-        public LibraryController(IConfiguration configuration, IUnitOfWorkAsync unitOfWork, IPostService userResourceService, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public LibraryController(
+            IConfiguration configuration,
+            IUnitOfWorkAsync unitOfWork,
+            IPostService userResourceService,
+            IUpvoteService upvoteService,
+            UserManager<ApplicationUser> userManager,
+            IMapper mapper)
         {
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _postService = userResourceService;
+            _upvoteService = upvoteService;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -217,36 +222,36 @@ namespace FightCore.Api.Controllers.V1
             return CreatedAtAction(nameof(GetPostByIdAsync), new { Id = post.Id }, _mapper.Map<PostResultResource>(post));
         }
 
-		/// <summary>
-		/// Updates the given post.
-		/// </summary>
-		/// <param name="post">The post wanting to be updated.</param>
-		/// <returns></returns>
-		[Authorize]
-		[HttpPut]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		public async Task<IActionResult> Update([FromBody] PostResultResource post)
-		{
-		    var oldPost = await _postService.FindByIdAsync(post.Id);
-		    if (oldPost == null)
-		    {
-		        return NotFound();
-		    }
+        /// <summary>
+        /// Updates the given post.
+        /// </summary>
+        /// <param name="post">The post wanting to be updated.</param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Update([FromBody] PostResultResource post)
+        {
+            var oldPost = await _postService.FindByIdAsync(post.Id);
+            if (oldPost == null)
+            {
+                return NotFound();
+            }
 
-		    int.TryParse(_userManager.GetUserId(User), out var userId);
-		    if (oldPost.AuthorId != userId)
-		    {
-		        return Unauthorized();
-		    }
+            int.TryParse(_userManager.GetUserId(User), out var userId);
+            if (oldPost.AuthorId != userId)
+            {
+                return Unauthorized();
+            }
 
-		    var postEntity = _mapper.Map<Post>(post);
-		    _postService.Update(postEntity);
-		    await _unitOfWork.SaveChangesAsync();
+            var postEntity = _mapper.Map<Post>(post);
+            _postService.Update(postEntity);
+            await _unitOfWork.SaveChangesAsync();
 
             return Ok();
-		}
+        }
 
         /// <summary>
         /// Deletes the post with the given id.
@@ -257,59 +262,83 @@ namespace FightCore.Api.Controllers.V1
         /// <response code="404">The post you are wanting to delete isn't found.</response>
         /// <returns>An awaitable task.</returns>
         [Authorize]
-		[HttpDelete]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		public async Task<IActionResult> Delete(int id)
-		{
-		    var post = await _postService.FindByIdAsync(id);
-		    if (post == null)
-		    {
-		        return NotFound();
-		    }
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var post = await _postService.FindByIdAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
 
-		    int.TryParse(_userManager.GetUserId(User), out var userId);
-		    if (post.AuthorId != userId)
-		    {
-		        return Unauthorized();
-		    }
+            int.TryParse(_userManager.GetUserId(User), out var userId);
+            if (post.AuthorId != userId)
+            {
+                return Unauthorized();
+            }
 
-		    await _postService.DeleteByIdAsync(id);
+            await _postService.DeleteByIdAsync(id);
 
-		    await _unitOfWork.SaveChangesAsync();
-			return Ok();
-		}
+            await _unitOfWork.SaveChangesAsync();
+            return Ok();
+        }
 
-		/// <summary>
-		/// Publishes or hides a post by the given id and state.
-		/// </summary>
-		/// <returns></returns>
-		[Authorize]
-		[HttpPost("publish/{id}/{isPublic}")]
-		[ProducesResponseType(StatusCodes.Status200OK)]
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		public async Task<IActionResult> Publish(int id, bool isPublic = true)
-		{
-		    var post = await _postService.FindByIdAsync(id);
-		    if (post == null)
-		    {
-		        return NotFound();
-		    }
+        /// <summary>
+        /// Publishes or hides a post by the given id and state.
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("publish/{id}/{isPublic}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Publish(int id, bool isPublic = true)
+        {
+            var post = await _postService.FindByIdAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
 
-		    int.TryParse(_userManager.GetUserId(User), out var userId);
-		    if (post.AuthorId != userId)
-		    {
-		        return Unauthorized();
-		    }
+            int.TryParse(_userManager.GetUserId(User), out var userId);
+            if (post.AuthorId != userId)
+            {
+                return Unauthorized();
+            }
 
-		    post.Published = isPublic;
-		    _postService.Update(post);
-		    await _unitOfWork.SaveChangesAsync();
+            post.Published = isPublic;
+            _postService.Update(post);
+            await _unitOfWork.SaveChangesAsync();
 
             return Ok();
-		}
+        }
 
-	}
+        [Authorize]
+        [HttpPost("upvote")]
+        public async Task<IActionResult> Upvote([FromBody] int postId)
+        {
+            int.TryParse(_userManager.GetUserId(User), out var userId);
+
+            var upvote = await _upvoteService.GetUpvotesByPost(postId, userId);
+
+            if (upvote != null)
+            {
+                _upvoteService.Delete(upvote);
+                await _unitOfWork.SaveChangesAsync();
+
+                return Ok();
+            }
+
+            upvote = new Upvote() { PostId = postId, UserId = userId };
+
+            await _upvoteService.InsertAsync(upvote);
+            await _unitOfWork.SaveChangesAsync();
+
+            return Ok();
+        }
+
+    }
 }

@@ -16,8 +16,9 @@ namespace FightCore.Services.Resources
         /// Gets the amount of upvotes by a post.
         /// </summary>
         /// <param name="postId">The id of the post.</param>
+        /// <param name="userId">The id of the user.</param>
         /// <returns>The amount of upvotes.</returns>
-        Task<int> GetUpvotesByPost(int postId);
+        Task<Upvote> GetUpvotesByPost(int postId, int userId);
     }
 
     public class UpvoteService : Service<Upvote>, IUpvoteService
@@ -25,16 +26,16 @@ namespace FightCore.Services.Resources
         private readonly IUpvoteRepository _repository;
 
         /// <inheritdoc />
-        public UpvoteService(UpvoteRepository repository)
+        public UpvoteService(IUpvoteRepository repository)
             : base(repository)
         {
             this._repository = repository;
         }
 
         /// <inheritdoc />
-        public Task<int> GetUpvotesByPost(int postId)
+        public Task<Upvote> GetUpvotesByPost(int postId, int userId)
         {
-            return _repository.GetUpvotesByPost(postId);
+            return _repository.GetUpvotesByPost(postId, userId);
         }
     }
 }

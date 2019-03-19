@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using FightCore.Models.Characters;
 
@@ -56,7 +57,15 @@ namespace FightCore.Models.Resources
         /// Gets or sets if the post is published.
         /// </summary>
         public bool Published { get; set; }
-        
+
         public Character Character { get; set; }
+
+        /// <summary>
+        /// Gets or sets the upvotes gotten on this post.
+        /// </summary>
+        public List<Upvote> Upvotes { get; set; }
+
+        [NotMapped]
+        public int UpvoteCount => Upvotes.Count;
     }
 }
