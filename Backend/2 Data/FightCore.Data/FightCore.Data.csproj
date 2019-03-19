@@ -15,6 +15,7 @@
     <Compile Remove="Migrations\20190115190302_Init.cs" />
     <Compile Remove="Migrations\20190311141130_Test.cs" />
     <Compile Remove="Migrations\20190319220249_AddedUpvotes.cs" />
+    <Compile Remove="Migrations\20190319221855_Test.cs" />
   </ItemGroup>
 
   <ItemGroup>

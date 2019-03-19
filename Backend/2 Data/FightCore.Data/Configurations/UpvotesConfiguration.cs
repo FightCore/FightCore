@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FightCore.Data.Configurations
 {
-    public class UpvotesConfiguration : IEntityTypeConfiguration<Upvotes>
+    public class UpvotesConfiguration : IEntityTypeConfiguration<Upvote>
     {
-        public void Configure(EntityTypeBuilder<Upvotes> builder)
+        public void Configure(EntityTypeBuilder<Upvote> builder)
         {
             builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
 

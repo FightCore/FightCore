@@ -43,5 +43,7 @@ namespace FightCore.Data
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Notification> Notifications { get; set; }
+
+        public DbSet<Upvote> Upvotes { get; set; }
     }
 }

@@ -44,11 +44,13 @@ namespace FightCore.Api.Configurations
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<IUpvoteRepository, UpvoteRepository>();
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IUpvoteService, UpvoteService>();
 
             return services;
         }

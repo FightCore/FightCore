@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FightCore.Models.Resources
 {
-    public class Upvotes
+    public class Upvote
     {
         public int PostId { get; set; }
 
