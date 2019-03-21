@@ -7,4 +7,5 @@ export interface PostPreview {
     title: string;
     category: number;
     views: number;
+    iconUrl?: string;
 }

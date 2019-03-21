@@ -49,5 +49,10 @@ namespace FightCore.Api.Resources.Posts
         /// The amount of upvotes the post has gotten.
         /// </summary>
         public int UpvoteCount { get; set; }
+
+        /// <summary>
+        /// The thumbnail image url.
+        /// </summary>
+        public string ImageUrl { get; set; }
     }
 }

@@ -81,5 +81,10 @@ namespace FightCore.Api.Resources.Posts
         /// Indicates if the post has been published.
         /// </summary>
         public bool Published { get; set; }
+
+        /// <summary>
+        /// The thumbnail image url.
+        /// </summary>
+        public string ImageUrl { get; set; }
     }
 }

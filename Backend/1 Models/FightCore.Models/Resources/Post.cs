@@ -67,5 +67,10 @@ namespace FightCore.Models.Resources
 
         [NotMapped]
         public int UpvoteCount => Upvotes?.Count ?? 0;
+
+        /// <summary>
+        /// Gets or sets the url of the thumbnail image to be shown.
+        /// </summary>
+        public string ImageUrl { get; set; }
     }
 }
