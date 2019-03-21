@@ -28,6 +28,7 @@ export interface Post {
     title: string;
     featuredLink?: string;
     content?: string;
+    imageUrl?: string;
 
     published?: boolean;
 }
