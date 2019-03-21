@@ -116,7 +116,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
     }
   }
 
-  upvotePost(): void {
+  upvotePost(event: Event): void {
     this.postService.upVotePost(this.data.id).subscribe(added => {
       if (added) {
         this.data.upvoteCount++;
@@ -126,5 +126,7 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
         this.toastr.success('Removed upvote post', 'Upvoted');
       }
     });
+
+    event.stopPropagation();
   }
 }
