@@ -121,7 +121,7 @@ namespace FightCore.Api
                         {
                             Type = "oauth2",
                             Flow = "password",
-                            TokenUrl = "/connect/token"
+                            TokenUrl = ApplicationPaths.TokenEndpoint
                         });
                     options.AddSecurityRequirement(
                         new Dictionary<string, IEnumerable<string>>
@@ -139,7 +139,7 @@ namespace FightCore.Api
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                     {
-                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "FightCore API V1");
+                        c.SwaggerEndpoint(ApplicationPaths.SwaggerJson, "FightCore API V1");
                         c.DocExpansion(DocExpansion.None);
                         c.RoutePrefix = string.Empty;
                         c.DisplayRequestDuration();
@@ -233,8 +233,8 @@ namespace FightCore.Api
                         //.EnableAuthorizationEndpoint("/connect/authorize")
                         //.EnableLogoutEndpoint("/connect/logout")
                         //.EnableIntrospectionEndpoint("/connect/introspect")
-                            .EnableTokenEndpoint("/connect/token")
-                            .EnableUserinfoEndpoint("/api/userinfo");
+                            .EnableTokenEndpoint(ApplicationPaths.TokenEndpoint)
+                            .EnableUserinfoEndpoint(ApplicationPaths.InfoEndpoint);
 
 
                         options.RegisterScopes(
@@ -321,7 +321,7 @@ namespace FightCore.Api
         {
             application.UseSignalR(routes =>
                 {
-                    routes.MapHub<NotifyHub>("/notify");
+                    routes.MapHub<NotifyHub>(ApplicationPaths.NotificationEndpoint);
                 });
         }
 
