@@ -26,6 +26,10 @@ using System.Threading.Tasks;
 
 namespace FightCore.Api
 {
+    using FightCore.Api.Examples;
+
+    using Swashbuckle.AspNetCore.Filters;
+
     /// <summary>
     /// Startup class that is ran by MVC6 to set up the application.
     /// </summary>
@@ -109,14 +113,7 @@ namespace FightCore.Api
                     options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(FightCore)}.Api.xml");
                     options.DescribeAllEnumsAsStrings();
                     options.OperationFilter<ApiVersionOperationFilter>();
-
-                    //// o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new ApiKeyScheme()
-                    //// {
-                    //// 	Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    //// 	Name = "Authorization",
-                    //// 	In = "header",
-                    //// 	Type = "apiKey"
-                    //// });
+                    options.ExampleFilters();
 
                     options.AddSecurityDefinition(
                         JwtBearerDefaults.AuthenticationScheme,
@@ -124,13 +121,16 @@ namespace FightCore.Api
                         {
                             Type = "oauth2",
                             Flow = "password",
-                            TokenUrl = "/connect/token"
+                            TokenUrl = ApplicationPaths.TokenEndpoint
                         });
-                    options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                                                       {
-                                                           { "Bearer", Array.Empty<string>() }
-                                                       });
+                    options.AddSecurityRequirement(
+                        new Dictionary<string, IEnumerable<string>>
+                        {
+                            { "Bearer", Array.Empty<string>() }
+                        });
                 });
+
+            services.AddSwaggerExamplesFromAssemblyOf<CharacterResourceExample>();
         }
 
         private void RegisterSwagger(IApplicationBuilder application)
@@ -139,7 +139,7 @@ namespace FightCore.Api
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                     {
-                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "FightCore API V1");
+                        c.SwaggerEndpoint(ApplicationPaths.SwaggerJson, "FightCore API V1");
                         c.DocExpansion(DocExpansion.None);
                         c.RoutePrefix = string.Empty;
                         c.DisplayRequestDuration();
@@ -189,7 +189,7 @@ namespace FightCore.Api
 
         private void RegisterIdentity(IServiceCollection services)
         {
-			// Registers the BCrypt password hasher, has to be done before AddIdentity.
+            // Registers the BCrypt password hasher, has to be done before AddIdentity.
             services.AddScoped<IPasswordHasher<ApplicationUser>, BCryptPasswordHasher<ApplicationUser>>();
 
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
@@ -233,8 +233,8 @@ namespace FightCore.Api
                         //.EnableAuthorizationEndpoint("/connect/authorize")
                         //.EnableLogoutEndpoint("/connect/logout")
                         //.EnableIntrospectionEndpoint("/connect/introspect")
-                            .EnableTokenEndpoint("/connect/token")
-                            .EnableUserinfoEndpoint("/api/userinfo");
+                            .EnableTokenEndpoint(ApplicationPaths.TokenEndpoint)
+                            .EnableUserinfoEndpoint(ApplicationPaths.InfoEndpoint);
 
 
                         options.RegisterScopes(
@@ -321,7 +321,7 @@ namespace FightCore.Api
         {
             application.UseSignalR(routes =>
                 {
-                    routes.MapHub<NotifyHub>("/notify");
+                    routes.MapHub<NotifyHub>(ApplicationPaths.NotificationEndpoint);
                 });
         }
 
@@ -333,7 +333,7 @@ namespace FightCore.Api
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlServer("Server=DESKTOP-BORT;Database=FightCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                    options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], x => x.MigrationsAssembly("FightCore.Data"));
                     options.UseOpenIddict();
                 });
         }
