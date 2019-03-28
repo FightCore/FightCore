@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace FightCore.Api.Controllers.V1
 {
+    using Swashbuckle.AspNetCore.Annotations;
+
     /// <inheritdoc />
     [Route("[controller]")]
     [ApiController]
@@ -44,6 +46,7 @@ namespace FightCore.Api.Controllers.V1
         /// </summary>
         /// <returns>A character object.</returns>
         [HttpGet("{id}")]
+        [SwaggerResponse(200, type: typeof(CharacterResource))]
         public async Task<IActionResult> Get(int id)
         {
             var character = await _characterService.FindByIdAsync(id);

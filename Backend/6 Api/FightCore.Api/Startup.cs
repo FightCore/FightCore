@@ -26,6 +26,10 @@ using System.Threading.Tasks;
 
 namespace FightCore.Api
 {
+    using FightCore.Api.Examples;
+
+    using Swashbuckle.AspNetCore.Filters;
+
     /// <summary>
     /// Startup class that is ran by MVC6 to set up the application.
     /// </summary>
@@ -109,14 +113,7 @@ namespace FightCore.Api
                     options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(FightCore)}.Api.xml");
                     options.DescribeAllEnumsAsStrings();
                     options.OperationFilter<ApiVersionOperationFilter>();
-
-                    //// o.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new ApiKeyScheme()
-                    //// {
-                    //// 	Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    //// 	Name = "Authorization",
-                    //// 	In = "header",
-                    //// 	Type = "apiKey"
-                    //// });
+                    options.ExampleFilters();
 
                     options.AddSecurityDefinition(
                         JwtBearerDefaults.AuthenticationScheme,
@@ -126,11 +123,14 @@ namespace FightCore.Api
                             Flow = "password",
                             TokenUrl = "/connect/token"
                         });
-                    options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                                                       {
-                                                           { "Bearer", Array.Empty<string>() }
-                                                       });
+                    options.AddSecurityRequirement(
+                        new Dictionary<string, IEnumerable<string>>
+                        {
+                            { "Bearer", Array.Empty<string>() }
+                        });
                 });
+
+            services.AddSwaggerExamplesFromAssemblyOf<CharacterResourceExample>();
         }
 
         private void RegisterSwagger(IApplicationBuilder application)
@@ -189,7 +189,7 @@ namespace FightCore.Api
 
         private void RegisterIdentity(IServiceCollection services)
         {
-			// Registers the BCrypt password hasher, has to be done before AddIdentity.
+            // Registers the BCrypt password hasher, has to be done before AddIdentity.
             services.AddScoped<IPasswordHasher<ApplicationUser>, BCryptPasswordHasher<ApplicationUser>>();
 
             services.AddIdentity<ApplicationUser, IdentityRole<int>>()
@@ -333,7 +333,7 @@ namespace FightCore.Api
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlServer("Server=DESKTOP-BORT;Database=FightCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                    options.UseSqlServer("Server=LAPTOP-CKU039EN\\SQLEXPRESS;Database=FightCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
                     options.UseOpenIddict();
                 });
         }
