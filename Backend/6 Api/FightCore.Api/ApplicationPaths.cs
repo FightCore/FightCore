@@ -29,5 +29,10 @@ namespace FightCore.Api
         /// The SignalR URL hub for notification.
         /// </summary>
         public const string NotificationEndpoint = "/notify";
+
+        /// <summary>
+        /// The main SQL string used for the database.
+        /// </summary>
+        public const string MainSqlConnection = "DefaultConnection";
     }
 }

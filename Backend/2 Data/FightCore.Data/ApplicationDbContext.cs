@@ -13,16 +13,8 @@ namespace FightCore.Data
         {
         }
 
-        public ApplicationDbContext()
-            : base()
+        public ApplicationDbContext() : base()
         {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-BORT;Database=FightCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
-
-            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

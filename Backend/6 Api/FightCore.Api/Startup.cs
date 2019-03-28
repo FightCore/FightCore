@@ -333,7 +333,7 @@ namespace FightCore.Api
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlServer("Server=LAPTOP-CKU039EN\\SQLEXPRESS;Database=FightCore;Trusted_Connection=True;MultipleActiveResultSets=true;");
+                    options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], x => x.MigrationsAssembly("FightCore.Data"));
                     options.UseOpenIddict();
                 });
         }
