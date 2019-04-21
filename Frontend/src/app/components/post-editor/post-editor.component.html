@@ -28,8 +28,9 @@
                         <h1 class="card-title">{{ title.value }}</h1>
                         <h3 class="card-title">By You.</h3>
                     </div>
-                    <div class="card-body">
-                        {{ editor.markdown }}
+                    <div *ngIf="editor._textEditor" class="card-body">
+                        <markdown [data]="editor._textEditor.value">
+                        </markdown>
                     </div>
                 </div>
             </div>

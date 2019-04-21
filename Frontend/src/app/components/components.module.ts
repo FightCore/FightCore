@@ -31,7 +31,7 @@ import { NotificationService } from '../services/notification.service';
 import { CovalentTextEditorModule } from '@covalent/text-editor';
 import { QuillModule } from 'ngx-quill';
 import { MarkdownModule } from 'ngx-markdown';
-
+import { CovalentMarkdownModule } from '@covalent/markdown';
 @NgModule({
   imports: [
     CommonModule,
@@ -58,6 +58,7 @@ import { MarkdownModule } from 'ngx-markdown';
     NgbTooltipModule,
     CovalentTextEditorModule,
     QuillModule,
+    CovalentMarkdownModule
   ],
   declarations: [
     FooterComponent,
