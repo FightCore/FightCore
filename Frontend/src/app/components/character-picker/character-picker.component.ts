@@ -15,7 +15,7 @@ export class CharacterPickerComponent implements OnInit {
     this.icons = this.getIcons();
   }
   //TODO: Move to a seperate service.
-  getIcons() : CharacterIcon[] {
+  getIcons(): CharacterIcon[] {
     return [
       new CharacterIcon('Bayonetta', 'bayonetta'),
       new CharacterIcon('Bowser', 'bowser'),
