@@ -129,4 +129,22 @@ export class PostViewerComponent implements OnInit, TabComponentInterface {
 
     event.stopPropagation();
   }
+
+  // Move this to a service?
+  protected getLinkDisplayText() {
+    const link = this.data.featuredLink;
+    if (link.startsWith('https://rubendal.github.io/SSBU-Calculator/')) {
+      return 'Smash Ultimate Calculator';
+    }
+
+    if (link.startsWith('https://rubendal.github.io/ssbu/')) {
+      return 'Smash Ultimate Data Viewer';
+    }
+
+    if (link.startsWith('https://www.smashtierlist.com')){
+      return 'Ultimate Smash Tier List';
+    }
+
+    return this.data.featuredLink;
+  }
 }

@@ -42,10 +42,10 @@ export class AddPostComponent implements OnInit {
         this.router.navigate(['/library']);
 
         // Just in case, let the post editor know things are done
-        this.editor.onPostSubmit("");
+        //this.editor.onPostSubmit("");
       },
       error =>  { 
-        this.editor.onPostSubmit(error);
+        //this.editor.onPostSubmit(error);
       }
     );
   }

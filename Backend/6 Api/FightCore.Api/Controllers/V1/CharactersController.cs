@@ -32,6 +32,7 @@ namespace FightCore.Api.Controllers.V1
         /// </summary>
         /// <returns>A list of characters</returns>
         [HttpGet]
+        [SwaggerResponse(200, type: typeof(CharacterResource))]
         public async Task<IActionResult> GetAll()
         {
             var characters = await _characterService.GetAllAsync();

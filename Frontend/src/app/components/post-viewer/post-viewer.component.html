@@ -6,7 +6,7 @@
           <div class="col-md-10">
             <h4 class="card-title"><i *ngIf="data.featuredLink" class="material-icons">trending_up</i>{{data.title}}</h4>
             <p class="card-category" i18n>By {{getAuthorName()}}</p>
-            <a *ngIf="data.featuredLink" class="externalLink" [href]="data.featuredLink">{{data.featuredLink}}</a>
+            <a *ngIf="data.featuredLink" class="externalLink" [href]="data.featuredLink">{{ getLinkDisplayText() }}</a>
             <div *ngIf="!data.featuredLink">One liner about the post itself.</div>
           </div>
           <div *ngIf="data.imageUrl" class="col-md-2">
@@ -69,7 +69,7 @@
                   </i>
                 </p>
                 <a [href]="data.featuredLink">
-                  {{data.featuredLink}}
+                  {{ getLinkDisplayText() }}
                 </a>
               </div>
               <div *ngIf="isMyPost()">

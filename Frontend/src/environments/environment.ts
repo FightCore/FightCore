@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   tokenEndpoint: "https://localhost:5001/connect/token",
   userInfoEndpoint: "https://localhost:5001/connect/userinfo",
-  baseUrl: "https://localhost:5001"
+  baseUrl: "https://localhost:5001",
+  imageUrl: 'https://i.fightcore.org/'
 };
 
 /*

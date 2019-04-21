@@ -1,31 +1,11 @@
-<div class="d-flex flex-row align-items-center">
-  <mat-form-field>
-    <mat-select 
-    placeholder="{{placeholderTitle}}"
-    [(value)]="selection"
-    (selectionChange)="onSelectionChange()"
-    [required]="isRequired"
-    [multiple]="isMultiple"
-    >
-      <mat-option 
-        disabled="true" class="searchbar">
-        <mat-form-field>
-          <input matInput placeholder="Search" [(ngModel)]="searchVal" (input)="onSearchChange()">
-          <button mat-button *ngIf="searchVal" matSuffix mat-icon-button aria-label="Clear" (click)="onSearchClear()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-      </mat-option>
-      
-      <mat-option *ngFor="let character of displayCharacters" [value]="character.id">
-        {{character.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <div *ngIf="!isRequired" style="width: 40px;">
-    <button mat-button *ngIf="(isMultiple && selection.length > 0) || (!isMultiple && selection > -1)" 
-      matSuffix mat-icon-button aria-label="Clear" (click)="onClearCatSelect()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-</div>
+<h4>Character selector</h4>
+
+<mat-form-field>
+
+  <mat-label>Select a character.</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let icon of icons" [value]="icon.url">
+      <img [src]="createIconUrl(icon.url)" width=20px height=20px /> {{icon.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
