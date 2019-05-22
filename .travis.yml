@@ -2,49 +2,51 @@ sudo: required
 git:
   depth: false
 matrix:
-    include:
-      - language: csharp
-        mono: none
-        dotnet: 2.2
-        before_script:
-            - cd Backend
-        script:
-            - dotnet restore
-            - dotnet build
-            - dotnet test
+  include:
+    - language: csharp
+      mono: none
+      dotnet: 2.2
+      before_script:
+        - cd Backend
+      script:
+        - dotnet restore
+        - dotnet build
+        - dotnet test
 
-      - language: node_js
-        node_js:
-            - "8"
-        before_script:
-            - cd Frontend
-            - npm install -g @angular/cli
-            - npm install
-        script:
-            - ng build --prod
-      - language: csharp
-        mono: none
-        dotnet: 2.2
+    - language: node_js
+      node_js:
+        - "8"
+      before_script:
+        - cd Frontend
+        - npm install -g @angular/cli
+        - npm install
+      script:
+        - ng build --prod
+    - language: csharp
+      mono: none
+      dotnet: 2.2
 
-        install:
-            - cd Backend
-            - dotnet tool install --global dotnet-sonarscanner
-            - dotnet restore
+      install:
+        - cd Backend
+        - dotnet tool install --global dotnet-sonarscanner
+        - dotnet restore
 
-        before_script:
-            - export PATH="$PATH:$HOME/.dotnet/tools"
-        script:
-            - dotnet sonarscanner begin /key:"FightCore_FightCore" /name:"FightCore" /version:"1" /d:sonar.login="$SONAR_TOKEN" /d:sonar.host.url=https://sonarcloud.io /o:fightcore
-            - dotnet build
-            - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
-        cache:
-            directories:
-                - '$HOME/.nuget/packages'
-                - '$HOME/.local/share/NuGet/Cache'
-                - '$HOME/.sonar/cache'
-
-        # addons:
-        #     sonarcloud:
-        #         organization: "fightcore"
-        # script:
-        #     - sonar-scanner
+      before_script:
+        - export PATH="$PATH:$HOME/.dotnet/tools"
+      script:
+        - dotnet sonarscanner begin /key:"FightCore_FightCore" /name:"FightCore" /version:"1" /d:sonar.login="$SONAR_TOKEN" /d:sonar.host.url=https://sonarcloud.io /o:fightcore
+        - dotnet build
+        - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+      global:
+        - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+        - DOTNET_CLI_TELEMETRY_OPTOUT=1
+      cache:
+        directories:
+          - "$HOME/.nuget/packages"
+          - "$HOME/.local/share/NuGet/Cache"
+          - "$HOME/.sonar/cache"
+      # addons:
+      #     sonarcloud:
+      #         organization: "fightcore"
+      # script:
+      #     - sonar-scanner
