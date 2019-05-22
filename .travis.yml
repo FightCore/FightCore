@@ -3,16 +3,6 @@ git:
   depth: false
 matrix:
   include:
-    - language: csharp
-      mono: none
-      dist: xenial
-      dotnet: 2.2
-      before_script:
-        - cd Backend
-      script:
-        - dotnet restore
-        - dotnet build
-        - dotnet test
     - language: node_js
       node_js:
         - "8"
@@ -22,6 +12,7 @@ matrix:
         - npm install
       script:
         - ng build --prod
+
     - language: csharp
       mono: none
       dotnet: 2.2
@@ -35,9 +26,11 @@ matrix:
       before_script:
         - export PATH="$PATH:$HOME/.dotnet/tools"
       script:
+        - dotnet restore
         - dotnet sonarscanner begin /key:"FightCore_FightCore" /name:"FightCore" /version:"1" /d:sonar.login="$SONAR_TOKEN" /d:sonar.host.url=https://sonarcloud.io /o:fightcore
         - dotnet build
         - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+        - dotnet test
       global:
         - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
         - DOTNET_CLI_TELEMETRY_OPTOUT=1
