@@ -5,6 +5,7 @@ matrix:
   include:
     - language: csharp
       mono: none
+      dist: xenial
       dotnet: 2.2
       before_script:
         - cd Backend
@@ -12,7 +13,6 @@ matrix:
         - dotnet restore
         - dotnet build
         - dotnet test
-
     - language: node_js
       node_js:
         - "8"
@@ -25,6 +25,7 @@ matrix:
     - language: csharp
       mono: none
       dotnet: 2.2
+      dist: xenial
 
       install:
         - cd Backend
