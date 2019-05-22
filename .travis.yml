@@ -6,6 +6,8 @@ matrix:
     - language: node_js
       node_js:
         - "8"
+        - "10"
+        - "node"
       before_script:
         - cd Frontend
         - npm install -g @angular/cli
@@ -24,18 +26,25 @@ matrix:
         - dotnet restore
 
       before_script:
+      # Script to expose the dotnet CLI tools.
         - export PATH="$PATH:$HOME/.dotnet/tools"
       script:
+      # Run restore to restore the NuGet packages
         - dotnet restore
+        # SonarCloud Stuff
+        # Begin the scanner with the keys and props for SonarCloud.
         - dotnet sonarscanner begin /key:"FightCore_FightCore" /name:"FightCore" /version:"1" /d:sonar.login="$SONAR_TOKEN" /d:sonar.host.url=https://sonarcloud.io /o:fightcore
         - dotnet build
         - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+        # SonarCloud Stuff ends, run tests.
         - dotnet test
       global:
+      # Some global settings to make the experience better,
         - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
         - DOTNET_CLI_TELEMETRY_OPTOUT=1
       cache:
         directories:
+        # Cache the NuGet and SonarCloud folders.
           - "$HOME/.nuget/packages"
           - "$HOME/.local/share/NuGet/Cache"
           - "$HOME/.sonar/cache"
