@@ -5,7 +5,7 @@ matrix:
     include:
       - language: csharp
         mono: none
-        dotnet: 2.2.203
+        dotnet: 2.2
         before_script:
             - cd Backend
         script:
@@ -23,8 +23,8 @@ matrix:
         script:
             - ng build --prod
       - language: csharp
-        mono: none 
-        dotnet: 2.1.401
+        mono: none
+        dotnet: 2.2
 
         install:
             - cd Backend
