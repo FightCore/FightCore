@@ -1,4 +1,5 @@
 #!/bin/bash
 cd Frontend
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+docker build -t bortatlas/fightcoretest .
 docker push bortatlas/fightcoretest
