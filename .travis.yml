@@ -1,12 +1,6 @@
 sudo: required
 git:
   depth: false
-deploy:
-  provider: script
-  script: bash docker_push
-  on:
-  # Change to right branch
-    branch: feature/cleanup
 matrix:
   include:
     - language: node_js
@@ -20,6 +14,13 @@ matrix:
         - npm install
       script:
         - ng build --prod
+        - cd ..
+      deploy:
+        provider: script
+        script: bash docker_push
+        on:
+          # Change to right branch
+          branch: feature/cleanup
 
     - language: csharp
       mono: none
