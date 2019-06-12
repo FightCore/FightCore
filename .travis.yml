@@ -44,12 +44,13 @@ matrix:
         - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
         # SonarCloud Stuff ends, run tests.
         - dotnet test
-      deploy:
-        provider: script
-        script: bash docker_push
-        on:
-          # Change to right branch
-          branch: feature/cleanup
+      # Add when the Dockerfile gets added.
+      # deploy:
+      #   provider: script
+      #   script: bash docker_push
+      #   on:
+      #     # Change to right branch
+      #     branch: feature/cleanup
       global:
         # Some global settings to make the experience better,
         - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
