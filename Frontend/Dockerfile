@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
 
-RUN npm install \
+RUN npm install --save \
     && npm install -g @angular/cli
 
 COPY . /usr/src/app
