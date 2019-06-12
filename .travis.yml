@@ -1,6 +1,12 @@
 sudo: required
 git:
   depth: false
+deploy:
+  provider: script
+  script: bash docker_push
+  on:
+  # Change to right branch
+    branch: feature/cleanup
 matrix:
   include:
     - language: node_js
@@ -26,10 +32,10 @@ matrix:
         - dotnet restore
 
       before_script:
-      # Script to expose the dotnet CLI tools.
+        # Script to expose the dotnet CLI tools.
         - export PATH="$PATH:$HOME/.dotnet/tools"
       script:
-      # Run restore to restore the NuGet packages
+        # Run restore to restore the NuGet packages
         - dotnet restore
         # SonarCloud Stuff
         # Begin the scanner with the keys and props for SonarCloud.
@@ -39,12 +45,12 @@ matrix:
         # SonarCloud Stuff ends, run tests.
         - dotnet test
       global:
-      # Some global settings to make the experience better,
+        # Some global settings to make the experience better,
         - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
         - DOTNET_CLI_TELEMETRY_OPTOUT=1
       cache:
         directories:
-        # Cache the NuGet and SonarCloud folders.
+          # Cache the NuGet and SonarCloud folders.
           - "$HOME/.nuget/packages"
           - "$HOME/.local/share/NuGet/Cache"
           - "$HOME/.sonar/cache"
