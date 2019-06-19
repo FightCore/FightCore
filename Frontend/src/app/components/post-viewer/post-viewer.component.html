@@ -1,37 +1,49 @@
 <div *ngIf="data; else invalidPost">
   <div *ngIf="simpleMode; else fullDetails">
-    <div class="card post-preview"> 
-      <div class="card-header">
-        <h4 class="card-title">{{data.title}}</h4>
+    <div class="card post-preview">
+      <div class="card-header card-header-primary">
+        <div class="row">
+          <div class="col-md-10">
+            <h4 class="card-title"><i *ngIf="data.featuredLink" class="material-icons">trending_up</i>{{data.title}}</h4>
+            <p class="card-category" i18n>By {{getAuthorName()}}</p>
+            <a *ngIf="data.featuredLink" class="externalLink" [href]="data.featuredLink">{{ getLinkDisplayText() }}</a>
+            <div *ngIf="!data.featuredLink">One liner about the post itself.</div>
+          </div>
+          <div *ngIf="data.imageUrl" class="col-md-2">
+            <img [src]="data.imageUrl"
+              alt="Post image" width="50px" height="50px" />
+          </div>
+        </div>
       </div>
       <div class="card-body">
-        <div *ngIf="data.featureUrl">
-          Contains Link (Type: <i class="material-icons">play_circle_filled</i>)
-        </div>
-        <div>
-          <i class="material-icons">category</i>
-          <span>{{getCategoryName()}}</span>
-        </div>
-        <div *ngIf="data.characterIds">
-          <i class="material-icons">videogame_asset</i>
-          <span *ngFor="let charId of data.characterIds">
-            {{getCharacterIcon(charId)}}
-          </span>
-        </div>
-        <div *ngIf="isCombo()">
-          At a glance combo info here
-        </div>
-        <div>
-          <i class="material-icons">unfold_more</i>
-          <span>{{data.rating}}</span>
-        </div>
-        <div>
-          <i class="material-icons">visibility</i>
-          <span>{{data.views}}</span>
-        </div>
-        <div>
-          <i class="material-icons">edit</i>
-          <span>{{getAuthorName()}}</span>
+        <div class="row">
+          <div class="col-md-12">
+            <div>
+              <em class="material-icons">category</em>
+              <span>{{getCategoryName()}}</span>
+            </div>
+            <div *ngIf="data.characterIds">
+              <em class="material-icons">videogame_asset</em>
+              <span *ngFor="let charId of data.characterIds">
+                {{getCharacterIcon(charId)}}
+              </span>
+            </div>
+            <div *ngIf="isCombo()" i18n>
+              At a glance combo info here
+            </div>
+            <div *ngIf="data.upvoteCount">
+              <em (click)="upvotePost($event)" class="material-icons">unfold_more</em>
+              <span i18n>{{data.upvoteCount}} Rating</span>
+            </div>
+            <div *ngIf="!data.upvoteCount">
+              <em class="material-icons">unfold_more</em>
+              <span i18n>0 Rating</span>
+            </div>
+            <div>
+              <em class="material-icons">visibility</em>
+              <span i18n>{{data.views}} Views</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -41,39 +53,73 @@
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <ng-template #showDetails>
-        <div class="row post-container">
-          <div class="col-md-8">
-            <div class="card"> 
-              <div class="card-header">
-                <h4 class="card-title">(Unused Atm)</h4>
-              </div>
-              <div class="card-body">
-                <div *ngIf="data.featureUrl">
-                  <a [href]="data.featureUrl">
-                    {{data.featureUrl}}
-                  </a>
-                </div>
-                <div *ngIf="data.content" [innerHtml]="data.content">
-                </div>
-              </div>
+      <div class="row post-container">
+        <div class="isDeveloper() ? col-md-8 : col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h1 class="card-title">{{data.title}}</h1>
+              <h3 class="card-title" i18n>By {{getAuthorName()}}</h3>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card"> 
-              <div class="card-header">
-                <h4 class="card-title">Extra Info</h4>
+            <div class="card-body">
+              <div *ngIf="data.featuredLink">
+                <p>
+                  <i i18n>
+                    Note that this link may send you off the FightCore platform. Be wary of the link and proceed with
+                    care.
+                  </i>
+                </p>
+                <a [href]="data.featuredLink">
+                  {{ getLinkDisplayText() }}
+                </a>
               </div>
-              <div class="card-body">
-                <div>
-                  <p>{{data | json}}</p>
+              <div *ngIf="isMyPost()">
+                <div *ngIf="!data.featuredLink">
+                  <div *ngIf="isEditing();">
+                    <app-editor #bodyEditor></app-editor>
+                    <button mat-raised-button color="primary" (click)="toggleEditing()"
+                      matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
+                      Save
+                    </button>
+                  </div>
+                  <div *ngIf="!isEditing();">
+                    <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
+                    <button mat-raised-button color="primary" (click)="toggleEditing()"
+                      matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
+                      Edit
+                    </button>
+                  </div>
                 </div>
+                <div>
+                  <strong i18n>Status: </strong> {{ data.published ? 'Published' : 'Un-Published' }}
+                  <button mat-raised-button color="primary" (click)="publishItem()"
+                  matTooltip="Add a post to the library" matTooltipPosition="above" i18n>
+                    Publish
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="!isMyPost()">
+                <div *ngIf="data.content && !isEditing();" [innerHtml]="data.content"></div>
               </div>
             </div>
           </div>
         </div>
+        <!-- Enabled if developer -->
+        <div *ngIf="isDeveloper()" class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title" i18n>Extra Info</h4>
+            </div>
+            <div class="card-body">
+              <div>
+                <p>{{data | json}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </ng-template>
   </ng-template>
 </div>
 <ng-template #invalidPost>
-  <p>No valid post given to component.</p>
+  <p i18n>No valid post given to component.</p>
 </ng-template>

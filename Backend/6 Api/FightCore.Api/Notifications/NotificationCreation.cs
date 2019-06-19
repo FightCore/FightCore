@@ -17,12 +17,23 @@ namespace FightCore.Api.Notifications
     /// </summary>
     public class NotificationCreation
     {
-        private IHubContext<NotifyHub, ITypedHubClient> _hubContext;
+        private readonly IHubContext<NotifyHub, ITypedHubClient> _hubContext;
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWorkAsync _unitOfWork;
 
-        public NotificationCreation(IUnitOfWorkAsync unitOfWork, INotificationService notificationService, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext)
+        /// <summary>
+        /// Creates a new instance of the <see cref="NotificationCreation"/> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="notificationService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="hubContext"></param>
+        public NotificationCreation(
+            IUnitOfWorkAsync unitOfWork,
+            INotificationService notificationService,
+            IMapper mapper,
+            IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
             _unitOfWork = unitOfWork;
             _notificationService = notificationService;

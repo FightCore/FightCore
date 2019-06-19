@@ -8,7 +8,7 @@
         placeholder="Username"
         type="text"
         autocomplete="username">
-        <mat-error *ngIf="usernameControl.hasError('required')">
+        <mat-error *ngIf="usernameControl.hasError('required')" i18n>
           Username is <strong>required</strong>
         </mat-error>
       </mat-form-field>
@@ -18,7 +18,7 @@
         placeholder="Password"
         type="password"
         autocomplete="new-password">
-        <mat-error *ngIf="passControl.hasError('required')">
+        <mat-error *ngIf="passControl.hasError('required')" i18n>
           Password is <strong>required</strong>
         </mat-error>
       </mat-form-field>
@@ -27,7 +27,7 @@
         <button type="submit" mat-raised-button
         [disabled]="!form.valid || isSubmitting"
         [class.disabled]="!form.valid || isSubmitting"
-        class="btn btn-primary btn-lg">
+        class="btn btn-primary btn-lg" i18n>
           Sign in
         </button>
       </div>
@@ -35,7 +35,7 @@
         <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate"></mat-progress-bar>
       </div>
       <div>
-        <button  mat-raised-button [routerLink]="['/signup']" class="btn btn-primary btn-lg">
+        <button  mat-raised-button [routerLink]="['/signup']" class="btn btn-primary btn-lg" i18n>
           Sign up
         </button>
       </div>

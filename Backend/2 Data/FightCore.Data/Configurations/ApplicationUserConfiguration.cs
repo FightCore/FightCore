@@ -22,8 +22,8 @@ namespace FightCore.Data.Configurations
                 Email = email,
                 NormalizedEmail = email.ToUpper(),
                 EmailConfirmed = true,
-                //The hashed password is Welcome1!
-                PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==",
+				//The hashed password is Welcome1!
+				PasswordHash = "$2y$12$AqxWrJO46eF27pK/i/YgR.3NWF5J4Ii058fFr.kQKDToFZjjxAcPe",
                 SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D",
                 ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495"
             };
@@ -37,8 +37,8 @@ namespace FightCore.Data.Configurations
                 Email = email2,
                 NormalizedEmail = email2.ToUpper(),
                 EmailConfirmed = true,
-                //The hashed password is Welcome1!
-                PasswordHash = "AQAAAAEAACcQAAAAEEF7WgDaqY347VdczNcxXwYb6F7IkpBvK5zRg/PU/t5hYIAgKGZanV5GJEco41ILUQ==",
+				//The hashed password is Welcome1!
+				PasswordHash = "$2y$12$AqxWrJO46eF27pK/i/YgR.3NWF5J4Ii058fFr.kQKDToFZjjxAcPe",
                 SecurityStamp = "WYJC6FNA3WBJEXMXPVVNJTJOB3ZQLL2D",
                 ConcurrencyStamp = "680f3083-462f-4c8f-ba9a-c09a44145495"
             };

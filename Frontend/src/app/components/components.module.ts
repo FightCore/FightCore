@@ -7,7 +7,9 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { GameSwitcherComponent } from './game-switcher/game-switcher.component';
-import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule, MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule } from '@angular/material';
+import { MatSelectModule, MatTabsModule, MatStepperModule, MatInputModule, MatButtonModule,
+  MatDialogModule, MatButtonToggleModule, MatGridListModule, MatIconModule, MatProgressBarModule,
+  MatProgressSpinnerModule, MatPaginatorModule, MatToolbarModule } from '@angular/material';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabExampleComponent } from './tabs/tab-example/tab-example.component';
 import { TabContentsComponent } from './tabs/tab/tab-contents.component';
@@ -26,7 +28,10 @@ import { NotificationsViewerComponent } from './notifications-viewer/notificatio
 import { ToastrModule } from 'ngx-toastr';
 import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../services/notification.service';
-
+import { CovalentTextEditorModule } from '@covalent/text-editor';
+import { QuillModule } from 'ngx-quill';
+import { MarkdownModule } from 'ngx-markdown';
+import { CovalentMarkdownModule } from '@covalent/markdown';
 @NgModule({
   imports: [
     CommonModule,
@@ -48,8 +53,12 @@ import { NotificationService } from '../services/notification.service';
     MatPaginatorModule,
     MatToolbarModule,
     ToastrModule.forRoot(),
+    MarkdownModule.forRoot(),
     NgbModalModule, // Yes this is necessary for popups even if not directly used anywhere
-    NgbTooltipModule
+    NgbTooltipModule,
+    CovalentTextEditorModule,
+    QuillModule,
+    CovalentMarkdownModule
   ],
   declarations: [
     FooterComponent,

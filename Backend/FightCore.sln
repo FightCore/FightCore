@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Models", "1 Models", "{9880B7BF-F146-47B9-AA61-12282F2F575A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Models", "1 Models\FightCore.Models\FightCore.Models.csproj", "{26C0688A-E4A1-4A6E-B85A-A93717E5C47F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightCore.Models", "1 Models\FightCore.Models\FightCore.Models.csproj", "{26C0688A-E4A1-4A6E-B85A-A93717E5C47F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Data", "2 Data", "{75E6DE59-7424-49B6-BD26-B55826EAF7BD}"
 EndProject
@@ -17,15 +17,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Tests", "5 Tests", "{C34A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 Api", "6 Api", "{D56B9163-788F-434E-9A7C-3703394C9CE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Data", "2 Data\FightCore.Data\FightCore.Data.csproj", "{67789ADF-BA08-41D8-97C5-8EEC70F3764E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightCore.Data", "2 Data\FightCore.Data\FightCore.Data.csproj", "{67789ADF-BA08-41D8-97C5-8EEC70F3764E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Repositories", "3 Repositories\FightCore.Repositories\FightCore.Repositories.csproj", "{E7CE745C-C350-4B3C-A7B1-33EC8F1FCA7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightCore.Repositories", "3 Repositories\FightCore.Repositories\FightCore.Repositories.csproj", "{E7CE745C-C350-4B3C-A7B1-33EC8F1FCA7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Services", "4 Services\FightCore.Services\FightCore.Services.csproj", "{398238BC-0752-4F9A-A53B-1562B409D1D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightCore.Services", "4 Services\FightCore.Services\FightCore.Services.csproj", "{398238BC-0752-4F9A-A53B-1562B409D1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Tests", "5 Tests\FightCore.Tests\FightCore.Tests.csproj", "{A6F59876-0FAD-40AC-BC72-D395282CF022}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightCore.Tests", "5 Tests\FightCore.Tests\FightCore.Tests.csproj", "{A6F59876-0FAD-40AC-BC72-D395282CF022}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Api", "6 Api\FightCore.Api\FightCore.Api.csproj", "{0BED7AD0-11B4-4D09-A06A-9FCC1D045134}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FightCore.Api", "6 Api\FightCore.Api\FightCore.Api.csproj", "{0BED7AD0-11B4-4D09-A06A-9FCC1D045134}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7 Resources", "7 Resources", "{C70301BD-B01B-458D-B04A-BBC8AFD6451F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FightCore.Resources", "FightCore.Resources\FightCore.Resources.csproj", "{332C36C8-9160-4E35-92EB-4EC5608C4F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{0BED7AD0-11B4-4D09-A06A-9FCC1D045134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BED7AD0-11B4-4D09-A06A-9FCC1D045134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BED7AD0-11B4-4D09-A06A-9FCC1D045134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{332C36C8-9160-4E35-92EB-4EC5608C4F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332C36C8-9160-4E35-92EB-4EC5608C4F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332C36C8-9160-4E35-92EB-4EC5608C4F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332C36C8-9160-4E35-92EB-4EC5608C4F1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +76,7 @@ Global
 		{398238BC-0752-4F9A-A53B-1562B409D1D5} = {0E628384-AFB5-4AB8-B3AA-26E371B97AF2}
 		{A6F59876-0FAD-40AC-BC72-D395282CF022} = {C34AFBFD-110F-4126-BA3E-06906D8E81D1}
 		{0BED7AD0-11B4-4D09-A06A-9FCC1D045134} = {D56B9163-788F-434E-9A7C-3703394C9CE6}
+		{332C36C8-9160-4E35-92EB-4EC5608C4F1E} = {C70301BD-B01B-458D-B04A-BBC8AFD6451F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95EC4812-2C53-481A-82D6-1B4F66B2C142}

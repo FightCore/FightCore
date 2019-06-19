@@ -70,17 +70,16 @@ export class SignupComponent implements OnInit {
   }
 
   afterSubmit(success: boolean, message: any) {
-    if(success) {
+    if (success) {
       // TODO: Get the token in a single request/response
       this.router.navigate(['/login']);
-    }
-    else {
+    } else {
       // Show that the form is now done loading
       this.isSubmitting = false;
       this.form.enable();
 
       // Show specific error messages if possible
-      if(message instanceof AppError && message.originalError) {
+      if (message instanceof AppError && message.originalError) {
         // Display each error message's description
         message.originalError.error.forEach(element => {
           this.onSubmitErrorMessages.push(element.description);

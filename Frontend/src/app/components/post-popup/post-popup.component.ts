@@ -37,7 +37,7 @@ export class PostPopupComponent implements OnInit {
 
   /**
    * Changes browser url for the given post (no router navigation)
-   * @param post 
+   * @param post that should be switched to
    */
   changeUrlForPost(post: Post) {
     this.previousUrl = this.router.url; // Need to restore url after post closes
@@ -53,9 +53,9 @@ export class PostPopupComponent implements OnInit {
    * Called when popup is closed (see template)
    */
   changeUrlBack() {
-    if(!this.previousUrl) {
+    if (!this.previousUrl) {
       // TODO: Log an error of some sort
-      console.log("Original Url not set");
+      console.log('Original Url not set');
       return;
     }
 

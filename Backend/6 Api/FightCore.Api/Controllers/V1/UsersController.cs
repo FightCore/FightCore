@@ -1,0 +1,108 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+using AutoMapper;
+
+using FightCore.Api.Resources;
+using FightCore.Models;
+using FightCore.Repositories.Patterns;
+using FightCore.Services;
+
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FightCore.Api.Controllers.V1
+{
+    /// <inheritdoc />
+    [Route("[controller]")]
+    [ApiController]
+    [ApiVersion("1")]
+    public class UsersController : Controller
+    {
+        private readonly IUnitOfWorkAsync _unitOfWork;
+        private readonly IUserService _userService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper _mapper;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersController" /> class.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="userService"></param>
+        /// <param name="userManager"></param>
+        /// <param name="mapper"></param>
+        public UsersController(IUnitOfWorkAsync unitOfWork, IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _userService = userService;
+            _userManager = userManager;
+            _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Gets the user for the given id
+        /// </summary>
+        /// <param name="id">The id that the user is associated with</param>
+        /// <returns>User information of the given id</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResultResource))]
+        public async Task<IActionResult> Get(int id)
+        {
+            var user = await _userService.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<UserResultResource>(user));
+        }
+
+        /// <summary>
+        /// Gets all users
+        /// </summary>
+        /// <returns>List of all users</returns>
+        [HttpGet]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _userService.GetAllAsync();
+            if (users == null || !users.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(_mapper.Map<IEnumerable<UserResultResource>>(users));
+        }
+
+        /// <summary>
+        /// Adds a user from a given resource
+        /// </summary>
+        /// <param name="userResource">The resource with the data of the new user</param>
+        /// <returns>
+        /// Will return a 201 with the Id of the user when the user has been created.
+        /// Will return a 409 if there are issues with the register.
+        /// </returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Create([FromBody] NewUserResource userResource)
+        {
+            var user = _mapper.Map<ApplicationUser>(userResource);
+            var result = await _userManager.CreateAsync(user, userResource.Password);
+            await _unitOfWork.SaveChangesAsync();
+
+            if (result.Succeeded)
+            {
+                return this.CreatedAtAction(nameof(this.Get), new { user.Id }, _mapper.Map<UserResultResource>(user));
+            }
+
+            return this.Conflict(result.Errors);
+        }
+    }
+}

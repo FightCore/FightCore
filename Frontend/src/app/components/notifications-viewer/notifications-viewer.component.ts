@@ -9,31 +9,35 @@ import { PageEvent } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { TabComponentInterface } from '../tabs/tab/tab-component.interface';
 
+
 @Component({
   selector: 'notifications-viewer',
   templateUrl: './notifications-viewer.component.html',
   styleUrls: ['./notifications-viewer.component.scss']
 })
 export class NotificationsViewerComponent implements OnInit, TabComponentInterface {
+
+  // These are set from server
+  static readonly BROADCAST_NAME = 'BroadcastNotification';
+  readonly PAGE_SIZE = 20; // Can't make static as template can't read it
+
+  // Limits for toast notification (currently just guessimating good numbers)
+  static readonly TOAST_MAX_TITLE_LENGTH = 25;
+  static readonly TOAST_MAX_CONTENT_LENGTH = 100;
+
   @Input('data') data; // Unused for the moment
+
+
 
   connection: HubConnection;
   isLoadingNotifications: boolean;
   isLoadingPushService: boolean;
   errorMsgs = [];
   username: string;
-  
+
   notifs: Notification[] = [];
   totalNotifs: number = 0;
   currentPage = 1;
-
-  // These are set from server
-  static readonly BROADCAST_NAME = "BroadcastNotification";
-  readonly PAGE_SIZE = 20; // Can't make static as template can't read it
-
-  // Limits for toast notification (currently just guessimating good numbers)
-  static readonly TOAST_MAX_TITLE_LENGTH = 25;
-  static readonly TOAST_MAX_CONTENT_LENGTH = 100;
 
   constructor(
     private authService: OAuthService,
@@ -53,16 +57,15 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
     this.authService.loadUserProfile().then(
       obj => {
         let returnObj = obj as any; // Can't access Object's properties directly, being extra careful here
-        if(returnObj.hasOwnProperty('username')) {
+        if (returnObj.hasOwnProperty('username')) {
           this.username = returnObj.username;
           this.startPushNotifHub();
-        }
-        else {
+        } else {
           this.errorMsgs.push('Object return is missing username!')
           console.log('Object return is missing username!');
         }
       },
-      reason => { 
+      reason => {
         this.isLoadingPushService = false;
 
         this.errorMsgs.push('Getting username was rejected. Token invalid now? Try logging in again');
@@ -73,7 +76,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
 
   ngOnDestroy() {
     // Clean up the push notif connection. Otherwise, may end up keeping multiple handlers remaining over time
-    if(this.connection) {
+    if (this.connection) {
       this.connection.off(NotificationsViewerComponent.BROADCAST_NAME);
       this.connection.stop();
     }
@@ -91,19 +94,17 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
   showToastNotification(notif: Notification) {
     // Trim title and content if appropriate
     let title: string;
-    if(notif.title.length > NotificationsViewerComponent.TOAST_MAX_TITLE_LENGTH) {
+    if (notif.title.length > NotificationsViewerComponent.TOAST_MAX_TITLE_LENGTH) {
       title = notif.title.substring(0, NotificationsViewerComponent.TOAST_MAX_TITLE_LENGTH)
               + '...';
-    }
-    else {
+    } else {
       title = notif.title;
     }
     let content: string;
-    if(notif.content.length > NotificationsViewerComponent.TOAST_MAX_CONTENT_LENGTH) {
+    if (notif.content.length > NotificationsViewerComponent.TOAST_MAX_CONTENT_LENGTH) {
       content = notif.content.substring(0, NotificationsViewerComponent.TOAST_MAX_CONTENT_LENGTH)
               + '...';
-    }
-    else {
+    } else {
       content = notif.content;
     }
 
@@ -117,7 +118,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
 
     // Handle if the user clicks on the notification
     activeToast.onTap.subscribe(
-      () => { 
+      () => {
         this.onNotifClick(notif);
       },
       error => console.log('Why the heck would there be an error here?', error)
@@ -130,7 +131,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
    */
   onNotifClick(notif: Notification) {
     // If notification hasn't been marked as read yet, let the server know it's been done
-    if(!notif.readDate) {
+    if (!notif.readDate) {
       this.markNotifAsRead(notif);
     }
 
@@ -143,9 +144,9 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
    */
   markAllRead() {
     // Eagerly update all read dates for viewer on current page
-    this.notifs.forEach(notif => { 
-      if(!notif.readDate) {
-        notif.readDate = new Date();
+    this.notifs.forEach(notifcation => {
+      if (!notifcation.readDate) {
+        notifcation.readDate = new Date();
       }
     });
 
@@ -170,9 +171,9 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
       .subscribe(
         response => {
           this.isLoadingNotifications = false;
-          
+
           // Note: Assuming that even if there's a push notif before now, it will be accounted by server
-          //        This isn't a great assumption- can possibly get a notif assumed to be have been read but never seen
+          // This isn't a great assumption- can possibly get a notif assumed to be have been read but never seen
           this.notifs = response.notifications;
           this.totalNotifs = response.totalNotifications;
           this.currentPage = response.currentPage; // For robustness
@@ -183,7 +184,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
           this.errorMsgs.push('Failed to get current notifications');
           console.log('Error getting current notifs: ', error);
         }
-      )
+      );
   }
 
   /**
@@ -218,9 +219,9 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
   private handlePushNotification(notif: Notification) {
     // TODO Issue 29: Handle if not on first page (show at very top separately?)
     // If reached max page size, remove one to maintain a consistent display
-    if(this.totalNotifs >= 20) {
+    if (this.totalNotifs >= 20) {
       this.notifs.pop();
-    } 
+    }
 
     // As assuming push notif isn't in our list yet, this should be newest notif thus far
     this.notifs.unshift(notif);
@@ -228,7 +229,7 @@ export class NotificationsViewerComponent implements OnInit, TabComponentInterfa
     this.totalNotifs += 1;
 
     // Only do push notifications for important notifs
-    if(notif.isImportant) {
+    if (notif.isImportant) {
       // TODO #30: Do actual client-level push notifications (eg, browser or phone notifs)
 
       this.showToastNotification(notif);

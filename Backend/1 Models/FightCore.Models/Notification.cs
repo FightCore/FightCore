@@ -5,17 +5,19 @@ namespace FightCore.Models
     public class Notification : IEntity
     {
         public int Id { get; set; }
+
         /// <summary>
         /// Gets or sets the user this notification is for
         /// </summary>
         public ApplicationUser User { get; set; }
+
         public int UserId { get; set; }
 
         /// <summary>
         /// Gets or sets when this notification was created
         /// </summary>
         public DateTime CreatedDate { get; set; }
-        
+
         /// <summary>
         /// Gets or sets when this notification was actually read by the user
         /// </summary>
@@ -39,7 +41,7 @@ namespace FightCore.Models
         public string RouteLink { get; set; }
 
         /// <summary>
-        /// Gets or sets the flag to determine if this notification is important or not
+        /// Gets or sets a value indicating whether this notification is important or not
         /// </summary>
         public bool IsImportant { get; set; }
     }

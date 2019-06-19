@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { Title } from '@angular/platform-browser';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { Console } from '@angular/core/src/console';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class NavbarComponent implements OnInit {
   @Output('onNavSelection') onNavSelection = new EventEmitter(); // Outputs when a nav option is selected (currently only notifications)
 
+  username: string;
   private listTitles: any[];
   private mobile_menu_visible: any = 0;
   private toggleButton: any;
@@ -21,46 +23,56 @@ export class NavbarComponent implements OnInit {
     this.sidebarVisible = false;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     this.router.events.subscribe((event) => {
       this.sidebarClose();
-       let $layer: any = document.getElementsByClassName('close-layer')[0];
+       const $layer: any = document.getElementsByClassName('close-layer')[0];
        if ($layer) {
          $layer.remove();
          this.mobile_menu_visible = 0;
        }
    });
+
+   this.authService.loadUserProfile().then(
+    obj => {
+      const returnObj = obj as { username: string }; // Can't access Object's properties directly, being extra careful here
+      if (returnObj.username) {
+        this.username = returnObj.username;
+      }
+    });
   }
 
   logOut() {
     this.authService.logOut(true);
-    this.router.navigate(["/login"]);
+    this.router.navigate(['/login']);
   }
 
   sidebarOpen() {
       const toggleButton = this.toggleButton;
       const body = document.getElementsByTagName('body')[0];
-      setTimeout(function(){
+      setTimeout(function() {
           toggleButton.classList.add('toggled');
       }, 500);
 
       body.classList.add('nav-open');
 
       this.sidebarVisible = true;
-  };
+  }
+
   sidebarClose() {
       const body = document.getElementsByTagName('body')[0];
       this.toggleButton.classList.remove('toggled');
       this.sidebarVisible = false;
       body.classList.remove('nav-open');
-  };
+  }
+
   sidebarToggle() {
       // const toggleButton = this.toggleButton;
       // const body = document.getElementsByTagName('body')[0];
-      let $toggle = document.getElementsByClassName('navbar-toggler')[0];
+      const $toggle = document.getElementsByClassName('navbar-toggler')[0];
 
       if (this.sidebarVisible === false) {
           this.sidebarOpen();
@@ -69,7 +81,7 @@ export class NavbarComponent implements OnInit {
       }
       const body = document.getElementsByTagName('body')[0];
 
-      if (this.mobile_menu_visible == 1) {
+      if (this.mobile_menu_visible === 1) {
           // $('html').removeClass('nav-open');
           body.classList.remove('nav-open');
           if ($layer) {
@@ -91,7 +103,7 @@ export class NavbarComponent implements OnInit {
 
           if (body.querySelectorAll('.main-panel')) {
               document.getElementsByClassName('main-panel')[0].appendChild($layer);
-          }else if (body.classList.contains('off-canvas-sidebar')) {
+          } else if (body.classList.contains('off-canvas-sidebar')) {
               document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
           }
 
@@ -99,7 +111,7 @@ export class NavbarComponent implements OnInit {
               $layer.classList.add('visible');
           }, 100);
 
-          $layer.onclick = function() { //asign a function
+          $layer.onclick = function() { // asign a function
             body.classList.remove('nav-open');
             this.mobile_menu_visible = 0;
             $layer.classList.remove('visible');
@@ -113,7 +125,7 @@ export class NavbarComponent implements OnInit {
           this.mobile_menu_visible = 1;
 
       }
-  };
+  }
 
   onNotifClick() {
     this.onNavSelection.emit();

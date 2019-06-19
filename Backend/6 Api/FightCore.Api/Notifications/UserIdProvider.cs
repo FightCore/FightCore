@@ -2,6 +2,7 @@
 
 namespace FightCore.Api.Notifications
 {
+    /// <inheritdoc />
     public class UserIdProvider : IUserIdProvider
     {
         /// <summary>

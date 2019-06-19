@@ -56,7 +56,7 @@ export class PostService extends BaseService {
   /**
    * Gets direct post url
    * @param post Post to create url for
-   * @returns url for routerLink representing this post 
+   * @returns url for routerLink representing this post
    */
   public static getPostUrl(post: Post): string {
     return '/library/' + post.id + '/' + post.urlName;
@@ -73,15 +73,28 @@ export class PostService extends BaseService {
       .set('pageNumber', pageNumber.toString())
       .set('sortOption', sortId.toString())
       .set('categoryFilter', category.toString());
-    
+
     return this.http.get<PostsPage>(
       `${environment.baseUrl}/library`,
       { headers: this.defaultHeaders, params: params })
       .pipe(catchError(this.handleError));
   }
 
-  public createPost(newPost : PostSubmission): Observable<Post> {
-    return this.http.post<Post>(`${environment.baseUrl}/library`, newPost, {headers: this.defaultHeaders})
+  public createPost(newPost: PostSubmission): Observable<Post> {
+    return this.http.post<Post>(`${environment.baseUrl}/library`, newPost, { headers: this.defaultHeaders })
       .pipe(catchError(this.handleError));
+  }
+
+  public publishPost(postId: number, publishState: boolean) {
+    return this.http.post(`${environment.baseUrl}/library/publish/${postId}/${publishState}`, null).pipe(catchError(this.handleError));
+  }
+
+  public getUserPosts(userId: number) {
+    return this.http.get(`${environment.baseUrl}/library/user/${userId}`).pipe(catchError(this.handleError));
+  }
+
+  public upVotePost(postId: number) {
+    return this.http.post(`${environment.baseUrl}/library/upvote`, postId,
+      { headers: this.defaultHeaders }).pipe(catchError(this.handleError));
   }
 }

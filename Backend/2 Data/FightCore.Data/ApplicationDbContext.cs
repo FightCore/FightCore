@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FightCore.Data.Configurations;
+﻿using FightCore.Data.Configurations;
 using FightCore.Models;
 using FightCore.Models.Resources;
 using Microsoft.AspNetCore.Identity;
@@ -16,18 +13,29 @@ namespace FightCore.Data
         {
         }
 
+        public ApplicationDbContext() : base()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.UseOpenIddict();
+
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            //// Add your customizations after calling base.OnModelCreating(builder);
             builder.Entity<Post>().HasOne(x => x.Author).WithMany().HasForeignKey(x => x.AuthorId);
             builder.ApplyConfiguration(new ApplicationUserConfiguration());
             builder.ApplyConfiguration(new NotificationConfiguration());
+            builder.ApplyConfiguration(new UpvotesConfiguration());
         }
 
         public DbSet<Post> Posts { get; set; }
+
         public DbSet<Notification> Notifications { get; set; }
+
+        public DbSet<Upvote> Upvotes { get; set; }
     }
 }

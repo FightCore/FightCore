@@ -6,6 +6,17 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181001195854_AddedUserResources.cs" />
+    <Compile Remove="Migrations\20190115184551_AddedCustomization.cs" />
+    <Compile Remove="Migrations\20190115185217_TEst.cs" />
+    <Compile Remove="Migrations\20190115185442_Test.cs" />
+    <Compile Remove="Migrations\20190115185531_Test.cs" />
+    <Compile Remove="Migrations\20190115185727_Test.cs" />
+    <Compile Remove="Migrations\20190115185823_Init.cs" />
+    <Compile Remove="Migrations\20190115190302_Init.cs" />
+    <Compile Remove="Migrations\20190311141130_Test.cs" />
+    <Compile Remove="Migrations\20190319220249_AddedUpvotes.cs" />
+    <Compile Remove="Migrations\20190319221855_Test.cs" />
+    <Compile Remove="Migrations\20190319222521_AddedUpvotesProperty.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,7 +24,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.2" />
-    <PackageReference Include="OpenIddict.Core" Version="2.0.0-rc3-final" />
+    <PackageReference Include="OpenIddict.Core" Version="2.0.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

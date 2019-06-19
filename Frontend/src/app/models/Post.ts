@@ -1,9 +1,13 @@
+import { User } from './User';
+
 export interface Post {
     id: number;
+    author?: User;
     authorId: number;
     createdDate?: Date;
     views: number;
     rating?: number;
+    upvoteCount?: number;
     urlName?: string;                // SEO purposes, part of url, based off of title
 
     // Meta fields
@@ -24,4 +28,7 @@ export interface Post {
     title: string;
     featuredLink?: string;
     content?: string;
+    imageUrl?: string;
+
+    published?: boolean;
 }

@@ -9,4 +9,5 @@ import { CommonModule } from '@angular/common';
   declarations: [],
   providers: [ GameInfoService ]
 })
+
 export class GamesModule { }
