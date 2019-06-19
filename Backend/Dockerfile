@@ -2,9 +2,9 @@
 FROM microsoft/dotnet:2.1-sdk AS build
 
 WORKDIR /app
-# Copy over the csproj files
-COPY FightCore.Api/FightCore.Api.csproj ./
-RUN dotnet restore FightCore.Api.csproj
+# # Copy over the csproj files
+# COPY FightCore.Api/FightCore.Api.csproj ./
+# RUN dotnet restore FightCore.Api.csproj
 
 COPY . ./
 RUN dotnet publish FightCore.Api/FightCore.Api.csproj -c Release -o out
