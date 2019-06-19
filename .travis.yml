@@ -20,17 +20,14 @@ matrix:
         on:
           # Change to right branch
           branch: feature/cleanup
-
     - language: csharp
       mono: none
       dotnet: 2.2
       dist: xenial
-
       install:
         - cd Backend
         - dotnet tool install --global dotnet-sonarscanner
         - dotnet restore
-
       before_script:
         # Script to expose the dotnet CLI tools.
         - export PATH="$PATH:$HOME/.dotnet/tools"
@@ -61,8 +58,3 @@ matrix:
           - "$HOME/.nuget/packages"
           - "$HOME/.local/share/NuGet/Cache"
           - "$HOME/.sonar/cache"
-      # addons:
-      #     sonarcloud:
-      #         organization: "fightcore"
-      # script:
-      #     - sonar-scanner
