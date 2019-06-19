@@ -1,19 +1,15 @@
-# Get the latest LTS of the ASP Net Core image.
-FROM microsoft/aspnetcore-build:lts
+# Select the 2.1 SDK from .NET Core
+FROM microsoft/dotnet:2.1-sdk AS build
 
-# Copy all files into the working directory.
-COPY . /app
-
-# Set the working directory.
 WORKDIR /app
+# Copy over the csproj files
+COPY *.csproj ./
+RUN dotnet restore FightCore.Api.csproj
 
-# Run the restore and build commands
-RUN ["dotnet", "restore"]
-RUN ["dotnet", "build"]
+COPY . ./
+RUN dotnet publish ./FightCore.Api/FightCore.Api.csproj -c Release -o out
 
-# Document which port should be exposed.
-EXPOSE 80/tcp
-
-# Run the commands to start the app.
-RUN chmod +x ./entrypoint.sh
-CMD /bin/bash ./entrypoint.sh
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
+WORKDIR /app
+COPY —-from=build /app/out ./
+ENTRYPOINT [“dotnet”, FightCore.Api.dll”]`
