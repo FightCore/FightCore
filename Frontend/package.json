@@ -27,7 +27,7 @@
     "@covalent/text-editor": "^2.0.0",
     "@ng-bootstrap/ng-bootstrap": "^3.3.1",
     "@types/quill": "^2.0.2",
-    "angular-oauth2-oidc": "^4.0.3",
+    "angular-oauth2-oidc": "^8.0.4",
     "bootstrap": "^4.3.1",
     "bootstrap-material-design": "^4.1.1",
     "core-js": "^2.6.5",
