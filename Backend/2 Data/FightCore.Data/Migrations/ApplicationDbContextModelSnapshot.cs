@@ -27,6 +27,8 @@ namespace FightCore.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<string>("Bio");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -76,11 +78,257 @@ namespace FightCore.Data.Migrations
                     );
                 });
 
+            modelBuilder.Entity("FightCore.Models.Characters.Character", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("GameId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Characters");
+
+                    b.HasData(
+                        new { Id = 1, Description = "The all-star", GameId = 1, Name = "Mario" },
+                        new { Id = 2, Description = "The all-star", GameId = 2, Name = "Mario" },
+                        new { Id = 3, Description = "The all-star", GameId = 3, Name = "Mario" },
+                        new { Id = 4, Description = "The all-star", GameId = 4, Name = "Mario" }
+                    );
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.CharacterTechnique", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("TechniqueId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("TechniqueId");
+
+                    b.ToTable("CharacterTechnique");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Combo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AuthorId");
+
+                    b.Property<int>("Category");
+
+                    b.Property<string>("DamageDescription");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("Difficulty");
+
+                    b.Property<string>("InputDescription");
+
+                    b.Property<string>("MixUpDescription");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("PerformersDescription");
+
+                    b.Property<string>("ReceiversDescription");
+
+                    b.Property<string>("StagesDescription");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Combos");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboPerformers", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("ComboId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("ComboId");
+
+                    b.ToTable("ComboPerformers");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboReceiver", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("ComboId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("ComboId");
+
+                    b.ToTable("ComboReceiver");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.DamageMetric", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ComboId");
+
+                    b.Property<double>("DamageDealt");
+
+                    b.Property<double>("StartDamageMax");
+
+                    b.Property<double>("StartDamageMin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComboId");
+
+                    b.ToTable("DamageMetric");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Move", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CharacterId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("InputId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("InputId");
+
+                    b.ToTable("Moves");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Technique", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Application");
+
+                    b.Property<int?>("AuthorId");
+
+                    b.Property<string>("CharactersDescription");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("DetailedDescription");
+
+                    b.Property<int>("Difficulty");
+
+                    b.Property<string>("ExecuteDescription");
+
+                    b.Property<int?>("GameId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("StagesDescription");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Techniques");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Game", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Abbreviation");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Games");
+
+                    b.HasData(
+                        new { Id = 1, Abbreviation = "SSB4", Name = "Super Smash Bros For WiiU" },
+                        new { Id = 2, Abbreviation = "SSBB", Name = "Super Smash Bros Brawl" },
+                        new { Id = 3, Abbreviation = "SSBM", Name = "Super Smash Bros Melee" },
+                        new { Id = 4, Abbreviation = "SBB", Name = "Super Smash Bros" }
+                    );
+                });
+
+            modelBuilder.Entity("FightCore.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<bool>("IsImportant");
+
+                    b.Property<DateTime?>("ReadDate");
+
+                    b.Property<string>("RouteLink");
+
+                    b.Property<string>("Title");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
-            {
-                b.Property<int>("Id")
-                    .ValueGeneratedOnAdd()
-                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AuthorId");
 
@@ -107,37 +355,132 @@ namespace FightCore.Data.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Posts");
-            });
+                });
 
-            modelBuilder.Entity("FightCore.Models.Notification", b =>
-            {
+            modelBuilder.Entity("FightCore.Models.Shared.ControllerInput", b =>
+                {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Content")
-                        .IsRequired();
+                    b.Property<string>("KeyCode");
 
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<bool>("IsImportant");
-
-                    b.Property<DateTime?>("ReadDate");
-
-                    b.Property<string>("RouteLink")
-                        .IsRequired();
-
-                    b.Property<string>("Title")
-                        .IsRequired();
-
-                    b.Property<int>("UserId");
+                    b.Property<string>("TextDescription");
 
                     b.HasKey("Id");
 
+                    b.ToTable("ControllerInputs");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Shared.InputChain", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ComboId");
+
+                    b.Property<int>("FirstFrame");
+
+                    b.Property<int?>("InputId");
+
+                    b.Property<int>("LastFrame");
+
+                    b.Property<int?>("MoveId");
+
+                    b.Property<int?>("TechniqueId");
+
+                    b.Property<int?>("TechniqueId1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComboId");
+
+                    b.HasIndex("InputId");
+
+                    b.HasIndex("MoveId");
+
+                    b.HasIndex("TechniqueId");
+
+                    b.HasIndex("TechniqueId1");
+
+                    b.ToTable("InputChain");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Shared.Media", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CharacterId");
+
+                    b.Property<int?>("ComboId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int?>("GameId");
+
+                    b.Property<int>("MediaType");
+
+                    b.Property<int?>("MoveId");
+
+                    b.Property<string>("Source");
+
+                    b.Property<string>("SourceUrl");
+
+                    b.Property<int?>("TechniqueId");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("ComboId");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("MoveId");
+
+                    b.HasIndex("TechniqueId");
+
+                    b.ToTable("Media");
+                });
+
+            modelBuilder.Entity("FightCore.Models.User.UserCharacter", b =>
+                {
+                    b.Property<int>("CharacterId");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<int?>("ApplicationUserId");
+
+                    b.HasKey("CharacterId", "UserId");
+
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
-            });
+                    b.ToTable("UserCharacter");
+                });
+
+            modelBuilder.Entity("FightCore.Models.User.UserGame", b =>
+                {
+                    b.Property<int>("GameId");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<int?>("ApplicationUserId");
+
+                    b.HasKey("GameId", "UserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserGame");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
@@ -253,12 +596,14 @@ namespace FightCore.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClientId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("ClientSecret");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("ConsentType");
 
@@ -273,7 +618,8 @@ namespace FightCore.Data.Migrations
                     b.Property<string>("RedirectUris");
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
@@ -291,24 +637,28 @@ namespace FightCore.Data.Migrations
                     b.Property<string>("ApplicationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Properties");
 
                     b.Property<string>("Scopes");
 
                     b.Property<string>("Status")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
                     b.ToTable("OpenIddictAuthorizations");
                 });
@@ -319,14 +669,16 @@ namespace FightCore.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Description");
 
                     b.Property<string>("DisplayName");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.Property<string>("Properties");
 
@@ -350,7 +702,8 @@ namespace FightCore.Data.Migrations
                     b.Property<string>("AuthorizationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<DateTimeOffset?>("CreationDate");
 
@@ -360,19 +713,22 @@ namespace FightCore.Data.Migrations
 
                     b.Property<string>("Properties");
 
-                    b.Property<string>("ReferenceId");
+                    b.Property<string>("ReferenceId")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Status");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
 
                     b.HasIndex("AuthorizationId");
 
@@ -380,7 +736,100 @@ namespace FightCore.Data.Migrations
                         .IsUnique()
                         .HasFilter("[ReferenceId] IS NOT NULL");
 
+                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
+
                     b.ToTable("OpenIddictTokens");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Character", b =>
+                {
+                    b.HasOne("FightCore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.CharacterTechnique", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Character", "Character")
+                        .WithMany("Techniques")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FightCore.Models.Characters.Technique", "Technique")
+                        .WithMany("Characters")
+                        .HasForeignKey("TechniqueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Combo", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboPerformers", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Character", "Character")
+                        .WithMany("Combos")
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FightCore.Models.Characters.Combo", "Combo")
+                        .WithMany("Performers")
+                        .HasForeignKey("ComboId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.ComboReceiver", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FightCore.Models.Characters.Combo", "Combo")
+                        .WithMany("Receivers")
+                        .HasForeignKey("ComboId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.DamageMetric", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Combo")
+                        .WithMany("DamageMetrics")
+                        .HasForeignKey("ComboId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Move", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Character", "Character")
+                        .WithMany("Moves")
+                        .HasForeignKey("CharacterId");
+
+                    b.HasOne("FightCore.Models.Shared.ControllerInput", "Input")
+                        .WithMany()
+                        .HasForeignKey("InputId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Characters.Technique", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("FightCore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Notification", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FightCore.Models.Resources.Post", b =>
@@ -391,8 +840,80 @@ namespace FightCore.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FightCore.Models.Notification", b =>
+            modelBuilder.Entity("FightCore.Models.Shared.InputChain", b =>
                 {
+                    b.HasOne("FightCore.Models.Characters.Combo")
+                        .WithMany("Inputs")
+                        .HasForeignKey("ComboId");
+
+                    b.HasOne("FightCore.Models.Shared.ControllerInput", "Input")
+                        .WithMany()
+                        .HasForeignKey("InputId");
+
+                    b.HasOne("FightCore.Models.Characters.Move", "Move")
+                        .WithMany()
+                        .HasForeignKey("MoveId");
+
+                    b.HasOne("FightCore.Models.Characters.Technique", "Technique")
+                        .WithMany()
+                        .HasForeignKey("TechniqueId");
+
+                    b.HasOne("FightCore.Models.Characters.Technique")
+                        .WithMany("Inputs")
+                        .HasForeignKey("TechniqueId1");
+                });
+
+            modelBuilder.Entity("FightCore.Models.Shared.Media", b =>
+                {
+                    b.HasOne("FightCore.Models.Characters.Character")
+                        .WithMany("Media")
+                        .HasForeignKey("CharacterId");
+
+                    b.HasOne("FightCore.Models.Characters.Combo")
+                        .WithMany("Media")
+                        .HasForeignKey("ComboId");
+
+                    b.HasOne("FightCore.Models.Game")
+                        .WithMany("Media")
+                        .HasForeignKey("GameId");
+
+                    b.HasOne("FightCore.Models.Characters.Move")
+                        .WithMany("Media")
+                        .HasForeignKey("MoveId");
+
+                    b.HasOne("FightCore.Models.Characters.Technique")
+                        .WithMany("Media")
+                        .HasForeignKey("TechniqueId");
+                });
+
+            modelBuilder.Entity("FightCore.Models.User.UserCharacter", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser")
+                        .WithMany("FavoriteCharacters")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("FightCore.Models.Characters.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FightCore.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FightCore.Models.User.UserGame", b =>
+                {
+                    b.HasOne("FightCore.Models.ApplicationUser")
+                        .WithMany("FavoriteGames")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("FightCore.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("FightCore.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")

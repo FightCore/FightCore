@@ -29,7 +29,7 @@ export class CharacterPickerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.fullCharList = CharacterInfo.getCharacters(1); // Just a shortcut
+    // this.fullCharList = CharacterInfo.getCharacters(1); // Just a shortcut
     this.displayCharacters = this.fullCharList; // Display all by default
 
     if(this.isMultiple) 

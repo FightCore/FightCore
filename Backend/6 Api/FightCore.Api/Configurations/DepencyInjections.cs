@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SignalR;
 using FightCore.Api.Notifications;
+using FightCore.Services.Characters;
+using FightCore.Repositories.Characters;
+using FightCore.Repositories.Games;
+using FightCore.Services.Games;
 
 namespace FightCore.Api.Configurations
 {
@@ -41,12 +45,18 @@ namespace FightCore.Api.Configurations
         public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
+            services.AddScoped<ITechniqueRepository, TechniqueRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
 
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<ITechniqueService, TechniqueService>();
+            services.AddScoped<IGameService, GameService>();
 
             return services;
         }

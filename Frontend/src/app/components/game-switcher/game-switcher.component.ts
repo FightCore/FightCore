@@ -1,6 +1,8 @@
 import { GameInfo } from './../../games/game-info.interface';
 import { GameInfoService } from './../../games/game-info.service';
 import { Component, OnInit } from '@angular/core';
+import { GameService } from './../../services/game.service';
+import { Game } from '../../models/Game';
 
 @Component({
   selector: 'game-switcher',
@@ -8,14 +10,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-switcher.component.css']
 })
 export class GameSwitcherComponent implements OnInit {
-  games: GameInfo[];
+  games: Game[];
   selectedGame: number;
 
-  constructor(private gameInfoService: GameInfoService) { }
+  constructor(private gameInfoService: GameInfoService, private gameService : GameService) { }
 
   ngOnInit() {
     // Get all games' basic info as well as currently selected game
-    this.games = this.gameInfoService.getGames();
+    this.gameService.getAll().subscribe(response => this.games = response);
     this.selectedGame = this.gameInfoService.getCurrentGameId();
   }
 

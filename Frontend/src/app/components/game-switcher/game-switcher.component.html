@@ -6,7 +6,7 @@
       (selectionChange)="onGameChange()"
       >
       <mat-option *ngFor="let game of games" [value]="game.id">
-        {{ game.shortName }}
+        {{ game.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
